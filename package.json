@@ -1,0 +1,19 @@
+{
+  "name": "fuzzyknights-arcade",
+  "version": "1.0.0",
+  "description": "FuzzyKnights: Protectors of the Forest - 16bit Adventure",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjnrock/fuzzyknights-arcade.git"
+  },
+  "author": "KiszkaButters",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mjnrock/fuzzyknights-arcade/issues"
+  },
+  "homepage": "https://github.com/mjnrock/fuzzyknights-arcade#readme"
+}
