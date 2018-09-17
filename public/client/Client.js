@@ -1,9 +1,9 @@
-import Common from "./../common/package.js";
+import Common from "../common/package.js";
 import Client from "./package.js";
 
 import { WebSocketHelper } from "./WebSocketHelper.js";
 
-export class FuzzyKnightsClient {
+export class Client {
 	constructor(server, port) {
 		this.Server = "localhost";
 		this.Port = 1337;
