@@ -30,7 +30,7 @@ app.ws("/ws", function (client, req) {
 		console.log(message);
 
 		switch(message.Type) {
-			case MessageType.AUTHENTICATE:
+			case "AUTHENTICATE":
 				console.log(message);
 				break;
 			default:
