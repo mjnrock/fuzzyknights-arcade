@@ -2,7 +2,7 @@
   "name": "fuzzyknights-arcade",
   "version": "1.0.0",
   "description": "FuzzyKnights: Protectors of the Forest - 16bit Adventure",
-  "main": "Main.js",
+  "main": "Server.js",
   "dependencies": {
     "body-parser": "^1.18.3",
     "createjs": "^1.0.1",
@@ -14,7 +14,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node Main.js",
+    "start": "node Server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
