@@ -1,4 +1,4 @@
-export class WebSocketHelper {
+class WebSocketHelper {
 	constructor(url = `ws://localhost:1337/ws`) {
 		this.ws = new WebSocket(url);
 		this.ws.onopen = (e) => this.OnOpen(e);

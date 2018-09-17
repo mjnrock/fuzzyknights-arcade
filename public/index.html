@@ -16,10 +16,13 @@
 		<canvas id="canvas" width="300" height="150"></canvas>
 
 		<script type="module">
-			import { ConnectionClient } from "./client/ConnectionClient.js";
+			import FuzzyKnights from "./common/FuzzyKnights.js";
 
-			let Client = new ConnectionClient();
-			// Client.Authenticate();
+			let a = new FuzzyKnights.Common.Message.ChatMessage("Hey dudes!");
+			FuzzyKnights.Common.Message.MessageManager.Send(a);
+			a.Send();
+
+			console.log(FuzzyKnights.Common.Message.MessageManager.GetMessages());
 		</script>
 	</body>
 </html>

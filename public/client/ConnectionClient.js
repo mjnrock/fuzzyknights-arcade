@@ -1,9 +1,6 @@
-import Common from "../common/package.js";
-import Client from "./package.js";
+import WebSocketHelper from "./WebSocketHelper.js";
 
-import { WebSocketHelper } from "./WebSocketHelper.js";
-
-export class ConnectionClient {
+class ConnectionClient {
 	constructor(server, port) {
 		this.Server = "localhost";
 		this.Port = 1337;
@@ -22,3 +19,5 @@ export class ConnectionClient {
 		.then(json => console.log(json));
 	}
 }
+
+export default (new ConnectionClient());
