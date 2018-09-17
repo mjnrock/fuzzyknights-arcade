@@ -3,7 +3,7 @@ import Client from "./package.js";
 
 import { WebSocketHelper } from "./WebSocketHelper.js";
 
-export class Client {
+export class ConnectionClient {
 	constructor(server, port) {
 		this.Server = "localhost";
 		this.Port = 1337;
