@@ -1,9 +1,13 @@
 import WebSocketHelper from "./WebSocketHelper.js";
 import ConnectionClient from "./ConnectionClient.js";
 
+import Event from "./event/package.js";
+
 export default {
-	WebSocketHelper: WebSocketHelper,
-	ConnectionClient: ConnectionClient
+	WebSocketHelper,
+	ConnectionClient,
+
+	Event
 };
 
 

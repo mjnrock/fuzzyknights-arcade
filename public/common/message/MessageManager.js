@@ -56,9 +56,29 @@ class MessageManager {
 		return false;
 	}
 	
-	Dispatch(msg) {
+	Dispatch(msg, time = null) {
+		//DEBUG
+		console.log("Dispatching Message");
+
 		if(msg.Type === EnumMessageType.CHAT) {
 			//	Send to CHAT system
+
+			return true;
+		}
+
+		return false;
+	}
+
+	Tick(time) {
+		let queue = this.Messages;
+		this.Messages = [];
+
+		for(let i = 0; i < queue.length; i++) {
+			let isDispatched = this.Dispatch(queue[i], time);
+
+			if(!isDispatched) {
+				this.Messages.push(queue[i]);
+			}
 		}
 	}
 }

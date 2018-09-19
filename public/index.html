@@ -17,7 +17,9 @@
 
 		<script type="module">
 			import FuzzyKnights from "./common/FuzzyKnights.js";
-
+			import Client from "./client/package.js";
+			FuzzyKnights.Client = Client;
+			
 			let a = new FuzzyKnights.Common.Message.ChatMessage("Hey dudes!");
 			FuzzyKnights.Common.Message.MessageManager.Send(a);
 			a.Send();

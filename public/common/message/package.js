@@ -3,8 +3,8 @@ import { ChatMessage } from "./ChatMessage.js";
 import MessageManager from "./MessageManager.js";
 
 export default {
-	Message: Message,
-	ChatMessage: ChatMessage,
+	Message,
+	ChatMessage,
 
-	MessageManager: MessageManager
+	MessageManager
 };
