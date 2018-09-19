@@ -50,6 +50,8 @@ class PacketManager {
 	RemoveClient(index){
 		return this.Clients.splice(index, 1);
 	}
+
+	Tick(time){}
 }
 
 export default new PacketManager();

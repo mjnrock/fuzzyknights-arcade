@@ -11,6 +11,8 @@ FuzzyKnights.Common.Message.Message.MessageManager = FuzzyKnights.Common.Message
 FuzzyKnights.Common.Game.GameLoop.AddManager(FuzzyKnights.Common.Message.MessageManager);
 //@ EntityManager
 FuzzyKnights.Common.Game.GameLoop.AddManager(FuzzyKnights.Common.Entity.EntityManager);
+//@ PacketManager
+FuzzyKnights.Common.Game.GameLoop.AddManager(FuzzyKnights.Common.Message.Packet.PacketManager);
 
 
 function AddInitializationHook(target, hook){

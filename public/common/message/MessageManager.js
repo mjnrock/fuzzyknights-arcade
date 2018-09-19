@@ -76,7 +76,6 @@ class MessageManager {
 		while(this.Messages.length > 0 || (Date.now() - start >= timeout)) {
 			this.Dispatch(this.Dequeue(), time);
 		}
-		console.log("Ended MessageManager Tick");
 	}
 }
 
