@@ -6,6 +6,10 @@ class WebSocketHelper {
 		this.ws.onclose = (e) => this.OnClose(e);
 	}
 
+	GetWebSocket() {
+		return this.ws;
+	}
+
 	ConnectionWrapper(socket, callback) {
 		let timeout = 250;
 
@@ -21,7 +25,7 @@ class WebSocketHelper {
 	}
 
 	Send(message) {
-		console.log("Sending message to the server...");
+		// console.log("Sending message to the server...");
 		try {
 			this.ConnectionWrapper(this.ws, () =>
 				this.ws.send(
@@ -36,13 +40,13 @@ class WebSocketHelper {
 	}
 
 	OnOpen(e) {
-		console.log(e);
+		console.log("[Opened] WebSocket Connection");
 		// this.ws.send("Hey!");
 	}
 
 	OnMessage(e) {
 		if(e.isTrusted) {
-			console.log("Received trusted message...");
+			// console.log("Received trusted message...");
 			this.MessageManager.OnMessage(e.data);
 		}
 	}

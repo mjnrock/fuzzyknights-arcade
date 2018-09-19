@@ -2,12 +2,16 @@ import WebSocketHelper from "./WebSocketHelper.js";
 import ConnectionClient from "./ConnectionClient.js";
 
 import Event from "./event/package.js";
+import Enum from "./enum/package.js";
+import Render from "./render/package.js";
 
 export default {
 	WebSocketHelper,
 	ConnectionClient,
 
-	Event
+	Event,
+	Enum,
+	Render
 };
 
 

@@ -22,7 +22,7 @@ class GameLoop {
 	}
 	Run() {
 		//DEBUG
-		console.log("[Starting] Game Loop...");
+		// console.log("[Starting] Game Loop...");
 
 		this.Ticker = setInterval(
 			() => {
@@ -34,27 +34,27 @@ class GameLoop {
 		);
 
 		//DEBUG
-		console.log("[Started] Game Loop...");
+		// console.log("[Started] Game Loop...");
 	}
 	Stop() {
 		//DEBUG
-		console.log("[Stopping] Game Loop...");
+		// console.log("[Stopping] Game Loop...");
 
 		clearInterval(this.Ticker);
 		
 		//DEBUG
-		console.log("[Stopped] Game Loop...");
+		// console.log("[Stopped] Game Loop...");
 	}
 	
 	Pause() {
 		//DEBUG
-		console.log("[Pausing] Game Loop...");
+		// console.log("[Pausing] Game Loop...");
 
 		this.IsPaused = true;
 	}	
 	Play() {
 		//DEBUG
-		console.log("[Playing] Game Loop...");
+		// console.log("[Playing] Game Loop...");
 
 		this.IsPaused = false;
 	}

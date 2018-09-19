@@ -16,15 +16,15 @@
 		<canvas id="canvas" width="300" height="150"></canvas>
 
 		<script type="module">
-			import FuzzyKnights from "./common/FuzzyKnights.js";
-			import Client from "./client/package.js";
-			FuzzyKnights.Client = Client;
-			
-			let a = new FuzzyKnights.Common.Message.ChatMessage("Hey dudes!");
-			FuzzyKnights.Common.Message.MessageManager.Send(a);
-			a.Send();
+			console.log("[Loading...] FuzzyKnights and FuzzyKnights Client");
 
-			console.log(FuzzyKnights.Common.Message.MessageManager.GetMessages());
+			import FKServer from "./common/FuzzyKnights.js";
+			import FKClient from "./client/FuzzyKnightsClient.js";
+			const FuzzyKnights = new FKClient(FKServer, window);
+
+			$(document).ready(function() {
+				console.log("[Loaded] FuzzyKnights and FuzzyKnights Client");
+			});
 		</script>
 	</body>
 </html>

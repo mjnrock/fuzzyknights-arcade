@@ -3,7 +3,6 @@ class EntityHandler {
 
 	OnEntityConstruction(manager, entity) {
 		manager.RegisterEntity(entity);
-		console.log("Entity Constructed");
 
 		return entity;
 	}

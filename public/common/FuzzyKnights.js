@@ -26,13 +26,13 @@ function AddInitializationHook(target, hook){
 FuzzyKnights.Common.Entity.Entity.prototype.PostInit = (entity) => FuzzyKnights.Common.Event.EntityHandler.OnEntityConstruction(FuzzyKnights.Common.Entity.EntityManager, entity);
 
 //? Testing
-let e = new FuzzyKnights.Common.Entity.EntityCat();
-console.log(FuzzyKnights.Common.Entity.EntityManager);
+// let e = new FuzzyKnights.Common.Entity.EntityCat();
+// console.log(FuzzyKnights.Common.Entity.EntityManager);
 
 FuzzyKnights.Common.Game.GameLoop.Run();
 
 
 //DEBUG Ensure all stuff has loaded
-console.log(FuzzyKnights);
+// console.log(FuzzyKnights);
 
 export default FuzzyKnights;
