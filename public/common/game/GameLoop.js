@@ -72,3 +72,4 @@ class GameLoop {
 }
 
 export default new GameLoop();
+export { GameLoop };

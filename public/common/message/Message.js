@@ -1,4 +1,4 @@
-import { NewUUID } from "./../utility/Helper.js";
+import { NewUUID } from "./../utility/Functions.js";
 
 class Message {
 	constructor(type, payload) {
@@ -21,7 +21,7 @@ class Message {
 	}
 }
 
-//@param MessageManager <FuzzyKnights.Common.Message.MessageManager> Initialize in the Master Coordinator file
+//@param | MessageManager <FuzzyKnights.Common.Message.MessageManager> | Initialize in the Master Coordinator file
 Message.MessageManager = null;
 
 export { Message };

@@ -70,17 +70,15 @@ class MessageManager {
 	}
 
 	Tick(time) {
-		let queue = this.Messages;
-		this.Messages = [];
+		let start = Date.now(),
+			timeout = 2000;
 
-		for(let i = 0; i < queue.length; i++) {
-			let isDispatched = this.Dispatch(queue[i], time);
-
-			if(!isDispatched) {
-				this.Messages.push(queue[i]);
-			}
+		while(this.Messages.length > 0 || (Date.now() - start >= timeout)) {
+			this.Dispatch(this.Dequeue(), time);
 		}
+		console.log("Ended MessageManager Tick");
 	}
 }
 
-export default (new MessageManager());
+export default new MessageManager();
+export { MessageManager };

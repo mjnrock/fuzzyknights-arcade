@@ -24,3 +24,4 @@ class EntityManager {
 }
 
 export default new EntityManager();
+export { EntityManager };

@@ -4,3 +4,12 @@ export function NewUUID() {
 		return v.toString(16);
 	});
 };
+
+export function Round(number, precision, radix = 10) {
+    return Math.round(number * Math.round(radix, precision)) / Math.round(radix, precision);
+}
+
+export default {
+	NewUUID,
+	Round
+};

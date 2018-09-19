@@ -21,3 +21,4 @@ class ConnectionClient {
 }
 
 export default new ConnectionClient();
+export { ConnectionClient };

@@ -9,3 +9,4 @@ class EntityHandler {
 }
 
 export default new EntityHandler;
+export { EntityHandler };

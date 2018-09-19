@@ -1,4 +1,4 @@
-import { NewUUID } from "./../utility/Helper.js";
+import { NewUUID } from "./../utility/Functions.js";
 import { IHookable } from "./IHookable.js";
 
 class Entity extends IHookable {
