@@ -1,5 +1,6 @@
 class WebSocketHelper {
-	constructor(url = `ws://localhost:1337/ws`) {
+	constructor(fk, url = `ws://localhost:1337/ws`) {
+		this.FuzzyKnights = fk;
 		this.ws = new WebSocket(url);
 		this.ws.onopen = (e) => this.OnOpen(e);
 		this.ws.onmessage = (e) => this.OnMessage(e);
@@ -46,8 +47,7 @@ class WebSocketHelper {
 
 	OnMessage(e) {
 		if(e.isTrusted) {
-			// console.log("Received trusted message...");
-			this.MessageManager.OnMessage(e.data);
+			this.FuzzyKnights.Common.Message.Packet.PacketManager.ExtractMessage(e.data);
 		}
 	}
 

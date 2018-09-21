@@ -1,19 +1,23 @@
 import { NewUUID } from "./../utility/Functions.js";
+
+import EnumEntityType from "./../enum/EntityType.js";
+
 import { IHookable } from "./IHookable.js";
 
 class Entity extends IHookable {
-	constructor(components = []) {
+	constructor(type, components = []) {
 		super();
 		this.PreInit(arguments);
+		this.Type = type || EnumEntityType.ENTITY;
 		this.Components = components;
 
 		this.UUID = NewUUID();
 		this.PostInit(this);
+		console.log(`[ENTITY CREATED]: ${this.UUID}`);
 	}
 
 	Tick(time) {
 		this.PreTick(this, arguments);
-		// console.log(`Entity [${this.UUID}]: tick`);
 		this.PostTick(this, arguments);
 	}
 }

@@ -1,9 +1,21 @@
+import EnumEventType from "./../enum/EventType.js";
+
 class EntityManager {
 	constructor(fk, entities = {}) {
 		this.FuzzyKnights = fk;
 		this.Entities = entities;
 
 		this.Timestamp = Date.now();
+	}
+
+	ReceiveMessage(msg, time) {
+		if(this.FuzzyKnights.IsServer) {
+
+		} else {
+			if(msg.EventType === EnumEventType.ON_ENTITY_CONSTRUCTION) {
+				this.FuzzyKnights.Common.Handler.EntityHandler.CreateEntityFromMessage(msg);
+			}
+		}
 	}
 
 	RegisterEntity(entity) {

@@ -1,24 +1,15 @@
 import WebSocketHelper from "./WebSocketHelper.js";
+import { NewUUID } from "./../common/utility/Functions.js";
 
 class ConnectionClient {
-	constructor(server, port) {
-		this.Server = "localhost";
-		this.Port = 1337;
-		this.UUID = Math.random();	//TODO Make an actual UUID from function
+	constructor(fk, server = "localhost", port = 1337) {
+		this.Server = server;
+		this.Port = port;
+		this.UUID = NewUUID();
 
-		this.WebSocket = new WebSocketHelper(`ws://${this.Server}:${this.Port}/ws`);
-		this.WebSocket.Send({
-			Type: "AUTHENTICATE",
-			Message: "test"
-		});
-	}
-
-	Authenticate() {
-		fetch(`http://${this.Server}:${this.Port}/api/auth`)
-		.then(response => response.json())
-		.then(json => console.log(json));
+		this.WebSocket = new WebSocketHelper(fk, `ws://${this.Server}:${this.Port}/ws`);
+		this.FuzzyKnights = fk;
 	}
 }
 
-export default new ConnectionClient();
-export { ConnectionClient };
+export default ConnectionClient;

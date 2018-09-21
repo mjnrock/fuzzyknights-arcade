@@ -18,11 +18,8 @@
 		<script type="module">
 			console.log("[Loading...] FuzzyKnights and FuzzyKnights Client");
 
-			import FKServer from "./common/FuzzyKnights.js";
-			import FKClient from "./client/FuzzyKnightsClient.js";
-			import Dice from "./common/utility/Dice.js";
-			const FuzzyKnights = new FKClient(FKServer, window);
-			console.log(FuzzyKnights);
+			import FuzzyKnightsClient from "./client/FuzzyKnightsClient.js";
+			const FuzzyKnights = (new FuzzyKnightsClient(window)).GetFuzzyKnights();
 
 			$(document).ready(function() {
 				console.log("[Loaded] FuzzyKnights and FuzzyKnights Client");

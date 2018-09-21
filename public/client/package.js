@@ -25,4 +25,5 @@ export default {
 
 // // main.js
 // import m from 'module';
+// import FuzzyKnightsClient from "./FuzzyKnightsClient";
 // var x = m(someoptions);

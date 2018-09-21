@@ -9,7 +9,17 @@ export function Round(number, precision, radix = 10) {
     return Math.round(number * Math.round(radix, precision)) / Math.round(radix, precision);
 }
 
+export function AddInitializationHook(target, hook){
+    return class extends target {
+        constructor(...args) {
+            super(...args);
+            hook(this);
+        }
+    };
+}
+
 export default {
 	NewUUID,
-	Round
+	Round,
+	AddInitializationHook
 };

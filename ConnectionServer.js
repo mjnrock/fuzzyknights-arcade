@@ -9,8 +9,14 @@ const PORT = 1337;
 const STDIN = process.openStdin();
 
 import * as util from "util";
-import FuzzyKnights from "./public/common/FuzzyKnights";
+import FuzzyKnightsCommon from "./public/common/FuzzyKnightsCommon";
+const FuzzyKnights = (new FuzzyKnightsCommon()).GetFuzzyKnights();
+
 FuzzyKnights.IsServer = true;
+FuzzyKnights.Server = {
+	Main: app,
+	WebSocket: expressWS.getWss()
+};
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -48,13 +54,14 @@ app.ws("/ws", function (client, req) {
 
 app.listen(PORT, () => {
 	console.log(`FuzzyKnights API is now listening on port: ${PORT}`);
-
-	FuzzyKnights.Common.Game.GameLoop.Run();
 });
 
 
 //DEBUG
-let e = new FuzzyKnights.Common.Entity.EntityCat();
+setInterval(() => {
+	console.log("ConnectionServer.js:62 | setInterval Active");
+	let e = new FuzzyKnights.Common.Entity.EntityCat();
+}, 1500);
 
 
 //  Console Command Parser
@@ -62,8 +69,11 @@ let e = new FuzzyKnights.Common.Entity.EntityCat();
 // 	index = 0;
 STDIN.addListener("data", function(d) {
 	let args = d.toString().trim().replace(/^\s+|\s+$/g, '').split(" ");
-	if(args[0] === "get") {
-		if(args[1] !== null && args[1] !== void 0) {
+	if(args[0] === "get" || args[0].substr(0, 1) === "$") {
+		
+		if(args[0] !== null && args[0] !== void 0) {
+			console.log(util.inspect(eval(args[0].replace("$", "FuzzyKnights"))));
+		} else if(args[1] !== null && args[1] !== void 0) {
 			console.log(util.inspect(eval(args[1].replace("$", "FuzzyKnights"))));
 		}
 	} else if(args[0] === "ticks") {

@@ -3,7 +3,7 @@ import { Message } from "./Message.js";
 
 class EntityMessage extends Message {
 	constructor(payload) {
-		super(EnumMessageType.ENTITY, payload);
+		super(EnumMessageType.ENTITY, payload, true);
 	}
 }
 

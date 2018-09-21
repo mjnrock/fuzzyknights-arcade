@@ -1,18 +1,23 @@
-import MessageType from "./enum/MessageType.js";
+import Utility from "./utility/package.js";
+
+import Enum from "./enum/package.js";
 import Message from "./message/package.js";
 import Event from "./event/package.js";
+import Handler from "./handler/package.js";
 
 import Component from "./component/package.js";
 import Entity from "./entity/package.js";
 import Game from "./game/package.js";
 
 export default {
-	Enum: {
-		MessageType
-	},
+	Utility,
+
+	Enum,
 	Message,
-	Game,
-	Entity,
+	Event,
+	Handler,
+
 	Component,
-	Event
+	Entity,
+	Game
 };

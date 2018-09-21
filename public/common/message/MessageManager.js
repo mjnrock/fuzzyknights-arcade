@@ -1,4 +1,5 @@
 import EnumMessageType from "./../enum/MessageType.js";
+import EnumEventType from "./../enum/EventType.js";
 
 import { EventData } from "./../event/EventData.js";
 
@@ -15,10 +16,8 @@ class MessageManager {
 		switch(messageType) {
 			case EnumMessageType.ENTITY:
 				return EntityMessage;
-				break;
 			default:
 				return null;
-				break;
 		}
 	}
 	Spawn(messageType, eventType, payload) {
@@ -27,7 +26,7 @@ class MessageManager {
 		if(msg instanceof Message) {
 			this.Enqueue(msg);
 
-			return true;
+			return msg;
 		}
 
 		return false;
@@ -46,28 +45,23 @@ class MessageManager {
 	}
 
 	Enqueue(msg) {
-		console.log(this.FuzzyKnights.IsServer);
-		if(this.FuzzyKnights.IsServer) {
-			console.log("This is the server");
-		}
 		this.Messages.push(msg);
 
 		return this;
 	}
 	Dequeue() {
 		if(this.Messages.length > 0) {
-			return this.Messages.splice(0, 1);
+			return this.Messages.splice(0, 1)[0];
 		}
 
 		return false;
 	}
 	
 	Dispatch(msg, time = null) {
-		//DEBUG
-		console.log(msg);
-
-		if(msg.Type === EnumMessageType.CHAT) {
-			//	Send to CHAT system
+		if(msg.MessageType === EnumMessageType.ENTITY) {
+			if(msg.EventType === EnumEventType.ON_ENTITY_CONSTRUCTION) {
+				this.FuzzyKnights.Common.Entity.EntityManager.ReceiveMessage(msg, time);
+			}
 
 			return true;
 		}

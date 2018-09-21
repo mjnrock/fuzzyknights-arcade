@@ -1,23 +1,46 @@
+import EnumPacketType from "./../../enum/PacketType.js";
+
+import { Packet } from "./Packet.js";
+import { PacketServer } from "./PacketServer.js";
+import { PacketClient } from "./PacketClient.js";
+import { PacketBroadcast } from "./PacketBroadcast.js";
+
 class PacketManager {
 	constructor(fk, packets = []) {
 		this.FuzzyKnights = fk;
-		this.IsClient = false;
-		this.Clients = [];	//TODO Nothing about this is actually completed yet
 		this.Packets = packets;
 	}
 
-	SetClient() {
-		this.IsClient = true;
-		
-		return this;
+	ExtractMessage(packet) {
+		let msg = JSON.parse(packet);
+
+		if(msg) {
+			msg = msg.Message;
+			this.FuzzyKnights.Common.Message.MessageManager.Spawn(
+				msg.MessageType,
+				msg.EventType,
+				msg.Payload
+			);
+		}
 	}
-	SetServer() {
-		this.IsClient = false;
-		
-		return this;
+	UpgradeMessage(packetType, msg, ...args) {
+		switch(packetType) {
+			case EnumPacketType.SERVER:
+				return new PacketServer(msg);
+			case EnumPacketType.CLIENT:
+				return new PacketClient(msg, ...args);
+			case EnumPacketType.BROADCAST:
+				return new PacketBroadcast(msg);
+			default:
+				return null;
+		}
 	}
-	IsServer() {
-		return !this.IsClient;
+	Spawn(packetType, msg, ...args) {
+		let packet = this.UpgradeMessage(packetType, msg, ...args);
+
+		if(packet instanceof Packet) {
+			this.Enqueue(packet);
+		}
 	}
 
 	Enqueue(packet) {
@@ -27,17 +50,21 @@ class PacketManager {
 	}
 	Dequeue() {
 		if(this.Packets.length > 0) {
-			return this.Packets.splice(0, 1);
+			return this.Packets.splice(0, 1)[0];
 		}
 
 		return false;
 	}
 
-	SendToClient(client, packet) {
+	SendToClient(packet, client) {
 
 	}
 	SendToAllClients(packet) {
-
+		if(this.FuzzyKnights.IsServer) {
+			this.FuzzyKnights.Server.WebSocket.clients.forEach((client) => {
+				client.send(JSON.stringify(packet));
+			});
+		}
 	}
 	SendToServer(packet) {
 
@@ -51,8 +78,31 @@ class PacketManager {
 	RemoveClient(index){
 		return this.Clients.splice(index, 1);
 	}
+	
+	Dispatch(packet, time = null) {
+		switch(packet.PacketType) {
+			case EnumPacketType.SERVER:
+				this.SendToServer(packet);
+				return true;
+			case EnumPacketType.CLIENT:
+				this.SendToClient(packet, packet.Clients);
+				return true;
+			case EnumPacketType.BROADCAST:
+				this.SendToAllClients(packet);
+				return true;
+			default:
+				return false;
+		}
+	}
 
-	Tick(time){}
+	Tick(time) {
+		let start = Date.now(),
+			timeout = 2000;
+
+		while(this.Packets.length > 0 || (Date.now() - start >= timeout)) {
+			this.Dispatch(this.Dequeue(), time);
+		}
+	}
 }
 
 export default PacketManager;

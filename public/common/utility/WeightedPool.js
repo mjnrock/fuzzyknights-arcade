@@ -1,4 +1,4 @@
-import { Dice, Round as MathRound } from "./Functions.js";
+import Utility from "./package.js";
 
 class WeightedPool {
 	//@param weights = [...<int>], values = [...<any>]
@@ -8,7 +8,7 @@ class WeightedPool {
 	}
 
 	Roll() {
-		return Dice.WeightedRandom(this.Weights, this.Values);
+		return Utility.Dice.WeightedRandom(this.Weights, this.Values);
 	}
 	
 	GetChance(index) {
@@ -17,7 +17,7 @@ class WeightedPool {
 			sum += this.Weights[i];
 		}
 		
-		return MathRound(this.Weights[index] / sum * 100.0, 2);
+		return Utility.Functions.Round(this.Weights[index] / sum * 100.0, 2);
 	}
 	
 	GetWeight(index) {

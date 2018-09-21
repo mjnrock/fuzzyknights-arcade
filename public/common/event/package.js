@@ -1,5 +1,5 @@
-import EntityHandler from "./EntityHandler.js";
+import { EventData } from "./EventData.js";
 
 export default {
-	EntityHandler
+	EventData
 };
