@@ -2,10 +2,11 @@ import { NewUUID } from "./../utility/Functions.js";
 
 class Message {
 	constructor(type, payload) {
-		this.Type = type;
-		this.Payload = payload;
+		this.MessageType = type;
+		this.EventType = payload.EventType;
+		this.Payload = payload.Payload;
 		this.UUID = NewUUID();
-		this.Timestamp = Date.now();
+		this.Timestamp = payload.timestamp || Date.now();
 
 		this.IsProcessed = false;
 	}

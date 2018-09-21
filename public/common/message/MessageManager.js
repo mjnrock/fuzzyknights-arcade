@@ -1,29 +1,31 @@
 import EnumMessageType from "./../enum/MessageType.js";
 
+import { EventData } from "./../event/EventData.js";
+
 import { Message } from "./Message.js";
-import { ChatMessage } from "./ChatMessage.js";
+import { EntityMessage } from "./EntityMessage.js";
 
 class MessageManager {
-	constructor(msgs) {
+	constructor(fk, msgs) {
+		this.FuzzyKnights = fk;
 		this.Messages = msgs || [];
 	}
 
-	BuildMessage(type, payload) {
-		if(type === EnumMessageType.CHAT) {
-			return new ChatMessage(type, payload);
+	GetMessageClass(messageType) {
+		switch(messageType) {
+			case EnumMessageType.ENTITY:
+				return EntityMessage;
+				break;
+			default:
+				return null;
+				break;
 		}
-
-		return this;
 	}
-	Send(msg) {
-		//TODO Add Multiplayer check here to send as Packet, if needed
-		this.Enqueue(msg);
-	}
-	Spawn(type, payload) {
-		let msg = this.BuildMessage(type, payload);
+	Spawn(messageType, eventType, payload) {
+		let msg = new (this.GetMessageClass(messageType))((new EventData(eventType, payload)).GetEventData());
 
 		if(msg instanceof Message) {
-			this.Send(msg);
+			this.Enqueue(msg);
 
 			return true;
 		}
@@ -44,6 +46,10 @@ class MessageManager {
 	}
 
 	Enqueue(msg) {
+		console.log(this.FuzzyKnights.IsServer);
+		if(this.FuzzyKnights.IsServer) {
+			console.log("This is the server");
+		}
 		this.Messages.push(msg);
 
 		return this;
@@ -58,7 +64,7 @@ class MessageManager {
 	
 	Dispatch(msg, time = null) {
 		//DEBUG
-		console.log("Dispatching Message");
+		console.log(msg);
 
 		if(msg.Type === EnumMessageType.CHAT) {
 			//	Send to CHAT system
@@ -79,5 +85,4 @@ class MessageManager {
 	}
 }
 
-export default new MessageManager();
-export { MessageManager };
+export default MessageManager;

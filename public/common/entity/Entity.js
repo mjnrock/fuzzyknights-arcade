@@ -13,7 +13,7 @@ class Entity extends IHookable {
 
 	Tick(time) {
 		this.PreTick(this, arguments);
-		console.log(`Entity [${this.UUID}]: tick`);
+		// console.log(`Entity [${this.UUID}]: tick`);
 		this.PostTick(this, arguments);
 	}
 }

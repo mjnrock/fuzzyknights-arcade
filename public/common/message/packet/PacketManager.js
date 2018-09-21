@@ -1,5 +1,6 @@
 class PacketManager {
-	constructor(packets = []) {
+	constructor(fk, packets = []) {
+		this.FuzzyKnights = fk;
 		this.IsClient = false;
 		this.Clients = [];	//TODO Nothing about this is actually completed yet
 		this.Packets = packets;
@@ -54,5 +55,4 @@ class PacketManager {
 	Tick(time){}
 }
 
-export default new PacketManager();
-export { PacketManager };
+export default PacketManager;

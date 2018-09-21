@@ -52,7 +52,7 @@ class WebSocketHelper {
 	}
 
 	OnClose(e) {
-		console.log(e);
+		// console.log(e);
 	}
 }
 

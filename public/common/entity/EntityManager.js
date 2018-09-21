@@ -1,5 +1,6 @@
 class EntityManager {
-	constructor(entities = {}) {
+	constructor(fk, entities = {}) {
+		this.FuzzyKnights = fk;
 		this.Entities = entities;
 
 		this.Timestamp = Date.now();
@@ -23,5 +24,4 @@ class EntityManager {
 	}
 }
 
-export default new EntityManager();
-export { EntityManager };
+export default EntityManager;

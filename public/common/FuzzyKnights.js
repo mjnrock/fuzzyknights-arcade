@@ -4,15 +4,21 @@ const FuzzyKnights = {
 	Common: Common
 };
 
-//!	-=[Master Coordination Mappings]=-
-FuzzyKnights.Common.Message.Message.MessageManager = FuzzyKnights.Common.Message.MessageManager;
 
 //@ MessageManager
+FuzzyKnights.Common.Message.MessageManager = new FuzzyKnights.Common.Message.MessageManager(FuzzyKnights);
 FuzzyKnights.Common.Game.GameLoop.AddManager(FuzzyKnights.Common.Message.MessageManager);
+FuzzyKnights.Common.Message.Message.MessageManager = FuzzyKnights.Common.Message.MessageManager;
 //@ EntityManager
+FuzzyKnights.Common.Entity.EntityManager = new FuzzyKnights.Common.Entity.EntityManager(FuzzyKnights);
 FuzzyKnights.Common.Game.GameLoop.AddManager(FuzzyKnights.Common.Entity.EntityManager);
 //@ PacketManager
+FuzzyKnights.Common.Message.Packet.PacketManager = new FuzzyKnights.Common.Message.Packet.PacketManager(FuzzyKnights);
 FuzzyKnights.Common.Game.GameLoop.AddManager(FuzzyKnights.Common.Message.Packet.PacketManager);
+
+
+//@ EntityHandler
+FuzzyKnights.Common.Event.EntityHandler = new FuzzyKnights.Common.Event.EntityHandler(FuzzyKnights.Common.Message.MessageManager);
 
 
 function AddInitializationHook(target, hook){
@@ -30,8 +36,6 @@ FuzzyKnights.Common.Entity.Entity.prototype.PostInit = (entity) => FuzzyKnights.
 //? Testing
 // let e = new FuzzyKnights.Common.Entity.EntityCat();
 // console.log(FuzzyKnights.Common.Entity.EntityManager);
-
-FuzzyKnights.Common.Game.GameLoop.Run();
 
 
 //DEBUG Ensure all stuff has loaded

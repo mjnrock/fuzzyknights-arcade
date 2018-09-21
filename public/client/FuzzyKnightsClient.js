@@ -4,7 +4,8 @@ class FuzzyKnightsClient {
 	constructor(fk, window) {
 		this.FuzzyKnights = {
 			Common: fk.Common,
-			Client: Client
+			Client: Client,
+			IsServer: false
 		};
 		this.Window = window;
 

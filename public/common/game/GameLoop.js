@@ -11,6 +11,16 @@ class GameLoop {
 		this.Timestamp = Date.now();
 	}
 
+	GetInfo() {
+		return {
+			TicksPerSecond: this.TicksPerSecond,
+			Ticks: this.Ticks,
+			LastTime: this.LastTime,
+			IsPaused: this.IsPaused,
+			Timestamp:this.Timestamp
+		};
+	}
+
 	AddManager(manager) {
 		this.Managers.push(manager);
 

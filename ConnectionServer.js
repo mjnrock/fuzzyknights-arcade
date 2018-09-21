@@ -6,6 +6,11 @@ const expressWS = require("express-ws")(express());
 const app = expressWS.app;
 
 const PORT = 1337;
+const STDIN = process.openStdin();
+
+import * as util from "util";
+import FuzzyKnights from "./public/common/FuzzyKnights";
+FuzzyKnights.IsServer = true;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -43,4 +48,42 @@ app.ws("/ws", function (client, req) {
 
 app.listen(PORT, () => {
 	console.log(`FuzzyKnights API is now listening on port: ${PORT}`);
+
+	FuzzyKnights.Common.Game.GameLoop.Run();
+});
+
+
+//DEBUG
+let e = new FuzzyKnights.Common.Entity.EntityCat();
+
+
+//  Console Command Parser
+// let commands = [],
+// 	index = 0;
+STDIN.addListener("data", function(d) {
+	let args = d.toString().trim().replace(/^\s+|\s+$/g, '').split(" ");
+	if(args[0] === "get") {
+		if(args[1] !== null && args[1] !== void 0) {
+			console.log(util.inspect(eval(args[1].replace("$", "FuzzyKnights"))));
+		}
+	} else if(args[0] === "ticks") {
+		console.log(JSON.stringify(FuzzyKnights.Common.Game.GameLoop.GetInfo(), null, 2));
+	} else if(args[0] === "exit") {
+		//  Kill the current Node instance
+		process.exit();
+	} else if(args[0] === "eval") {
+		if(args.length > 1) {
+			let input = args.slice(1).join(" ");
+			try {
+				let result = eval(input);
+	
+				if(result !== void 0) {
+					console.log(result);
+				}
+			} catch (e) {
+				console.log("[WARNING]: Invalid command.");
+			}
+		}
+	}
+	// console.log(`[PREVIOUS COMMAND]: ${args.join(" ")}`);
 });

@@ -22,13 +22,10 @@
 			import FKClient from "./client/FuzzyKnightsClient.js";
 			import Dice from "./common/utility/Dice.js";
 			const FuzzyKnights = new FKClient(FKServer, window);
+			console.log(FuzzyKnights);
 
 			$(document).ready(function() {
 				console.log("[Loaded] FuzzyKnights and FuzzyKnights Client");
-
-				let a = new FuzzyKnights.Common.Message.ChatMessage("Hey dudes!");
-				FuzzyKnights.Common.Message.MessageManager.Send(a);
-				a.Send();
 			});
 		</script>
 	</body>

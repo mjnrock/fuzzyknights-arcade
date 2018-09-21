@@ -1,0 +1,4 @@
+export default {
+	ON_ENTITY_CONSTRUCTION: 		1,
+	ON_ENTITY_JOIN_WORLD:	 		2
+};
