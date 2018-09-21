@@ -58,22 +58,26 @@ app.listen(PORT, () => {
 
 
 //DEBUG
-setInterval(() => {
+let StartTime = Date.now();
+let inter = setInterval(() => {
 	console.log("ConnectionServer.js:62 | setInterval Active");
 	let e = new FuzzyKnights.Common.Entity.EntityCat();
-}, 1500);
+
+	if(Date.now() - StartTime > 2500) {
+		clearInterval(inter);
+	}
+}, 500);
 
 
 //  Console Command Parser
 // let commands = [],
 // 	index = 0;
+
+//?		get Object.keys($.Common.Entity.EntityManager.Entities)
 STDIN.addListener("data", function(d) {
 	let args = d.toString().trim().replace(/^\s+|\s+$/g, '').split(" ");
-	if(args[0] === "get" || args[0].substr(0, 1) === "$") {
-		
-		if(args[0] !== null && args[0] !== void 0) {
-			console.log(util.inspect(eval(args[0].replace("$", "FuzzyKnights"))));
-		} else if(args[1] !== null && args[1] !== void 0) {
+	if(args[0] === "get") {
+		if(args[1] !== null && args[1] !== void 0) {
 			console.log(util.inspect(eval(args[1].replace("$", "FuzzyKnights"))));
 		}
 	} else if(args[0] === "ticks") {

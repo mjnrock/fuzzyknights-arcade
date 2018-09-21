@@ -5,13 +5,13 @@ import EnumEntityType from "./../enum/EntityType.js";
 import { IHookable } from "./IHookable.js";
 
 class Entity extends IHookable {
-	constructor(type, components = []) {
+	constructor(uuid, type, components = []) {
 		super();
 		this.PreInit(arguments);
 		this.Type = type || EnumEntityType.ENTITY;
 		this.Components = components;
 
-		this.UUID = NewUUID();
+		this.UUID = uuid || NewUUID();
 		this.PostInit(this);
 		console.log(`[ENTITY CREATED]: ${this.UUID}`);
 	}

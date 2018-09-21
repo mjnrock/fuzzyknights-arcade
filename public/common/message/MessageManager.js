@@ -20,8 +20,14 @@ class MessageManager {
 				return null;
 		}
 	}
-	Spawn(messageType, eventType, payload) {
+	BuildMessage(messageType, eventType, payload) {
 		let msg = new (this.GetMessageClass(messageType))((new EventData(eventType, payload)).GetEventData());
+		msg.Origin = this.FuzzyKnights.IsServer;
+
+		return msg;
+	}
+	Spawn(messageType, eventType, payload) {
+		let msg = this.BuildMessage(messageType, eventType, payload);
 
 		if(msg instanceof Message) {
 			this.Enqueue(msg);

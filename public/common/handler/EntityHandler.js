@@ -66,20 +66,13 @@ class EntityHandler extends Handler {
 			return comp;
 		});
 
-		//! Something with the entity creation is causing a client-side loop
-		// let entity = new clazz(components);
-		console.log([
-			msg,
-			clazz,
-			components
-		]);
-		// entity.UUID = msg.Payload.UUID;
+		let entity = new clazz(components, msg.Payload.UUID);
 
 		return entity;
 	}
 
-	SendEventMessage(messageType, eventType, payload) {
-		let msg = super.SendEventMessage(messageType, eventType, payload);
+	SpawnEventMessage(messageType, eventType, payload) {
+		let msg = super.BuildEventMessage(messageType, eventType, payload);
 
 		if(this.FuzzyKnights.IsServer) {
 			switch(eventType) {
@@ -94,20 +87,22 @@ class EntityHandler extends Handler {
 
 	//EVENT
 	OnEntityConstruction(entity) {
-		this.FuzzyKnights.Common.Entity.EntityManager.RegisterEntity(entity);
+		if(!this.FuzzyKnights.Common.Entity.EntityManager.HasEntity(entity)) {
+			this.FuzzyKnights.Common.Entity.EntityManager.RegisterEntity(entity);
 
-		this.SendEventMessage(
-			EnumMessageType.ENTITY,
-			EnumEventType.ON_ENTITY_CONSTRUCTION,
-			entity
-		);
+			this.SpawnEventMessage(
+				EnumMessageType.ENTITY,
+				EnumEventType.ON_ENTITY_CONSTRUCTION,
+				entity
+			);
+		}
 
 		return entity;
 	}
 
 	//EVENT
 	OnEntityJoinWorld(entity) {
-		this.SendEventMessage(
+		this.SpawnEventMessage(
 			EnumMessageType.ENTITY,
 			EnumEventType.ON_ENTITY_JOIN_WORLD,
 			entity

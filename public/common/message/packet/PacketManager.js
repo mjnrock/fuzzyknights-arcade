@@ -11,12 +11,12 @@ class PacketManager {
 		this.Packets = packets;
 	}
 
-	ExtractMessage(packet) {
-		let msg = JSON.parse(packet);
+	ExtractMessage(pkt) {
+		let packet = JSON.parse(pkt);
 
-		if(msg) {
-			msg = msg.Message;
-			this.FuzzyKnights.Common.Message.MessageManager.Spawn(
+		if(packet) {
+			let msg = packet.Message;
+			return this.FuzzyKnights.Common.Message.MessageManager.Spawn(
 				msg.MessageType,
 				msg.EventType,
 				msg.Payload
@@ -68,15 +68,6 @@ class PacketManager {
 	}
 	SendToServer(packet) {
 
-	}
-
-	AddClient(client){
-		this.Clients.push(client);
-
-		return this;
-	}
-	RemoveClient(index){
-		return this.Clients.splice(index, 1);
 	}
 	
 	Dispatch(packet, time = null) {

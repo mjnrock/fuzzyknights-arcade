@@ -18,6 +18,9 @@ class EntityManager {
 		}
 	}
 
+	HasEntity(entity) {
+		return !!this.Entities[entity.UUID];
+	}
 	RegisterEntity(entity) {
 		this.Entities[entity.UUID] = entity;
 

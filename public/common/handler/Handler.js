@@ -28,8 +28,8 @@ class Handler {
 		return false;
 	}
 
-	SendEventMessage(messageType, eventType, payload) {
-		return this.FuzzyKnights.Common.Message.MessageManager.Spawn(messageType, eventType, payload);
+	BuildEventMessage(messageType, eventType, payload) {
+		return this.FuzzyKnights.Common.Message.MessageManager.BuildMessage(messageType, eventType, payload);
 	}
 }
 
