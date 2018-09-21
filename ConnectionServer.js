@@ -56,26 +56,20 @@ app.listen(PORT, () => {
 	console.log(`FuzzyKnights API is now listening on port: ${PORT}`);
 });
 
+//?		Replace the contents of this function, as necessary
+function RunTestCase(iterations = 1) {
+	for(let i = 0; i < iterations; i++) {
+		//*	--REPLACE START--
+		
+		new FuzzyKnights.Common.Entity.EntityCat();
 
-//DEBUG
-let StartTime = Date.now();
-let inter = setInterval(() => {
-	console.log("ConnectionServer.js:62 | setInterval Active");
-	let e = new FuzzyKnights.Common.Entity.EntityCat();
-
-	if(Date.now() - StartTime > 2500) {
-		clearInterval(inter);
+		//*	--REPLACE END--
 	}
-}, 500);
-
-
-//  Console Command Parser
-// let commands = [],
-// 	index = 0;
+}
 
 //?		get Object.keys($.Common.Entity.EntityManager.Entities)
 STDIN.addListener("data", function(d) {
-	let args = d.toString().trim().replace(/^\s+|\s+$/g, '').split(" ");
+	let args = d.toString().trim().replace(/^\s+|\s+$/g, '').toLowerCase().split(" ");
 	if(args[0] === "get") {
 		if(args[1] !== null && args[1] !== void 0) {
 			console.log(util.inspect(eval(args[1].replace("$", "FuzzyKnights"))));
@@ -85,6 +79,8 @@ STDIN.addListener("data", function(d) {
 	} else if(args[0] === "exit") {
 		//  Kill the current Node instance
 		process.exit();
+	} else if(args[0] === "t" || args[0] === "test") {		
+		RunTestCase(args[1] ? args[1] : 1);
 	} else if(args[0] === "eval") {
 		if(args.length > 1) {
 			let input = args.slice(1).join(" ");

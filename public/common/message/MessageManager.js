@@ -12,32 +12,6 @@ class MessageManager {
 		this.Messages = msgs || [];
 	}
 
-	GetMessageClass(messageType) {
-		switch(messageType) {
-			case EnumMessageType.ENTITY:
-				return EntityMessage;
-			default:
-				return null;
-		}
-	}
-	BuildMessage(messageType, eventType, payload) {
-		let msg = new (this.GetMessageClass(messageType))((new EventData(eventType, payload)).GetEventData());
-		msg.Origin = this.FuzzyKnights.IsServer;
-
-		return msg;
-	}
-	Spawn(messageType, eventType, payload) {
-		let msg = this.BuildMessage(messageType, eventType, payload);
-
-		if(msg instanceof Message) {
-			this.Enqueue(msg);
-
-			return msg;
-		}
-
-		return false;
-	}
-
 	Size() {
 		return this.Messages.length;
 	}
@@ -48,6 +22,35 @@ class MessageManager {
 		this.Messages = msgs;
 
 		return this;
+	}
+
+	GetMessageClass(messageType) {
+		switch(messageType) {
+			case EnumMessageType.ENTITY:
+				return EntityMessage;
+			default:
+				return null;
+		}
+	}
+
+	BuildMessage(messageType, eventType, payload) {
+		let msg = new (this.GetMessageClass(messageType))((new EventData(eventType, payload)).GetEventData());
+		msg.Origin = this.FuzzyKnights.IsServer;
+
+		return msg;
+	}
+	Spawn(messageType, eventType, payload) {
+		return this.Receive(this.BuildMessage(messageType, eventType, payload));
+	}
+
+	Receive(msg) {
+		if(msg instanceof Message) {
+			this.Enqueue(msg);
+
+			return msg;
+		}
+
+		return false;
 	}
 
 	Enqueue(msg) {

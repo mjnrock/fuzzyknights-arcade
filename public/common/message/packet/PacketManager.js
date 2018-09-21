@@ -10,12 +10,13 @@ class PacketManager {
 		this.FuzzyKnights = fk;
 		this.Packets = packets;
 	}
-
+	
 	ExtractMessage(pkt) {
 		let packet = JSON.parse(pkt);
 
 		if(packet) {
 			let msg = packet.Message;
+
 			return this.FuzzyKnights.Common.Message.MessageManager.Spawn(
 				msg.MessageType,
 				msg.EventType,
@@ -23,6 +24,7 @@ class PacketManager {
 			);
 		}
 	}
+
 	UpgradeMessage(packetType, msg, ...args) {
 		switch(packetType) {
 			case EnumPacketType.SERVER:
@@ -35,12 +37,19 @@ class PacketManager {
 				return null;
 		}
 	}
+	
 	Spawn(packetType, msg, ...args) {
-		let packet = this.UpgradeMessage(packetType, msg, ...args);
+		return this.Receive(this.UpgradeMessage(packetType, msg, ...args));
+	}
 
+	Receive(packet) {
 		if(packet instanceof Packet) {
 			this.Enqueue(packet);
+
+			return packet;
 		}
+
+		return false;
 	}
 
 	Enqueue(packet) {
