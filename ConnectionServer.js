@@ -69,10 +69,15 @@ function RunTestCase(iterations = 1) {
 
 //?		get Object.keys($.Common.Entity.EntityManager.Entities)
 STDIN.addListener("data", function(d) {
-	let args = d.toString().trim().replace(/^\s+|\s+$/g, '').toLowerCase().split(" ");
+	let args = d.toString().trim().replace(/^\s+|\s+$/g, '').split(" ");
 	if(args[0] === "get") {
 		if(args[1] !== null && args[1] !== void 0) {
-			console.log(util.inspect(eval(args[1].replace("$", "FuzzyKnights"))));
+			try {
+				let obj = args[1].replace("$", "FuzzyKnights");
+				console.log(util.inspect(eval(obj)));
+			} catch (e) {
+				console.log("[WARNING]: Invalid command.");
+			}
 		}
 	} else if(args[0] === "ticks") {
 		console.log(JSON.stringify(FuzzyKnights.Common.Game.GameLoop.GetInfo(), null, 2));
