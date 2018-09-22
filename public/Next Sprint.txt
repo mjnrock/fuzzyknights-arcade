@@ -9,3 +9,10 @@
 []	Invoke xEntityEvent from xEntityEventMessage
 []	EntityManager has listener via Registry of xEntityEvents
 []	Does work based on the event
+
+
+**	Message Sender Attributions
+[]	Add UUID to the Client's Server.WebSocket
+[]	Send UUID to Client from Server for syncing
+[]	Add { Sender: "SERVER" } as when from Server
+[]	Add { Sender: Client's UUID } as when from Client
