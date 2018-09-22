@@ -1,29 +1,11 @@
-import WebSocketHelper from "./WebSocketHelper.js";
-import ConnectionClient from "./ConnectionClient.js";
-
+import Network from "./network/package.js";
 import Event from "./event/package.js";
 import Enum from "./enum/package.js";
 import Render from "./render/package.js";
 
 export default {
-	WebSocketHelper,
-	ConnectionClient,
-
+	Network,
 	Event,
 	Enum,
 	Render
 };
-
-
-//	Import, pass initial parameters example
-// // module.js
-// export default function(options) {
-//     return {
-//         // actual module
-//     }
-// }
-
-// // main.js
-// import m from 'module';
-// import FuzzyKnightsClient from "./FuzzyKnightsClient";
-// var x = m(someoptions);

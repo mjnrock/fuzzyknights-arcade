@@ -1,5 +1,5 @@
 import ComponentType from "./ComponentType.js";
-import MessageType from "./MessageType.js";
+import HandlerType from "./HandlerType.js";
 import EventType from "./EventType.js";
 import PacketType from "./PacketType.js";
 import EntityType from "./EntityType.js";
@@ -9,7 +9,7 @@ import TerrainType from "./TerrainType.js";
 
 export default {
 	ComponentType,
-	MessageType,
+	HandlerType,
 	EventType,
 	PacketType,
 	EntityType,

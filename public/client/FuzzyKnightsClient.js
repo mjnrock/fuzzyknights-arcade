@@ -7,6 +7,7 @@ class FuzzyKnightsClient {
 
 		this.FuzzyKnightsCommon = new FuzzyKnightsCommon({
 			Client: Client,
+			Server: {},
 			IsServer: false
 		});
 		this.FuzzyKnights = this.FuzzyKnightsCommon.GetFuzzyKnights();
@@ -15,7 +16,10 @@ class FuzzyKnightsClient {
 	}
 
 	Initialize() {
-		this.FuzzyKnights.Client.ConnectionClient = new this.FuzzyKnights.Client.ConnectionClient(this.FuzzyKnights);
+		this.FuzzyKnights.Client.Network.ConnectionClient = new this.FuzzyKnights.Client.Network.ConnectionClient(this.FuzzyKnights);
+		this.FuzzyKnights.Server.WebSocket = this.FuzzyKnights.Client.Network.ConnectionClient.WebSocket.GetWebSocket();
+
+		this.FuzzyKnights.Client.Event.KeyHandler = new this.FuzzyKnights.Client.Event.KeyHandler(this.FuzzyKnights);
 
 		return this;
 	}

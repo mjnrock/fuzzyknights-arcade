@@ -31,19 +31,20 @@ app.ws("/ws", function (client, req) {
 	console.log(`[CLIENT CONNECTION]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
 
 	client.on("message", function(msg) {
-		const message = JSON.parse(msg);
+		try {
+			const packet = JSON.parse(msg);
 
-		//!	Debugging
-		console.log(client._socket.address());
-		console.log(client.clients);
-		console.log(message);
+			//!	Debugging
+			// console.log(client._socket.address());
+			// console.log(client.clients);
+			console.log(`[PACKET RECEIVED]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
 
-		switch(message.Type) {
-			case "AUTHENTICATE":
-				console.log(message);
-				break;
-			default:
-				break;
+			if(packet["Message"] !== null && packet["Message"] !== void 0) {
+				FuzzyKnights.Common.Message.MessageManager.Receive(packet.Message);
+			}
+		} catch (e) {
+			console.log("[PACKET FAILURE]: Message could not be extracted");
+			console.log(e);
 		}
 	});
 

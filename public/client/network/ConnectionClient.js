@@ -1,5 +1,5 @@
 import WebSocketHelper from "./WebSocketHelper.js";
-import { NewUUID } from "./../common/utility/Functions.js";
+import { NewUUID } from "./../../common/utility/Functions.js";
 
 class ConnectionClient {
 	constructor(fk, server = "localhost", port = 1337) {
@@ -8,7 +8,6 @@ class ConnectionClient {
 		this.UUID = NewUUID();
 
 		this.WebSocket = new WebSocketHelper(fk, `ws://${this.Server}:${this.Port}/ws`);
-		this.FuzzyKnights = fk;
 	}
 }
 

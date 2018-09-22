@@ -1,10 +1,6 @@
-import EnumMessageType from "./../enum/MessageType.js";
-import EnumEventType from "./../enum/EventType.js";
-
-import { EventData } from "./../event/EventData.js";
+import EnumHandlerType from "../enum/HandlerType.js";
 
 import { Message } from "./Message.js";
-import { EntityMessage } from "./EntityMessage.js";
 
 class MessageManager {
 	constructor(fk, msgs) {
@@ -24,27 +20,13 @@ class MessageManager {
 		return this;
 	}
 
-	GetMessageClass(messageType) {
-		switch(messageType) {
-			case EnumMessageType.ENTITY:
-				return EntityMessage;
-			default:
-				return null;
-		}
-	}
-
-	BuildMessage(messageType, eventType, payload) {
-		let msg = new (this.GetMessageClass(messageType))((new EventData(eventType, payload)).GetEventData());
-		msg.Origin = this.FuzzyKnights.IsServer;
-
-		return msg;
-	}
-	Spawn(messageType, eventType, payload) {
-		return this.Receive(this.BuildMessage(messageType, eventType, payload));
+	//! Override function for Message.Send()
+	Send(msg) {
+		this.Receive(msg);
 	}
 
 	Receive(msg) {
-		if(msg instanceof Message) {
+		if((msg["HandlerType"] !== null && msg["HandlerType"] !== void 0) || msg instanceof Message) {
 			this.Enqueue(msg);
 
 			return msg;
@@ -65,12 +47,16 @@ class MessageManager {
 
 		return false;
 	}
-	
+
 	Dispatch(msg, time = null) {
-		if(msg.MessageType === EnumMessageType.ENTITY) {
-			if(msg.EventType === EnumEventType.ENTITY_CONSTRUCTION) {
-				this.FuzzyKnights.Common.Entity.EntityManager.ReceiveMessage(msg, time);
-			}
+		let handler;
+
+		if(msg.HandlerType === EnumHandlerType.INPUT) {
+			handler = this.FuzzyKnights.Common.Handler.InputHandler;
+		}
+
+		if(handler) {
+			handler.ReceiveMessage(msg, time);
 
 			return true;
 		}

@@ -10,20 +10,6 @@ class PacketManager {
 		this.FuzzyKnights = fk;
 		this.Packets = packets;
 	}
-	
-	ExtractMessage(pkt) {
-		let packet = JSON.parse(pkt);
-
-		if(packet) {
-			let msg = packet.Message;
-
-			return this.FuzzyKnights.Common.Message.MessageManager.Spawn(
-				msg.MessageType,
-				msg.EventType,
-				msg.Payload
-			);
-		}
-	}
 
 	UpgradeMessage(packetType, msg, ...args) {
 		switch(packetType) {
@@ -40,6 +26,15 @@ class PacketManager {
 	
 	Spawn(packetType, msg, ...args) {
 		return this.Receive(this.UpgradeMessage(packetType, msg, ...args));
+	}	
+	SpawnServer(msg, ...args) {
+		return this.Spawn(EnumPacketType.SERVER, msg, ...args);
+	}
+	SpawnClient(msg, ...args) {
+		return this.Spawn(EnumPacketType.CLIENT, msg, ...args);
+	}
+	SpawnBroadcast(msg, ...args) {
+		return this.Spawn(EnumPacketType.BROADCAST, msg, ...args);
 	}
 
 	Receive(packet) {
@@ -76,10 +71,11 @@ class PacketManager {
 		}
 	}
 	SendToServer(packet) {
-
+		this.FuzzyKnights.Server.WebSocket.send(JSON.stringify(packet));
 	}
 	
 	Dispatch(packet, time = null) {
+		console.log(packet);
 		switch(packet.PacketType) {
 			case EnumPacketType.SERVER:
 				this.SendToServer(packet);

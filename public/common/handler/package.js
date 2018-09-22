@@ -1,7 +1,5 @@
-import { Handler } from "./Handler.js";
-import { EntityHandler } from "./EntityHandler.js";
+import { InputHandler } from "./InputHandler.js";
 
 export default {
-	Handler,	
-	EntityHandler
+	InputHandler
 };
