@@ -18,7 +18,7 @@ class InputHandler {
 		if(this.FuzzyKnights.IsServer) {
 			console.log(`[RECEIVED MESSAGE]: ${msg.MessageType}`);
 		} else {
-			console.log(msg);
+			console.log(`[RECEIVED MESSAGE]: ${msg.MessageType}`, msg);
 		}
 	}
 }

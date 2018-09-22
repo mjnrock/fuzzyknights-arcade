@@ -30,7 +30,7 @@ class KeyHandler {
 		}
 	}
 
-	//*	KeyboardEvent.repeat === true allows detection of a continuous press
+	//*	e.repeat === true allows detection of a continuous press
 	OnKeyDown(e) {
 		if(e.keyCode !== 116 && e.keyCode !== 16) {		//! [F5] & [Shift]
 			e.preventDefault();
