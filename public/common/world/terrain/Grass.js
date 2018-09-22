@@ -1,5 +1,5 @@
 import EnumTerrainType from "./../../enum/TerrainType.js";
-import EnumNavigabilityType from "./../../enum/NavigabilityType";
+import EnumNavigabilityType from "./../../enum/NavigabilityType.js";
 
 import { Terrain } from "./Terrain.js";
 

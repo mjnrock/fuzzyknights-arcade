@@ -13,7 +13,10 @@ class EntityCat extends Entity {
 	}
 
 	// Tick(time) {
-	// 	super.Tick(time);
+	// 	super.Tick(time, (time) => {
+	// 		console.log(1);
+	// 		//	Whatever to do in this tick
+	// 	});
 	// }
 }
 

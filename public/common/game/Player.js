@@ -1,11 +1,25 @@
+import { NewUUID } from "./../utility/Functions.js";
+
 class Player {
 	constructor(name, entity) {
 		this.Name = name;
 		this.Entity = entity;
+
+		this.UUID = NewUUID();
+		this.Timestamp = Date.now();
+	}
+
+	GetUUID() {
+		return this.UUID;
+	}
+	SetUUID(uuid) {
+		this.UUID = uuid;
+
+		return this;
 	}
 
 	GetName() {
-		return this.name;
+		return this.Name;
 	}
 	SetName(name) {
 		this.Name = name;

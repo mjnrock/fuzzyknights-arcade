@@ -8,7 +8,7 @@ class TileMapManager {
 		this.EntityManager = new EntityManager(fk);
 	}
 
-	//TODO Hook this into the GameLoop, maybe through WorldManager?
+	//TODO Hook this into the GameLoop through WorldManager hierarchy (call from next level up)
 	Tick(time) {
 		this.EntityManager.Tick(time);
 	}

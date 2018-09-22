@@ -10,10 +10,10 @@ class EntityHandler extends Handler {
 	constructor(fk) {
 		super(fk);
 
-		this.AddEvent(EnumEventType.ON_ENTITY_CONSTRUCTION, (entity) => this.OnEntityConstruction(entity));
-		this.AddEvent(EnumEventType.ON_ENTITY_JOIN_WORLD, (entity) => this.OnEntityJoinWorld(entity));
+		this.AddEvent(EnumEventType.ENTITY_CONSTRUCTION, (entity) => this.OnEntityConstruction(entity));
+		this.AddEvent(EnumEventType.ENTITY_JOIN_WORLD, (entity) => this.OnEntityJoinWorld(entity));
 
-		this.FuzzyKnights.Common.Entity.Entity.prototype.PostInit = this.GetEvent(EnumEventType.ON_ENTITY_CONSTRUCTION);
+		this.FuzzyKnights.Common.Entity.Entity.prototype.PostInit = this.GetEvent(EnumEventType.ENTITY_CONSTRUCTION);
 	}
 
 
@@ -76,7 +76,7 @@ class EntityHandler extends Handler {
 
 		if(this.FuzzyKnights.IsServer) {
 			switch(eventType) {
-				case EnumEventType.ON_ENTITY_CONSTRUCTION:
+				case EnumEventType.ENTITY_CONSTRUCTION:
 					this.FuzzyKnights.Common.Message.Packet.PacketManager.Spawn(EnumPacketType.BROADCAST, msg);
 					break;
 				default:
@@ -87,15 +87,13 @@ class EntityHandler extends Handler {
 
 	//EVENT
 	OnEntityConstruction(entity) {
-		if(!this.FuzzyKnights.Common.Entity.EntityManager.HasEntity(entity)) {
-			this.FuzzyKnights.Common.Entity.EntityManager.RegisterEntity(entity);
+		this.FuzzyKnights.Common.Entity.EntityManager.RegisterEntity(entity);
 
-			this.SpawnEventMessage(
-				EnumMessageType.ENTITY,
-				EnumEventType.ON_ENTITY_CONSTRUCTION,
-				entity
-			);
-		}
+		this.SpawnEventMessage(
+			EnumMessageType.ENTITY,
+			EnumEventType.ENTITY_CONSTRUCTION,
+			entity
+		);
 
 		return entity;
 	}
@@ -104,7 +102,7 @@ class EntityHandler extends Handler {
 	OnEntityJoinWorld(entity) {
 		this.SpawnEventMessage(
 			EnumMessageType.ENTITY,
-			EnumEventType.ON_ENTITY_JOIN_WORLD,
+			EnumEventType.ENTITY_JOIN_WORLD,
 			entity
 		);
 

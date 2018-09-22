@@ -68,7 +68,7 @@ class MessageManager {
 	
 	Dispatch(msg, time = null) {
 		if(msg.MessageType === EnumMessageType.ENTITY) {
-			if(msg.EventType === EnumEventType.ON_ENTITY_CONSTRUCTION) {
+			if(msg.EventType === EnumEventType.ENTITY_CONSTRUCTION) {
 				this.FuzzyKnights.Common.Entity.EntityManager.ReceiveMessage(msg, time);
 			}
 

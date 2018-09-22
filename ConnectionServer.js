@@ -28,9 +28,7 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, "public")));
 
 app.ws("/ws", function (client, req) {
-	client.on("connection", function(conn) {
-		console.log("connected");
-	});
+	console.log(`[CLIENT CONNECTION]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
 
 	client.on("message", function(msg) {
 		const message = JSON.parse(msg);

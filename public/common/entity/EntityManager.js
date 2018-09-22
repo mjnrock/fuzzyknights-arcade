@@ -12,7 +12,7 @@ class EntityManager {
 		if(this.FuzzyKnights.IsServer) {
 
 		} else {
-			if(msg.EventType === EnumEventType.ON_ENTITY_CONSTRUCTION) {
+			if(msg.EventType === EnumEventType.ENTITY_CONSTRUCTION) {
 				this.FuzzyKnights.Common.Handler.EntityHandler.CreateEntityFromMessage(msg);
 			}
 		}
