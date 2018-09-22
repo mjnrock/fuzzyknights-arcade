@@ -6,6 +6,8 @@ import { Vector } from "./Vector.js";
 import Terrain from "./terrain/package.js";
 import Map from "./map/package.js";
 
+import { WorldManager } from "./WorldManager.js";
+
 export default {
 	Coordinate,
 	Facing,
@@ -13,5 +15,7 @@ export default {
 	Vector,
 
 	Terrain,
-	Map
+	Map,
+
+	WorldManager
 };
