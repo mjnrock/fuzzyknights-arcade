@@ -4,5 +4,6 @@ export default {
 	PLAYER_DISCONNECT:				2,	// Remove Player from WorldManager
 
 	ENTITY_CONSTRUCTION: 			3,	// Entity constructor executed
-	ENTITY_JOIN_WORLD:	 			4
+	ENTITY_JOIN_WORLD:	 			4,
+	ENTITY_MOVE:					5
 };
