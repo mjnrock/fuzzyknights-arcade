@@ -1,0 +1,11 @@
+**	Event Invocation, Listener Processing
+**			Proof of Concept
+[]	Make xEntityEvent
+[]	Make Corresponding xEntityEventMessage
+[]	Send Message
+[]	Dispatch Message to Entity Handler
+[]	ReceiveMessage
+[]	ProcessMessage
+[]	Invoke xEntityEvent from xEntityEventMessage
+[]	EntityManager has listener via Registry of xEntityEvents
+[]	Does work based on the event
