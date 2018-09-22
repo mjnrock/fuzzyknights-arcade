@@ -13,6 +13,7 @@
 
 **	Message Sender Attributions
 []	Add UUID to the Client's Server.WebSocket
+[]	Build UUID-to-Client Map on Server
 []	Send UUID to Client from Server for syncing
 []	Add { Sender: "SERVER" } as when from Server
 []	Add { Sender: Client's UUID } as when from Client
