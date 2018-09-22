@@ -24,7 +24,7 @@ class FuzzyKnightsCommon {
 		
 
 		//@ InputHandler
-		this.FuzzyKnights.Common.Handler.InputHandler = new this.FuzzyKnights.Common.Handler.InputHandler(this.FuzzyKnights);
+		this.FuzzyKnights.Common.Event.Handler.InputHandler = new this.FuzzyKnights.Common.Event.Handler.InputHandler(this.FuzzyKnights);
 
 		this.FuzzyKnights.Common.Game.GameLoop.Run();
 

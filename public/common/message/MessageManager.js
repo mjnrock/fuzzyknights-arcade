@@ -52,7 +52,7 @@ class MessageManager {
 		let handler;
 
 		if(msg.HandlerType === EnumHandlerType.INPUT) {
-			handler = this.FuzzyKnights.Common.Handler.InputHandler;
+			handler = this.FuzzyKnights.Common.Event.Handler.InputHandler;
 		}
 
 		if(handler) {

@@ -16,9 +16,9 @@ class InputHandler {
 		this.ProcessMessage(msg);
 
 		if(this.FuzzyKnights.IsServer) {
-			console.log(`[RECEIVED MESSAGE]: ${msg.MessageType}`);
+			console.log(`[MESSAGE RECEIVED - InputHander]: ${msg.MessageType}`);
 		} else {
-			console.log(`[RECEIVED MESSAGE]: ${msg.MessageType}`, msg);
+			console.log(`[MESSAGE RECEIVED]: ${msg.MessageType}`, msg);
 		}
 	}
 }

@@ -75,7 +75,12 @@ class PacketManager {
 	}
 	
 	Dispatch(packet, time = null) {
-		console.log(packet);
+		if(this.FuzzyKnights.IsServer) {
+			console.log(`[PACKET DISPATCHED]: ${packet.PacketType}`);
+		} else {
+			console.log(`[PACKET DISPATCHED]: ${packet.PacketType}`, packet);
+		}
+
 		switch(packet.PacketType) {
 			case EnumPacketType.SERVER:
 				this.SendToServer(packet);
