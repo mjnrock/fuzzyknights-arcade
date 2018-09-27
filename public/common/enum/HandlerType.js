@@ -1,3 +1,4 @@
 export default {
-	INPUT: 		1
+	PLAYER:		1,
+	INPUT: 		2
 };

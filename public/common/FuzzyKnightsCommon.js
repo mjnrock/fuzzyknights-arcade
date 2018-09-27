@@ -23,6 +23,8 @@ class FuzzyKnightsCommon {
 		this.FuzzyKnights.Common.Game.GameLoop.AddManager(this.FuzzyKnights.Common.Message.Packet.PacketManager);
 		
 
+		//@ PlayerHandler
+		this.FuzzyKnights.Common.Event.Handler.PlayerHandler = new this.FuzzyKnights.Common.Event.Handler.PlayerHandler(this.FuzzyKnights);
 		//@ InputHandler
 		this.FuzzyKnights.Common.Event.Handler.InputHandler = new this.FuzzyKnights.Common.Event.Handler.InputHandler(this.FuzzyKnights);
 

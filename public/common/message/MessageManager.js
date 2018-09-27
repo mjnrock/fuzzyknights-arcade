@@ -51,7 +51,9 @@ class MessageManager {
 	Dispatch(msg, time = null) {
 		let handler;
 
-		if(msg.HandlerType === EnumHandlerType.INPUT) {
+		if(msg.HandlerType === EnumHandlerType.PLAYER) {
+			handler = this.FuzzyKnights.Common.Event.Handler.PlayerHandler;
+		} else if(msg.HandlerType === EnumHandlerType.INPUT) {
 			handler = this.FuzzyKnights.Common.Event.Handler.InputHandler;
 		}
 

@@ -10,6 +10,7 @@ const STDIN = process.openStdin();
 
 import * as util from "util";
 import FuzzyKnightsCommon from "./public/common/FuzzyKnightsCommon";
+import { PlayerConnectMessage } from "./public/common/message/PlayerConnectMessage";
 const FuzzyKnights = (new FuzzyKnightsCommon()).GetFuzzyKnights();
 
 FuzzyKnights.IsServer = true;
@@ -28,7 +29,12 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, "public")));
 
 app.ws("/ws", function (client, req) {
-	console.log(`[CLIENT CONNECTION]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
+	console.log(`[CLIENT CONNECTED]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
+	client.UUID = FuzzyKnights.Common.Utility.Functions.NewUUID();
+
+	//TODO Rewrite these kinds of packets to a special condition on the client, as the PacketManager won't be loaded yet on the Client and thus throws an error
+	let _pkt = new FuzzyKnights.Common.Message.Packet.PacketClient(new FuzzyKnights.Common.Message.PlayerConnectMessage(client.UUID));
+	client.send(JSON.stringify(_pkt));
 
 	client.on("message", function(msg) {
 		try {
@@ -48,7 +54,9 @@ app.ws("/ws", function (client, req) {
 		}
 	});
 
-	client.on("close", function() {});
+	client.on("close", function() {
+		console.log(`[CLIENT DISCONNECTED]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
+	});
 });
 
 app.listen(PORT, () => {

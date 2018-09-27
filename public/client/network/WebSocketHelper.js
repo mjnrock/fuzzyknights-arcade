@@ -47,6 +47,11 @@ class WebSocketHelper {
 
 	OnMessage(e) {
 		if(e.isTrusted) {
+			if(true) {
+				//	Something that PacketManager is loaded and normal situation should occur
+			} else {
+				//	Something else that considers that the PacketManager might be loaded, but still the first interaction with Server (e.g. PlayerConnectMessage)
+			}
 			this.FuzzyKnights.Common.Message.Packet.PacketManager.ExtractMessage(e.data);
 		}
 	}

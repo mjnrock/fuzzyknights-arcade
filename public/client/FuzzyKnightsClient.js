@@ -4,6 +4,7 @@ import Client from "./package.js";
 class FuzzyKnightsClient {
 	constructor(window) {
 		this.Window = window;
+		this.UUID = null;
 
 		this.FuzzyKnightsCommon = new FuzzyKnightsCommon({
 			Client: Client,
@@ -13,6 +14,15 @@ class FuzzyKnightsClient {
 		this.FuzzyKnights = this.FuzzyKnightsCommon.GetFuzzyKnights();
 
 		this.Initialize();
+	}
+	
+	GetUUID() {
+		return this.UUID;
+	}
+	SetUUID(uuid) {
+		this.UUID = uuid;
+
+		return this;
 	}
 
 	Initialize() {

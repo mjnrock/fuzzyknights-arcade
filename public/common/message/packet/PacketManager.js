@@ -60,8 +60,8 @@ class PacketManager {
 		return false;
 	}
 
-	SendToClient(packet, client) {
-
+	SendToClient(packet, uuid) {
+		
 	}
 	SendToAllClients(packet) {
 		if(this.FuzzyKnights.IsServer) {
