@@ -12,29 +12,36 @@ class PacketManager {
 	}
 
 	UpgradeMessage(packetType, msg, ...args) {
+		let sender;
+		if(this.FuzzyKnights.IsServer) {
+			sender = this.FuzzyKnights.Server.UUID;
+		} else {
+			sender = this.FuzzyKnights.Client.Network.ConnectionClient.WebSocket.UUID;
+		}
+
 		switch(packetType) {
 			case EnumPacketType.SERVER:
-				return new PacketServer(msg);
+				return new PacketServer(msg, sender);
 			case EnumPacketType.CLIENT:
-				return new PacketClient(msg, ...args);
+				return new PacketClient(msg, sender);
 			case EnumPacketType.BROADCAST:
-				return new PacketBroadcast(msg);
+				return new PacketBroadcast(msg, sender);
 			default:
 				return null;
 		}
 	}
 	
-	Spawn(packetType, msg, ...args) {
-		return this.Receive(this.UpgradeMessage(packetType, msg, ...args));
+	Spawn(packetType, msg, sender) {
+		return this.Receive(this.UpgradeMessage(packetType, msg, sender));
 	}	
-	SpawnServer(msg, ...args) {
-		return this.Spawn(EnumPacketType.SERVER, msg, ...args);
+	SpawnServer(msg, sender) {
+		return this.Spawn(EnumPacketType.SERVER, msg, sender);
 	}
-	SpawnClient(msg, ...args) {
-		return this.Spawn(EnumPacketType.CLIENT, msg, ...args);
+	SpawnClient(msg, sender) {
+		return this.Spawn(EnumPacketType.CLIENT, msg, sender);
 	}
-	SpawnBroadcast(msg, ...args) {
-		return this.Spawn(EnumPacketType.BROADCAST, msg, ...args);
+	SpawnBroadcast(msg, sender) {
+		return this.Spawn(EnumPacketType.BROADCAST, msg, sender);
 	}
 
 	Receive(packet) {
@@ -61,9 +68,11 @@ class PacketManager {
 	}
 
 	SendToClient(packet, uuid) {
+		packet.Sender = this.FuzzyKnights.IsServer ? EnumPacketType.SERVER : EnumPacketType.CLIENT;
 		
 	}
 	SendToAllClients(packet) {
+		packet.Sender = this.FuzzyKnights.IsServer ? EnumPacketType.SERVER : EnumPacketType.CLIENT;
 		if(this.FuzzyKnights.IsServer) {
 			this.FuzzyKnights.Server.WebSocket.clients.forEach((client) => {
 				client.send(JSON.stringify(packet));
@@ -71,6 +80,7 @@ class PacketManager {
 		}
 	}
 	SendToServer(packet) {
+		packet.Sender = this.FuzzyKnights.IsServer ? EnumPacketType.SERVER : EnumPacketType.CLIENT;
 		this.FuzzyKnights.Server.WebSocket.send(JSON.stringify(packet));
 	}
 	

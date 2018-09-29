@@ -19,9 +19,10 @@
 			console.log("[Loading...] FuzzyKnights and FuzzyKnights Client");
 
 			import FuzzyKnightsClient from "./client/FuzzyKnightsClient.js";
-			const FuzzyKnights = (new FuzzyKnightsClient(window)).GetFuzzyKnights();
 
 			$(document).ready(function() {
+				const FuzzyKnights = (new FuzzyKnightsClient(window)).GetFuzzyKnights();
+				
 				console.log("[Loaded] FuzzyKnights and FuzzyKnights Client");
 				console.log(FuzzyKnights);
 			});

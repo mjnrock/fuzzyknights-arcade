@@ -5,7 +5,7 @@ class ConnectionClient {
 	constructor(fk, server = "localhost", port = 1337) {
 		this.Server = server;
 		this.Port = port;
-		this.UUID = NewUUID();
+		this.UUID = null;
 
 		this.WebSocket = new WebSocketHelper(fk, `ws://${this.Server}:${this.Port}/ws`);
 	}

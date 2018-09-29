@@ -16,7 +16,8 @@ const FuzzyKnights = (new FuzzyKnightsCommon()).GetFuzzyKnights();
 FuzzyKnights.IsServer = true;
 FuzzyKnights.Server = {
 	Main: app,
-	WebSocket: expressWS.getWss()
+	WebSocket: expressWS.getWss(),
+	UUID: FuzzyKnights.Common.Utility.Functions.NewUUID()
 };
 
 app.use(bodyParser.json());
@@ -33,7 +34,7 @@ app.ws("/ws", function (client, req) {
 	client.UUID = FuzzyKnights.Common.Utility.Functions.NewUUID();
 
 	//TODO Rewrite these kinds of packets to a special condition on the client, as the PacketManager won't be loaded yet on the Client and thus throws an error
-	let _pkt = new FuzzyKnights.Common.Message.Packet.PacketClient(new FuzzyKnights.Common.Message.PlayerConnectMessage(client.UUID));
+	let _pkt = new FuzzyKnights.Common.Message.PlayerConnectMessage(client.UUID);
 	client.send(JSON.stringify(_pkt));
 
 	client.on("message", function(msg) {

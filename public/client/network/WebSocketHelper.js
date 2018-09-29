@@ -1,6 +1,9 @@
+import EnumHandlerType from "./../../common/enum/HandlerType.js";
+
 class WebSocketHelper {
 	constructor(fk, url = `ws://localhost:1337/ws`) {
 		this.FuzzyKnights = fk;
+		this.UUID = null;
 		this.ws = new WebSocket(url);
 		this.ws.onopen = (e) => this.OnOpen(e);
 		this.ws.onmessage = (e) => this.OnMessage(e);
@@ -47,12 +50,14 @@ class WebSocketHelper {
 
 	OnMessage(e) {
 		if(e.isTrusted) {
-			if(true) {
-				//	Something that PacketManager is loaded and normal situation should occur
+			if(this.FuzzyKnights.Common.Message.Packet.PacketManager.ExtractMessage) {
+				this.FuzzyKnights.Common.Message.Packet.PacketManager.ExtractMessage(e.data);
 			} else {
-				//	Something else that considers that the PacketManager might be loaded, but still the first interaction with Server (e.g. PlayerConnectMessage)
+				let msg = JSON.parse(e.data);
+				if(msg.HandlerType && msg.HandlerType == EnumHandlerType.PLAYER) {
+					this.UUID = msg.Payload.UUID;
+				}
 			}
-			this.FuzzyKnights.Common.Message.Packet.PacketManager.ExtractMessage(e.data);
 		}
 	}
 
