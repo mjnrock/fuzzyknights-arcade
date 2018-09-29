@@ -69,7 +69,7 @@ function RunTestCase(iterations = 1) {
 	for(let i = 0; i < iterations; i++) {
 		//*	--REPLACE START--
 		
-		new FuzzyKnights.Common.Entity.EntityCat();
+		new FuzzyKnights.Common.Event.EntityDamageEvent(1,1,1);
 
 		//*	--REPLACE END--
 	}
