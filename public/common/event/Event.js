@@ -1,16 +1,13 @@
 class Event {
-	constructor(messageType, eventType, payload = {}) {
-		this.PreInit(this, arguments);
-
-		this.MessageType = messageType;
-		this.EventType = eventType;
+	constructor(...payload) {
 		this.Payload = payload;
 
 		this.Timestamp = Date.now();
 	}
 
-	PreInit(){}
-	PostInit(){}
+	Invoke(message) {
+		(new message(...this.Payload, Event.FuzzyKnights.IsServer)).Send();
+	}
 }
 
 export { Event };

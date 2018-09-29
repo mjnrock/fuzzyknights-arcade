@@ -12,7 +12,7 @@ class Message {
 	}
 
 	Send() {
-		Message.MANAGER.Send(this);
+		Message.FuzzyKnights.Common.Message.MessageManager.Send(this);
 	}
 }
 

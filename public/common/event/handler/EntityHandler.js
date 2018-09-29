@@ -3,9 +3,15 @@ class EntityHandler {
 		this.FuzzyKnights = fk;
 	}
 
+	onEntityDamageMessage(target, source, damage) {
+		// this.FuzzyKnights.Common.Entity.EntityManager
+		console.log(arguments);
+	}
+
 	ProcessMessage(msg) {
+		let payload = Object.values(msg.Payload);
 		if(msg.MessageType === "EntityDamageMessage") {
-			new this.FuzzyKnights.Common.Event.EntityDamageEvent(msg.Payload.Target, msg.Payload.Source, msg.Payload.Damage);
+			this.onEntityDamageMessage(...payload);
 		}
 	}
 	ReceiveMessage(msg, time = null) {

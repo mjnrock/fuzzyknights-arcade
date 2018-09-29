@@ -18,10 +18,6 @@ class EntityManager {
 		}
 	}
 
-	onEntityDamageEvent(e) {
-		console.log("onEntityDamageEvent", e);
-	}
-
 	HasEntity(entity) {
 		return !!this.Entities[entity.UUID];
 	}

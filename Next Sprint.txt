@@ -9,3 +9,8 @@
 [x]	Invoke xEntityEvent from xEntityEventMessage
 [x]	EntityManager has listener via Registry of xEntityEvents
 [x]	Does work based on the event
+
+
+Invoke Event
+Event Listener gets Event data
+Listener

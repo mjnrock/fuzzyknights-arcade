@@ -55,6 +55,8 @@ class MessageManager {
 			handler = this.FuzzyKnights.Common.Event.Handler.PlayerHandler;
 		} else if(msg.HandlerType === EnumHandlerType.INPUT) {
 			handler = this.FuzzyKnights.Common.Event.Handler.InputHandler;
+		} else if(msg.HandlerType === EnumHandlerType.ENTITY) {
+			handler = this.FuzzyKnights.Common.Event.Handler.EntityHandler;
 		}
 
 		if(handler) {

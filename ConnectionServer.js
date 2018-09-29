@@ -11,14 +11,14 @@ const STDIN = process.openStdin();
 import * as util from "util";
 import FuzzyKnightsCommon from "./public/common/FuzzyKnightsCommon";
 import { PlayerConnectMessage } from "./public/common/message/PlayerConnectMessage";
-const FuzzyKnights = (new FuzzyKnightsCommon()).GetFuzzyKnights();
-
-FuzzyKnights.IsServer = true;
-FuzzyKnights.Server = {
-	Main: app,
-	WebSocket: expressWS.getWss(),
-	UUID: FuzzyKnights.Common.Utility.Functions.NewUUID()
-};
+const FuzzyKnights = (new FuzzyKnightsCommon({
+	IsServer: true,
+	Server: {
+		Main: app,
+		WebSocket: expressWS.getWss()
+	}
+})).GetFuzzyKnights();
+FuzzyKnights.Server.UUID = FuzzyKnights.Common.Utility.Functions.NewUUID();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
