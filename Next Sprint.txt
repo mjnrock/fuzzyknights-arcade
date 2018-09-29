@@ -1,0 +1,7 @@
+Event Messaging Sequence Invocation
+===================================================
+1)  Invoke xEvent (e.g. new xEvent();)
+2)  xEventMessage is Sent to MessageManager
+3)  MessageManager dispatches to xEventHandler
+4)  xEventHandler invoke this.onxEvent(...payload) method
+5)  Performs all work for Event
