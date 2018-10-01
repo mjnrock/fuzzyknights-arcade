@@ -6,8 +6,8 @@ class PlayerHandler {
 	ProcessMessage(msg) {
 		if(msg.MessageType === "PlayerConnectMessage") {
 			if(!this.FuzzyKnights.IsServer) {
-				console.log(msg);
-				// this.FuzzyKnights.Client.Network.ConnectionClient.UUID = 
+				this.FuzzyKnights.Client.Network.ConnectionClient.UUID = msg.Payload.UUID;
+				this.FuzzyKnights.Client.Network.ConnectionClient.WebSocket.UUID = msg.Payload.UUID;
 			}
 		}
 	}

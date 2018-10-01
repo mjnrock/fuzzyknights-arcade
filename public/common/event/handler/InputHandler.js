@@ -9,6 +9,8 @@ class InputHandler {
 		} else if(msg.MessageType === "InputPlayerKeyStateMessage") {
 			if(!this.FuzzyKnights.IsServer) {
 				this.FuzzyKnights.Common.Message.Packet.PacketManager.SpawnServer(msg);
+			} else {
+				console.log(msg);
 			}
 		}
 	}

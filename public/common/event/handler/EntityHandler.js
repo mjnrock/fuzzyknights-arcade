@@ -3,15 +3,19 @@ class EntityHandler {
 		this.FuzzyKnights = fk;
 	}
 
-	onEntityDamageMessage(target, source, damage) {
+	onEntityDamageMessage(msg, target, source, damage) {
 		// this.FuzzyKnights.Common.Entity.EntityManager
 		console.log(arguments);
+		if(this.FuzzyKnights.IsServer) {
+			this.FuzzyKnights.Common.Message.Packet.PacketManager.SpawnBroadcast(msg);
+		}
 	}
 
 	ProcessMessage(msg) {
 		let payload = Object.values(msg.Payload);
 		if(msg.MessageType === "EntityDamageMessage") {
-			this.onEntityDamageMessage(...payload);
+			// this.onEntityDamageMessage(...payload);
+			this.onEntityDamageMessage(msg);
 		}
 	}
 	ReceiveMessage(msg, time = null) {

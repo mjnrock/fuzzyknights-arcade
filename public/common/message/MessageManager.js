@@ -26,10 +26,12 @@ class MessageManager {
 	}
 
 	Receive(msg) {
-		if((msg["HandlerType"] !== null && msg["HandlerType"] !== void 0) || msg instanceof Message) {
-			this.Enqueue(msg);
+		if(msg) {
+			if((msg["HandlerType"] !== null && msg["HandlerType"] !== void 0) || msg instanceof Message) {
+				this.Enqueue(msg);
 
-			return msg;
+				return msg;
+			}
 		}
 
 		return false;

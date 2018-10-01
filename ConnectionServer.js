@@ -47,7 +47,7 @@ app.ws("/ws", function (client, req) {
 			console.log(`[PACKET RECEIVED]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
 
 			if(packet["Message"] !== null && packet["Message"] !== void 0) {
-				FuzzyKnights.Common.Message.MessageManager.Receive(packet.Message);
+				FuzzyKnights.Common.Message.Packet.PacketManager.ExtractMessage(packet);
 			}
 		} catch (e) {
 			console.log("[PACKET FAILURE]: Message could not be extracted");
@@ -89,7 +89,9 @@ STDIN.addListener("data", function(d) {
 		}
 	} else if(args[0] === "ticks") {
 		console.log(JSON.stringify(FuzzyKnights.Common.Game.GameLoop.GetInfo(), null, 2));
-	} else if(args[0] === "exit") {
+	} else if(args[0] === "clients") {
+		console.log(clients.map((v, i) => v.UUID));
+	} else if(args[0] === "exit" || args[0] === "stop") {
 		//  Kill the current Node instance
 		process.exit();
 	} else if(args[0] === "t" || args[0] === "test") {		

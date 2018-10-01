@@ -11,7 +11,19 @@ class PacketManager {
 		this.Packets = packets;
 	}
 
-	UpgradeMessage(packetType, msg, ...args) {
+	ExtractMessage(pkt) {
+		let packet = typeof pkt == "string" || pkt instanceof String ? JSON.parse(pkt) : pkt;
+
+		if(packet) {
+			let msg = packet["Message"] ? packet.Message : packet;
+
+			msg.Sender = packet.Sender;
+			console.log("-----| EXTRACT MESSAGE |-----", msg);
+			return this.FuzzyKnights.Common.Message.MessageManager.Receive(msg);
+		}
+	}
+
+	UpgradeMessage(packetType, msg) {
 		let sender;
 		if(this.FuzzyKnights.IsServer) {
 			sender = this.FuzzyKnights.Server.UUID;
@@ -31,17 +43,17 @@ class PacketManager {
 		}
 	}
 	
-	Spawn(packetType, msg, sender) {
-		return this.Receive(this.UpgradeMessage(packetType, msg, sender));
+	Spawn(packetType, msg) {
+		return this.Receive(this.UpgradeMessage(packetType, msg));
 	}	
-	SpawnServer(msg, sender) {
-		return this.Spawn(EnumPacketType.SERVER, msg, sender);
+	SpawnServer(msg) {
+		return this.Spawn(EnumPacketType.SERVER, msg);
 	}
-	SpawnClient(msg, sender) {
-		return this.Spawn(EnumPacketType.CLIENT, msg, sender);
+	SpawnClient(msg) {
+		return this.Spawn(EnumPacketType.CLIENT, msg);
 	}
-	SpawnBroadcast(msg, sender) {
-		return this.Spawn(EnumPacketType.BROADCAST, msg, sender);
+	SpawnBroadcast(msg) {
+		return this.Spawn(EnumPacketType.BROADCAST, msg);
 	}
 
 	Receive(packet) {
@@ -68,11 +80,9 @@ class PacketManager {
 	}
 
 	SendToClient(packet, uuid) {
-		packet.Sender = this.FuzzyKnights.IsServer ? EnumPacketType.SERVER : EnumPacketType.CLIENT;
-		
+		//TODO	Complete this
 	}
 	SendToAllClients(packet) {
-		packet.Sender = this.FuzzyKnights.IsServer ? EnumPacketType.SERVER : EnumPacketType.CLIENT;
 		if(this.FuzzyKnights.IsServer) {
 			this.FuzzyKnights.Server.WebSocket.clients.forEach((client) => {
 				client.send(JSON.stringify(packet));
@@ -80,7 +90,6 @@ class PacketManager {
 		}
 	}
 	SendToServer(packet) {
-		packet.Sender = this.FuzzyKnights.IsServer ? EnumPacketType.SERVER : EnumPacketType.CLIENT;
 		this.FuzzyKnights.Server.WebSocket.send(JSON.stringify(packet));
 	}
 	
