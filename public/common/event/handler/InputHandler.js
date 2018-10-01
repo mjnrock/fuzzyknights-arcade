@@ -10,7 +10,7 @@ class InputHandler {
 			if(!this.FuzzyKnights.IsServer) {
 				this.FuzzyKnights.Common.Message.Packet.PacketManager.SpawnServer(msg);
 			} else {
-				console.log(msg);
+				//TODO Do something about the key state change
 			}
 		}
 	}

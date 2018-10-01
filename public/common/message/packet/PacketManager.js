@@ -15,10 +15,15 @@ class PacketManager {
 		let packet = typeof pkt == "string" || pkt instanceof String ? JSON.parse(pkt) : pkt;
 
 		if(packet) {
+			if(this.FuzzyKnights.IsServer) {
+				console.log(`[PACKET RECEIVED]: ${packet.PacketType}`);
+			} else {
+				console.log(`[PACKET RECEIVED]: ${packet.PacketType}`, packet);
+			}
+
 			let msg = packet["Message"] ? packet.Message : packet;
 
 			msg.Sender = packet.Sender;
-			console.log("-----| EXTRACT MESSAGE |-----", msg);
 			return this.FuzzyKnights.Common.Message.MessageManager.Receive(msg);
 		}
 	}
@@ -80,7 +85,11 @@ class PacketManager {
 	}
 
 	SendToClient(packet, uuid) {
-		//TODO	Complete this
+		this.FuzzyKnights.Server.WebSocket.clients.forEach((client) => {
+			if(client.UUID == uuid) {
+				client.send(JSON.stringify(packet));
+			}
+		});
 	}
 	SendToAllClients(packet) {
 		if(this.FuzzyKnights.IsServer) {

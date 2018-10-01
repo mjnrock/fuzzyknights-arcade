@@ -65,7 +65,7 @@ app.listen(PORT, () => {
 });
 
 //?		Replace the contents of this function, as necessary
-function RunTestCase(iterations = 1) {
+function RunTestCase(iterations = 1, ...args) {
 	for(let i = 0; i < iterations; i++) {
 		//*	--REPLACE START--
 		
@@ -94,8 +94,9 @@ STDIN.addListener("data", function(d) {
 	} else if(args[0] === "exit" || args[0] === "stop") {
 		//  Kill the current Node instance
 		process.exit();
-	} else if(args[0] === "t" || args[0] === "test") {		
-		RunTestCase(args[1] ? args[1] : 1);
+	} else if(args[0] === "t" || args[0] === "test") {
+		let vars = args.length > 1 ? args.slice(2) : [];
+		RunTestCase(args[1] ? args[1] : 1, ...vars);
 	} else if(args[0] === "eval") {
 		if(args.length > 1) {
 			let input = args.slice(1).join(" ");

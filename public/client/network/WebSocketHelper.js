@@ -49,15 +49,8 @@ class WebSocketHelper {
 	}
 
 	OnMessage(e) {
-		if(e.isTrusted) {
-			if(this.FuzzyKnights.Common.Message.Packet.PacketManager.ExtractMessage) {
-				this.FuzzyKnights.Common.Message.Packet.PacketManager.ExtractMessage(e.data);
-			} else {
-				let msg = JSON.parse(e.data);
-				if(msg.HandlerType && msg.HandlerType == EnumHandlerType.PLAYER) {
-					this.UUID = msg.Payload.UUID;
-				}
-			}
+		if(e.isTrusted && this.FuzzyKnights.Common.Message.Packet.PacketManager.ExtractMessage) {
+			this.FuzzyKnights.Common.Message.Packet.PacketManager.ExtractMessage(e.data);
 		}
 	}
 
