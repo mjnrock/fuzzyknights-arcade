@@ -6,7 +6,6 @@ import Event from "./event/package.js";
 import Component from "./component/package.js";
 import Entity from "./entity/package.js";
 import Game from "./game/package.js";
-import World from "./world/package.js";
 
 export default {
 	Utility,
@@ -17,6 +16,5 @@ export default {
 
 	Component,
 	Entity,
-	Game,
-	World
+	Game
 };

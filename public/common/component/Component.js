@@ -1,8 +1,8 @@
 import { NewUUID } from "../utility/Functions.js";
 
 class Component {
-	constructor(type) {
-		this.Type = type;
+	constructor() {
+		this.Type = this.constructor.name;
 		this.UUID = NewUUID();
 	}
 }

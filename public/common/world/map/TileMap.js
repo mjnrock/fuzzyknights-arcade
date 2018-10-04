@@ -1,5 +1,0 @@
-class TileMap {
-
-}
-
-export { TileMap };

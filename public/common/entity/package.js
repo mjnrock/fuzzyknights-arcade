@@ -1,11 +1,5 @@
-import EntityManager from "./EntityManager.js";
+// import ComponentType from "./ComponentType.js";
 
-import { Entity } from "./Entity.js";
-import { EntityCat } from "./EntityCat.js";
-
-export default {	
-	Entity,
-	EntityCat,
-
-	EntityManager
-}
+export default {
+	// ComponentType
+};

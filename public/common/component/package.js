@@ -1,9 +1,9 @@
 import { Component } from "./Component.js";
-import { Name } from "./Name.js";
-import { Health } from "./Health.js";
+
+import Transformer from "./transformer/Transformer.js";
 
 export default {
 	Component,
-	Name,
-	Health
+
+	Transformer
 }
