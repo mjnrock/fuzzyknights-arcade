@@ -1,3 +1,4 @@
 export default {
-	RESOURCES:		1
+	RESOURCES:		1,
+	ATTRIBUTES:		2
 };

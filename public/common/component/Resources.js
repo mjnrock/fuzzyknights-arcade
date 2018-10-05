@@ -1,5 +1,4 @@
 import EnumComponentType from "./enum/ComponentType.js";
-import EnumResourceType from "./enum/ResourceType.js";
 
 import { Component } from "./Component.js";
 import { Resource } from "./singleton/Resource.js";

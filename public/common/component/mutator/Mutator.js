@@ -1,4 +1,4 @@
-class Transformer {
+class Mutator {
 	constructor(fk) {
 		this.FuzzyKnights = fk;
 	}
@@ -10,4 +10,4 @@ class Transformer {
 	}
 }
 
-export { Transformer };
+export { Mutator };

@@ -7,6 +7,10 @@ class Component {
 		
 		this.Singletons = {};
 	}
+
+	Serialize() {
+		return JSON.stringify(this);
+	}
 }
 
 export { Component };
