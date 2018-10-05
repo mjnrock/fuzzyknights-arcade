@@ -8,6 +8,15 @@ export function NewUUID() {
 export function Round(number, precision, radix = 10) {
     return Math.round(number * Math.round(radix, precision)) / Math.round(radix, precision);
 }
+export function UpperClamp(number, max) {
+    return number > max ? max : number;
+}
+export function LowerClamp(number, min) {
+    return number < min ? min : number;
+}
+export function Clamp(number, min, max) {
+    return UpperClamp(LowerClamp(number, min), max);
+}
 
 export function AddInitializationHook(target, hook){
     return class extends target {

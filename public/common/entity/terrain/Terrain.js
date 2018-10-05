@@ -1,5 +1,5 @@
-import EnumEntityType from "../../enum/bitwise/EntityType";
-import { Entity } from "../Entity";
+import EnumEntityType from "../../enum/bitwise/EntityType.js";
+import { Entity } from "../Entity.js";
 
 class Terrain extends Entity {
 	constructor() {

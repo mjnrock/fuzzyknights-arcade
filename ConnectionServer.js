@@ -11,6 +11,7 @@ const STDIN = process.openStdin();
 import * as util from "util";
 import FuzzyKnightsCommon from "./public/common/FuzzyKnightsCommon";
 import { PlayerConnectMessage } from "./public/common/message/PlayerConnectMessage";
+import TestCase from "./TestCase";
 const FuzzyKnights = (new FuzzyKnightsCommon({
 	IsServer: true,
 	Server: {
@@ -67,11 +68,7 @@ app.listen(PORT, () => {
 //?		Replace the contents of this function, as necessary
 function RunTestCase(iterations = 1, ...args) {
 	for(let i = 0; i < iterations; i++) {
-		//*	--REPLACE START--
-		
-		new FuzzyKnights.Common.Event.EntityDamageEvent(1,1,1);
-
-		//*	--REPLACE END--
+		TestCase(FuzzyKnights, ...args);
 	}
 }
 
