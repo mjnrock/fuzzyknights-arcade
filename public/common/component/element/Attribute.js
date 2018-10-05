@@ -1,6 +1,6 @@
-import { Singleton } from "./Singleton.js";
+import { Element } from "./Element.js";
 
-class Attribute extends Singleton {
+class Attribute extends Element {
 	constructor(type, value, modifiers = []) {
 		super(type);
 		

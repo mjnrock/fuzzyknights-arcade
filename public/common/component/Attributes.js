@@ -1,7 +1,7 @@
 import EnumComponentType from "./enum/ComponentType.js";
 
 import { Component } from "./Component.js";
-import { Attribute } from "./singleton/Attribute.js";
+import { Attribute } from "./element/Attribute.js";
 
 class Attributes extends Component {
 	/**
@@ -11,13 +11,13 @@ class Attributes extends Component {
 		super(EnumComponentType.ATTRIBUTES);
 
 		for(let i in attributes) {
-			this.Singletons[attributes[i][0]] = new Attribute(...attributes[i]);
+			this.Elements[attributes[i][0]] = new Attribute(...attributes[i]);
 		}
 	}
 	
 	RemoveExpiredModifiers() {
-		for(let i in this.Singletons) {
-			this.Singletons[i].RemoveExpiredModifiers();
+		for(let i in this.Elements) {
+			this.Elements[i].RemoveExpiredModifiers();
 		}
 	}
 }

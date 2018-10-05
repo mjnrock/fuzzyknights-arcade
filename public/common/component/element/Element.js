@@ -1,4 +1,4 @@
-class Singleton {
+class Element {
 	constructor(type) {
 		this.Type = type;
 	}
@@ -8,4 +8,4 @@ class Singleton {
 	}
 }
 
-export { Singleton };
+export { Element };

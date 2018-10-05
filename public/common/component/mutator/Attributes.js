@@ -17,10 +17,10 @@ class Attributes extends Mutator {
 	}
 	
 	GetMight(entity) {
-		return this.GetComponent(entity).Singletons[EnumAttributeType.MIGHT];
+		return this.GetComponent(entity).Elements[EnumAttributeType.MIGHT];
 	}
 	GetToughness(entity) {
-		return this.GetComponent(entity).Singletons[EnumAttributeType.TOUGHNESS];
+		return this.GetComponent(entity).Elements[EnumAttributeType.TOUGHNESS];
 	}
 }
 

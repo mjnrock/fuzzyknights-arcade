@@ -5,7 +5,7 @@ class Component {
 		this.Type = type;
 		this.UUID = NewUUID();
 		
-		this.Singletons = {};
+		this.Elements = {};
 	}
 
 	Serialize() {

@@ -1,8 +1,8 @@
 import { LowerClamp, Clamp } from "./../../utility/Functions.js";
 
-import { Singleton } from "./Singleton.js";
+import { Element } from "./Element.js";
 
-class Resource extends Singleton {
+class Resource extends Element {
 	constructor(type, current, max) {
 		super(type);
 		

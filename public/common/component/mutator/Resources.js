@@ -13,10 +13,10 @@ class Resources extends Mutator {
 	}
 	
 	GetHealth(entity) {
-		return this.GetComponent(entity).Singletons[EnumResourceType.HEALTH];
+		return this.GetComponent(entity).Elements[EnumResourceType.HEALTH];
 	}
 	GetMana(entity) {
-		return this.GetComponent(entity).Singletons[EnumResourceType.MANA];
+		return this.GetComponent(entity).Elements[EnumResourceType.MANA];
 	}
 }
 
