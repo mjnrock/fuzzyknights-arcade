@@ -5,7 +5,7 @@ export default function TestCase(FuzzyKnights, ...args) {
 			[FuzzyKnights.Common.Component.Enum.AttributeType.TOUGHNESS, 9, [
 				new FuzzyKnights.Common.Component.Element.AttributeModifier(5, 3000),
 				new FuzzyKnights.Common.Component.Element.AttributeModifier(3, 3000),
-				new FuzzyKnights.Common.Component.Element.AttributeModifier(4, 3000)
+				new FuzzyKnights.Common.Component.Element.AttributeModifier(11, 0, FuzzyKnights.Common.Component.Enum.AttributeModifierType.INHERENT)
 			]]
 		])
 	]);

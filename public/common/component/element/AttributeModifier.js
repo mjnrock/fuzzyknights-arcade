@@ -1,10 +1,27 @@
+//* Presently not sure about this Enum, but the hope is that it will become very useful when maintaining modifiers with multiple skills, abilities, equipment, and levels in play
+import EnumAttributeModifierType from "./../enum/AttributeModifierType.js";
+
 class AttributeModifier {
-	constructor(value, duration) {
+	constructor(value, duration, type = EnumAttributeModifierType.GENERIC) {
+		this.Type = type;
 		this.Value = value;
 
-		//@param Duration	The duration in milliseconds
-		this.Duration = duration;
+		if(this.Type === EnumAttributeModifierType.INHERENT) {
+			this.Duration = AttributeModifier.PERSISTENCE_FLAG;
+		} else {
+			//@param Duration	The duration in milliseconds
+			this.Duration = duration;
+		}
 		this.Timestamp = Date.now();
+	}
+
+	GetType() {
+		return this.Type;
+	}
+	SetType(type) {
+		this.Type = type;
+
+		return ;
 	}
 
 	GetValue() {
@@ -25,9 +42,28 @@ class AttributeModifier {
 		return this;
 	}
 
+	FlagExpired() {
+		this.Duration = AttributeModifier.EXPIRATION_FLAG;
+
+		return this;
+	}
+	FlagPersistence() {
+		this.Duration = AttributeModifier.PERSISTENCE_FLAG;
+
+		return this;
+	}
+
 	IsExpired() {
+		if(this.Duration === AttributeModifier.PERSISTENCE_FLAG) {
+			return false;
+		} else if(this.Duration === AttributeModifier.EXPIRATION_FLAG) {
+			return true;
+		}
+
 		return this.Timestamp + this.Duration < Date.now();
 	}
 }
+AttributeModifier.EXPIRATION_FLAG = 0;
+AttributeModifier.PERSISTENCE_FLAG = -1;
 
 export { AttributeModifier };
