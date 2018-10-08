@@ -4,6 +4,7 @@ import Element from "./element/package.js";
 import { Component } from "./Component.js";
 import { Resources } from "./Resources.js";
 import { Attributes } from "./Attributes.js";
+import { CompoundEntity } from "./CompoundEntity.js";
 
 import Mutator from "./mutator/package.js";
 
@@ -14,6 +15,7 @@ export default {
 	Component,
 	Resources,
 	Attributes,
+	CompoundEntity,
 
 	Mutator
 };
