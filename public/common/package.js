@@ -5,6 +5,7 @@ import Message from "./message/package.js";
 import Event from "./event/package.js";
 import Component from "./component/package.js";
 import Entity from "./entity/package.js";
+import World from "./world/package.js";
 import Game from "./game/package.js";
 
 export default {
@@ -16,5 +17,6 @@ export default {
 
 	Component,
 	Entity,
+	World,
 	Game
 };
