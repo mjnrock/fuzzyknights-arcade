@@ -3,9 +3,13 @@ import Bitwise from "./Bitwise.js";
 import Dice from "./Dice.js";
 import { WeightedPool } from "./WeightedPool.js";
 
+import Physics from "./physics/package.js";
+
 export default {
 	Functions,
 	Bitwise,
 	Dice,
-	WeightedPool
+	WeightedPool,
+
+	Physics
 };

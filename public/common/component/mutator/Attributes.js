@@ -22,6 +22,34 @@ class Attributes extends Mutator {
 	GetToughness(entity) {
 		return this.GetComponent(entity).Elements[EnumAttributeType.TOUGHNESS];
 	}
+
+	MergeAttributes(entity, component, excludedAttributes = [], mergeModifiers = false) {
+		console.log(this.GetComponent(entity).Elements);
+
+		for(let k in component.Elements) {
+			let attr = this.GetComponent(entity).Elements[k];
+
+			if(!excludedAttributes.includes(+k)) {
+				if(attr) {
+					attr.AddValue(component.Elements[k].GetValue());
+					
+					if(mergeModifiers) {
+						attr.AddModifier(...component.Elements[k].Modifiers);
+					}
+				} else {
+					this.GetComponent(entity).Elements[k] = component.Elements[k];
+					
+					if(!mergeModifiers) {
+						this.GetComponent(entity).Elements[k].Modifiers = [];
+					}
+				}
+			}
+		}
+
+		console.log(this.GetComponent(entity).Elements);
+
+		return this;
+	}
 }
 
 export { Attributes };

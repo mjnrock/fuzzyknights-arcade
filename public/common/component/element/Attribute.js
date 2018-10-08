@@ -20,6 +20,11 @@ class Attribute extends Element {
 		
 		return this;
 	}
+	AddValue(value) {
+		this.SetValue(this.Value + value);
+		
+		return this;
+	}
 	
 	GetModifiers() {
 		return this.Modifiers;

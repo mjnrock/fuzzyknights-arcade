@@ -1,4 +1,6 @@
 export default {
-	RESOURCES:		1,
-	ATTRIBUTES:		2
+	RIGID_BODY:			1,
+
+	RESOURCES:			10,
+	ATTRIBUTES:			11
 };
