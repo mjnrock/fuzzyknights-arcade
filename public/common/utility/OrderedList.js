@@ -1,0 +1,126 @@
+class OrderedList {
+	constructor(...elements) {
+		this.IsDirty = false;
+		this.Elements = [];
+
+		this.Push(elements);
+	}
+
+	ToArray() {
+		this.Sort();
+
+		return this.Elements.map((v) => v.v);
+	}
+
+	Get(index) {
+		let ret = this.Elements.filter((v) => +v.i === +index);
+
+		return ret.length ? ret[0] : null;
+	}
+	Set(index, value) {
+		this.Elements.push({
+			i: +index,
+			v: value
+		});
+
+		this.IsDirty = true;
+		return this;
+	}
+
+	Remove(index) {
+		this.Elements = this.Elements.filter((v) => +v.i !== +index);
+
+		this.IsDirty = true;
+		return this;
+	}
+	/**
+	 * @param any value | The Value entry to remove, if present
+	 * @param function filter | A custom function to pass if a strict equality comparison is not appropriate for the Elements "Value" type
+	 */
+	RemoveByValue(value, filter = null) {
+		if(filter && typeof filter === "function") {
+			this.Elements = filter(value, this.Elements, this);
+		} else {
+			this.Elements = this.Elements.filter((v) => v.value !== value);
+		}
+
+		this.IsDirty = true;
+		return this;
+	}
+
+	Swap(index1, index2) {
+		let v1 = this.Get(index1),
+			v2 = this.Get(index2);
+
+		if(v1 && v2) {
+			v1.i = +index2;
+			v2.i = +index1;
+		}
+
+		this.IsDirty = true;
+		return this;
+	}
+
+	Promote(index) {
+		this.Sort();
+
+		let v1 = this.Get(index),
+			v2 = this.Get(index - 1);
+		if(v1) {
+			--v1.i;
+
+			if(v2) {
+				++v2.i;
+			}
+		}
+
+		this.IsDirty = true;
+		return this;
+	}
+	Demote(index) {
+		this.Sort();
+
+		let v1 = this.Get(index),
+			v2 = this.Get(index + 1);
+		if(v1) {
+			++v1.i;
+
+			if(v2) {
+				--v2.i;
+			}
+		}
+
+		this.IsDirty = true;
+		return this;
+	}
+
+	Push(...values) {
+		this.Sort();
+
+		for(let i in values) {
+			this.Elements.push({
+				i: this.Elements.length,
+				v: values[i]
+			});
+		}
+
+		return this;
+	}
+	Pop() {
+		this.Sort();
+
+		return this.Elements[this.Elements.length - 1];
+	}
+
+	Sort() {
+		if(!!this.Elements.length && this.IsDirty) {
+			this.Elements.sort((a, b) => +a.i < +b.i ? -1 : (+a.i > +b.i ? 1 : 0));
+			this.Elements.forEach((v, i) => {
+				v.i = +i;
+			});
+		}
+		this.IsDirty = false;
+
+		return this;
+	}
+}

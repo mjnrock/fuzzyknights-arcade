@@ -3,6 +3,7 @@ import Bitwise from "./Bitwise.js";
 import Dice from "./Dice.js";
 import { WeightedPool } from "./WeightedPool.js";
 import { LinkedList } from "./LinkedList.js";
+import { OrderedList } from "./OrderedList.js";
 
 import Physics from "./physics/package.js";
 
@@ -12,6 +13,7 @@ export default {
 	Dice,
 	WeightedPool,
 	LinkedList,
+	OrderedList,
 
 	Physics
 };
