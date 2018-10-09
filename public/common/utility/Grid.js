@@ -51,7 +51,7 @@ class Grid {
 		return this.Elements[y][x];
 	}
 	Set(x, y, value) {
-		if(value instanceof this.Type || typeof value === this.Type) {
+		if((this.Type !== null && this.Type !== void 0) && (value instanceof this.Type || typeof value === this.Type)) {
 			this.Elements[y][x] = value;
 		}
 
