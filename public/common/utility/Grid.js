@@ -1,7 +1,8 @@
 class Grid {
 	/**
-	 * @param int w | Grid width
-	 * @param int h | Grid height
+	 * @param int width | Grid width
+	 * @param int height | Grid height
+	 * @param int type | The "instanceof {type}" or "typeof value === {type}" of the Type to enforce safe Sets
 	 */
 	constructor(width, height, type) {
 		this.Width = width;
@@ -50,7 +51,9 @@ class Grid {
 		return this.Elements[y][x];
 	}
 	Set(x, y, value) {
-		this.Elements[y][x] = value;
+		if(value instanceof this.Type || typeof value === this.Type) {
+			this.Elements[y][x] = value;
+		}
 
 		return this;
 	}
