@@ -1,5 +1,5 @@
-// import Functions from "./Functions.js";
+import Voxel from "./voxel/package.js";
 
 export default {
-	// Functions
+	Voxel
 };

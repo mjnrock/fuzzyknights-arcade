@@ -1,7 +1,8 @@
-import { Position } from "./../../utility/physics/Position.js";
+import { Position } from "../../utility/physics/Position.js";
 import { OrderedList } from "../../utility/OrderedList.js";
+import { Terrain } from "../../entity/terrain/Terrain.js";
 
-class Node {
+class Voxel {
 	constructor(x, y, z, entities = []) {
 		this.Location = new Position(x, y, z);
 		this.Entities = new OrderedList(entities);
@@ -23,6 +24,12 @@ class Node {
 		});
 	}
 
+	GetTerrain() {
+		let ret = this.Entities.ToArray().filter((v) => v instanceof Terrain);
+
+		return ret.length ? ret[0] : null;
+	}
+
 	GetPosition() {
 		return this.Location.GetValues();
 	}
@@ -32,4 +39,4 @@ class Node {
 	}
 }
 
-export { Node };
+export { Voxel };

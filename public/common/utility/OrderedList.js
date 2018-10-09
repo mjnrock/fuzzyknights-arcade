@@ -35,13 +35,13 @@ class OrderedList {
 	}
 	/**
 	 * @param any value | The Value entry to remove, if present
-	 * @param function filter | A custom function to pass if a strict equality comparison is not appropriate for the Elements "Value" type
+	 * @param function(value, this.Elements, this) filter | A custom function to pass if a strict equality comparison is not appropriate for the Elements "Value" type
 	 */
-	RemoveByValue(value, filter = null) {
+	RemoveByValue(search, filter = null) {
 		if(filter && typeof filter === "function") {
-			this.Elements = filter(value, this.Elements, this);
+			this.Elements = filter(search, this.Elements, this);
 		} else {
-			this.Elements = this.Elements.filter((v) => v.value !== value);
+			this.Elements = this.Elements.filter((v) => v.value !== search);
 		}
 
 		this.IsDirty = true;
@@ -124,3 +124,5 @@ class OrderedList {
 		return this;
 	}
 }
+
+export { OrderedList };
