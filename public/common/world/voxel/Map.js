@@ -1,13 +1,18 @@
-import { Grid } from "./../../utility/Grid.js";
+import { GridXYZ } from "../../utility/GridXYZ.js";
 import { Voxel } from "./Voxel.js";
 
 class Map {
-	/**
-	 * @param int w | Grid width
-	 * @param int h | Grid height
-	 */
-	constructor(width, height) {
-		this.Grid = new Grid(width, height, Voxel);
+	constructor(xmax, ymax, zmax) {
+		this.GridXYZ = new GridXYZ(xmax, ymax, zmax, Voxel);
+	}
+
+	GetVoxel(x, y, z) {
+		return this.GridXYZ.Get(x, y, z);
+	}
+	SetVoxel(x, y, z, voxel) {
+		this.GridXYZ.Set(x, y, z, voxel);
+
+		return this;
 	}
 }
 

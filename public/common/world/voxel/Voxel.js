@@ -1,6 +1,8 @@
 import { Position } from "../../utility/physics/Position.js";
 import { OrderedList } from "../../utility/OrderedList.js";
+
 import { Terrain } from "../../entity/terrain/Terrain.js";
+import { Creature } from "../../entity/creature/Creature.js";
 
 class Voxel {
 	constructor(x, y, z, entities = []) {
@@ -24,11 +26,24 @@ class Voxel {
 		});
 	}
 
-	GetTerrain() {
-		let ret = this.Entities.ToArray().filter((v) => v instanceof Terrain);
+	GetEntitySubClass(type) {
+		let ret = this.Entities.ToArray().filter((v) => v instanceof type);
 
 		return ret.length ? ret[0] : null;
 	}
+	GetCreatures() {
+		return this.GetEntitySubClass(Creature);	// Creature is the import class above
+	}
+	GetTerrain() {
+		return this.GetEntitySubClass(Terrain);		// Terrain is the import class above
+	}
+	//TODO "Item" and "Portal" not completed yet
+	// GetItems() {
+	// 	return this.GetEntitySubClass(Item);
+	// }
+	// GetPortals() {
+	// 	return this.GetEntitySubClass(Portal);
+	// }
 
 	GetPosition() {
 		return this.Location.GetValues();

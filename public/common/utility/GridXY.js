@@ -1,7 +1,7 @@
-class Grid {
+class GridXY {
 	/**
-	 * @param int width | Grid width
-	 * @param int height | Grid height
+	 * @param int width | GridXY width
+	 * @param int height | GridXY height
 	 * @param int type | The "instanceof {type}" or "typeof value === {type}" of the Type to enforce safe Sets
 	 */
 	constructor(width, height, type) {
@@ -24,8 +24,8 @@ class Grid {
 	 * @returns obj//false | X, Y, Value found // FALSE
 	 */
 	Find(search, comparator = null) {
-		for(let y = 0; y < height; y++) {
-			for(let x = 0; x < width; x++) {
+		for(let y = 0; y < this.YMax; y++) {
+			for(let x = 0; x < this.XMax; x++) {
 				if(this.Elements[y][x] === search) {
 					return {
 						X: x,
@@ -69,4 +69,4 @@ class Grid {
 	}
 }
 
-export { Grid };
+export { GridXY };
