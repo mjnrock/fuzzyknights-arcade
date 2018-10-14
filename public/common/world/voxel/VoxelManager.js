@@ -1,6 +1,7 @@
 class VoxelManager {
-	constructor(map = null) {
-		this.Map = map;
+	constructor(fk) {
+		this.FuzzyKnights = fk;
+		this.Map = null;
 	}
 
 	HasMap() {
@@ -21,6 +22,10 @@ class VoxelManager {
 		}
 
 		return this.Map.GetVoxel(x, y, z);
+	}
+
+	Tick(time) {
+		//TODO VoxelManager tick commands
 	}
 }
 

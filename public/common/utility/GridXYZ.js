@@ -57,7 +57,7 @@ class GridXYZ {
 		return this.Elements[z][y][x];
 	}
 	Set(x, y, z, value) {
-		if((this.Type !== null && this.Type !== void 0) && (value instanceof this.Type || typeof value === this.Type)) {
+		if((this.Type !== null && this.Type !== void 0) && ((typeof value === "object" && value instanceof this.Type) || typeof value === this.Type)) {
 			this.Elements[z][y][x] = value;
 		}
 
@@ -72,6 +72,19 @@ class GridXYZ {
 
 	IsEmpty(x, y, z) {
 		return this.Elements[z][y][x] === null || this.Elements[z][y][x] === void 0;
+	}
+	Size() {
+		return this.XMax * this.YMax * this.ZMax;
+	}
+
+	ForEach(callback, args) {
+		for(let z = 0; z < this.ZMax; z++) {
+			for(let y = 0; y < this.YMax; y++) {
+				for(let x = 0; x < this.XMax; x++) {
+					callback(this.Get(x, y, z), this, args);
+				}
+			}
+		}
 	}
 }
 

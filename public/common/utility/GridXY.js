@@ -4,15 +4,15 @@ class GridXY {
 	 * @param int height | GridXY height
 	 * @param int type | The "instanceof {type}" or "typeof value === {type}" of the Type to enforce safe Sets
 	 */
-	constructor(width, height, type) {
-		this.Width = width;
-		this.Height = height;
+	constructor(xmax, ymax, type) {
+		this.XMax = xmax;
+		this.YMax = ymax;
 		this.Type = type;
 
 		this.Elements = [];
-		for(let y = 0; y < height; y++) {
+		for(let y = 0; y < ymax; y++) {
 			this.Elements.push([]);
-			for(let x = 0; x < width; x++) {
+			for(let x = 0; x < xmax; x++) {
 				this.Elements[y].push(null);
 			}
 		}
@@ -51,7 +51,7 @@ class GridXY {
 		return this.Elements[y][x];
 	}
 	Set(x, y, value) {
-		if((this.Type !== null && this.Type !== void 0) && (value instanceof this.Type || typeof value === this.Type)) {
+		if((this.Type !== null && this.Type !== void 0) && ((typeof value === "object" && value instanceof this.Type) || typeof value === this.Type)) {
 			this.Elements[y][x] = value;
 		}
 
@@ -66,6 +66,17 @@ class GridXY {
 
 	IsEmpty(x, y) {
 		return this.Elements[y][x] === null || this.Elements[y][x] === void 0;
+	}
+	Size() {
+		return this.XMax * this.YMax;
+	}
+
+	ForEach(callback, args) {
+		for(let y = 0; y < this.YMax; y++) {
+			for(let x = 0; x < this.XMax; x++) {
+				callback({X: x, Y: y}, this, args);
+			}
+		}
 	}
 }
 

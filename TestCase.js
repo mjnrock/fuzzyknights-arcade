@@ -1,19 +1,8 @@
 export default function TestCase(FuzzyKnights, ...args) {
-	let entity = new FuzzyKnights.Common.Entity.Entity(1, [
-		new FuzzyKnights.Common.Component.Attributes([
-			[FuzzyKnights.Common.Component.Enum.AttributeType.MIGHT, 10]
-		])
-	]);
+	// let map = FuzzyKnights.Common.World.Voxel.MapGenerator.RandomAverage(20, 20);
+	let map = FuzzyKnights.Common.World.Voxel.MapGenerator.CellularAutomata(20, 20);
 
-	let attributes = new FuzzyKnights.Common.Component.Attributes([
-		[FuzzyKnights.Common.Component.Enum.AttributeType.MIGHT, 10],
-		[FuzzyKnights.Common.Component.Enum.AttributeType.TOUGHNESS, 9, [
-			new FuzzyKnights.Common.Component.Element.AttributeModifier(5, 3000),
-			new FuzzyKnights.Common.Component.Element.AttributeModifier(3, 3000),
-			new FuzzyKnights.Common.Component.Element.AttributeModifier(11, 0, FuzzyKnights.Common.Component.Enum.AttributeModifierType.INHERENT)
-		]]
-	]);
-
-	let TX = new FuzzyKnights.Common.Component.Mutator.Attributes(FuzzyKnights);
-	TX.MergeAttributes(entity, attributes, [], true);
+	map.Run();
+	console.log(map.Cells.Elements.map(v => v.join(",")).join("\n"));
+	// console.log(JSON.stringify(map.Cells.Elements));
 };

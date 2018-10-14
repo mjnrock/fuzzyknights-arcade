@@ -30,5 +30,8 @@ export function AddInitializationHook(target, hook){
 export default {
 	NewUUID,
 	Round,
+	UpperClamp,
+	LowerClamp,
+	Clamp,
 	AddInitializationHook
 };
