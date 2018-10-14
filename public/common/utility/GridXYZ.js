@@ -1,3 +1,4 @@
+//?	All constructs of Z are assumed to be the "Stacking Axis" for an X,Y Plane
 class GridXYZ {
 	/**
 	 * @param int type | The "instanceof {type}" or "typeof value === {type}" of the Type to enforce safe Sets
