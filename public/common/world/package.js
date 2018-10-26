@@ -1,8 +1,8 @@
-import Node from "./node/package.js";
+import Tile from "./tile/package.js";
 import { WorldManager } from "./WorldManager.js";
 
 export default {
-	Node,
+	Tile,
 
 	WorldManager
 };

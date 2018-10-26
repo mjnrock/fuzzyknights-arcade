@@ -112,6 +112,10 @@ class OrderedList {
 		return this.Elements[this.Elements.length - 1];
 	}
 
+	Size() {
+		return this.Elements.length;
+	}
+
 	Sort() {
 		if(!!this.Elements.length && this.IsDirty) {
 			this.Elements.sort((a, b) => +a.i < +b.i ? -1 : (+a.i > +b.i ? 1 : 0));

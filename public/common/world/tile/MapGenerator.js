@@ -19,7 +19,7 @@ class CellularAutomata {
 	}
 
 	Run() {
-		this.Cells.ForEach((p, g, a) => {
+		this.Cells.ForEach((p, e, g, a) => {
 			// g.Set(p.X, p.Y, Math.random() < a[0] ? 255 : 0);
 			g.Set(p.X, p.Y, Math.random() < a[0] ? true : false);
 		}, [this.BirthRate]);
@@ -35,7 +35,7 @@ class CellularAutomata {
 		// let grid1 = new GridXY(this.XMax, this.YMax, "number");
 		let grid1 = new GridXY(this.XMax, this.YMax, "boolean");
 
-		grid0.ForEach((p, g, a) => {
+		grid0.ForEach((p, e, g, a) => {
 			let n = a[0].CountAliveNeighbors(a[1], p.X, p.Y);
 			if (!!a[1].Get(p.X, p.Y)) {
 				// a[2].Set(p.X, p.Y, !(n < a[0].DeathThreshold) ? 255 : 0);
@@ -77,11 +77,11 @@ class RandomAverage {
 	}
 
 	Run() {
-		this.Cells.ForEach((p, g, a) => {
+		this.Cells.ForEach((p, e, g, a) => {
 			g.Set(p.X, p.Y, Dice.Random(0, 255));
 		});
 
-		this.Cells.ForEach(function (p, g, a) {
+		this.Cells.ForEach(function (p, e, g, a) {
 			let avg = Functions.Round(a[0].GetNeighbors(p.X, p.Y), 0);
 			a[0].CellAverage += avg;
 

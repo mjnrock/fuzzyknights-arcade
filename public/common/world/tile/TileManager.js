@@ -16,12 +16,12 @@ class TileManager {
 		return this;
 	}
 
-	GetVoxel(x, y, z = 0) {
+	GetVoxel(x, y) {
 		if(!this.HasMap()) {
 			return false;
 		}
 
-		return this.Map.GetNode(x, y, z);
+		return this.Map.GetNode(x, y);
 	}
 
 	Tick(time) {

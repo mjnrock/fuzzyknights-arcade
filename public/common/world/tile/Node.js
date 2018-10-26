@@ -21,11 +21,19 @@ class Node {
 		this.Entities.Push(entity);
 	}
 	RemoveEntity(entity) {
+		let len = this.Entities.Size();
 		this.Entities.RemoveByValue(entity, (entity, entities) => {
 			entities.filter((v) => v.UUID !== entity.UUID);
 		});
+
+		//	Proxy for if anything was removed
+		return len > this.Entities.Size();
 	}
 
+	/**
+	 * Used to extract a particular Class of Entity
+	 * @param Class type 
+	 */
 	GetEntitySubClass(type) {
 		let ret = this.Entities.ToArray().filter((v) => v instanceof type);
 

@@ -74,7 +74,7 @@ class GridXY {
 	ForEach(callback, args) {
 		for(let y = 0; y < this.YMax; y++) {
 			for(let x = 0; x < this.XMax; x++) {
-				callback({X: x, Y: y}, this, args);
+				callback({X: x, Y: y}, this.Elements[y][x], this, args);
 			}
 		}
 	}
