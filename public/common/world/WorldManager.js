@@ -1,5 +1,3 @@
-import EnumMapType from "./../enum/MapType.js";
-
 class WorldManager {
 	constructor(fk) {
 		this.FuzzyKnights = fk;

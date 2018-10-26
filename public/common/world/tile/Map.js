@@ -2,7 +2,7 @@ import { GridXY } from "../../utility/GridXY.js";
 import { Node } from "./Node.js";
 
 class Map {
-	constructor(xmax, ymax = 255) {
+	constructor(xmax, ymax) {
 		this.Grid = new GridXY(xmax, ymax, Node);
 	}
 
