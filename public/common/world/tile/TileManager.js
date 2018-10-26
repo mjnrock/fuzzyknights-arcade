@@ -1,4 +1,4 @@
-class VoxelManager {
+class TileManager {
 	constructor(fk) {
 		this.FuzzyKnights = fk;
 		this.Map = null;
@@ -21,12 +21,12 @@ class VoxelManager {
 			return false;
 		}
 
-		return this.Map.GetVoxel(x, y, z);
+		return this.Map.GetNode(x, y, z);
 	}
 
 	Tick(time) {
-		//TODO VoxelManager tick commands
+		//TODO TileManager tick commands
 	}
 }
 
-export { VoxelManager };
+export { TileManager };

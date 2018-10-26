@@ -1,8 +1,8 @@
-import Voxel from "./voxel/package.js";
+import Node from "./node/package.js";
 import { WorldManager } from "./WorldManager.js";
 
 export default {
-	Voxel,
+	Node,
 
 	WorldManager
 };

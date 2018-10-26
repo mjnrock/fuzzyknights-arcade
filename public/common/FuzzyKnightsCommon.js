@@ -18,9 +18,9 @@ class FuzzyKnightsCommon {
 		//@ PacketManager
 		this.FuzzyKnights.Common.Message.Packet.PacketManager = new this.FuzzyKnights.Common.Message.Packet.PacketManager(this.FuzzyKnights);
 		this.FuzzyKnights.Common.Game.GameLoop.AddManager(this.FuzzyKnights.Common.Message.Packet.PacketManager);
-		//@ VoxelManager
-		this.FuzzyKnights.Common.World.Voxel.VoxelManager = new this.FuzzyKnights.Common.World.Voxel.VoxelManager(this.FuzzyKnights);
-		this.FuzzyKnights.Common.Game.GameLoop.AddManager(this.FuzzyKnights.Common.World.Voxel.VoxelManager);
+		//@ TileManager
+		this.FuzzyKnights.Common.World.Tile.TileManager = new this.FuzzyKnights.Common.World.Tile.TileManager(this.FuzzyKnights);
+		this.FuzzyKnights.Common.Game.GameLoop.AddManager(this.FuzzyKnights.Common.World.Tile.TileManager);
 		//@ WorldManager
 		this.FuzzyKnights.Common.World.WorldManager = new this.FuzzyKnights.Common.World.WorldManager(this.FuzzyKnights);
 		this.FuzzyKnights.Common.Game.GameLoop.AddManager(this.FuzzyKnights.Common.World.WorldManager);

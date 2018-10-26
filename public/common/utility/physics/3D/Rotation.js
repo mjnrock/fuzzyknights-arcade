@@ -24,9 +24,9 @@ class Rotation {
 	}
 
 	Set(p, y, r) {
-		this.Pitch = p === void 0 ? this.Pitch : p;
-		this.Yaw = y === void 0 ? this.Yaw : y;
-		this.Roll = r === void 0 ? this.Roll : r;
+		this.Pitch = (p === null || p === void 0) ? this.Pitch : p;
+		this.Yaw = (y === null || y === void 0) ? this.Yaw : y;
+		this.Roll = (r === null || r === void 0) ? this.Roll : r;
 
 		return this;
 	}

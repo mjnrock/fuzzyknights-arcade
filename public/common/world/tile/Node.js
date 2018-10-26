@@ -1,20 +1,20 @@
-import { Position } from "../../utility/physics/Position.js";
+import { Position } from "../../utility/physics/2D/Position.js";
 import { OrderedList } from "../../utility/OrderedList.js";
 
 import { Terrain } from "../../entity/terrain/Terrain.js";
 import { Creature } from "../../entity/creature/Creature.js";
 
-class Voxel {
-	constructor(x, y, z, entities = []) {
-		this.Location = new Position(x, y, z);
+class Node {
+	constructor(x, y, entities = []) {
+		this.Location = new Position(x, y);
 		this.Entities = new OrderedList(entities);
 	}
 
 	GetLocation() {
 		return this.Location;
 	}
-	SetLocation(x, y, z) {
-		this.Location = new Position(x, y, z);
+	SetLocation(x, y) {
+		this.Location = new Position(x, y);
 	}
 
 	AddEntity(entity) {
@@ -54,4 +54,4 @@ class Voxel {
 	}
 }
 
-export { Voxel };
+export { Node };
