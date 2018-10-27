@@ -3,14 +3,18 @@ import { Node } from "./Node.js";
 
 class Map {
 	constructor(xmax, ymax) {
-		this.Grid = new GridXY(xmax, ymax, Node);
+		this.Grid = new GridXY(xmax, ymax, Node, (x, y, t) => {
+			return [x, y];
+		});
+
+		this.HasCreatures = false;
 	}
 
 	GetNode(x, y) {
-		return super.Get(x, y);
+		return this.Grid.Get(x, y);
 	}
 	SetNode(x, y, node) {
-		super.Set(x, y, node);
+		this.Grid.Set(x, y, node);
 
 		return this;
 	}
@@ -23,6 +27,17 @@ class Map {
 		this.Grid.ForEach((p, n, t) => {
 			n.RemoveEntity(entity);
 		});
+
+		return this;
+	}
+
+	IsOccupied() {
+		this.Grid.ForEach((p, e, t) => {
+			console.log(e.IsOccupied());
+			// this.HasCreatures = this.HasCreatures || e.IsOccupied();
+		});
+
+		return this.HasCreatures;
 	}
 
 	MoveEntity(entity, x0, y0, x1, y1) {
@@ -31,6 +46,8 @@ class Map {
 
 		n0.RemoveEntity(entity);
 		n1.AddEntity(entity);
+
+		return this;
 	}
 }
 

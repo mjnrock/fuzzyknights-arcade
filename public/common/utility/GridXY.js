@@ -4,7 +4,7 @@ class GridXY {
 	 * @param int height | GridXY height
 	 * @param int type | The "instanceof {type}" or "typeof value === {type}" of the Type to enforce safe Sets
 	 */
-	constructor(xmax, ymax, type) {
+	constructor(xmax, ymax, type, seedFn = null) {
 		this.XMax = xmax;
 		this.YMax = ymax;
 		this.Type = type;
@@ -13,7 +13,11 @@ class GridXY {
 		for(let y = 0; y < ymax; y++) {
 			this.Elements.push([]);
 			for(let x = 0; x < xmax; x++) {
-				this.Elements[y].push(null);
+				if(typeof seedFn === "function") {
+					this.Elements[y].push(new type(...seedFn(x, y, this)));
+				} else {
+					this.Elements[y].push(null);
+				}
 			}
 		}
 	}
@@ -77,6 +81,8 @@ class GridXY {
 				callback({X: x, Y: y}, this.Elements[y][x], this, args);
 			}
 		}
+
+		return this;
 	}
 }
 

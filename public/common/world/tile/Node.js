@@ -5,9 +5,11 @@ import { Terrain } from "../../entity/terrain/Terrain.js";
 import { Creature } from "../../entity/creature/Creature.js";
 
 class Node {
-	constructor(x, y, entities = []) {
+	constructor(x, y, entities = null) {
 		this.Location = new Position(x, y);
 		this.Entities = new OrderedList(entities);
+
+		this.HasCreatures = false;
 	}
 
 	GetLocation() {
@@ -15,10 +17,17 @@ class Node {
 	}
 	SetLocation(x, y) {
 		this.Location = new Position(x, y);
+
+		return this;
 	}
 
 	AddEntity(entity) {
-		this.Entities.Push(entity);
+		if(!this.Entities.Contains(entity)) {
+			this.Entities.Push(entity);
+			this.CheckCreatures();
+		}
+
+		return this;
 	}
 	RemoveEntity(entity) {
 		let len = this.Entities.Size();
@@ -26,6 +35,7 @@ class Node {
 			entities.filter((v) => v.UUID !== entity.UUID);
 		});
 
+		this.CheckCreatures();
 		//	Proxy for if anything was removed
 		return len > this.Entities.Size();
 	}
@@ -37,7 +47,7 @@ class Node {
 	GetEntitySubClass(type) {
 		let ret = this.Entities.ToArray().filter((v) => v instanceof type);
 
-		return ret.length ? ret[0] : null;
+		return ret.length > 0 ? ret : [];
 	}
 	GetCreatures() {
 		return this.GetEntitySubClass(Creature);	// Creature is the import class above
@@ -59,6 +69,18 @@ class Node {
 
 	GetEntityArray() {
 		return this.Entities.ToArray();
+	}
+
+	CheckCreatures() {
+		this.HasCreatures = this.GetCreatures().length > 0;
+
+		return this;
+	}
+	/**
+	 * A function to determine whether or not the Node needs a Tick() update
+	 */
+	IsOccupied() {
+		return this.HasCreatures;
 	}
 }
 

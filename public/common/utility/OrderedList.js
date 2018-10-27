@@ -3,7 +3,7 @@ class OrderedList {
 		this.IsDirty = false;
 		this.Elements = [];
 
-		this.Push(elements);
+		this.Push(...elements);
 	}
 
 	ToArray() {
@@ -13,6 +13,8 @@ class OrderedList {
 	}
 
 	Get(index) {
+		this.Sort();
+
 		let ret = this.Elements.filter((v) => +v.i === +index);
 
 		return ret.length ? ret[0] : null;
@@ -27,7 +29,17 @@ class OrderedList {
 		return this;
 	}
 
+	Contains(item) {
+		if(this.Elements.length === 0) {
+			return false;
+		}
+
+		return this.Elements.map((v) => v.v).includes(item);
+	}
+
 	Remove(index) {
+		this.Sort();
+		
 		this.Elements = this.Elements.filter((v) => +v.i !== +index);
 
 		this.IsDirty = true;
@@ -95,13 +107,15 @@ class OrderedList {
 	}
 
 	Push(...values) {
-		this.Sort();
+		if(values[0] !== null && values[0] !== void 0) {
+			this.Sort();
 
-		for(let i in values) {
-			this.Elements.push({
-				i: this.Elements.length,
-				v: values[i]
-			});
+			for(let i in values) {
+				this.Elements.push({
+					i: this.Elements.length,
+					v: values[i]
+				});
+			}
 		}
 
 		return this;

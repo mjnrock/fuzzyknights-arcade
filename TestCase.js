@@ -1,20 +1,53 @@
 export default function TestCase(FuzzyKnights, ...args) {
-	let entity = new FuzzyKnights.Common.Entity.Entity(
-		1,
+	let entity = new FuzzyKnights.Common.Entity.Creature.Creature(
 		[
 			// new FuzzyKnights.Common.Component.Attributes([
 			// 	[FuzzyKnights.Common.Component.Enum.AttributeType.MIGHT, 10],
 			// 	[FuzzyKnights.Common.Component.Enum.AttributeType.TOUGHNESS, 10]
 			// ]),
 			new FuzzyKnights.Common.Component.Maps([
-				[FuzzyKnights.Common.Component.Enum.MapType.TILE, 2, 2]
+				[FuzzyKnights.Common.Component.Enum.MapType.TILE, 0, 0]
+			])
+		]
+	);
+	let entity2 = new FuzzyKnights.Common.Entity.Creature.Creature(
+		[
+			// new FuzzyKnights.Common.Component.Attributes([
+			// 	[FuzzyKnights.Common.Component.Enum.AttributeType.MIGHT, 10],
+			// 	[FuzzyKnights.Common.Component.Enum.AttributeType.TOUGHNESS, 10]
+			// ]),
+			new FuzzyKnights.Common.Component.Maps([
+				[FuzzyKnights.Common.Component.Enum.MapType.TILE, 1, 1]
+			])
+		]
+	);
+	let terrain = new FuzzyKnights.Common.Entity.Terrain.Grass(
+		[
+			// new FuzzyKnights.Common.Component.Attributes([
+			// 	[FuzzyKnights.Common.Component.Enum.AttributeType.MIGHT, 10],
+			// 	[FuzzyKnights.Common.Component.Enum.AttributeType.TOUGHNESS, 10]
+			// ]),
+			new FuzzyKnights.Common.Component.Maps([
+				[FuzzyKnights.Common.Component.Enum.MapType.TILE, 0, 0]
 			])
 		]
 	);
 
-	let map = new FuzzyKnights.Common.World.Tile.Map(25, 25);
-
+	let map = new FuzzyKnights.Common.World.Tile.Map(1, 1);	
+	let node = map.GetNode(0, 0);
+	
 	console.log(JSON.stringify(entity));
+	console.log(JSON.stringify(terrain));
+
+	// map.IsOccupied();
+	// console.log(map.IsOccupied());
+	node.AddEntity(terrain);
+	node.AddEntity(terrain);
+	console.log(JSON.stringify(node));
+	map.IsOccupied();
+	// console.log(map.IsOccupied());
+
+	// console.log(JSON.stringify(map));
 };
 
 //	WORLD GENERATION

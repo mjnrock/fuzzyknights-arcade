@@ -6,9 +6,9 @@ class TerrainInfo extends Component {
 	constructor(type, nav, meta) {
 		super(EnumComponentType.TERRAIN_INFO);
 
-		Type = type;
-		Navigability = nav;
-		Meta = meta;
+		this.Type = type;
+		this.Navigability = nav;
+		this.Meta = meta;
 	}
 }
 
