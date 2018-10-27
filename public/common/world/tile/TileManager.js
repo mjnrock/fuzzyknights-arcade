@@ -1,27 +1,22 @@
 class TileManager {
 	constructor(fk) {
 		this.FuzzyKnights = fk;
-		this.Map = null;
+
+		//TODO Maintain a list of Maps that have active Player entities
+		//TODO If on Client side, only maintain Player's active map
+		this.Maps = [];
 	}
 
 	HasMap() {
-		return this.Map !== null && this.Map !== void 0;
+		return this.Maps.length > 0;
 	}
-	GetMap() {
-		return this.Map;
+	GetMaps() {
+		return this.Maps;
 	}
-	SetMap(map) {
-		this.Map = map;
+	SetMaps(maps) {
+		this.Maps = maps;
 
 		return this;
-	}
-
-	GetVoxel(x, y) {
-		if(!this.HasMap()) {
-			return false;
-		}
-
-		return this.Map.GetNode(x, y);
 	}
 
 	Tick(time) {
