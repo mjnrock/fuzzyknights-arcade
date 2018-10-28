@@ -1,7 +1,7 @@
 class GameLoop {
-	constructor(ticksPerSecond = 5, managers = []) {
+	constructor(ticksPerSecond = 5) {
 		this.TicksPerSecond = ticksPerSecond;
-		this.Managers = managers;
+		this.TickHook = null;
 
 		this.Ticks = 0;
 		this.LastTime = 0;
@@ -21,8 +21,8 @@ class GameLoop {
 		};
 	}
 
-	AddManager(manager) {
-		this.Managers.push(manager);
+	SetTickHook(callback) {
+		this.TickHook = callback;
 
 		return this;
 	}
@@ -75,9 +75,7 @@ class GameLoop {
 		let ms = time - this.LastTime;
 		this.LastTime = time;
 
-		for(let i = 0; i < this.Managers.length; i++) {
-			this.Managers[i].Tick(ms / 1000);
-		}
+		this.TickHook(ms / 1000);
 	}
 }
 

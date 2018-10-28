@@ -13,7 +13,7 @@ class InputHandler {
 		} else {
 			//TODO Lookup msg.Sender (which should be player UUID here), grab Player's Entity UUID and pass below
 			//	msg.Sender
-			this.FuzzyKnights.Common.Event.Spawn.EntityStateChangeEvent()
+			// this.FuzzyKnights.Common.Event.Spawn.EntityStateChangeEvent();
 		}
 	}
 

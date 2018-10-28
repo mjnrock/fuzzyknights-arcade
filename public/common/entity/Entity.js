@@ -15,8 +15,6 @@ class Entity {
 			]),
 			...components
 		];
-
-		//TODO Add anything that ALL entities should have here (e.g. Position, Physics, etc.).  Treat this class like the VOXEL/TENSOR class in brainstorming.  "Entities", per se, are of type CREATURE.
 	}
 
 	Tick(time) {
