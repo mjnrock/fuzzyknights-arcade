@@ -14,3 +14,4 @@ MAP POSITION UPDATE
 2)  Component > Mutator > States should invoke other Mutators, as necessary, on State changes
     a)  Can also/instead just fire Events and have other Mutators pick up the messages
 3)  Grab the .GetInfo() from GameLoop, and use Date.now() and LastTime to calculate elapsed time for applying Velocities
+4)  GameLoop .Tick(time) should have time=delta_time, so every Manager already has the delta for calculations (currently in secs)
