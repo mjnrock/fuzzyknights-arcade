@@ -30,8 +30,17 @@ app.use(function(req, res, next) {
 });
 app.use(express.static(path.join(__dirname, "public")));
 
+
+//TODO Build "Debug Logger" class that, by a CONFIG FS file, will or will not send parameter input into "console.log"
+//TODO	DebugLogger.Cout(`[CLIENT CONNECTED]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
+//TODO	DebugLogger.HandlerReceive(this.constructor.name as name, msg) ===> `[MESSAGE RECEIVED - ${name}]: ${msg.MessageType}`;
+const DebugLogger = {
+	IsDebugMode: true,
+	Log: (...input) => DebugLogger.IsDebugMode ? console.log(...input) : null
+}
+
 app.ws("/ws", function (client, req) {
-	console.log(`[CLIENT CONNECTED]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
+	DebugLogger.Log(`[CLIENT CONNECTED]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
 	client.UUID = FuzzyKnights.Common.Utility.Functions.NewUUID();
 	FuzzyKnights.Common.Event.Spawn.PlayerConnectEvent(client.UUID);
 
@@ -42,19 +51,19 @@ app.ws("/ws", function (client, req) {
 			//!	Debugging
 			// console.log(client._socket.address());
 			// console.log(client.clients);
-			console.log(`[PACKET RECEIVED]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
+			DebugLogger.Log(`[PACKET RECEIVED]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
 
 			if(packet["Message"] !== null && packet["Message"] !== void 0) {
 				FuzzyKnights.Common.Message.Packet.PacketManager.ExtractMessage(packet);
 			}
 		} catch (e) {
-			console.log("[PACKET FAILURE]: Message could not be extracted");
-			console.log(e);
+			DebugLogger.Log("[PACKET FAILURE]: Message could not be extracted");
+			DebugLogger.Log(e);
 		}
 	});
 
 	client.on("close", function() {
-		console.log(`[CLIENT DISCONNECTED]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
+		DebugLogger.Log(`[CLIENT DISCONNECTED]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
 		FuzzyKnights.Common.Event.Spawn.PlayerDisconnectEvent(client.UUID);
 	});
 });
