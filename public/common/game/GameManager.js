@@ -31,8 +31,8 @@ class GameManager {
 	GetPlayer(uuid) {
 		return this.Players[uuid];
 	}
-	SetPlayer(uuid, entity) {
-		this.Players[uuid] = entity;
+	SetPlayer(uuid, player) {
+		this.Players[uuid] = player;
 
 		return this;
 	}

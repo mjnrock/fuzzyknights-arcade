@@ -33,10 +33,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.ws("/ws", function (client, req) {
 	console.log(`[CLIENT CONNECTED]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
 	client.UUID = FuzzyKnights.Common.Utility.Functions.NewUUID();
-
-	//TODO Rewrite these kinds of packets to a special condition on the client, as the PacketManager won't be loaded yet on the Client and thus throws an error
-	let _pkt = new FuzzyKnights.Common.Message.PlayerConnectMessage(client.UUID);
-	client.send(JSON.stringify(_pkt));
+	FuzzyKnights.Common.Event.Spawn.PlayerConnectEvent(client.UUID);
 
 	client.on("message", function(msg) {
 		try {
@@ -58,6 +55,7 @@ app.ws("/ws", function (client, req) {
 
 	client.on("close", function() {
 		console.log(`[CLIENT DISCONNECTED]: { Timestamp: ${Date.now()}, IP: ${req.connection.remoteAddress} }`);
+		FuzzyKnights.Common.Event.Spawn.PlayerDisconnectEvent(client.UUID);
 	});
 });
 

@@ -3,14 +3,14 @@ import EnumEventType from "../enum/EventType.js";
 
 import { Event } from "./Event.js";
 
-class PlayerConnectEvent extends Event {
+class PlayerDisconnectEvent extends Event {
 	constructor(uuid) {
 		super(
 			uuid
 		);
 		
-		super.Invoke(Event.FuzzyKnights.Common.Message.PlayerConnectMessage);
+		super.Invoke(Event.FuzzyKnights.Common.Message.PlayerDisconnectMessage);
 	}
 }
 
-export { PlayerConnectEvent };
+export { PlayerDisconnectEvent };

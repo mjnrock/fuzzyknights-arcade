@@ -28,7 +28,7 @@ class PacketManager {
 		}
 	}
 
-	UpgradeMessage(packetType, msg) {
+	UpgradeMessage(packetType, msg, receiver = null) {
 		let sender;
 		if(this.FuzzyKnights.IsServer) {
 			sender = this.FuzzyKnights.Server.UUID;
@@ -40,7 +40,7 @@ class PacketManager {
 			case EnumPacketType.SERVER:
 				return new PacketServer(msg, sender);
 			case EnumPacketType.CLIENT:
-				return new PacketClient(msg, sender);
+				return new PacketClient(msg, sender, receiver);
 			case EnumPacketType.BROADCAST:
 				return new PacketBroadcast(msg, sender);
 			default:
@@ -48,14 +48,14 @@ class PacketManager {
 		}
 	}
 	
-	Spawn(packetType, msg) {
-		return this.Receive(this.UpgradeMessage(packetType, msg));
+	Spawn(packetType, msg, receiver) {
+		return this.Receive(this.UpgradeMessage(packetType, msg, receiver));
 	}	
 	SpawnServer(msg) {
 		return this.Spawn(EnumPacketType.SERVER, msg);
 	}
-	SpawnClient(msg) {
-		return this.Spawn(EnumPacketType.CLIENT, msg);
+	SpawnClient(msg, uuid) {
+		return this.Spawn(EnumPacketType.CLIENT, msg, uuid);
 	}
 	SpawnBroadcast(msg) {
 		return this.Spawn(EnumPacketType.BROADCAST, msg);
@@ -84,9 +84,9 @@ class PacketManager {
 		return false;
 	}
 
-	SendToClient(packet, uuid) {
+	SendToClient(packet) {
 		this.FuzzyKnights.Server.WebSocket.clients.forEach((client) => {
-			if(client.UUID == uuid) {
+			if(client.UUID == packet.Receiver) {
 				client.send(JSON.stringify(packet));
 			}
 		});
@@ -114,7 +114,8 @@ class PacketManager {
 				this.SendToServer(packet);
 				return true;
 			case EnumPacketType.CLIENT:
-				this.SendToClient(packet, packet.Clients);
+				// this.SendToClient(packet, packet.Clients);
+				this.SendToClient(packet);
 				return true;
 			case EnumPacketType.BROADCAST:
 				this.SendToAllClients(packet);
