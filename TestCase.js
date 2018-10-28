@@ -50,7 +50,11 @@ export default function TestCase(FuzzyKnights, ...args) {
 	FuzzyKnights.Common.Component.Mutator.Maps.SetMap(entity, map);
 	
 	let m2 = FuzzyKnights.Common.Component.Mutator.Maps.Move(entity, 0, 0, 1, 1);
-	console.log(JSON.stringify(entity));
+	FuzzyKnights.Common.Entity.EntityManager.Register(entity);
+	console.log(JSON.stringify(FuzzyKnights.Common.Entity.EntityManager.Entities));
+	FuzzyKnights.Common.Entity.EntityManager.Unregister(entity);
+	console.log(JSON.stringify(FuzzyKnights.Common.Entity.EntityManager.Entities));
+	
 	// console.log(JSON.stringify(node));
 	// map.IsOccupied();
 	// console.log(map.IsOccupied());

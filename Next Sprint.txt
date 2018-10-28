@@ -7,11 +7,26 @@ Event Messaging Sequence Invocation
 5)  Performs all work for Event
 
 
+GAME MANAGER
+===================================================
+1)  Build GameManager that holds a full copy of the Game
+2)  Store all active players and deal accordingly from this Manager
+3)  Build with strong sided functionality so Client and Server can use for easily
+4)  Once Player management paradigm completed, continue with {{MAP POSITION UPDATE}}
+
+
 MAP POSITION UPDATE
 ===================================================
-1)  EntityHandler > onInputPlayerKeyStateMessage should invoke Component > Mutator > States > some InputKeyStateMessage handler function
+1)  InputHandler > onInputPlayerKeyStateMessage should invoke Component > Mutator > States > some InputKeyStateMessage handler function
     a)  Segment handler function into different types for MOVEMENT, ACTION, etc.
 2)  Component > Mutator > States should invoke other Mutators, as necessary, on State changes
     a)  Can also/instead just fire Events and have other Mutators pick up the messages
-3)  Grab the .GetInfo() from GameLoop, and use Date.now() and LastTime to calculate elapsed time for applying Velocities
-4)  GameLoop .Tick(time) should have time=delta_time, so every Manager already has the delta for calculations (currently in secs)
+3)  Invoke Position changed Messages/Events and propagate appropriately
+    a)  .Tick(time) already gets the tick time delta
+
+
+DATA WATCHER
+===================================================
+1)  Build Master/Slave setup where any Server changes invoke Messages/Packets to Client(s)
+    a)  If Client changes, only send to Server if necessary
+    b)  Hook all changes into Event Bus, so all changes will invoke Messages/Packets when necessary

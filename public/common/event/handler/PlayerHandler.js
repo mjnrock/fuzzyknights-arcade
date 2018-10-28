@@ -3,12 +3,17 @@ class PlayerHandler {
 		this.FuzzyKnights = fk;
 	}
 
+	onPlayerConnectMessage(msg) {
+		if(!this.FuzzyKnights.IsServer) {
+			this.FuzzyKnights.Client.Network.ConnectionClient.UUID = msg.Payload.UUID;
+			this.FuzzyKnights.Client.Network.ConnectionClient.WebSocket.UUID = msg.Payload.UUID;
+		}
+	}
+
 	ProcessMessage(msg) {
+		let payload = Object.values(msg.Payload);
 		if(msg.MessageType === "PlayerConnectMessage") {
-			if(!this.FuzzyKnights.IsServer) {
-				this.FuzzyKnights.Client.Network.ConnectionClient.UUID = msg.Payload.UUID;
-				this.FuzzyKnights.Client.Network.ConnectionClient.WebSocket.UUID = msg.Payload.UUID;
-			}
+			this.onPlayerConnectMessage(msg, ...payload);
 		}
 	}
 	ReceiveMessage(msg, time = null) {
