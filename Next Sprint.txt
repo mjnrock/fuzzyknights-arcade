@@ -13,3 +13,4 @@ MAP POSITION UPDATE
     a)  Segment handler function into different types for MOVEMENT, ACTION, etc.
 2)  Component > Mutator > States should invoke other Mutators, as necessary, on State changes
     a)  Can also/instead just fire Events and have other Mutators pick up the messages
+3)  Grab the .GetInfo() from GameLoop, and use Date.now() and LastTime to calculate elapsed time for applying Velocities
