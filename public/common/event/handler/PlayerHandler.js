@@ -3,7 +3,10 @@ class PlayerHandler {
 		this.FuzzyKnights = fk;
 	}
 
-	onPlayerConnectMessage(msg) {
+	//TODO	At some point, will need to account for a Player temporarily dropping
+	//TODO	Maybe put "SessionDisconnectors" by IP address/Username that caches list for reference
+
+	onPlayerConnect(msg) {
 		if(!this.FuzzyKnights.IsServer) {
 			this.FuzzyKnights.Client.Network.ConnectionClient.UUID = msg.Payload.UUID;
 			this.FuzzyKnights.Client.Network.ConnectionClient.WebSocket.UUID = msg.Payload.UUID;
@@ -15,7 +18,7 @@ class PlayerHandler {
 		player.SetUUID(msg.Payload.UUID);
 		this.FuzzyKnights.Common.Game.GameManager.Register(player);
 	}
-	onPlayerDisconnectMessage(msg) {
+	onPlayerDisconnect(msg) {
 		let player = this.FuzzyKnights.Common.Game.GameManager.GetPlayer(msg.Payload.UUID);
 		this.FuzzyKnights.Common.Game.GameManager.Unregister(player);
 	}
@@ -23,9 +26,9 @@ class PlayerHandler {
 	ProcessMessage(msg) {
 		let payload = Object.values(msg.Payload);
 		if(msg.MessageType === "PlayerConnectMessage") {
-			this.onPlayerConnectMessage(msg, ...payload);
+			this.onPlayerConnect(msg, ...payload);
 		} else if(msg.MessageType === "PlayerDisconnectMessage") {
-			this.onPlayerDisconnectMessage(msg, ...payload);
+			this.onPlayerDisconnect(msg, ...payload);
 		}
 	}
 	ReceiveMessage(msg, time = null) {

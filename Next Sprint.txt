@@ -7,15 +7,22 @@ Event Messaging Sequence Invocation
 5)  Performs all work for Event
 
 
+PLAYER TOON LOAD
+===================================================
+1)  Load the Player's toon from the FS
+2)  Construct the Entity, set Entity in GameManager for Player
+    a)  Ensure all Entity events are in working order for construction/destruction
+3)  Continue with {{PLAYER INPUT > MAP POSITION UPDATE}}
+
+
 GAME MANAGER
 ===================================================
-1)  Build GameManager that holds a full copy of the Game
-2)  Store all active players and deal accordingly from this Manager
 3)  Build with strong sided functionality so Client and Server can use for easily
-4)  Once Player management paradigm completed, continue with {{MAP POSITION UPDATE}}
+4)  Once Player management paradigm completed
+5)  Continue with {{PLAYER INPUT > MAP POSITION UPDATE}}
 
 
-MAP POSITION UPDATE
+PLAYER INPUT > MAP POSITION UPDATE
 ===================================================
 1)  InputHandler > onInputPlayerKeyStateMessage should invoke Component > Mutator > States > some InputKeyStateMessage handler function
     a)  Segment handler function into different types for MOVEMENT, ACTION, etc.

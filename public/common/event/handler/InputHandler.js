@@ -3,11 +3,11 @@ class InputHandler {
 		this.FuzzyKnights = fk;
 	}
 
-	onInputKeyboardMessage(msg) {
+	onInputKeyboard(msg) {
 		console.log(...arguments);
 	}
 
-	onInputPlayerKeyStateMessage(msg, state) {
+	onInputPlayerKeyState(msg, state) {
 		if(!this.FuzzyKnights.IsServer) {
 			this.FuzzyKnights.Common.Message.Packet.PacketManager.SpawnServer(msg);
 		} else {
@@ -20,9 +20,9 @@ class InputHandler {
 	ProcessMessage(msg) {
 		let payload = Object.values(msg.Payload);
 		if(msg.MessageType === "InputPlayerKeyStateMessage") {
-			this.onInputPlayerKeyStateMessage(msg, ...payload);
+			this.onInputPlayerKeyState(msg, ...payload);
 		} else if(msg.MessageType === "InputKeyboardMessage") {
-			this.onInputKeyboardMessage(msg, ...payload);
+			this.onInputKeyboard(msg, ...payload);
 		}
 	}
 	ReceiveMessage(msg, time = null) {
