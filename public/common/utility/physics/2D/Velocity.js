@@ -41,7 +41,6 @@ class Velocity {
 		}
 
 		return new Rotation(
-			orientation.Pitch + (this.Rotation.Pitch * ms / 1000),
 			orientation.Yaw + (this.Rotation.Yaw * ms / 1000),
 			orientation.IsRadians
 		);

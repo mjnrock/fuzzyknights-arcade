@@ -3,15 +3,26 @@ class InputHandler {
 		this.FuzzyKnights = fk;
 	}
 
+	onInputPlayerKeyStateMessage() {
+		console.log(...arguments);
+	}
+
+	onInputPlayerKeyStateMessage(uuid, state) {
+		if(!this.FuzzyKnights.IsServer) {
+			this.FuzzyKnights.Common.Message.Packet.PacketManager.SpawnServer(msg);
+		} else {
+			//TODO Save the state to a Component on the Entity
+			//TODO Build DataWatcher that invokes actions based on State Change (e.g. Map Position)
+			// this.FuzzyKnights.Common.
+		}
+	}
+
 	ProcessMessage(msg) {
-		if(msg.MessageType === "InputKeyboardMessage") {
-			//NOOP
-		} else if(msg.MessageType === "InputPlayerKeyStateMessage") {
-			if(!this.FuzzyKnights.IsServer) {
-				this.FuzzyKnights.Common.Message.Packet.PacketManager.SpawnServer(msg);
-			} else {
-				//TODO Do something about the key state change
-			}
+		let payload = Object.values(msg.Payload);
+		if(msg.MessageType === "InputPlayerKeyStateMessage") {
+			this.onInputPlayerKeyStateMessage(...payload);
+		} else if(msg.MessageType === "InputKeyboardMessage") {
+			this.onInputKeyboardMessage(...payload);
 		}
 	}
 	ReceiveMessage(msg, time = null) {

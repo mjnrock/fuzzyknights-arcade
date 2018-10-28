@@ -5,3 +5,11 @@ Event Messaging Sequence Invocation
 3)  MessageManager dispatches to xEventHandler
 4)  xEventHandler invoke this.onxEvent(...payload) method
 5)  Performs all work for Event
+
+
+MAP POSITION UPDATE
+===================================================
+1)  EntityHandler > onInputPlayerKeyStateMessage should invoke Component > Mutator > States > some InputKeyStateMessage handler function
+    a)  Segment handler function into different types for MOVEMENT, ACTION, etc.
+2)  Component > Mutator > States should invoke other Mutators, as necessary, on State changes
+    a)  Can also/instead just fire Events and have other Mutators pick up the messages

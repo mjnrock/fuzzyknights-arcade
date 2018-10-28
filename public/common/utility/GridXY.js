@@ -84,6 +84,15 @@ class GridXY {
 
 		return this;
 	}
+
+	ToArray() {
+		let elements = [];
+		for(let y = 0; y < this.YMax; y++) {
+			elements.push(...this.Elements[y]);
+		}
+
+		return [...elements];
+	}
 }
 
 export { GridXY };

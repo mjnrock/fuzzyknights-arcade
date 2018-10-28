@@ -5,5 +5,6 @@ export default {
 	RESOURCES:			10,
 	ATTRIBUTES:			11,
 	MAPS:				12,
-	TERRAIN_INFO:		13
+	STATES:				13,
+	TERRAIN_INFO:		14
 };

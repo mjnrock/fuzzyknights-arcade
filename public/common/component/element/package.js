@@ -4,6 +4,7 @@ import { AttributeModifier } from "./AttributeModifier.js";
 import { Attribute } from "./Attribute.js";
 import { CompoundEntityPart } from "./CompoundEntityPart.js";
 import { Map } from "./Map.js";
+import { State } from "./State.js";
 
 export default {
 	Element,
@@ -11,5 +12,6 @@ export default {
 	Attribute,
 	AttributeModifier,
 	CompoundEntityPart,
-	Map
+	Map,
+	State
 };

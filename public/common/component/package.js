@@ -6,6 +6,7 @@ import { TerrainInfo } from "./TerrainInfo.js";
 import { Resources } from "./Resources.js";
 import { Attributes } from "./Attributes.js";
 import { Maps } from "./Maps.js";
+import { States } from "./States.js";
 import { CompoundEntity } from "./CompoundEntity.js";
 
 import Mutator from "./mutator/package.js";
@@ -20,6 +21,7 @@ export default {
 	Resources,
 	Attributes,
 	Maps,
+	States,
 	CompoundEntity,
 
 	Mutator

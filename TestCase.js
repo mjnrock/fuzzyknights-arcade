@@ -33,18 +33,26 @@ export default function TestCase(FuzzyKnights, ...args) {
 		]
 	);
 
-	let map = new FuzzyKnights.Common.World.Tile.Map(1, 1);	
+	let map = new FuzzyKnights.Common.World.Tile.Map(2, 2);	
 	let node = map.GetNode(0, 0);
 	
-	console.log(JSON.stringify(entity));
-	console.log(JSON.stringify(terrain));
+	// FuzzyKnights.Common.Component.Mutator.Maps.GetComponent(entity)
+
+	// console.log(JSON.stringify(entity));
+	// console.log(JSON.stringify(map.Grid.ToArray()));
+	// console.log(JSON.stringify(FuzzyKnights.Common.Component.Mutator.Maps.GetComponent(entity)));
+	
 
 	// map.IsOccupied();
 	// console.log(map.IsOccupied());
-	node.AddEntity(terrain);
-	node.AddEntity(terrain);
-	console.log(JSON.stringify(node));
-	map.IsOccupied();
+	node.AddEntity(entity);
+	FuzzyKnights.Common.World.Tile.TileManager.SetMap(0, 0, map);
+	FuzzyKnights.Common.Component.Mutator.Maps.SetMap(entity, map);
+	
+	let m2 = FuzzyKnights.Common.Component.Mutator.Maps.Move(entity, 0, 0, 1, 1);
+	console.log(JSON.stringify(entity));
+	// console.log(JSON.stringify(node));
+	// map.IsOccupied();
 	// console.log(map.IsOccupied());
 
 	// console.log(JSON.stringify(map));

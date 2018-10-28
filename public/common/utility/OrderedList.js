@@ -3,7 +3,9 @@ class OrderedList {
 		this.IsDirty = false;
 		this.Elements = [];
 
-		this.Push(...elements);
+		if(elements[0] !== null && elements[0] !== void 0) {
+			this.Push(...elements);
+		}
 	}
 
 	ToArray() {
@@ -106,17 +108,14 @@ class OrderedList {
 		return this;
 	}
 
-	Push(...values) {
-		if(values[0] !== null && values[0] !== void 0) {
-			this.Sort();
+	Push(value) {
+		this.Sort();
 
-			for(let i in values) {
-				this.Elements.push({
-					i: this.Elements.length,
-					v: values[i]
-				});
-			}
-		}
+
+		this.Elements.push({
+			i: this.Elements.length,
+			v: value
+		})
 
 		return this;
 	}

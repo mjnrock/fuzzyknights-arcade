@@ -1,26 +1,46 @@
+import { GridXY } from "../../utility/GridXY.js";
+import { Map } from "./Map.js";
+
 class TileManager {
 	constructor(fk) {
 		this.FuzzyKnights = fk;
-
-		//TODO Maintain a list of Maps that have active Player entities
-		//TODO If on Client side, only maintain Player's active map
-		this.Maps = [];
+		this.Maps = new GridXY(5, 5, Map);
+		
+		this.MapLookup = {};
 	}
 
-	HasMap() {
-		return this.Maps.length > 0;
-	}
 	GetMaps() {
 		return this.Maps;
 	}
 	SetMaps(maps) {
 		this.Maps = maps;
+		this.Maps.ForEach((p, map, t) => {
+			this.MapLookup[map.UUID] = map;
+		});
+
+		return this;
+	}
+
+	FindMap(uuid) {
+		return this.MapLookup[uuid];
+	}
+
+	GetMap(x, y) {
+		return this.Maps.Get(x, y);
+	}
+	SetMap(x, y, map) {
+		this.Maps.Set(x, y, map);
+		this.MapLookup[map.UUID] = map;
 
 		return this;
 	}
 
 	Tick(time) {
-		//TODO TileManager tick commands
+		this.Maps.ForEach((p, map, t) => {
+			if(map && map.IsOccupied()) {
+				map.Tick(time);
+			}
+		});
 	}
 }
 

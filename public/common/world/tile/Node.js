@@ -32,7 +32,7 @@ class Node {
 	RemoveEntity(entity) {
 		let len = this.Entities.Size();
 		this.Entities.RemoveByValue(entity, (entity, entities) => {
-			entities.filter((v) => v.UUID !== entity.UUID);
+			return entities.filter((v) => v.UUID !== entity.UUID);
 		});
 
 		this.CheckCreatures();

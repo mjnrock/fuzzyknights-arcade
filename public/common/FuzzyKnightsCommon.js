@@ -34,6 +34,12 @@ class FuzzyKnightsCommon {
 		this.FuzzyKnights.Common.Event.Handler.EntityHandler = new this.FuzzyKnights.Common.Event.Handler.EntityHandler(this.FuzzyKnights);
 		this.FuzzyKnights.Common.Event.Event.FuzzyKnights = this.FuzzyKnights;
 
+		//@ Component Mutators
+		this.FuzzyKnights.Common.Component.Mutator.Attributes = new this.FuzzyKnights.Common.Component.Mutator.Attributes(this.FuzzyKnights);
+		this.FuzzyKnights.Common.Component.Mutator.Resources = new this.FuzzyKnights.Common.Component.Mutator.Resources(this.FuzzyKnights);
+		this.FuzzyKnights.Common.Component.Mutator.Maps = new this.FuzzyKnights.Common.Component.Mutator.Maps(this.FuzzyKnights);
+
+		this.FuzzyKnights.Common.Core.FuzzyKnights = this.FuzzyKnights;
 		this.FuzzyKnights.Common.Game.GameLoop.Run();
 
 		return this;
