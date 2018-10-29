@@ -58,6 +58,24 @@ class Resource extends Element {
 
 		return this;
 	}
+
+	Deserialize(json) {
+		let obj = super.Deserialize(json);
+
+		this.Current = obj.Current;
+		this.Max = obj.Max;
+
+		return obj;
+	}
+}
+
+Resource.Unserialize = (json) => {
+	let obj = typeof json === "string" || json instanceof String ? JSON.parse(json) : json;
+
+	let ret = new Resource();
+	ret.Deserialize(obj);
+
+	return ret;
 }
 
 export { Resource };

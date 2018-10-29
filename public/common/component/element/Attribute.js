@@ -1,4 +1,5 @@
 import { Element } from "./Element.js";
+import { AttributeModifier } from "./AttributeModifier.js";
 
 class Attribute extends Element {
 	constructor(type, value, modifiers = []) {
@@ -45,6 +46,25 @@ class Attribute extends Element {
 
 		return this;
 	}
+
+	Deserialize(json) {
+		let obj = super.Deserialize(json);
+
+		this.Value = obj.Value;
+		for(let i in obj.Modifiers) {
+			this.Modifiers.push(AttributeModifier.Unserialize(obj.Modifiers[i]));
+		}
+
+		return obj;
+	}
 }
 
+Attribute.Unserialize = (json) => {
+	let obj = typeof json === "string" || json instanceof String ? JSON.parse(json) : json;
+
+	let ret = new Attribute();
+	ret.Deserialize(obj);
+
+	return ret;
+}
 export { Attribute };

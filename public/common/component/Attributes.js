@@ -20,6 +20,25 @@ class Attributes extends Component {
 			this.Elements[i].RemoveExpiredModifiers();
 		}
 	}
+
+	Deserialize(json) {
+		let obj = super.Deserialize(json);
+		for(let k in obj.Elements) {
+			let element = obj.Elements[k];
+			this.Elements[k] = Attribute.Unserialize(element);
+		}
+
+		return obj;
+	}
+}
+
+Attributes.Unserialize = (json) => {
+	let obj = typeof json === "string" || json instanceof String ? JSON.parse(json) : json;
+
+	let ret = new Attributes();
+	ret.Deserialize(obj);
+
+	return ret;
 }
 
 export { Attributes };

@@ -3,6 +3,24 @@ class EntityHandler {
 		this.FuzzyKnights = fk;
 	}
 
+	onEntityDestruction(msg, uuid) {
+		let entity = this.FuzzyKnights.Common.Entity.EntityManager.GetEntity(uuid);
+		this.FuzzyKnights.Common.Entity.EntityManager.Unregister(entity);
+		
+		if(this.FuzzyKnights.IsServer) {
+			this.FuzzyKnights.Common.Message.Packet.PacketManager.SpawnServer(msg);
+		}
+	}
+	onEntityConstruction(msg, json) {
+		//TODO Serialize the Entity, instantiate, and assign to "entity"
+		// let entity = this.FuzzyKnights.Common.Entity.EntityManager;
+		this.FuzzyKnights.Common.Entity.EntityManager.Register(entity);
+
+		if(this.FuzzyKnights.IsServer) {
+			this.FuzzyKnights.Common.Message.Packet.PacketManager.SpawnServer(msg);
+		}
+	}
+
 	onEntityStateChange(msg) {
 		console.log(...arguments);
 	}
@@ -25,6 +43,10 @@ class EntityHandler {
 			this.onEntityMove(msg, ...payload);
 		} else if(msg.MessageType === "EntityStateChangeMessage") {
 			this.onEntityStateChange(msg, ...payload);
+		} else if(msg.MessageType === "EntityConstructionMessage") {
+			this.onEntityConstruction(msg, ...payload);
+		} else if(msg.MessageType === "EntityDestructionMessage") {
+			this.onEntityDestruction(msg, ...payload);
 		}
 	}
 	ReceiveMessage(msg, time = null) {

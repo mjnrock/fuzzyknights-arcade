@@ -62,8 +62,32 @@ class AttributeModifier {
 
 		return this.Timestamp + this.Duration < Date.now();
 	}
+	
+
+	Serialize() {
+		return JSON.stringify(this);
+	}
+	Deserialize(json) {
+		let obj = typeof json === "string" || json instanceof String ? JSON.parse(json) : json;
+
+		this.Type = obj.Type;
+		this.Value = obj.Value;
+		this.Duration = obj.Duration;
+		this.Timestamp = obj.Timestamp;
+
+		return obj;
+	}
 }
 AttributeModifier.EXPIRATION_FLAG = 0;
 AttributeModifier.PERSISTENCE_FLAG = -1;
 
+
+AttributeModifier.Unserialize = (json) => {
+	let obj = typeof json === "string" || json instanceof String ? JSON.parse(json) : json;
+
+	let ret = new AttributeModifier();
+	ret.Deserialize(obj);
+
+	return ret;
+}
 export { AttributeModifier };

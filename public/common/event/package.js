@@ -4,6 +4,8 @@ import { PlayerDisconnectEvent } from "./PlayerDisconnectEvent.js";
 import { EntityDamageEvent } from "./EntityDamageEvent.js";
 import { EntityMoveEvent } from "./EntityMoveEvent.js";
 import { EntityStateChangeEvent } from "./EntityStateChangeEvent.js";
+import { EntityConstructionEvent } from "./EntityConstructionEvent.js";
+import { EntityDestructionEvent } from "./EntityDestructionEvent.js";
 
 import Handler from "./handler/package.js";
 
@@ -14,6 +16,8 @@ export default {
 	EntityDamageEvent,
 	EntityMoveEvent,
 	EntityStateChangeEvent,
+	EntityConstructionEvent,
+	EntityDestructionEvent,
 
 	Handler,
 
@@ -23,6 +27,7 @@ export default {
 		PlayerDisconnectEvent: (...args) => new PlayerDisconnectEvent(...args),
 		EntityDamageEvent: (...args) => new EntityDamageEvent(...args),
 		EntityMoveEvent: (...args) => new EntityMoveEvent(...args),
-		EntityStateChangeEvent: (...args) => new EntityStateChangeEvent(...args)
+		EntityStateChangeEvent: (...args) => new EntityStateChangeEvent(...args),
+		EntityConstructionEvent: (...args) => new EntityConstructionEvent(...args)
 	}
 };

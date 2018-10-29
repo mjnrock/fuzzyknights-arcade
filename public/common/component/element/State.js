@@ -20,6 +20,23 @@ class State extends Element {
 	Has(flag) {
 		return Bitwise.Has(this.Value, flag);
 	}
+
+	Deserialize(json) {
+		let obj = super.Deserialize(json);
+
+		this.Value = obj.Value;
+
+		return obj;
+	}
+}
+
+State.Unserialize = (json) => {
+	let obj = typeof json === "string" || json instanceof String ? JSON.parse(json) : json;
+
+	let ret = new State();
+	ret.Deserialize(obj);
+
+	return ret;
 }
 
 export { State };
