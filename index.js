@@ -1,2 +1,5 @@
-require = require("esm")(module/*, options*/)
-module.exports = require("./ConnectionServer.js")
+import Registry from "./Registry";
+
+let r = new Registry();
+
+console.log(r);
