@@ -1,7 +1,7 @@
 import Functions from "../../utility/Functions.js";
 import Dice from "../../utility/Dice.js";
 
-import { GridXY } from "./../../utility/GridXY.js";
+import { GridXY } from "../../utility/GridXY.js";
 
 //TODO CellularAutomata is complete for T/F, but needs a more meaningful generation paradigm
 class CellularAutomata {

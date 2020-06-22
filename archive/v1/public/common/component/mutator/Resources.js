@@ -1,5 +1,5 @@
-import EnumComponentType from "./../enum/ComponentType.js";
-import EnumResourceType from "./../enum/ResourceType.js";
+import EnumComponentType from "../enum/ComponentType.js";
+import EnumResourceType from "../enum/ResourceType.js";
 
 import { Mutator } from "./Mutator.js";
 

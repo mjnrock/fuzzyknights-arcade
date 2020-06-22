@@ -1,5 +1,5 @@
 //* Presently not sure about this Enum, but the hope is that it will become very useful when maintaining modifiers with multiple skills, abilities, equipment, and levels in play
-import EnumAttributeModifierType from "./../enum/AttributeModifierType.js";
+import EnumAttributeModifierType from "../enum/AttributeModifierType.js";
 
 class AttributeModifier {
 	constructor(value, duration, type = EnumAttributeModifierType.GENERIC) {

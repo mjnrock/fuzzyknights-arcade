@@ -1,6 +1,6 @@
 import { NewUUID } from "../utility/Functions.js";
-import { States } from "./../component/States.js";
-import EnumStateType from "./../component/enum/StateType.js";
+import { States } from "../component/States.js";
+import EnumStateType from "../component/enum/StateType.js";
 
 class Entity {
 	constructor(type, components = []) {

@@ -1,4 +1,4 @@
-import { NewUUID } from "./../utility/Functions.js";
+import { NewUUID } from "../utility/Functions.js";
 
 class Player {
 	constructor(name, entity) {

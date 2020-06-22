@@ -1,5 +1,5 @@
 import { Element } from "./Element.js";
-import { Position } from "./../../utility/physics/2D/Position.js";
+import { Position } from "../../utility/physics/2D/Position.js";
 
 class Map extends Element {
 	/**

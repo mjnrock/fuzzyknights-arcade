@@ -1,4 +1,4 @@
-import EnumPacketType from "./../../enum/PacketType.js";
+import EnumPacketType from "../../enum/PacketType.js";
 
 import { Packet } from "./Packet.js";
 import { PacketServer } from "./PacketServer.js";

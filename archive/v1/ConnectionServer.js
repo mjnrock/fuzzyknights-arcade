@@ -9,8 +9,8 @@ const PORT = 1337;
 const STDIN = process.openStdin();
 
 import * as util from "util";
-import FuzzyKnightsCommon from "./public/common/FuzzyKnightsCommon";
-import { PlayerConnectMessage } from "./public/common/message/PlayerConnectMessage";
+import FuzzyKnightsCommon from "../public/common/FuzzyKnightsCommon";
+import { PlayerConnectMessage } from "../public/common/message/PlayerConnectMessage";
 import TestCase from "./TestCase";
 const FuzzyKnights = (new FuzzyKnightsCommon({
 	IsServer: true,

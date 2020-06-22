@@ -1,4 +1,4 @@
-import Bitwise from "./../../utility/Bitwise.js";
+import Bitwise from "../../utility/Bitwise.js";
 import { Element } from "./Element.js";
 
 class State extends Element {

@@ -1,4 +1,4 @@
-import { LowerClamp, Clamp } from "./../../utility/Functions.js";
+import { LowerClamp, Clamp } from "../../utility/Functions.js";
 
 import { Element } from "./Element.js";
 
