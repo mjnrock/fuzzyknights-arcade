@@ -1,10 +1,16 @@
+import EventEmitter from "events";
+
 /*
  * This is meant to be equivalent to a "room" in that dungeon game, or a "map" in the outer world
  * The tiles are meant to be the individual tiles for that map, as a tessellated grid
  */
 
-export default class Node {
+export const EnumEventType = {};
+
+export default class Node extends EventEmitter {
     constructor() {
+        super();
+        
         this.portals = {
             north: null,
             east: null,
