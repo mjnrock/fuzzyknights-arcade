@@ -140,18 +140,29 @@ export default class Node extends EventEmitter {
         };
     }
 
-    getTiles() {
-        return Object.entries(this.tiles).map(([ key, tile ]) => {
+    toTileArray() {
+        let arr = [],
+            row = 0;
+            
+        Object.entries(this.tiles).forEach(([ key, tile ]) => {
             const split = key.split(".");
             
             if(split.length === 2) {
                 const [ x, y ] = [ ~~split[ 0 ], ~~split[ 1 ] ];
-
-                return [ x, y, tile ];
+            
+                if(!Array.isArray(arr[ row ])) {
+                    arr[ row ] = [];
+                }
+    
+                arr[ row ].push([ x, y, tile ]);
+                
+                if(y === this.tiles.height - 1) {
+                    row++;
+                }
             }
-
-            return null;
-        }).filter(value => !!value);
+        });
+        
+        return arr;
     }
 
     get size() {

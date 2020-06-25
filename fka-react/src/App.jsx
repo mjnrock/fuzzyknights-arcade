@@ -14,22 +14,23 @@ function Tile(props) {
 }
 
 function Node(props) {
-    const tiles = props.node.getTiles();
-    const arr = [[]];
-    let row = 0;
-    tiles.forEach(([ x, y, tile ]) => {
-        arr[ row ].push([ x, y, tile ]);
+    const tiles = props.node.toTileArray();
+    // const tiles = props.node.getTiles();
+    // const arr = [[]];
+    // let row = 0;
+    // tiles.forEach(([ x, y, tile ]) => {
+    //     arr[ row ].push([ x, y, tile ]);
         
-        if(y === props.node.tiles.height - 1) {
-            row++;
-            arr.push([]);
-        }
-    });
+    //     if(y === props.node.tiles.height - 1) {
+    //         row++;
+    //         arr.push([]);
+    //     }
+    // });
 
     return (
         <Grid>
             {
-                arr.map((row, i) => {
+                tiles.map((row, i) => {
                     return (
                         <Grid.Row key={ i } columns={ props.node.tiles.width } textAlign="center" style={{ padding: 0, fontFamily: "monospace" }}>
                             {

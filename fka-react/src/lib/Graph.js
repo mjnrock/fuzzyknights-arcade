@@ -73,17 +73,28 @@ export default class Graph extends EventEmitter {
         };
     }
 
-    getNodes() {
-        return Object.entries(this.nodes).map(([ key, node ]) => {
+    toNodeArray() {
+        let arr = [],
+            row = 0;
+            
+        Object.entries(this.nodes).forEach(([ key, node ]) => {
             const split = key.split(".");
             
             if(split.length === 2) {
                 const [ x, y ] = [ ~~split[ 0 ], ~~split[ 1 ] ];
-
-                return [ x, y, node ];
+            
+                if(!Array.isArray(arr[ row ])) {
+                    arr[ row ] = [];
+                }
+    
+                arr[ row ].push([ x, y, node ]);
+                
+                if(y === this.tiles.height - 1) {
+                    row++;
+                }
             }
-
-            return null;
-        }).filter(value => !!value);
+        });
+        
+        return arr;
     }
 };
