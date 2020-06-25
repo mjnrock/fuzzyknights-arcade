@@ -1,4 +1,6 @@
 import EventEmitter from "events";
+import { v4 as uuidv4 } from "uuid";
+
 import Tile from "./Tile";
 
 /*
@@ -11,6 +13,7 @@ export const EnumEventType = {};
 export default class Node extends EventEmitter {
     constructor() {
         super();
+        this.id = uuidv4();
         
         this.portals = {
             north: null,
@@ -135,6 +138,20 @@ export default class Node extends EventEmitter {
             southeast: this.tiles[ this._key(x + 1, y + 1) ],
             southwest: this.tiles[ this._key(x - 1, y + 1) ],
         };
+    }
+
+    getTiles() {
+        return Object.entries(this.tiles).map(([ key, tile ]) => {
+            const split = key.split(".");
+            
+            if(split.length === 2) {
+                const [ x, y ] = [ ~~split[ 0 ], ~~split[ 1 ] ];
+
+                return [ x, y, tile ];
+            }
+
+            return null;
+        }).filter(value => !!value);
     }
 
     get size() {

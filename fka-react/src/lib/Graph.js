@@ -1,4 +1,6 @@
 import EventEmitter from "events";
+import { v4 as uuidv4 } from "uuid";
+
 import Node from "./Node";
 
 /*
@@ -10,6 +12,7 @@ export const EnumEventType = {};
 export default class Graph extends EventEmitter {
     constructor() {
         super();
+        this.id = uuidv4();
         
         this.nodes = {};
 
@@ -68,5 +71,19 @@ export default class Graph extends EventEmitter {
             southeast: this.nodes[ this._key(x + 1, y + 1) ],
             southwest: this.nodes[ this._key(x - 1, y + 1) ],
         };
+    }
+
+    getNodes() {
+        return Object.entries(this.nodes).map(([ key, node ]) => {
+            const split = key.split(".");
+            
+            if(split.length === 2) {
+                const [ x, y ] = [ ~~split[ 0 ], ~~split[ 1 ] ];
+
+                return [ x, y, node ];
+            }
+
+            return null;
+        }).filter(value => !!value);
     }
 };

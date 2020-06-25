@@ -1,4 +1,6 @@
 import EventEmitter from "events";
+import { v4 as uuidv4 } from "uuid";
+
 import Terrain from "./Terrain";
 
 export const EnumEventType = {
@@ -9,6 +11,7 @@ export const EnumEventType = {
 export default class Tile extends EventEmitter {
     constructor(terrain, { isNavigable = true, isInteractable = false } = {}) {
         super();
+        this.id = uuidv4();
         
         if(terrain instanceof Terrain) {
             this.terrain = terrain;
