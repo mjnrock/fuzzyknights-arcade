@@ -16,18 +16,22 @@ export default class Tile extends EventEmitter {
             this.terrain = new Terrain(terrain);
         }
 
-        this.state = {
+        this.config = {
             isNavigable: isNavigable,
             isInteractable: isInteractable,
         };
 
-        this.on(EnumEventType.ACTIVATE, () => this.onActivate.bind(this));
-        this.on(EnumEventType.DEACTIVATE, () => this.onDeactivate.bind(this));
-    }
+        this.state = {
+            isActive: false,
+        };
 
+        this.on(EnumEventType.ACTIVATE, (...args) => this.onActivate.call(this, ...args));
+        this.on(EnumEventType.DEACTIVATE, (...args) => this.onDeactivate.call(this, ...args));
+    }
+    
     flag(option, value) {
-        if(option in this.state.isNavigable) {
-            this.state.isNavigable[ option ] = value;
+        if(option in this.config) {
+            this.config[ option ] = value;
         }
 
         return this;
@@ -43,11 +47,31 @@ export default class Tile extends EventEmitter {
         return this;
     }
 
+    attempt(fnOrBool) {
+        if(fnOrBool === true) {
+            this.activate();
+        } else if(fnOrBool === false) {
+            this.deactivate();
+        } else if(typeof fnOrBool === "function") {
+            const result = fnOrBool(this);
+
+            if(result === true) {
+                this.activate();
+            } else if(result === false) {
+                this.deactivate();
+            }
+        }
+        
+        return this;
+    }
+
     activate() {
-        this.emit(EnumEventType.ACTIVATE, this);
+        this.state.isActive = true;
+        this.emit(EnumEventType.ACTIVATE, Date.now());
     }
     deactivate() {
-        this.emit(EnumEventType.DEACTIVATE, this);
+        this.state.isActive = false;
+        this.emit(EnumEventType.DEACTIVATE, Date.now());
     }
 
     onActivate() {}

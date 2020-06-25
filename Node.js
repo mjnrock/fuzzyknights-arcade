@@ -1,4 +1,5 @@
 import EventEmitter from "events";
+import Tile from "./Tile";
 
 /*
  * This is meant to be equivalent to a "room" in that dungeon game, or a "map" in the outer world
@@ -25,19 +26,28 @@ export default class Node extends EventEmitter {
             "0.0": null,
         };
 
-        this.positions = new WeakMap(); // Keeps a weak reference to position, with etry as key
+        this.positions = new WeakMap(); // Keeps a weak reference to position, with entry as key
     }
 
     _key(x, y) {
         return `${ x }.${ y }`;
     }
 
+    isEdge(x, y) {
+        const [ xmin, ymin, xmax, ymax ] = this.bounds;
+
+        return x === xmin
+            || x === xmax
+            || y === ymin
+            || y === ymax;
+    }
+
     seed(width, height, fn) {
         this.tiles.width = width;
         this.tiles.height = height;
 
-        for(let x of this.tiles.width) {
-            for(let y of this.tiles.height) {
+        for(let x = 0; x < this.tiles.width; x++) {
+            for(let y = 0; y < this.tiles.height; y++) {
                 const key = this._key(x, y);
 
                 if(typeof fn === "function") {
@@ -101,6 +111,30 @@ export default class Node extends EventEmitter {
 
         this.set(x0, y0, entry1);
         this.set(x1, y1, entry0);
+    }
+
+    neighbors(x, y) {
+        if(x instanceof Tile) {
+            const key = this.positions.get(x);
+            const split = key.split(".");
+
+            if(split.length === 2) {
+                x = ~~split[ 0 ];
+                y = ~~split[ 1 ];
+            }
+        }
+
+        return {
+            north: this.tiles[ this._key(x, y - 1) ],
+            east: this.tiles[ this._key(x + 1, y) ],
+            south: this.tiles[ this._key(x, y + 1) ],
+            west: this.tiles[ this._key(x - 1, y) ],
+            
+            northeast: this.tiles[ this._key(x + 1, y - 1) ],
+            northwest: this.tiles[ this._key(x - 1, y - 1) ],
+            southeast: this.tiles[ this._key(x + 1, y + 1) ],
+            southwest: this.tiles[ this._key(x - 1, y + 1) ],
+        };
     }
 
     get size() {

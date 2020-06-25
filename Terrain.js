@@ -1,12 +1,13 @@
 export const EnumTerrainType = {
     VOID: "VOID",
-    STONE: "STONE",
+    FLOOR: "FLOOR",
     WALL: "WALL",
     DOOR: "DOOR",
 };
 
 export default class Terrain {
-    constructor(type) {
+    constructor(type, state = {}) {
         this.type = type;
+        this.state = state;
     }
 };

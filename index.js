@@ -1,16 +1,7 @@
-// import Registry from "./Registry";
+import GraphFactory from "./GraphFactory";
 
-// let r = new Registry();
+const graph = GraphFactory.Generate(1, 1, 4, 4);
+// console.log(JSON.stringify(graph, null, 2));
 
-// console.log(r);
-
-// console.log(1)
-
-import Tile from "./Tile";
-
-let t = new Tile();
-t.onActivate = console.log;
-
-t.activate();
-
-console.log(t);
+const node = graph.getNode(0, 0);
+console.log(node.neighbors(0, 0));
