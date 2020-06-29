@@ -4,9 +4,12 @@ import "semantic-ui-css/semantic.min.css";
 
 import App from "./App";
 
-import MouseNode from "./lib/hive/MouseNode";
+import Hive from "@lespantsfancy/hive";
+// import MouseNode from "./lib/hive/MouseNode";
 
-const mouseNode = new MouseNode({ element: window });
+console.log(Hive)
+
+const mouseNode = new Hive.Client.MouseNode({ element: window });
 mouseNode.addEffect((state, msg) => {
     console.log(msg.payload)
 });
