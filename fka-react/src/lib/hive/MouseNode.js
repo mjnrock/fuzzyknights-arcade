@@ -100,7 +100,9 @@ export default class MouseNode extends Hive.Node {
                     this.state.selection[ btn ].push([ e.x, e.y, Date.now() ]);
 
                     setTimeout(() => {
-                        this.state.selection[ btn ] = [];
+                        if(this.state.selection[ btn ].length) {
+                            this.state.selection[ btn ] = [];
+                        }
                     }, this.config.selection.timeout);
                 }
             },
@@ -145,7 +147,9 @@ export default class MouseNode extends Hive.Node {
                     this.state.swipe[ btn ].push([ e.x, e.y, Date.now() ]);
 
                     setTimeout(() => {
-                        this.state.swipe[ btn ] = [];
+                        if(this.state.swipe[ btn ].length) {
+                            this.state.swipe[ btn ] = [];
+                        }
                     }, this.config.swipe.timeout);
                 }
             },
