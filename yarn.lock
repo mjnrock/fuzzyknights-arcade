@@ -3,9 +3,9 @@
 
 
 "@lespantsfancy/hive@^0.1.36":
-  version "0.1.37"
-  resolved "https://registry.yarnpkg.com/@lespantsfancy/hive/-/hive-0.1.37.tgz#70c9d80405134740a1204fec60db353a9a550f7c"
-  integrity sha512-ajV5YmqN8Oa1TnCHWq9TnKDmxauaptuS7Bwjr2/78r1B7BGoslWEa+vZP8XJNZD7x7/yEdEi4ZJG0jGJUdtAbQ==
+  version "0.1.38"
+  resolved "https://registry.yarnpkg.com/@lespantsfancy/hive/-/hive-0.1.38.tgz#197b7699eb52bb9a14b113265bc00eecf649db6a"
+  integrity sha512-1aykrt4nV95RXqW7OYjzP1mrQDP5wczz0xKMRFemXxGkPCko3PCTSK14d/xaxbzzmsWWQih1MuT6faZEAzbN3w==
   dependencies:
     is-base64 "^1.1.0"
     uuid "^8.1.0"
