@@ -18,6 +18,17 @@ export const Bitwise = {
     }
 };
 
+export const DistinctArrayFilter = (value, index, self) => {
+    return self.indexOf(value) === index;
+};
+export const ToDistinctArray = (array) => {
+    return array.filter(DistinctArrayFilter);
+};
+
+// Array.prototype.distinct = function() {
+//     return this.filter(DistinctArrayFilter);
+// };
+
 export const Dice = {
 	random: (min, max) => {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -191,5 +202,8 @@ export default {
     Bitwise,
     Dice,
     LinkedListNode,
-    LinkedList
+    LinkedList,
+
+    DistinctArrayFilter,
+    ToDistinctArray,
 };
