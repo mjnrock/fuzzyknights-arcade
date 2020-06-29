@@ -11,11 +11,11 @@ import App from "./App";
 import MouseNode from "./lib/hive/MouseNode";
 import KeyNode from "./lib/hive/KeyNode";
 
-const mouseNode = new MouseNode({ element: window, config: { allowComplexActions: true } });
+const mouseNode = new MouseNode({ element: window });
 mouseNode.addEffect((state, msg) => {
     console.log(msg.type, msg.payload)
 });
-const keyNode = new KeyNode({ element: window, config: { allowComplexActions: true } });
+const keyNode = new KeyNode({ element: window });
 keyNode.addEffect((state, msg) => {
     console.log(msg.type, msg.payload)
 });

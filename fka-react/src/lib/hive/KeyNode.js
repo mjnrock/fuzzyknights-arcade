@@ -112,6 +112,7 @@ export default class KeyNode extends Hive.Node {
 
                     if(dt <= this.config.press.timeout && this.state.press[ e.which ][ 1 ] !== true) {
                         this.dispatch(EnumEventType.KEY_PRESS, {
+                            mask: this.state.mask.current,
                             code: e.which,
                             duration: dt,
                         });
@@ -131,6 +132,7 @@ export default class KeyNode extends Hive.Node {
                 if(size >= this.config.chord.threshold) {
                     if(Object.values(this.state.press).every(([ value ]) => now - value <= this.config.chord.timeout)) {
                         this.dispatch(EnumEventType.KEY_CHORD, {
+                            mask: this.state.mask.current,
                             direction: e.type.replace("key", ""),
                             size: size,
                             shift: "16" in this.state.press,
@@ -148,7 +150,10 @@ export default class KeyNode extends Hive.Node {
         e.preventDefault();
 
         this.updateMask(e, true);
-        this.dispatch(EnumEventType.KEY_DOWN, [this.state.mask.current, e]);
+        this.dispatch(EnumEventType.KEY_DOWN, {
+            mask: this.state.mask.current,
+            event: e,
+        });
 
         this._press.begin(e);
         this._chord.end(e);
@@ -157,7 +162,10 @@ export default class KeyNode extends Hive.Node {
         e.preventDefault();
 
         this.updateMask(e, false);
-        this.dispatch(EnumEventType.KEY_UP, [this.state.mask.current, e]);
+        this.dispatch(EnumEventType.KEY_UP, {
+            mask: this.state.mask.current,
+            event: e,
+        });
 
         this._chord.end(e);
         this._press.end(e);

@@ -156,7 +156,7 @@ export default class MouseNode extends Hive.Node {
     
                         if(dt <= this.config.click.timeout && (Math.abs(dx) <= this.config.click.threshold && Math.abs(dy) <= this.config.click.threshold)) {
                             this.dispatch(EnumEventType.MOUSE_CLICK, {
-                                type: EnumEventType.MOUSE_CLICK,
+                                mask: this.state.mask.current,
                                 button: btn,
                                 start: {
                                     x: x0,
@@ -218,7 +218,7 @@ export default class MouseNode extends Hive.Node {
     
                         if(dt <= this.config.doubleClick.timeout && (Math.abs(dx) <= this.config.doubleClick.threshold && Math.abs(dy) <= this.config.doubleClick.threshold)) {
                             this.dispatch(EnumEventType.MOUSE_DOUBLE_CLICK, {
-                                type: EnumEventType.MOUSE_DOUBLE_CLICK,
+                                mask: this.state.mask.current,
                                 button: btn,
                                 start: {
                                     x: x0,
@@ -266,6 +266,7 @@ export default class MouseNode extends Hive.Node {
 
                         if(dt <= this.config.selection.timeout && (Math.abs(dx) >= this.config.selection.threshold && Math.abs(dy) >= this.config.selection.threshold)) {
                             this.dispatch(EnumEventType.MOUSE_SELECTION, {
+                                mask: this.state.mask.current,
                                 button: btn,
                                 start: {
                                     x: x0,
@@ -331,6 +332,7 @@ export default class MouseNode extends Hive.Node {
                             }
 
                             this.dispatch(EnumEventType.MOUSE_SWIPE, {
+                                mask: this.state.mask.current,
                                 button: btn,
                                 start: {
                                     x: x0,
@@ -358,7 +360,10 @@ export default class MouseNode extends Hive.Node {
         e.preventDefault();
 
         this.updateMask(e, true);
-        this.dispatch(EnumEventType.MOUSE_DOWN, e);
+        this.dispatch(EnumEventType.MOUSE_DOWN, {
+            mask: this.state.mask.current,
+            event: e,
+        });
 
         this._click.begin(e);
         this._selection.begin(e);
@@ -369,7 +374,10 @@ export default class MouseNode extends Hive.Node {
         e.preventDefault();
 
         this.updateMask(e, false);
-        this.dispatch(EnumEventType.MOUSE_UP, e);
+        this.dispatch(EnumEventType.MOUSE_UP, {
+            mask: this.state.mask.current,
+            event: e,
+        });
 
         this._click.end(e);
         this._selection.end(e);
@@ -381,16 +389,25 @@ export default class MouseNode extends Hive.Node {
 
         if(this.config.moveRequiresButton === true) {
             if(e.buttons > 0) {
-                this.dispatch(EnumEventType.MOUSE_MOVE, e);
+                this.dispatch(EnumEventType.MOUSE_MOVE, {
+                    mask: this.state.mask.current,
+                    event: e,
+                });
             }
         } else {
-            this.dispatch(EnumEventType.MOUSE_MOVE, e);
+            this.dispatch(EnumEventType.MOUSE_MOVE, {
+                mask: this.state.mask.current,
+                event: e,
+            });
         }
     }
     onContextMenu(e) {
         e.preventDefault();
 
-        this.dispatch(EnumEventType.MOUSE_CONTEXT_MENU, e);
+        this.dispatch(EnumEventType.MOUSE_CONTEXT_MENU, {
+            mask: this.state.mask.current,
+            event: e,
+        });
     }
 }
 
