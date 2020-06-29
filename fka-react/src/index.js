@@ -7,7 +7,9 @@ import App from "./App";
 import MouseNode from "./lib/hive/MouseNode";
 
 const mouseNode = new MouseNode({ element: window });
-mouseNode.addEffect(console.log);
+mouseNode.addEffect((state, msg) => {
+    console.log(msg.payload)
+});
 
 ReactDOM.render(
     <App />,
