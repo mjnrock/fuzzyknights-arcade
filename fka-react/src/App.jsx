@@ -1,58 +1,58 @@
 import React from "react";
-import { Grid, Segment } from "semantic-ui-react";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+} from "react-router-dom";
 
-import GraphFactory from "./lib/GraphFactory";
+import CanvasNode from "./lib/hive/CanvasNode";
+import ScrollToTop from "./ScrollToTop";
+import Routes from "./routes/package";
 
-function Tile(props) {
-    let terrain = props.tile.terrain.type;
+//TODO Add a "UPDATE/REDRAW" to CanvasNode that any drawing command invokes
+const cn = new CanvasNode({ width: 500, height: 500 });
+cn.rect(50, 50, 100, 100, { isFilled: true });
 
-    return (
-        <div style={{ height: 64, backgroundColor: terrain === "FLOOR" ? "#999" : "#555" }}>
-            { props.x },{ props.y }
-        </div>
-    );
-}
+cn.addReducer((state) => {
+    return {
+        _time: Date.now(),
+        ...state
+    }
+});
 
-function Node(props) {
-    const tiles = props.node.toTileArray();
+cn.addEffect(() => {
+    if(Math.random() > 0.9) {
+        cn.prop({
+            fillStyle: `rgb(${ ~~(Math.random() * 255 ) }, ${ ~~(Math.random() * 255 ) }, ${ ~~(Math.random() * 255 ) })`
+        })
+        cn.rect(
+            Math.random() * cn.width,
+            Math.random() * cn.height,
+            Math.random() * 100,
+            Math.random() * 100,
+            { isFilled: true },
+        );
+    }
+})
 
-    return (
-        <Grid>
-            {
-                tiles.map((row, i) => {
-                    return (
-                        <Grid.Row key={ i } columns={ props.node.tiles.width } textAlign="center" style={{ padding: 0, fontFamily: "monospace" }}>
-                            {
-                                row.map(([ x, y, tile ]) => {
-                                    return (
-                                        <Grid.Column key={ `${ x }.${ y }` } style={{ padding: 0 }}>
-                                            <Tile x={ x } y={ y } tile={ tile } />
-                                        </Grid.Column>
-                                    )
-                                })
-                            }
-                        </Grid.Row>
-                    )
-                })
-            }
-        </Grid>
-    );
-}
+cn.play();  // Begin requestAnimationFrame
+
+export const Context = React.createContext(cn);
 
 function App() {
-    const graph = GraphFactory.Generate(1, 1, 15, 15);
-
     return (
-        <Segment>
-            {
-                Object.values(graph.nodes).map(node => {
-                    return (
-                        <Node key={ node.id } node={ node } />
-                    );
-                })
-            }
-        </Segment>
-    );
+        <Router>
+            <ScrollToTop>
+                <Context.Provider value={{ node: cn }}>
+                    <Switch>                            
+                        <Route path="/">
+                            <Routes.Home />
+                        </Route>
+                    </Switch>
+                </Context.Provider>
+            </ScrollToTop>
+        </Router>
+    )
 }
 
 export default App;
