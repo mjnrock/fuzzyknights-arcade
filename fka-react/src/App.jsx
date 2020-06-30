@@ -13,14 +13,18 @@ import Routes from "./routes/package";
 const cn = new CanvasNode({ width: 500, height: 500 });
 cn.rect(50, 50, 100, 100, { isFilled: true });
 
-cn.addReducer((state) => {
+cn.addReducer((state, msg) => {
+    if(msg.type !== "CanvasNode.Render") {
+        console.log(msg);
+    }
+    
     return {
         _time: Date.now(),
         ...state
     }
 });
 
-cn.addEffect(() => {
+cn.addEffect((state, msg) => {
     if(Math.random() > 0.9) {
         cn.prop({
             fillStyle: `rgb(${ ~~(Math.random() * 255 ) }, ${ ~~(Math.random() * 255 ) }, ${ ~~(Math.random() * 255 ) })`

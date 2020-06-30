@@ -1,7 +1,9 @@
 import Hive from "@lespantsfancy/hive";
 
 export const EnumEventType = {
-    
+    RENDER: "CanvasNode.Render",
+    DRAW: "CanvasNode.Draw",
+    ERASE: "CanvasNode.Erase",
 };
 
 export default class CanvasNode extends Hive.Node {
@@ -161,10 +163,14 @@ export default class CanvasNode extends Hive.Node {
     clear() {
         this.ctx.clearRect(0, 0, this.width, this.height);
 
+        this.dispatch(EnumEventType.ERASE);
+
         return this;
     }
     erase(x, y, w, h) {
         this.ctx.clearRect(x, y, w, h);
+
+        this.dispatch(EnumEventType.ERASE);
 
         return this;
     }
@@ -180,6 +186,8 @@ export default class CanvasNode extends Hive.Node {
         this.ctx.globalCompositeOperation = "source-over";
         this.ctx.strokeStyle = pColor;
         this.ctx.fillStyle = pBgColor;
+
+        this.dispatch(EnumEventType.ERASE);
     }
 
     //* Shape methods
@@ -197,6 +205,8 @@ export default class CanvasNode extends Hive.Node {
             this.ctx.stroke();
         }
 
+        this.dispatch(EnumEventType.DRAW);
+
         return this;
     }
 
@@ -210,6 +220,8 @@ export default class CanvasNode extends Hive.Node {
         this.ctx.lineTo(x1, y1);
         this.ctx.closePath();
         this.ctx.stroke();
+
+        this.dispatch(EnumEventType.DRAW);
 
         return this;
     }
@@ -227,7 +239,7 @@ export default class CanvasNode extends Hive.Node {
             this.ctx.stroke();
         }
 
-        this.dispatch();
+        this.dispatch(EnumEventType.DRAW);
 
         return this;
     }
@@ -273,6 +285,8 @@ export default class CanvasNode extends Hive.Node {
             this.ctx.stroke();
         }
 
+        this.dispatch(EnumEventType.DRAW);
+
         return this;
     }
 
@@ -291,6 +305,8 @@ export default class CanvasNode extends Hive.Node {
         this.ctx.fillText(txt, xn, yn);
         this.ctx.fillStyle = pColor;
 
+        this.dispatch(EnumEventType.DRAW);
+
         return this;
     }
 
@@ -299,11 +315,15 @@ export default class CanvasNode extends Hive.Node {
             if(imageOrSrc instanceof HTMLImageElement) {
                 this.ctx.drawImage(imageOrSrc, ...args);
 
+                this.dispatch(EnumEventType.DRAW);
+
                 resolve(this);
             } else if(typeof imageOrSrc === "string" || imageOrSrc instanceof String) {
                 let img = new Image();
                 img.onload = e => {
                     this.ctx.drawImage(img, ...args);
+
+                    this.dispatch(EnumEventType.DRAW);
 
                     resolve(this);
                 }
