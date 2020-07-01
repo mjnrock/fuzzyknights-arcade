@@ -74,7 +74,7 @@ export default class Node extends EventEmitter {
 
             for(let x = x0; x <= x1; x++) {
                 for(let y = y0; y <= y1; y++) {
-                    fn(this.get(x, y));
+                    fn(x, y, this.get(x, y));
                 }
             }
         }

@@ -11,7 +11,14 @@ export default function Canvas(props) {
 
         if(ref) {            
             if(props.src) {
-                Base64.Decode(props.src).then(setCanvas);
+                Base64.Decode(props.src).then(cvs => {
+                    //FIXME Temp event association until Base64 class is modified to accommodate
+                    if(props.src instanceof HTMLCanvasElement) {
+                        cvs.onmousedown = props.src.onmousedown;
+                    }
+
+                    setCanvas(cvs);
+                });
             }
         }
         // eslint-disable-next-line
@@ -25,6 +32,9 @@ export default function Canvas(props) {
 
             ref.width = canvas.width;
             ref.height = canvas.height;
+
+            //FIXME Temp event association until Base64 class is modified to accommodate
+            ref.onmousedown = canvas.onmousedown;
 
             ctx.drawImage(canvas, 0, 0);
         }

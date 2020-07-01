@@ -101,6 +101,10 @@ export default class GridCanvasNode extends CanvasNode {
         }
     }
     
+    //* Grid ("g") Shape Methods
+    /*
+     *  All ctx modifications (e.g. color, stroke width, etc.) should be changed via .prop
+     */
     gErase(x, y, w, h, { round = 0 } = {}) {
         const [[ tx, tw ], [ ty, th ]] = this.pixelToGrid([ x, w ], [ y, h ], { round, asArray: true });
 
@@ -126,5 +130,27 @@ export default class GridCanvasNode extends CanvasNode {
         this.image(imageOrSrc, tsx, tsy, this.tw, this.th, tdx, tdy, this.tw, this.th);
 
         return this;
+    }
+
+    gQuilt(x, y, w, h, { round, colorFn } = {}) {
+        this.ctx.save();
+        for(let i = 0; i < w; i++) {
+            for(let j = 0; j < h; j++) {
+                let color;
+
+                if(typeof colorFn === "function") {
+                    color = colorFn({ x: x + i, y: y + j, i, j }, { tx: x, ty: y, w, h });
+                } else {
+                    color = `rgb(${ ~~(Math.random() * 255) }, ${ ~~(Math.random() * 255) }, ${ ~~(Math.random() * 255) })`;
+                }
+
+                this.prop({
+                    fillStyle: color,
+                });
+
+                this.gPoint(x + i, y + j);
+            }
+        }
+        this.ctx.restore();
     }
 }

@@ -64,6 +64,18 @@ export default class CanvasNode extends Hive.Node {
         return this;
     }
 
+    //* "Chainable" abstractions to allow a series of calls to be made before a context reset
+    begin() {
+        this.ctx.save();
+
+        return this;
+    }
+    end() {
+        this.ctx.restore();
+
+        return this;
+    }
+
     //* Context meta methods
     prop(obj = {}) {
         for(let [ key, value ] of Object.entries(obj)) {
