@@ -1,5 +1,6 @@
-//TODO This is just a template, LayeredCanvasNode does not exist
-export default class RenderNode extends LayeredCanvasNode {
+import GridCanvasNode from "./hive/GridCanvasNode";
+
+export default class RenderNodeEntities extends GridCanvasNode {
     constructor(node, { tw = 32, th = 32, size = [] } = {}) {
         super({
             width: node.tiles.width * (size[ 0 ] || tw),
@@ -10,6 +11,8 @@ export default class RenderNode extends LayeredCanvasNode {
         this.mergeState({
             node: node,
         });
+
+        this.draw();
     }
 
     get node() {
@@ -17,5 +20,11 @@ export default class RenderNode extends LayeredCanvasNode {
     }
     set node(value) {
         this.state.node = value;
+    }
+
+    draw() {
+        this.node.each((entity, i) => {
+            // TODO
+        })
     }
 }
