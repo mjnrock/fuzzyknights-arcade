@@ -17,8 +17,6 @@ const node = graph.getNode(0, 0);
 console.log(node)
 const renderNode = new RenderNode(node, { size: [ 50, 50 ]});
 
-renderNode.draw();
-
 export const Context = React.createContext(renderNode);
 
 function App() {

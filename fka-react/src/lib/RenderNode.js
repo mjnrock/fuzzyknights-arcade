@@ -14,9 +14,12 @@ export default class RenderNode extends GridCanvasNode {
             node: node,
         });
 
+        //FIXME Temp event association until Base64 class is modified to accommodate
         this.canvas.onmousedown = e => {
             console.log(e.x, e.y)
         }
+
+        this.draw();
     }
 
     get node() {

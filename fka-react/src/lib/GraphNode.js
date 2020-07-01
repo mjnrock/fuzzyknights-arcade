@@ -10,7 +10,7 @@ import Tile from "./Tile";
 
 export const EnumEventType = {};
 
-export default class Node extends EventEmitter {
+export default class GraphNode extends EventEmitter {
     constructor() {
         super();
         this.id = uuidv4();
@@ -174,10 +174,10 @@ export default class Node extends EventEmitter {
     
     get has() {
         return {
-            north: this.portals.north instanceof Node,
-            east: this.portals.east instanceof Node,
-            south: this.portals.south instanceof Node,
-            west: this.portals.west instanceof Node,
+            north: this.portals.north instanceof GraphNode,
+            east: this.portals.east instanceof GraphNode,
+            south: this.portals.south instanceof GraphNode,
+            west: this.portals.west instanceof GraphNode,
         };
     }
 };

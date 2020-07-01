@@ -1,7 +1,7 @@
 import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
 
-import Node from "./Node";
+import GraphNode from "./GraphNode";
 
 /*
  * This is meant to be the entire "level" in that dungeon game, or any space where "tessellated sub maps" is appropriate
@@ -28,7 +28,7 @@ export default class Graph extends EventEmitter {
     }
 
     addNode(x, y, node) {
-        if(node instanceof Node) {
+        if(node instanceof GraphNode) {
             const key = this._key(x, y);
 
             this.nodes[ key ] = node;
@@ -41,7 +41,7 @@ export default class Graph extends EventEmitter {
         const key = this._key(x, y);
         const node = this.nodes[ key ];
 
-        if(node instanceof Node) {
+        if(node instanceof GraphNode) {
             delete this.nodes[ key ];
             this.positions.delete(key);
         }
@@ -50,7 +50,7 @@ export default class Graph extends EventEmitter {
     }
 
     neighbors(x, y) {
-        if(x instanceof Node) {
+        if(x instanceof GraphNode) {
             const key = this.positions.get(x);
             const split = key.split(".");
 
