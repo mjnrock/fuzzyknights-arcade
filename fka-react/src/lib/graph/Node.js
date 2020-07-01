@@ -8,10 +8,13 @@ import Tile from "./Tile";
  * The tiles are meant to be the individual tiles for that map, as a tessellated grid
  */
 
-export const EnumEventType = {};
+export const EnumEventType = {
+    ENTITY_JOIN: "ENTITY_JOIN",
+    ENTITY_LEAVE: "ENTITY_LEAVE",
+};
 
 export default class Node extends EventEmitter {
-    constructor() {
+    constructor({ entities = [] } = {}) {
         super();
         this.id = uuidv4();
         
@@ -28,6 +31,8 @@ export default class Node extends EventEmitter {
             height: 1,
             "0.0": null,
         };
+
+        this.entities = new Set(entities);
 
         this.positions = new WeakMap(); // Keeps a weak reference to position, with entry as key
     }
@@ -179,5 +184,53 @@ export default class Node extends EventEmitter {
             south: this.portals.south instanceof Node,
             west: this.portals.west instanceof Node,
         };
+    }
+
+    
+
+    get entities() {
+        return this.state.entities;
+    }
+    set entities(arr) {
+        if(Array.isArray(arr)) {
+            this.mergeState({
+                entities: arr,
+            });
+        }
+    }
+
+    tilePos(entity) {
+        return {
+            x: Math.floor(entity.x),
+            y: Math.floor(entity.y),
+        };
+    }
+    
+    entity(index = 0) {
+        return this.entities[ index ];
+    }
+    find(...indexesOrTypes) {
+        return this.entities.filter((entity, i) => {
+            if(indexesOrTypes.includes(i)) {
+                return true;
+            } else if(indexesOrTypes.some(entry => !Number.isInteger(entry) && entity.type === entry)) {
+                return true;
+            }
+
+            return false;
+        });
+    }
+
+    join(entity) {
+        this.entities.add(entity);
+        this.emit(EnumEventType.ENTITY_JOIN, entity);
+        
+        return this;
+    }
+    removeEntity(entity) {
+        this.entities.delete(entity);
+        this.emit(EnumEventType.ENTITY_LEAVE, entity);
+        
+        return this;
     }
 };
