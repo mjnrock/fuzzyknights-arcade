@@ -5,17 +5,16 @@ import {
     Route,
 } from "react-router-dom";
 
-// import CanvasNode from "./lib/hive/CanvasNode";
-import GraphFactory from "./lib/GraphFactory";
-import RenderNode from "./lib/RenderNode";
 import ScrollToTop from "./ScrollToTop";
 import Routes from "./routes/package";
 
-const graph = GraphFactory.Generate(1, 1, 20, 20);
+import Graph from "./lib/graph/package";
+
+const graph = Graph.GraphFactory.Generate(1, 1, 20, 20);
 console.log(graph)
 const node = graph.getNode(0, 0);
 console.log(node)
-const renderNode = new RenderNode(node, { size: [ 50, 50 ]});
+const renderNode = new Graph.RenderNode(node, { size: [ 50, 50 ]});
 
 export const Context = React.createContext(renderNode);
 

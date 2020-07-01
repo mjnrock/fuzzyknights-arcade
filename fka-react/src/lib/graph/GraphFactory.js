@@ -1,5 +1,5 @@
 import Graph from "./Graph";
-import GraphNode from "./GraphNode";
+import Node from "./Node";
 import Tile from "./Tile";
 import Terrain, { EnumTerrainType } from "./Terrain";
 
@@ -9,7 +9,7 @@ export default class GraphFactory {
 
         for(let w = 0; w < gw; w++) {
             for(let h = 0; h < gh; h++) {
-                const node = new GraphNode();
+                const node = new Node();
 
                 node.seed(nw, nh, function(x, y) {
                     let tile;

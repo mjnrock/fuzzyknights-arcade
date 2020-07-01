@@ -1,4 +1,4 @@
-import GridCanvasNode from "./hive/GridCanvasNode";
+import GridCanvasNode from "../hive/GridCanvasNode";
 
 import { EnumTerrainType } from "./Terrain";
 
