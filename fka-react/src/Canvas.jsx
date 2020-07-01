@@ -3,13 +3,13 @@ import React, { useState, useEffect } from "react";
 import Base64 from "@lespantsfancy/hive/lib/client/util/Base64";
 
 export default function Canvas(props) {
-    const canvasRef = React.createRef();
+    let canvasRef = React.createRef();
     const [ canvas, setCanvas ] = useState();
 
     useEffect(() => {
         const ref = canvasRef.current;
 
-        if(ref) {
+        if(ref) {            
             if(props.src) {
                 Base64.Decode(props.src).then(setCanvas);
             }
@@ -26,7 +26,7 @@ export default function Canvas(props) {
             ref.width = canvas.width;
             ref.height = canvas.height;
 
-            ctx.drawImage(canvas, 0, 0)
+            ctx.drawImage(canvas, 0, 0);
         }
         // eslint-disable-next-line
     }, [ canvas ]);

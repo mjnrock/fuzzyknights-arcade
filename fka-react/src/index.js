@@ -11,7 +11,7 @@ import App from "./App";
 import MouseNode from "./lib/hive/MouseNode";
 import KeyNode from "./lib/hive/KeyNode";
 
-const mouseNode = new MouseNode({ element: window });
+const mouseNode = new MouseNode({ element: document.getElementById("root") });
 mouseNode.addEffect((state, msg) => {
     console.log(msg.type, msg.payload)
 });

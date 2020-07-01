@@ -312,22 +312,31 @@ export default class CanvasNode extends Hive.Node {
 
     image(imageOrSrc, ...args) {
         return new Promise((resolve, reject) => {
-            if(imageOrSrc instanceof HTMLImageElement) {
+            if(imageOrSrc instanceof HTMLImageElement || imageOrSrc instanceof HTMLCanvasElement) {
+                // Synchronously draw if <img> or <canvas>
                 this.ctx.drawImage(imageOrSrc, ...args);
 
                 this.dispatch(EnumMessageType.DRAW);
 
                 resolve(this);
             } else if(typeof imageOrSrc === "string" || imageOrSrc instanceof String) {
-                let img = new Image();
-                img.onload = e => {
-                    this.ctx.drawImage(img, ...args);
+                if(imageOrSrc in this.images) {
+                    // Synchronously draw if @imageOrSrc is a key in this.images (i.e. a cached image)
+                    this.ctx.drawImage(this.images[ imageOrSrc ], ...args);
 
                     this.dispatch(EnumMessageType.DRAW);
-
-                    resolve(this);
+                } else {
+                    // Asynchronously draw if @imageOrSrc is a "src" string
+                    let img = new Image();
+                    img.onload = e => {
+                        this.ctx.drawImage(img, ...args);
+    
+                        this.dispatch(EnumMessageType.DRAW);
+    
+                        resolve(this);
+                    }
+                    img.src = imageOrSrc;
                 }
-                img.src = imageOrSrc;
             } else {
                 reject(this);
             }

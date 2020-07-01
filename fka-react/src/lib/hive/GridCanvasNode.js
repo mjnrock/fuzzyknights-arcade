@@ -1,10 +1,6 @@
 import CanvasNode from "./CanvasNode";
 
-export const EnumMessageType = {
-    RENDER: "CanvasNode.Render",
-    DRAW: "CanvasNode.Draw",
-    ERASE: "CanvasNode.Erase",
-};
+export const EnumMessageType = {};
 
 /**
  * If a method is preceded be "g", then arg ∈ { X, Y, Width, Height } should be considered TILE entries
@@ -53,29 +49,28 @@ export default class GridCanvasNode extends CanvasNode {
      * 
      * @param {string|number} round "floor"|"ceil"|/[0-9]/
      */
-    normalize(x, y, w, h, { round = 0 } = {}) {
+    pixelToGrid(xs = [], ys = [], { round = 0, asArray = false } = {}) {
         if(String(round).match(/[0-9]/)) {
-            x = parseFloat(x).toFixed(round);
-            y = parseFloat(y).toFixed(round);
-            w = parseFloat(w).toFixed(round);
-            h = parseFloat(h).toFixed(round);
+            xs = xs.map(x => parseFloat(x).toFixed(round));
+            ys = ys.map(y => parseFloat(y).toFixed(round));
         } else if(round in Math) {
-            x = Math[ round ](x);
-            y = Math[ round ](y);
-            w = Math[ round ](w);
-            h = Math[ round ](h);
+            xs = xs.map(x => Math[ round ](x));
+            ys = ys.map(y => Math[ round ](y));
         }
         
-        let tx = this.tw * x,
-            ty = this.th * y,
-            tw = this.tw * w,
-            th = this.th * h;
+        const tx = xs.map(x => this.tw * x);
+        const ty = ys.map(y => this.th * y);
+
+        if(asArray === true) {
+            return [
+                tx,
+                ty
+            ];
+        }
 
         return {
-            tx: tx,
-            ty: ty,
-            tw: tw,
-            th: th,
+            x: tx,
+            y: ty,
         };
     }
 
@@ -96,9 +91,9 @@ export default class GridCanvasNode extends CanvasNode {
     }
     drawTransparency() {    
         let iter = 0;
-        for (let x = 0; x < this.canvas.width; x += this.tw) {
-            for (let y = 0; y < this.canvas.height; y += this.th) {
-                this.ctx.fillStyle = (iter % 2 === 0) ? "#fff" : "#ddd";
+        for (let x = 0; x < this.canvas.width; x += this.tw / 2) {
+            for (let y = 0; y < this.canvas.height; y += this.th / 2) {
+                this.ctx.fillStyle = (iter % 2 === 0) ? "#fcfcfc" : "#f5f5f5";
                 this.ctx.fillRect(x, y, this.tw, this.th);
                 ++iter;
             }
@@ -107,19 +102,28 @@ export default class GridCanvasNode extends CanvasNode {
     }
     
     gErase(x, y, w, h, { round = 0 } = {}) {
-        const { tx, ty, tw, th } = this.normalize(x, y, w, h, { round });
+        const [[ tx, tw ], [ ty, th ]] = this.pixelToGrid([ x, w ], [ y, h ], { round, asArray: true });
 
         this.erase(tx, ty, tw, th);
 
         return this;
     }
 
-    gRect(x, y, w, h, { isFilled = false, round = 0 } = {}) {
-        const { tx, ty, tw, th } = this.normalize(x, y, w, h, { round });
+    gPoint(x, y, { round } = {}) {
+        return this.gRect(x, y, 1, 1, { isFilled: true, round });
+    }
+    gRect(x, y, w, h, { isFilled = false, round } = {}) {
+        const [[ tx, tw ], [ ty, th ]] = this.pixelToGrid([ x, w ], [ y, h ], { round, asArray: true });
 
         this.rect(tx, ty, tw, th, { isFilled });
-        
-        console.log(tx, ty, tw, th);
+
+        return this;
+    }
+    
+    gTile(imageOrSrc, sx, sy, dx, dy, { round } = {}) {
+        const [[ tsx, tdx ], [ tsy, tdy ]] = this.pixelToGrid([ sx, dx ], [ sy, dy ], { round, asArray: true });
+
+        this.image(imageOrSrc, tsx, tsy, this.tw, this.th, tdx, tdy, this.tw, this.th);
 
         return this;
     }

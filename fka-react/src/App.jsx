@@ -17,7 +17,7 @@ const cn = new GridCanvasNode({ width: 500, height: 500, size: [ 25, 25 ] });
 console.log(cn.tw, cn.th, cn.xqty, cn.yqty);
 
 cn.drawTransparency();
-cn.drawGrid();
+// cn.drawGrid();
 
 cn.addReducer((state, msg) => {
     // if(msg.type !== "CanvasNode.Render") {
@@ -31,7 +31,7 @@ cn.addReducer((state, msg) => {
 });
 
 cn.addEffect((state, msg) => {
-    if(Math.random() > 0.965) {        
+    if(Math.random() > 0.85) {        
         let obj = {
             r: ~~(Math.random() * 255),
             g: ~~(Math.random() * 255),
@@ -46,13 +46,14 @@ cn.addEffect((state, msg) => {
         cn.prop({
             fillStyle: `rgb(${ obj.r }, ${ obj.g }, ${ obj.b })`
         })
-        cn.gRect(
-            obj.x,
-            obj.y,
-            obj.w,
-            obj.h,
-            { isFilled: true },
-        );
+        // cn.gRect(
+        //     obj.x,
+        //     obj.y,
+        //     obj.w,
+        //     obj.h,
+        //     { isFilled: true },
+        // );
+        cn.gPoint(obj.x, obj.y);
     }
 })
 
