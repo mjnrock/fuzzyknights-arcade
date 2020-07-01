@@ -5,7 +5,7 @@ import {
     Route,
 } from "react-router-dom";
 
-import CanvasNode from "./lib/hive/CanvasNode";
+// import CanvasNode from "./lib/hive/CanvasNode";
 import GridCanvasNode from "./lib/hive/GridCanvasNode";
 import ScrollToTop from "./ScrollToTop";
 import Routes from "./routes/package";
