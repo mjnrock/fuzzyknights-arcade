@@ -199,13 +199,6 @@ export default class Node extends EventEmitter {
         }
     }
 
-    tilePos(entity) {
-        return {
-            x: Math.floor(entity.x),
-            y: Math.floor(entity.y),
-        };
-    }
-    
     entity(index = 0) {
         return this.entities[ index ];
     }

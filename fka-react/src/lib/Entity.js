@@ -11,6 +11,13 @@ export default class Entity extends EventEmitter {
         this.y = y;
     }
 
+    get tile() {
+        return {
+            x: Math.floor(this.x),
+            y: Math.floor(this.y),
+        };
+    }
+
     setPos(x, y) {
         const old = [ this.x, this.y ];
         this.x = ~~x;
