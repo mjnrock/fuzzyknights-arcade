@@ -5,15 +5,11 @@ import Terrain from "./Terrain";
 
 import GraphFactory from "./GraphFactory";
 
-import RenderNode from "./RenderNode";
-
 export default {
     Graph,
     Node,
     Tile,
     Terrain,
-    
-    GraphFactory,
 
-    RenderNode,
+    GraphFactory,
 };

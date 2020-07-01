@@ -5,7 +5,8 @@ export const EnumEventType = {
 };
 
 export default class Entity extends EventEmitter {
-    constructor(x, y) {
+    constructor({ type, x, y } = {}) {
+        this.type = type;
         this.x = x;
         this.y = y;
     }

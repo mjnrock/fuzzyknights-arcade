@@ -6,18 +6,14 @@ import Terrain from "./Terrain";
 export const EnumEventType = {
     ACTIVATE: "ACTIVATE",
     DEACTIVATE: "DEACTIVATE",
+    ENTITY_ENTER: "ENTITY_ENTER",
+    ENTITY_LEAVE: "ENTITY_LEAVE",
 };
 
 export default class Tile extends EventEmitter {
-    constructor(terrain, { isNavigable = true, isInteractable = false } = {}) {
+    constructor(terrain, entities = [], { isNavigable = true, isInteractable = false } = {}) {
         super();
         this.id = uuidv4();
-        
-        if(terrain instanceof Terrain) {
-            this.terrain = terrain;
-        } else {
-            this.terrain = new Terrain(terrain);
-        }
 
         this.config = {
             isNavigable: isNavigable,
@@ -25,11 +21,61 @@ export default class Tile extends EventEmitter {
         };
 
         this.state = {
+            terrain: terrain instanceof Terrain ? terrain : new Terrain(terrain),
+            entities: entities,
             isActive: false,
         };
 
         this.on(EnumEventType.ACTIVATE, (...args) => this.onActivate.call(this, ...args));
         this.on(EnumEventType.DEACTIVATE, (...args) => this.onDeactivate.call(this, ...args));
+    }
+
+    get terrain() {
+        return this.state.terrain;
+    }
+    set terrain(value) {
+        this.mergeState({
+            terrain: value,
+        });
+    }
+
+    get entities() {
+        return this.state.entities;
+    }
+    set entities(arr) {
+        if(Array.isArray(arr)) {
+            this.mergeState({
+                entities: arr,
+            });
+        }
+    }
+
+    entity(index = 0) {
+        return this.entities[ index ];
+    }
+    find(...indexesOrTypes) {
+        return this.entities.filter((entity, i) => {
+            if(indexesOrTypes.includes(i)) {
+                return true;
+            } else if(indexesOrTypes.some(entry => !Number.isInteger(entry) && entity.type === entry)) {
+                return true;
+            }
+
+            return false;
+        });
+    }
+
+    addEntity(entity) {
+        this.entities.push(entity);
+        this.emit(EnumEventType.ENTITY_ENTER, entity);
+        
+        return this;
+    }
+    removeEntity(entity) {
+        this.entities = this.entities.filter(ent => ent !== entity);
+        this.emit(EnumEventType.ENTITY_LEAVE, entity);
+        
+        return this;
     }
     
     flag(option, value) {
