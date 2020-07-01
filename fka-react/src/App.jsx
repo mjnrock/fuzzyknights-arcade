@@ -30,47 +30,33 @@ cn.addReducer((state, msg) => {
     }
 });
 
-let obj = {
-    r: ~~(Math.random() * 255),
-    g: ~~(Math.random() * 255),
-    b: ~~(Math.random() * 255),
-    
-    x: Math.random() * cn.xqty,
-    y: Math.random() * cn.yqty,
-    w: Math.random() * cn.xqty + 1,
-    h: Math.random() * cn.yqty + 1,
-};
+cn.addEffect((state, msg) => {
+    if(Math.random() > 0.965) {        
+        let obj = {
+            r: ~~(Math.random() * 255),
+            g: ~~(Math.random() * 255),
+            b: ~~(Math.random() * 255),
+            
+            x: Math.random() * cn.xqty,
+            y: Math.random() * cn.yqty,
+            w: Math.random() * (cn.xqty / 3) + 1,
+            h: Math.random() * (cn.yqty / 3) + 1,
+        };
 
-cn.prop({
-    fillStyle: `rgb(${ obj.r }, ${ obj.g }, ${ obj.b })`
+        cn.prop({
+            fillStyle: `rgb(${ obj.r }, ${ obj.g }, ${ obj.b })`
+        })
+        cn.gRect(
+            obj.x,
+            obj.y,
+            obj.w,
+            obj.h,
+            { isFilled: true },
+        );
+    }
 })
-cn.gRect(
-    obj.x,
-    obj.y,
-    obj.w,
-    obj.h,
-    { isFilled: true },
-);
 
-console.log(obj)
-
-// cn.addEffect((state, msg) => {
-//     if(Math.random() > 0.99) {
-//         cn.prop({
-//             fillStyle: `rgb(${ ~~(Math.random() * 255 ) }, ${ ~~(Math.random() * 255 ) }, ${ ~~(Math.random() * 255 ) })`
-//         })
-//         cn.gRect(
-//             Math.random() * cn.xqty,
-//             Math.random() * cn.yqty,
-//             Math.random() * cn.xqty + 1,
-//             Math.random() * cn.yqty + 1,
-//             { isFilled: true },
-//         );
-//     }
-// })
-
-// cn.play();  // Begin requestAnimationFrame
-cn.pause();  // Begin requestAnimationFrame
+cn.play();  // Begin requestAnimationFrame
 
 export const Context = React.createContext(cn);
 
