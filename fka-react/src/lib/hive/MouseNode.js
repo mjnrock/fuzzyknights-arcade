@@ -1,7 +1,7 @@
 import Hive from "@lespantsfancy/hive";
 import { Bitwise } from "./Helper";
 
-export const EnumEventType = {
+export const EnumMessageType = {
     MOUSE_MASK: "MouseNode.Mask",
     MOUSE_DOWN: "MouseNode.Down",
     MOUSE_UP: "MouseNode.Up",
@@ -122,7 +122,7 @@ export default class MouseNode extends Hive.Node {
         this.state.mask.current = mask;
 
         if(this.config.allowComplexActions === true && this.state.mask.current !== this.state.mask.previous) {
-            this.dispatch(EnumEventType.MOUSE_MASK, this.state.mask.current);
+            this.dispatch(EnumMessageType.MOUSE_MASK, this.state.mask.current);
         }
     }
 
@@ -155,7 +155,7 @@ export default class MouseNode extends Hive.Node {
                         const dt = t1 - t0;
     
                         if(dt <= this.config.click.timeout && (Math.abs(dx) <= this.config.click.threshold && Math.abs(dy) <= this.config.click.threshold)) {
-                            this.dispatch(EnumEventType.MOUSE_CLICK, {
+                            this.dispatch(EnumMessageType.MOUSE_CLICK, {
                                 mask: this.state.mask.current,
                                 button: btn,
                                 start: {
@@ -217,7 +217,7 @@ export default class MouseNode extends Hive.Node {
                         const dt = t1 - t0;
     
                         if(dt <= this.config.doubleClick.timeout && (Math.abs(dx) <= this.config.doubleClick.threshold && Math.abs(dy) <= this.config.doubleClick.threshold)) {
-                            this.dispatch(EnumEventType.MOUSE_DOUBLE_CLICK, {
+                            this.dispatch(EnumMessageType.MOUSE_DOUBLE_CLICK, {
                                 mask: this.state.mask.current,
                                 button: btn,
                                 start: {
@@ -265,7 +265,7 @@ export default class MouseNode extends Hive.Node {
                         const dt = t1 - t0;
 
                         if(dt <= this.config.selection.timeout && (Math.abs(dx) >= this.config.selection.threshold && Math.abs(dy) >= this.config.selection.threshold)) {
-                            this.dispatch(EnumEventType.MOUSE_SELECTION, {
+                            this.dispatch(EnumMessageType.MOUSE_SELECTION, {
                                 mask: this.state.mask.current,
                                 button: btn,
                                 start: {
@@ -331,7 +331,7 @@ export default class MouseNode extends Hive.Node {
                                 }
                             }
 
-                            this.dispatch(EnumEventType.MOUSE_SWIPE, {
+                            this.dispatch(EnumMessageType.MOUSE_SWIPE, {
                                 mask: this.state.mask.current,
                                 button: btn,
                                 start: {
@@ -360,7 +360,7 @@ export default class MouseNode extends Hive.Node {
         e.preventDefault();
 
         this.updateMask(e, true);
-        this.dispatch(EnumEventType.MOUSE_DOWN, {
+        this.dispatch(EnumMessageType.MOUSE_DOWN, {
             mask: this.state.mask.current,
             x: e.x,
             y: e.y,
@@ -376,7 +376,7 @@ export default class MouseNode extends Hive.Node {
         e.preventDefault();
 
         this.updateMask(e, false);
-        this.dispatch(EnumEventType.MOUSE_UP, {
+        this.dispatch(EnumMessageType.MOUSE_UP, {
             mask: this.state.mask.current,
             x: e.x,
             y: e.y,
@@ -393,7 +393,7 @@ export default class MouseNode extends Hive.Node {
 
         if(this.config.moveRequiresButton === true) {
             if(e.buttons > 0) {
-                this.dispatch(EnumEventType.MOUSE_MOVE, {
+                this.dispatch(EnumMessageType.MOUSE_MOVE, {
                     mask: this.state.mask.current,
                     x: e.x,
                     y: e.y,
@@ -401,7 +401,7 @@ export default class MouseNode extends Hive.Node {
                 });
             }
         } else {
-            this.dispatch(EnumEventType.MOUSE_MOVE, {
+            this.dispatch(EnumMessageType.MOUSE_MOVE, {
                 mask: this.state.mask.current,
                 x: e.x,
                 y: e.y,
@@ -412,7 +412,7 @@ export default class MouseNode extends Hive.Node {
     onContextMenu(e) {
         e.preventDefault();
 
-        this.dispatch(EnumEventType.MOUSE_CONTEXT_MENU, {
+        this.dispatch(EnumMessageType.MOUSE_CONTEXT_MENU, {
             mask: this.state.mask.current,
             x: e.x,
             y: e.y,

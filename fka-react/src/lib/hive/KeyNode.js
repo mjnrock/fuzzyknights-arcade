@@ -1,7 +1,7 @@
 import Hive from "@lespantsfancy/hive";
 import { Bitwise } from "./Helper";
 
-export const EnumEventType = {
+export const EnumMessageType = {
     KEY_MASK: "KeyNode.Mask",
     KEY_DOWN: "KeyNode.Down",
     KEY_UP: "KeyNode.Up",
@@ -89,7 +89,7 @@ export default class KeyNode extends Hive.Node {
         this.state.mask.current = mask;
 
         if(this.config.allowComplexActions === true && this.state.mask.current !== this.state.mask.previous) {
-            this.dispatch(EnumEventType.KEY_MASK, this.state.mask.current);
+            this.dispatch(EnumMessageType.KEY_MASK, this.state.mask.current);
         }
     }
 
@@ -111,7 +111,7 @@ export default class KeyNode extends Hive.Node {
                     const dt = Date.now() - this.state.press[ e.which ][ 0 ];
 
                     if(dt <= this.config.press.timeout && this.state.press[ e.which ][ 1 ] !== true) {
-                        this.dispatch(EnumEventType.KEY_PRESS, {
+                        this.dispatch(EnumMessageType.KEY_PRESS, {
                             mask: this.state.mask.current,
                             code: e.which,
                             duration: dt,
@@ -131,7 +131,7 @@ export default class KeyNode extends Hive.Node {
 
                 if(size >= this.config.chord.threshold) {
                     if(Object.values(this.state.press).every(([ value ]) => now - value <= this.config.chord.timeout)) {
-                        this.dispatch(EnumEventType.KEY_CHORD, {
+                        this.dispatch(EnumMessageType.KEY_CHORD, {
                             mask: this.state.mask.current,
                             direction: e.type.replace("key", ""),
                             size: size,
@@ -150,7 +150,7 @@ export default class KeyNode extends Hive.Node {
         e.preventDefault();
 
         this.updateMask(e, true);
-        this.dispatch(EnumEventType.KEY_DOWN, {
+        this.dispatch(EnumMessageType.KEY_DOWN, {
             mask: this.state.mask.current,
             event: e,
         });
@@ -162,7 +162,7 @@ export default class KeyNode extends Hive.Node {
         e.preventDefault();
 
         this.updateMask(e, false);
-        this.dispatch(EnumEventType.KEY_UP, {
+        this.dispatch(EnumMessageType.KEY_UP, {
             mask: this.state.mask.current,
             event: e,
         });
