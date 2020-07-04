@@ -1,8 +1,8 @@
-import GridCanvasNode from "./hive/GridCanvasNode";
+import GridCanvasNode from "../../hive/GridCanvasNode";
 
-import { EnumTerrainType } from "./graph/Terrain";
+import { EnumTerrainType } from "../../graph/Terrain";
 
-export default class RenderNodeTerrain extends GridCanvasNode {
+export default class NodeTerrain extends GridCanvasNode {
     constructor(node, { tw = 32, th = 32, size = [] } = {}) {
         super({
             width: node.tiles.width * (size[ 0 ] || tw),
