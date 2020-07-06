@@ -1,10 +1,10 @@
 import GridCanvasNode from "../../hive/GridCanvasNode";
 
-export const EnumEventType = {
-    UPDATE: "NodeEntities.Update",
+export const EnumMessageType = {
+    PAINT: "NodeEntities.Paint",
 };
 
-export default class NodeEntities extends GridCanvasNode {
+export default class RenderNodeEntities extends GridCanvasNode {
     constructor(node, { tw = 128, th = 128, size = [] } = {}) {
         super({
             width: node.tiles.width * (size[ 0 ] || tw),
@@ -16,10 +16,7 @@ export default class NodeEntities extends GridCanvasNode {
             node: node,
         });
 
-        this.loadImage("raccoon", "./assets/entity/raccoon.png").then(() => {
-            this.node.addEntity(1)
-            this.draw();
-        });
+        this.draw();
     }
 
     get node() {
@@ -34,6 +31,6 @@ export default class NodeEntities extends GridCanvasNode {
             this.gTile(this.img("raccoon"), 4, 0, 5, 5);
         });
 
-        this.dispatch(EnumEventType.UPDATE);
+        this.dispatch(EnumMessageType.PAINT);
     }
 }

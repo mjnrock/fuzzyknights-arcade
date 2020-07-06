@@ -1,9 +1,12 @@
-import GridCanvasNode from "./../hive/GridCanvasNode";
+import GridCanvasNode from "../../hive/GridCanvasNode";
 
-import { EnumTerrainType } from "./../graph/Terrain";
+import { EnumTerrainType } from "../../graph/Terrain";
 
-//TODO This is just a template, LayeredCanvasNode does not exist
-export default class RenderNode extends GridCanvasNode {
+export const EnumMessageType = {
+    PAINT: "NodeTerrain.Paint",
+};
+
+export default class RenderNodeTerrain extends GridCanvasNode {
     constructor(node, { tw = 32, th = 32, size = [] } = {}) {
         super({
             width: node.tiles.width * (size[ 0 ] || tw),
@@ -15,11 +18,13 @@ export default class RenderNode extends GridCanvasNode {
             node: node,
         });
 
-        this.loadImage("raccoon", "./assets/entity/raccoon.png").then(() => {
-            this.node.addEntity(1);
-            this.draw();
-            this.dispatch();
-        });
+        // //? This is meant to bind event handlers of this canvas to the React ref canvases
+        // //FIXME Temp event association until Base64 class is modified to accommodate
+        // this.canvas.onmousedown = e => {
+        //     console.log(e.x, e.y)
+        // }
+
+        this.draw();
     }
 
     get node() {
@@ -47,10 +52,8 @@ export default class RenderNode extends GridCanvasNode {
                 }).gPoint(x, y);
             }
         });
-
         
-        this.node.each((entity, i) => {
-            this.gTile("raccoon", 4, 0, 5, 5);
-        });
+
+        this.dispatch(EnumMessageType.PAINT);
     }
 }

@@ -17,6 +17,11 @@ const node = graph.getNode(0, 0);
 console.log(node)
 const renderNode = new RenderNode(node, { size: [ 128, 128 ]});
 
+renderNode.getLayer(1).loadImage("raccoon", "./assets/entity/raccoon.png").then(() => {
+    node.addEntity(1);
+    renderNode.draw();
+});
+
 export const Context = React.createContext(renderNode);
 
 function App() {

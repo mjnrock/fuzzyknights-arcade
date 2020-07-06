@@ -1,7 +1,7 @@
 import GridCanvasNode from "./GridCanvasNode";
 
 export const EnumMessageType = {
-    UPDATE: "RenderNode.Update",
+    PAINT: "LayeredCanvasNode.Paint",
 };
 
 export default class LayeredCanvasNode extends GridCanvasNode {
@@ -57,7 +57,7 @@ export default class LayeredCanvasNode extends GridCanvasNode {
     paint() {
         this.stack.forEach(cnode => this.ctx.drawImage(cnode.canvas, 0, 0));
 
-        this.dispatch(EnumMessageType.UPDATE);
+        this.dispatch(EnumMessageType.PAINT);
 
         return this;
     }

@@ -1,11 +1,7 @@
 import LayeredCanvasNode from "./../../hive/LayeredCanvasNode";
 
-import NodeTerrain, { EnumEventType as EnumNodeTerrainEventType } from "./NodeTerrain";
-import NodeEntities, { EnumEventType as EnumNodeEntitiesEventType } from "./NodeEntities";
-
-export const EnumEventType = {
-    UPDATE: "RenderNode.Update",
-};
+import RenderNodeTerrain, { EnumMessageType as EnumNodeTerrainMessageType } from "./Terrain.RenderNode";
+import RenderNodeEntities, { EnumMessageType as EnumNodeEntitiesMessageType } from "./Entities.RenderNode";
 
 //TODO This is just a template, LayeredCanvasNode does not exist
 export default class RenderNode extends LayeredCanvasNode {
@@ -15,8 +11,8 @@ export default class RenderNode extends LayeredCanvasNode {
             height: node.tiles.height * (size[ 1 ] || th),
             size: [ size[ 0 ] || tw, size[ 1 ] || th ],
             stack: [                
-                new NodeTerrain(node, { tw, th, size }),
-                new NodeEntities(node, { tw, th, size }),
+                new RenderNodeTerrain(node, { tw, th, size }),
+                new RenderNodeEntities(node, { tw, th, size }),
             ]
         });
 
@@ -24,8 +20,8 @@ export default class RenderNode extends LayeredCanvasNode {
             node: node,
         });
 
-        this.getLayer(0).addEffect(EnumNodeTerrainEventType.UPDATE, this.paint.bind(this));
-        this.getLayer(1).addEffect(EnumNodeEntitiesEventType.UPDATE, this.paint.bind(this));
+        this.getLayer(0).addEffect(EnumNodeTerrainMessageType.PAINT, this.paint.bind(this));
+        this.getLayer(1).addEffect(EnumNodeEntitiesMessageType.PAINT, this.paint.bind(this));
     }
 
     get node() {
@@ -33,5 +29,13 @@ export default class RenderNode extends LayeredCanvasNode {
     }
     set node(value) {
         this.state.node = value;
+    }
+
+    draw() {
+        for(let layer of this.stack) {
+            layer.draw();
+        }
+
+        this.paint();
     }
 }
