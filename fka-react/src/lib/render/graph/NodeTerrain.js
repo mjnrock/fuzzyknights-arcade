@@ -2,6 +2,10 @@ import GridCanvasNode from "../../hive/GridCanvasNode";
 
 import { EnumTerrainType } from "../../graph/Terrain";
 
+export const EnumEventType = {
+    UPDATE: "NodeTerrain.Update",
+};
+
 export default class NodeTerrain extends GridCanvasNode {
     constructor(node, { tw = 32, th = 32, size = [] } = {}) {
         super({
@@ -14,6 +18,7 @@ export default class NodeTerrain extends GridCanvasNode {
             node: node,
         });
 
+        //? This is meant to bind event handlers of this canvas to the React ref canvases
         //FIXME Temp event association until Base64 class is modified to accommodate
         this.canvas.onmousedown = e => {
             console.log(e.x, e.y)
@@ -46,6 +51,9 @@ export default class NodeTerrain extends GridCanvasNode {
                     fillStyle: "#000",
                 }).gPoint(x, y);
             }
-        })
+        });
+        
+
+        this.dispatch(EnumEventType.UPDATE);
     }
 }

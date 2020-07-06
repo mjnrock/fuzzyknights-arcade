@@ -186,19 +186,6 @@ export default class Node extends EventEmitter {
         };
     }
 
-    
-
-    get entities() {
-        return this.state.entities;
-    }
-    set entities(arr) {
-        if(Array.isArray(arr)) {
-            this.mergeState({
-                entities: arr,
-            });
-        }
-    }
-
     each(fn) {
         if(typeof fn === "function") {
             this.entities.forEach((entity, i) => fn(entity, i));
@@ -219,7 +206,7 @@ export default class Node extends EventEmitter {
         });
     }
 
-    join(entity) {
+    addEntity(entity) {
         this.entities.add(entity);
         this.emit(EnumEventType.ENTITY_JOIN, entity);
         

@@ -8,6 +8,8 @@ import Canvas from "../Canvas";
 export default function Home(props) {
     const { node } = useNodeContext(Context);
 
+    console.log(node);
+
     return (
         <Segment>
             <p>{ node.fps }</p>

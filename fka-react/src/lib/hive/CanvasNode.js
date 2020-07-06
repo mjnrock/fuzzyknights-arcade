@@ -2,8 +2,6 @@ import Hive from "@lespantsfancy/hive";
 
 export const EnumMessageType = {
     RENDER: "CanvasNode.Render",
-    DRAW: "CanvasNode.Draw",
-    ERASE: "CanvasNode.Erase",
 };
 
 export default class CanvasNode extends Hive.Node {
@@ -47,6 +45,9 @@ export default class CanvasNode extends Hive.Node {
         ];
     }
 
+    img(key) {
+        return this.images[ key ];
+    }
     get images() {
         return this.state.images;
     }
@@ -94,7 +95,7 @@ export default class CanvasNode extends Hive.Node {
             } else if(typeof imageOrSrc === "string" || imageOrSrc instanceof String) {
                 let img = new Image();
                 img.onload = e => {
-                    this.state.images[ name ] = imageOrSrc;
+                    this.state.images[ name ] = img;
 
                     resolve(this);
                 }
@@ -175,14 +176,10 @@ export default class CanvasNode extends Hive.Node {
     clear() {
         this.ctx.clearRect(0, 0, this.width, this.height);
 
-        this.dispatch(EnumMessageType.ERASE);
-
         return this;
     }
     erase(x, y, w, h) {
         this.ctx.clearRect(x, y, w, h);
-
-        this.dispatch(EnumMessageType.ERASE);
 
         return this;
     }
@@ -198,8 +195,6 @@ export default class CanvasNode extends Hive.Node {
         this.ctx.globalCompositeOperation = "source-over";
         this.ctx.strokeStyle = pColor;
         this.ctx.fillStyle = pBgColor;
-
-        this.dispatch(EnumMessageType.ERASE);
     }
 
     //* Shape methods
@@ -217,8 +212,6 @@ export default class CanvasNode extends Hive.Node {
             this.ctx.stroke();
         }
 
-        this.dispatch(EnumMessageType.DRAW);
-
         return this;
     }
 
@@ -232,8 +225,6 @@ export default class CanvasNode extends Hive.Node {
         this.ctx.lineTo(x1, y1);
         this.ctx.closePath();
         this.ctx.stroke();
-
-        this.dispatch(EnumMessageType.DRAW);
 
         return this;
     }
@@ -250,8 +241,6 @@ export default class CanvasNode extends Hive.Node {
             this.ctx.closePath();
             this.ctx.stroke();
         }
-
-        this.dispatch(EnumMessageType.DRAW);
 
         return this;
     }
@@ -297,8 +286,6 @@ export default class CanvasNode extends Hive.Node {
             this.ctx.stroke();
         }
 
-        this.dispatch(EnumMessageType.DRAW);
-
         return this;
     }
 
@@ -317,8 +304,6 @@ export default class CanvasNode extends Hive.Node {
         this.ctx.fillText(txt, xn, yn);
         this.ctx.fillStyle = pColor;
 
-        this.dispatch(EnumMessageType.DRAW);
-
         return this;
     }
 
@@ -328,22 +313,17 @@ export default class CanvasNode extends Hive.Node {
                 // Synchronously draw if <img> or <canvas>
                 this.ctx.drawImage(imageOrSrc, ...args);
 
-                this.dispatch(EnumMessageType.DRAW);
-
                 resolve(this);
             } else if(typeof imageOrSrc === "string" || imageOrSrc instanceof String) {
                 if(imageOrSrc in this.images) {
                     // Synchronously draw if @imageOrSrc is a key in this.images (i.e. a cached image)
-                    this.ctx.drawImage(this.images[ imageOrSrc ], ...args);
 
-                    this.dispatch(EnumMessageType.DRAW);
+                    this.ctx.drawImage(this.images[ imageOrSrc ], ...args);
                 } else {
                     // Asynchronously draw if @imageOrSrc is a "src" string
                     let img = new Image();
                     img.onload = e => {
                         this.ctx.drawImage(img, ...args);
-    
-                        this.dispatch(EnumMessageType.DRAW);
     
                         resolve(this);
                     }

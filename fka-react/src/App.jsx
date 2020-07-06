@@ -9,7 +9,7 @@ import ScrollToTop from "./ScrollToTop";
 import Routes from "./routes/package";
 
 import Graph from "./lib/graph/package";
-import RenderNode from "./lib/render/RenderNode";
+import RenderNode from "./lib/render/graph/RenderNode";
 
 const graph = Graph.GraphFactory.Generate(1, 1, 20, 20);
 console.log(graph)

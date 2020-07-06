@@ -15,11 +15,11 @@ export default class RenderNode extends GridCanvasNode {
             node: node,
         });
 
-        this.loadImage("raccoon", "./assets/entity/raccoon.png");
-
-        setTimeout(() => {
+        this.loadImage("raccoon", "./assets/entity/raccoon.png").then(() => {
+            this.node.addEntity(1);
             this.draw();
-        }, 1000);
+            this.dispatch();
+        });
     }
 
     get node() {
@@ -50,7 +50,7 @@ export default class RenderNode extends GridCanvasNode {
 
         
         this.node.each((entity, i) => {
-            this.gTile(this.images.raccoon, 0, 0, 1, 1);
+            this.gTile("raccoon", 4, 0, 5, 5);
         });
     }
 }

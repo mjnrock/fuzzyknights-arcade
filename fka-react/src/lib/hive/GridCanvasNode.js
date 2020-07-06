@@ -123,7 +123,7 @@ export default class GridCanvasNode extends CanvasNode {
 
         return this;
     }
-    
+
     gTile(imageOrSrc, sx, sy, dx, dy, { round } = {}) {
         const [[ tsx, tdx ], [ tsy, tdy ]] = this.pixelToGrid([ sx, dx ], [ sy, dy ], { round, asArray: true });
 
