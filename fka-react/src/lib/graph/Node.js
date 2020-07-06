@@ -1,6 +1,7 @@
 import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
 
+import Registry from "./../hive/Registry";
 import Tile from "./Tile";
 
 /*
@@ -32,7 +33,7 @@ export default class Node extends EventEmitter {
             "0.0": null,
         };
 
-        this.entities = new Set(entities);
+        this.entities = new Registry({ entries: entities });
 
         this.positions = new WeakMap(); // Keeps a weak reference to position, with entry as key
     }

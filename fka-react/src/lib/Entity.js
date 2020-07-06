@@ -1,4 +1,5 @@
 import EventEmitter from "events";
+import { v4 as uuidv4 } from "uuid";
 
 export const EnumEventType = {
     MOVE: "MOVE",
@@ -6,6 +7,8 @@ export const EnumEventType = {
 
 export default class Entity extends EventEmitter {
     constructor({ type, x, y } = {}) {
+        this.id = uuidv4();
+        
         this.type = type;
         this.x = x;
         this.y = y;
