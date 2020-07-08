@@ -1,4 +1,6 @@
 import Hive from "@lespantsfancy/hive";
+import MouseNode from "./../hive/MouseNode";
+import KeyNode from "./../hive/KeyNode";
 
 export default class View extends Hive.Node {
     constructor({ cols = 10, rows = 10 } = {}) {
@@ -6,7 +8,19 @@ export default class View extends Hive.Node {
             columns: cols,
             rows: rows,
             components: new Map(),
+            mouse: new MouseNode({ element: window }),
+            key: new KeyNode({ element: window }),
         });
+
+        this.mouse.addEffect((state, msg) => {
+            console.log(msg.type, msg.payload)
+        });
+        this.key.addEffect((state, msg) => {
+            console.log(msg.type, msg.payload)
+        });
+
+        console.log(this.mouse)
+        console.log(this.key)
     }
 
     get cols() {
@@ -14,6 +28,12 @@ export default class View extends Hive.Node {
     }
     get rows() {
         return this.state.rows;
+    }
+    get mouse() {
+        return this.state.mouse;
+    }
+    get key() {
+        return this.state.key;
     }
 
     get components() {
@@ -91,7 +111,7 @@ export default class View extends Hive.Node {
                 return true;
             }
         } else if(arguments.length === 2) {
-            const key = this._kvp(x, y);
+            const key = this._kvp(...arguments);
     
             this.components.delete(key);
 

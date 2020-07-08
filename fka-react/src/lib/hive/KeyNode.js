@@ -9,8 +9,37 @@ export const EnumMessageType = {
     KEY_CHORD: "KeyNode.Chord",
 };
 
+export const EnumActionFlags = {
+    KEY_MASK: 2 << 0,
+    KEY_DOWN: 2 << 1,
+    KEY_UP: 2 << 2,
+    KEY_PRESS: 2 << 3,
+    KEY_CHORD: 2 << 4,
+
+    fullMask() {
+        let mask = Object.entries(EnumActionFlags).map(([ key, value ]) => {
+            if(key[ 0 ] === "K") {
+                return value;
+            }
+
+            return 0;
+        });
+
+        return mask.reduce((a, v) => Bitwise.add(a, v), 0);
+    },
+    all() {
+        return Object.entries(EnumActionFlags).map(([ key, value ]) => {
+            if(key[ 0 ] === "K") {
+                return value;
+            }
+
+            return false;
+        }).filter(v => v !== false);
+    }
+};
+
 export default class KeyNode extends Hive.Node {
-    constructor({ element, state = {}, config = {} } = {}) {
+    constructor({ element, state = {}, config = {}, ignore = [] } = {}) {
         super({
             map: [
                 {
@@ -44,8 +73,13 @@ export default class KeyNode extends Hive.Node {
         });
 
         this.mergeConfig({
-            allowComplexActions: false,
-
+            actions: Bitwise.add(0,
+                ignore.includes(EnumActionFlags.KEY_MASK) ? 0 : EnumActionFlags.KEY_MASK,
+                ignore.includes(EnumActionFlags.KEY_DOWN) ? 0 : EnumActionFlags.KEY_DOWN,
+                ignore.includes(EnumActionFlags.KEY_UP) ? 0 : EnumActionFlags.KEY_UP,
+                ignore.includes(EnumActionFlags.KEY_PRESS) ? 0 : EnumActionFlags.KEY_PRESS,
+                ignore.includes(EnumActionFlags.KEY_CHORD) ? 0 : EnumActionFlags.KEY_CHORD,
+            ),
             press: {
                 timeout: 500,
             },
@@ -65,6 +99,9 @@ export default class KeyNode extends Hive.Node {
 
     get mask() {
         return this.state.mask.current;
+    }
+    get actionMask() {
+        return this.config.actions;
     }
 
     updateMask(e, action) {
@@ -88,8 +125,10 @@ export default class KeyNode extends Hive.Node {
         this.state.mask.previous = this.state.mask.current;
         this.state.mask.current = mask;
 
-        if(this.config.allowComplexActions === true && this.state.mask.current !== this.state.mask.previous) {
-            this.dispatch(EnumMessageType.KEY_MASK, this.state.mask.current);
+        if(Bitwise.has(this.actionMask, EnumActionFlags.KEY_MASK)) {
+            if(this.state.mask.current !== this.state.mask.previous) {
+                this.dispatch(EnumMessageType.KEY_MASK, this.state.mask.current);
+            }
         }
     }
 
@@ -150,25 +189,40 @@ export default class KeyNode extends Hive.Node {
         e.preventDefault();
 
         this.updateMask(e, true);
-        this.dispatch(EnumMessageType.KEY_DOWN, {
-            mask: this.state.mask.current,
-            event: e,
-        });
 
-        this._press.begin(e);
-        this._chord.end(e);
+        if(Bitwise.has(this.actionMask, EnumActionFlags.KEY_DOWN)) {
+            this.dispatch(EnumMessageType.KEY_DOWN, {
+                mask: this.state.mask.current,
+                event: e,
+            });
+        }
+
+        if(Bitwise.has(this.actionMask, EnumActionFlags.KEY_PRESS)) {
+            this._press.begin(e);
+        }
+
+        if(Bitwise.has(this.actionMask, EnumActionFlags.KEY_CHORD)) {
+            this._chord.end(e);
+        }
     }
     onKeyUp(e) {
         e.preventDefault();
 
         this.updateMask(e, false);
-        this.dispatch(EnumMessageType.KEY_UP, {
-            mask: this.state.mask.current,
-            event: e,
-        });
 
-        this._chord.end(e);
-        this._press.end(e);
+        if(Bitwise.has(this.actionMask, EnumActionFlags.KEY_DOWN)) {
+            this.dispatch(EnumMessageType.KEY_UP, {
+                mask: this.state.mask.current,
+                event: e,
+            });
+        }
+
+        if(Bitwise.has(this.actionMask, EnumActionFlags.KEY_CHORD)) {
+            this._chord.end(e);
+        }
+        if(Bitwise.has(this.actionMask, EnumActionFlags.KEY_PRESS)) {
+            this._press.end(e);
+        }
     }
 
     addKeyMask(name, flag, ...keys) {

@@ -7,6 +7,8 @@ export const EnumEventType = {
 
 export default class Component extends EventEmitter {
     constructor({ width = 1, height = 1 } = {}) {
+        super();
+        
         this.width = width;
         this.height = height;
     }

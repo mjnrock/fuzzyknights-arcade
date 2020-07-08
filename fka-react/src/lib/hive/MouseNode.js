@@ -13,8 +13,41 @@ export const EnumMessageType = {
     MOUSE_SWIPE: "MouseNode.Swipe",
 };
 
+export const EnumActionFlags = {
+    MOUSE_MASK: 2 << 0,
+    MOUSE_DOWN: 2 << 1,
+    MOUSE_UP: 2 << 2,
+    MOUSE_MOVE: 2 << 3,
+    MOUSE_CLICK: 2 << 4,
+    MOUSE_DOUBLE_CLICK: 2 << 5,
+    MOUSE_CONTEXT_MENU: 2 << 6,
+    MOUSE_SELECTION: 2 << 7,
+    MOUSE_SWIPE: 2 << 8,
+
+    fullMask() {
+        let mask = Object.entries(EnumActionFlags).map(([ key, value ]) => {
+            if(key[ 0 ] === "M") {
+                return value;
+            }
+
+            return 0;
+        });
+
+        return mask.reduce((a, v) => Bitwise.add(a, v), 0);
+    },
+    all() {
+        return Object.entries(EnumActionFlags).map(([ key, value ]) => {
+            if(key[ 0 ] === "M") {
+                return value;
+            }
+
+            return false;
+        }).filter(v => v !== false);
+    }
+};
+
 export default class MouseNode extends Hive.Node {
-    constructor({ element, state = {}, config = {} } = {}) {
+    constructor({ element, state = {}, config = {}, ignore = [] } = {}) {
         super({
             map: [
                 {
@@ -66,9 +99,19 @@ export default class MouseNode extends Hive.Node {
         });
 
         this.mergeConfig({
-            allowComplexActions: false,
             moveRequiresButton: true,
 
+            actions: Bitwise.add(0,
+                ignore.includes(EnumActionFlags.MOUSE_CLICK) ? 0 : EnumActionFlags.MOUSE_CLICK,
+                ignore.includes(EnumActionFlags.MOUSE_CONTEXT_MENU) ? 0 : EnumActionFlags.MOUSE_CONTEXT_MENU,
+                ignore.includes(EnumActionFlags.MOUSE_DOUBLE_CLICK) ? 0 : EnumActionFlags.MOUSE_DOUBLE_CLICK,
+                ignore.includes(EnumActionFlags.MOUSE_DOWN) ? 0 : EnumActionFlags.MOUSE_DOWN,
+                ignore.includes(EnumActionFlags.MOUSE_MASK) ? 0 : EnumActionFlags.MOUSE_MASK,
+                ignore.includes(EnumActionFlags.MOUSE_MOVE) ? 0 : EnumActionFlags.MOUSE_MOVE,
+                ignore.includes(EnumActionFlags.MOUSE_SELECTION) ? 0 : EnumActionFlags.MOUSE_SELECTION,
+                ignore.includes(EnumActionFlags.MOUSE_SWIPE) ? 0 : EnumActionFlags.MOUSE_SWIPE,
+                ignore.includes(EnumActionFlags.MOUSE_UP) ? 0 : EnumActionFlags.MOUSE_UP,
+            ),
             click: {
                 timeout: 500,
                 threshold: 25,
@@ -100,6 +143,9 @@ export default class MouseNode extends Hive.Node {
     get mask() {
         return this.state.mask.current;
     }
+    get actionMask() {
+        return this.config.actions;
+    }
 
     get element() {
         return this.state.element;
@@ -126,8 +172,10 @@ export default class MouseNode extends Hive.Node {
         this.state.mask.previous = this.state.mask.current;
         this.state.mask.current = mask;
 
-        if(this.config.allowComplexActions === true && this.state.mask.current !== this.state.mask.previous) {
-            this.dispatch(EnumMessageType.MOUSE_MASK, this.state.mask.current);
+        if(Bitwise.has(this.actionMask, EnumActionFlags.MOUSE_MASK)) {
+            if(this.state.mask.current !== this.state.mask.previous) {
+                this.dispatch(EnumMessageType.MOUSE_MASK, this.state.mask.current);
+            }
         }
     }
 
@@ -343,7 +391,11 @@ export default class MouseNode extends Hive.Node {
                         const dy = y1 - y0;
                         const dt = t1 - t0;
 
-                        if(dt <= this.config.swipe.timeout && (Math.abs(dx) >= this.config.swipe.threshold || Math.abs(dy) >= this.config.swipe.threshold)) {
+                        if(
+                            dt <= this.config.swipe.timeout     // dt isn't too long for a swipe
+                            && ((Math.abs(dx) >= this.config.swipe.threshold || Math.abs(dy) >= this.config.swipe.threshold)    // dx or dy meet threshold
+                            && !(Math.abs(dx) >= this.config.swipe.threshold && Math.abs(dy) >= this.config.swipe.threshold))   // dx and dy do not BOTH meet threshold (i.e. too diagonal for a swipe)
+                        ) {
                             let dir;
 
                             if(Math.abs(dx) >= Math.abs(dy)) {
@@ -388,46 +440,77 @@ export default class MouseNode extends Hive.Node {
     onMouseDown(e) {
         e.preventDefault();
 
-        const { x, y } = this.getRelativePosition(e);
-
         this.updateMask(e, true);
-        this.dispatch(EnumMessageType.MOUSE_DOWN, {
-            mask: this.state.mask.current,
-            x: x,
-            y: y,
-            event: e,
-        });
+        
+        if(Bitwise.has(this.actionMask, EnumActionFlags.MOUSE_DOWN)) {
+            const { x, y } = this.getRelativePosition(e);
+            
+            this.dispatch(EnumMessageType.MOUSE_DOWN, {
+                mask: this.state.mask.current,
+                x: x,
+                y: y,
+                event: e,
+            });
+        }
 
-        this._click.begin(e);
-        this._selection.begin(e);
-        this._swipe.begin(e);
-        this._doubleClick.begin(e);
+        if(Bitwise.has(this.actionMask, EnumActionFlags.MOUSE_CLICK)) {
+            this._click.begin(e);
+        }
+        if(Bitwise.has(this.actionMask, EnumActionFlags.MOUSE_SELECTION)) {
+            this._selection.begin(e);
+        }
+        if(Bitwise.has(this.actionMask, EnumActionFlags.MOUSE_SWIPE)) {
+            this._swipe.begin(e);
+        }
+        if(Bitwise.has(this.actionMask, EnumActionFlags.MOUSE_DOUBLE_CLICK)) {
+            this._doubleClick.begin(e);
+        }
     }
     onMouseUp(e) {
         e.preventDefault();
 
-        const { x, y } = this.getRelativePosition(e);
-
         this.updateMask(e, false);
-        this.dispatch(EnumMessageType.MOUSE_UP, {
-            mask: this.state.mask.current,
-            x: x,
-            y: y,
-            event: e,
-        });
-
-        this._click.end(e);
-        this._selection.end(e);
-        this._swipe.end(e);
-        this._doubleClick.end(e);
-    }
-    onMouseMove(e) {
-        e.preventDefault();
         
-        const { x, y } = this.getRelativePosition(e);
+        if(Bitwise.has(this.actionMask, EnumActionFlags.MOUSE_UP)) {
+            const { x, y } = this.getRelativePosition(e);
 
-        if(this.config.moveRequiresButton === true) {
-            if(e.buttons > 0) {
+            this.dispatch(EnumMessageType.MOUSE_UP, {
+                mask: this.state.mask.current,
+                x: x,
+                y: y,
+                event: e,
+            });
+        }
+
+        if(Bitwise.has(this.actionMask, EnumActionFlags.MOUSE_CLICK)) {
+            this._click.end(e);
+        }
+        if(Bitwise.has(this.actionMask, EnumActionFlags.MOUSE_SELECTION)) {
+            this._selection.end(e);
+        }
+        if(Bitwise.has(this.actionMask, EnumActionFlags.MOUSE_SWIPE)) {
+            this._swipe.end(e);
+        }
+        if(Bitwise.has(this.actionMask, EnumActionFlags.MOUSE_DOUBLE_CLICK)) {
+            this._doubleClick.end(e);
+        }
+    }
+    onMouseMove(e) {        
+        if(Bitwise.has(this.actionMask, EnumActionFlags.MOUSE_MOVE)) {
+            e.preventDefault();
+            
+            const { x, y } = this.getRelativePosition(e);
+
+            if(this.config.moveRequiresButton === true) {
+                if(e.buttons > 0) {
+                    this.dispatch(EnumMessageType.MOUSE_MOVE, {
+                        mask: this.state.mask.current,
+                        x: x,
+                        y: y,
+                        event: e,
+                    });
+                }
+            } else {
                 this.dispatch(EnumMessageType.MOUSE_MOVE, {
                     mask: this.state.mask.current,
                     x: x,
@@ -435,26 +518,21 @@ export default class MouseNode extends Hive.Node {
                     event: e,
                 });
             }
-        } else {
-            this.dispatch(EnumMessageType.MOUSE_MOVE, {
+        }
+    }
+    onContextMenu(e) {
+        if(Bitwise.has(this.actionMask, EnumActionFlags.MOUSE_CONTEXT_MENU)) {
+            e.preventDefault();
+            
+            const { x, y } = this.getRelativePosition(e);
+
+            this.dispatch(EnumMessageType.MOUSE_CONTEXT_MENU, {
                 mask: this.state.mask.current,
                 x: x,
                 y: y,
                 event: e,
             });
         }
-    }
-    onContextMenu(e) {
-        e.preventDefault();
-        
-        const { x, y } = this.getRelativePosition(e);
-
-        this.dispatch(EnumMessageType.MOUSE_CONTEXT_MENU, {
-            mask: this.state.mask.current,
-            x: x,
-            y: y,
-            event: e,
-        });
     }
 }
 

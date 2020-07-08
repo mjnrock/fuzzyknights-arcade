@@ -91,7 +91,7 @@ export default class Registry extends EventEmitter {
         }
 
         if(suppress !== true) {
-            this.emit(EnumMessageType.UPDATE, Date.now());
+            this.emit(EnumEventType.UPDATE, Date.now());
         }
 
         return this;
@@ -137,13 +137,13 @@ export default class Registry extends EventEmitter {
     each(fn, { save = false } = {}) {
         if(typeof fn === "function") {
             if(save === true) {
-                for(let [ key, value ] of input.entries) {
+                for(let [ key, value ] of this.entries) {
                     this.set(key, fn.call(this, key, value), { suppress: true });
                 }
 
-                this.emit(EnumMessageType.UPDATE, Date.now());
+                this.emit(EnumEventType.UPDATE, Date.now());
             } else {
-                for(let [ key, value ] of input.entries) {
+                for(let [ key, value ] of this.entries) {
                     fn.call(this, key, value);
                 }
             }
