@@ -39,7 +39,7 @@ export const EnumActionFlags = {
 };
 
 export default class KeyNode extends Hive.Node {
-    constructor({ element, state = {}, config = {}, ignore = [] } = {}) {
+    constructor({ element, state = {}, config = {}, ignore = [], only = [] } = {}) {
         super({
             map: [
                 {
@@ -71,6 +71,10 @@ export default class KeyNode extends Hive.Node {
 
             ...state,
         });
+
+        if(only.length) {
+            ignore = EnumActionFlags.all().filter(v => !only.includes(v));
+        }
 
         this.mergeConfig({
             actions: Bitwise.add(0,
