@@ -18,9 +18,6 @@ export default class View extends Hive.Node {
         this.key.addEffect((state, msg) => {
             console.log(msg.type, msg.payload)
         });
-
-        console.log(this.mouse)
-        console.log(this.key)
     }
 
     get cols() {
