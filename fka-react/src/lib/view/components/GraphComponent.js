@@ -1,8 +1,8 @@
 import Component from "./Component";
 
 export default class GraphComponent extends Component {
-    constructor(graph, { width = 1, height = 1 } = {}) {
-        super({ width, height });
+    constructor(graph, { x, y, width = 1, height = 1 } = {}) {
+        super({ x, y, width, height });
 
         this.graph = graph;
     }

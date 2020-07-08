@@ -3,16 +3,28 @@ import Hive from "@lespantsfancy/hive";
 
 export const EnumEventType = {
     RESIZE: "Component.Resize",
+    MOVE: "Component.Move",
 }
 
 export default class Component extends EventEmitter {
-    constructor({ width = 1, height = 1 } = {}) {
+    constructor({ x, y, width = 1, height = 1 } = {}) {
         super();
         
+        this.x = x;
+        this.y = y;
         this.width = width;
         this.height = height;
     }
 
+    move(x, y) {
+        this.x = x;
+        this.y = y;
+
+        this.emit(EnumEventType.MOVE, {
+            width,
+            height,
+        });
+    }
     resize(width, height) {
         this.width = width;
         this.height = height;

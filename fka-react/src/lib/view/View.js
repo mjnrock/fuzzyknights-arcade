@@ -2,11 +2,11 @@ import Hive from "@lespantsfancy/hive";
 import MouseNode from "./../hive/MouseNode";
 import KeyNode from "./../hive/KeyNode";
 
+import Component from "./components/Component";
+
 export default class View extends Hive.Node {
-    constructor({ cols = 10, rows = 10 } = {}) {
+    constructor() {
         super({
-            columns: cols,
-            rows: rows,
             components: new Map(),
             mouse: new MouseNode({ element: window }),
             key: new KeyNode({ element: window }),
@@ -20,12 +20,6 @@ export default class View extends Hive.Node {
         });
     }
 
-    get cols() {
-        return this.state.columns;
-    }
-    get rows() {
-        return this.state.rows;
-    }
     get mouse() {
         return this.state.mouse;
     }
@@ -39,11 +33,11 @@ export default class View extends Hive.Node {
 
     get data() {
         let comps = [];
-        for(let [ key, value ] of this.components) {
+        for(let [ name, value ] of this.components) {
             comps.push({
-                key: key,
-                x: value.x,
-                y: value.y,
+                name: name,
+                x: value.component.x,
+                y: value.component.y,
                 w: value.component.width,
                 h: value.component.height,
                 component: value.component,
@@ -53,64 +47,43 @@ export default class View extends Hive.Node {
         return comps;
     }
 
-    _kvp(x, y, comp) {
-        const key = `${ x }.${ y }`;
-
-        if(arguments.length === 2) {
-            return key;
-        } else if(arguments.length === 3) {
-            return {
-                key: key,
-                value: {
-                    x: x,
-                    y: y,
-                    component: comp,
-                },
-            };
+    get(name) {
+        return this.components.get(name);
+    }
+    set(name, comp) {
+        if(comp instanceof Component) {
+            this.components.set(name, comp);
         }
-    }
-
-    get(x, y) {
-        const key = this._kvp(x, y);
-
-        return this.components.get(key);
-    }
-    set(x, y, comp) {
-        const kvp = this._kvp(x, y, comp);
-
-        this.components.set(kvp.key, kvp.value);
 
         return this;
     }
     
     find(comp) {        
-        for(let [ key, value ] of this.components) {
+        for(let [ name, value ] of this.components) {
             if(comp === value) {
                 return {
-                    key,
-                    value,
+                    name,
+                    component,
                 };
             }
         }
 
         return {
-            key: null,
-            value: null,
+            name: null,
+            component: null,
         };
     }
-    remove(posOrComp) {
-        if(arguments.length === 1) {
-            const entry = this.find(posOrComp);
+    remove(nameOrComp) {
+        if(nameOrComp instanceof Component) {
+            const entry = this.find(nameOrComp);
 
-            if(entry.key) {
-                this.components.delete(entry.key);
+            if(entry.name) {
+                this.components.delete(entry.name);
 
                 return true;
             }
-        } else if(arguments.length === 2) {
-            const key = this._kvp(...arguments);
-    
-            this.components.delete(key);
+        } else {
+            this.components.delete(nameOrComp);
 
             return true;
         }
@@ -118,18 +91,11 @@ export default class View extends Hive.Node {
         return false;
     }
 
-    swap(x0, y0, x1, y1) {
-        const e0 = this.get(x0, y0);
-        const e1 = this.get(x1, y1);
+    rename(name, newName) {
+        const entry = this.get(name);
 
-        e0.x = x1;
-        e0.y = y1;
-
-        e1.x = x0;
-        e1.y = y0;
-
-        this.set(x0, y0, e1);
-        this.set(x1, y1, e0);
+        this.remove(name);
+        this.set(newName, entry);
 
         return this;
     }

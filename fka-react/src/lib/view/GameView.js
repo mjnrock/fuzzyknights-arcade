@@ -3,15 +3,15 @@ import GraphComponent from "./components/GraphComponent";
 
 export default class GameView extends View {
     constructor(graph) {
-        super({ cols: 1, rows: 1 });
+        super();
 
-        this.set(0, 0, new GraphComponent(graph));
+        this.set("graph", new GraphComponent(graph));
     }
 
     getGraph() {
-        return this.get(0, 0).component.get();
+        return this.get("graph").component.get();
     }
     setGraph(graph) {
-        return this.get(0, 0).component.set(graph);
+        return this.get("graph").component.set(graph);
     }
 }
