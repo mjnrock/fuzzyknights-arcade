@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Bitwise } from "./../hive/Helper";
 
 import Node from "./Node";
-import { EnumMoveDirection} from "./../hive/KeyNode";
+import { EnumMoveDirection } from "./../hive/KeyNode";
 
 /*
  * This is meant to be the entire "level" in that dungeon game, or any space where "tessellated sub maps" is appropriate
@@ -106,25 +106,25 @@ export default class Graph extends EventEmitter {
     onPlayerMove(payload) {
         const { map, mask } = payload;
 
-        if(Bitwise.has(mask, map.UP)) {
+        if(Bitwise.has(mask, map[ EnumMoveDirection.UP ])) {
                 
         } else {
 
         }
 
-        if(Bitwise.has(mask, map.DOWN)) {
+        if(Bitwise.has(mask, map[ EnumMoveDirection.DOWN ])) {
 
         } else {
 
         }
 
-        if(Bitwise.has(mask, map.LEFT)) {
+        if(Bitwise.has(mask, map[ EnumMoveDirection.LEFT ])) {
 
         } else {
 
         }
 
-        if(Bitwise.has(mask, map.RIGHT)) {
+        if(Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {
 
         } else {
 

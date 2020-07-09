@@ -19,7 +19,7 @@ export default class GameView extends View {
         return this.get("graph").set(graph);
     }
 
-    receive(type, payload) {
+    receive(type, payload, msg) {
         if(type === EnumKeyMessageType.KEY_MASK) {
             this.dispatch(type, {
                 map: this.key.map,
