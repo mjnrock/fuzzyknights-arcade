@@ -8,7 +8,8 @@ export default class GraphComponent extends Component {
         super({ x, y, width, height });
 
         this.graph = graph;
-        this.on(EnumGraphEventType.PLAYER_MOVE, this.graph.onPlayerMove.bind(this.graph));
+
+        this.on(EnumGraphEventType.PLAYER_MOVEMENT_MASK, this.graph.onPlayerMovementMask.bind(this.graph));
     }
 
     get() {
@@ -20,7 +21,7 @@ export default class GraphComponent extends Component {
 
     receive(state, msg) {
         if(msg.type === EnumKeyMessageType.KEY_MASK) {
-            this.emit(EnumGraphEventType.PLAYER_MOVE, msg.payload);
+            this.emit(EnumGraphEventType.PLAYER_MOVEMENT_MASK, msg.payload);
         }
     }
 };

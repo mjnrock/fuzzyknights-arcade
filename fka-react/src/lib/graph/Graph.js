@@ -10,7 +10,7 @@ import { EnumMoveDirection } from "./../hive/KeyNode";
  */
 
 export const EnumEventType = {
-    PLAYER_MOVE: "PLAYER_MOVE",
+    PLAYER_MOVEMENT_MASK: "PLAYER_MOVEMENT_MASK",
     ENTITY_MOVE: "ENTITY_MOVE",
 };
 
@@ -103,7 +103,9 @@ export default class Graph extends EventEmitter {
         return arr;
     }
 
-    onPlayerMove(payload) {
+
+
+    onPlayerMovementMask(payload) {
         const { map, mask } = payload;
 
         if(Bitwise.has(mask, map[ EnumMoveDirection.UP ])) {
