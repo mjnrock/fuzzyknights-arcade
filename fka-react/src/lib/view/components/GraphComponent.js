@@ -1,10 +1,14 @@
 import Component from "./Component";
+import { EnumEventType as EnumGraphEventType } from "./../../graph/Graph";
+// import { EnumMessageType as EnumMouseMessageType } from "./../../hive/MouseNode";
+import { EnumMessageType as EnumKeyMessageType } from "./../../hive/KeyNode";
 
 export default class GraphComponent extends Component {
     constructor(graph, { x, y, width = 1, height = 1 } = {}) {
         super({ x, y, width, height });
 
         this.graph = graph;
+        this.on(EnumGraphEventType.PLAYER_MOVE, console.log);
     }
 
     get() {
@@ -14,5 +18,10 @@ export default class GraphComponent extends Component {
         this.graph = graph;
     }
 
-    receive(msg) {}
+    receive(state, msg) {
+        if(msg.type === EnumKeyMessageType.KEY_MASK) {
+            console.log(msg.type, msg.type === EnumKeyMessageType.KEY_MASK)
+            this.emit(EnumGraphEventType.PLAYER_MOVE, msg.payload);
+        }
+    }
 };

@@ -12,12 +12,8 @@ export default class View extends Hive.Node {
             key: new KeyNode({ element: window }),
         });
 
-        this.mouse.addEffect((state, msg) => {
-            console.log(msg.type, msg.payload)
-        });
-        this.key.addEffect((state, msg) => {
-            console.log(msg.type, msg.payload)
-        });
+        this.mouse.addEffect((state, msg) => this.receive(msg.type, msg.payload, msg));
+        this.key.addEffect((state, msg) => this.receive(msg.type, msg.payload, msg));
     }
 
     get mouse() {
@@ -36,11 +32,11 @@ export default class View extends Hive.Node {
         for(let [ name, value ] of this.components) {
             comps.push({
                 name: name,
-                x: value.component.x,
-                y: value.component.y,
-                w: value.component.width,
-                h: value.component.height,
-                component: value.component,
+                x: value.x,
+                y: value.y,
+                w: value.width,
+                h: value.height,
+                component: value,
             });
         }
 
@@ -63,7 +59,7 @@ export default class View extends Hive.Node {
             if(comp === value) {
                 return {
                     name,
-                    component,
+                    component: comp,
                 };
             }
         }
@@ -99,4 +95,14 @@ export default class View extends Hive.Node {
 
         return this;
     }
+
+    each(fn) {
+        if(typeof fn === "function") {
+            for(let [ name, comp ] of this.components) {
+                fn(name, comp);
+            }
+        }
+    }
+
+    receive(state, msg) {}
 };

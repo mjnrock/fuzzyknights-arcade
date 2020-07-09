@@ -2,12 +2,16 @@ import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
 
 import Node from "./Node";
+import { EnumMoveDirection} from "./../hive/KeyNode";
 
 /*
  * This is meant to be the entire "level" in that dungeon game, or any space where "tessellated sub maps" is appropriate
  */
 
-export const EnumEventType = {};
+export const EnumEventType = {
+    PLAYER_MOVE: "PLAYER_MOVE",
+    ENTITY_MOVE: "ENTITY_MOVE",
+};
 
 export default class Graph extends EventEmitter {
     constructor() {
@@ -96,5 +100,32 @@ export default class Graph extends EventEmitter {
         });
         
         return arr;
+    }
+
+    onPlayerMove(payload) {
+        console.log(1)
+        if(payload.includes(EnumMoveDirection.DOWN)) {
+                
+        } else {
+
+        }
+
+        if(payload.includes(EnumMoveDirection.UP)) {
+
+        } else {
+
+        }
+
+        if(payload.includes(EnumMoveDirection.LEFT)) {
+
+        } else {
+
+        }
+
+        if(payload.includes(EnumMoveDirection.RIGHT)) {
+
+        } else {
+
+        }
     }
 };

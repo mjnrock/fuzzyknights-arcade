@@ -14,7 +14,18 @@ export default class GraphFactory {
                 node.seed(nw, nh, function(x, y) {
                     let tile;
 
-                    if(this.isEdge(x, y)) {
+                    if(
+                        (x === 0 && y === Math.floor(nh / 2))
+                        || (x === nw - 1 && y === Math.floor(nh / 2))
+                        || (x === Math.floor(nw / 2) && y === 0)
+                        || (x === Math.floor(nw / 2) && y === nh - 1)
+                    ) {
+                        tile = new Tile(
+                            new Terrain(EnumTerrainType.DOOR), {
+                            isNavigable: true,
+                            isInteractable: true,
+                        });
+                    } else if(this.isEdge(x, y)) {
                         tile = new Tile(
                             new Terrain(EnumTerrainType.WALL), {
                             isNavigable: false

@@ -46,6 +46,10 @@ export default class RenderNodeTerrain extends GridCanvasNode {
                 this.prop({
                     fillStyle: "#555",
                 }).gPoint(x, y);
+            } else if(terrain.type === EnumTerrainType.DOOR) {
+                this.prop({
+                    fillStyle: "#222",
+                }).gPoint(x, y);
             } else {
                 this.prop({
                     fillStyle: "#000",

@@ -9,13 +9,18 @@ import ScrollToTop from "./ScrollToTop";
 import Routes from "./routes/package";
 
 import Graph from "./lib/graph/package";
+import GameView from "./lib/view/GameView";
 import RenderNode from "./lib/render/graph/RenderNode";
 
-const graph = Graph.GraphFactory.Generate(1, 1, 20, 20);
-console.log(graph)
+const graph = Graph.GraphFactory.Generate(2, 2, 20, 20);
+const gameView = new GameView(graph);
+console.log(gameView)
+
+
+
+
 const node = graph.getNode(0, 0);
-console.log(node)
-const renderNode = new RenderNode(node, { size: [ 128, 128 ]});
+const renderNode = new RenderNode(node, { size: [ 128, 128 ] });
 
 renderNode.getLayer(1).loadImage("raccoon", "./assets/entity/raccoon.png").then(() => {
     node.addEntity(1);

@@ -9,6 +9,13 @@ export const EnumMessageType = {
     KEY_CHORD: "KeyNode.Chord",
 };
 
+export const EnumMoveDirection = {
+    UP: "UP",
+    DOWN: "DOWN",
+    LEFT: "LEFT",
+    RIGHT: "RIGHT",
+};
+
 export const EnumActionFlags = {
     KEY_MASK: 2 << 0,
     KEY_DOWN: 2 << 1,
@@ -45,22 +52,22 @@ export default class KeyNode extends Hive.Node {
                 {
                     keys: [ 38, 87 ],
                     flag: 2 << 0,
-                    name: "UP",
+                    name: EnumMoveDirection.UP,
                 },
                 {
                     keys: [ 40, 83 ],
                     flag: 2 << 1,
-                    name: "DOWN",
+                    name: EnumMoveDirection.DOWN,
                 },
                 {
                     keys: [ 37, 65 ],
                     flag: 2 << 2,
-                    name: "LEFT",
+                    name: EnumMoveDirection.LEFT,
                 },
                 {
                     keys: [ 39, 68 ],
                     flag: 2 << 3,
-                    name: "RIGHT",
+                    name: EnumMoveDirection.RIGHT,
                 },
             ],
             mask: {
@@ -106,6 +113,18 @@ export default class KeyNode extends Hive.Node {
     }
     get actionMask() {
         return this.config.actions;
+    }
+
+    maskToNames(mask) {
+        const bitmask = Number.isInteger(mask) ? mask : this.mask;
+
+        return this.state.map.reduce((filtered, obj) => {
+            if(Bitwise.has(bitmask, obj.flag)) {
+                filtered.push(obj.name);
+            }
+
+            return filtered;
+        }, []);
     }
 
     updateMask(e, action) {

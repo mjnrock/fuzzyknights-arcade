@@ -17,12 +17,20 @@ export default class Component extends EventEmitter {
     }
 
     move(x, y) {
+        const old = {
+            x: this.x,
+            y: this.y,
+        };
+
         this.x = x;
         this.y = y;
 
         this.emit(EnumEventType.MOVE, {
-            width,
-            height,
+            from: old,
+            to: {
+                x,
+                y
+            }
         });
     }
     resize(width, height) {
