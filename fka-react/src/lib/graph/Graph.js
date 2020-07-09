@@ -1,5 +1,6 @@
 import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
+import { Bitwise } from "./../hive/Helper";
 
 import Node from "./Node";
 import { EnumMoveDirection} from "./../hive/KeyNode";
@@ -103,29 +104,32 @@ export default class Graph extends EventEmitter {
     }
 
     onPlayerMove(payload) {
-        console.log(1)
-        if(payload.includes(EnumMoveDirection.DOWN)) {
+        const { map, mask } = payload;
+
+        if(Bitwise.has(mask, map.UP)) {
                 
         } else {
 
         }
 
-        if(payload.includes(EnumMoveDirection.UP)) {
+        if(Bitwise.has(mask, map.DOWN)) {
 
         } else {
 
         }
 
-        if(payload.includes(EnumMoveDirection.LEFT)) {
+        if(Bitwise.has(mask, map.LEFT)) {
 
         } else {
 
         }
 
-        if(payload.includes(EnumMoveDirection.RIGHT)) {
+        if(Bitwise.has(mask, map.RIGHT)) {
 
         } else {
 
         }
+
+        console.log(mask, map);
     }
 };

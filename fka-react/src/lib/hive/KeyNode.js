@@ -115,6 +115,16 @@ export default class KeyNode extends Hive.Node {
         return this.config.actions;
     }
 
+    get map() {
+        const map = {};
+
+        this.state.map.forEach(obj => {
+            map[ obj.name ] = obj.flag;
+        });
+
+        return map;
+    }
+
     maskToNames(mask) {
         const bitmask = Number.isInteger(mask) ? mask : this.mask;
 

@@ -9,7 +9,7 @@ export default class GameView extends View {
 
         const graphComp = new GraphComponent(graph);
         this.set("graph", graphComp);
-        this.addEffect(EnumKeyMessageType.KEY_MASK, graphComp.receive);
+        this.addEffect(EnumKeyMessageType.KEY_MASK, graphComp.receive.bind(graphComp));
     }
 
     getGraph() {
@@ -21,7 +21,10 @@ export default class GameView extends View {
 
     receive(type, payload) {
         if(type === EnumKeyMessageType.KEY_MASK) {
-            this.dispatch(type, this.key.maskToNames(payload));
+            this.dispatch(type, {
+                map: this.key.map,
+                mask: payload
+            });
         }
     }
 }

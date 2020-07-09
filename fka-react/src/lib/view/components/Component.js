@@ -1,5 +1,4 @@
 import EventEmitter from "events";
-import Hive from "@lespantsfancy/hive";
 
 export const EnumEventType = {
     RESIZE: "Component.Resize",
@@ -43,9 +42,5 @@ export default class Component extends EventEmitter {
         });
     }
 
-    receive(msg) {
-        if(Hive.Message.Conforms(msg)) {
-            //TODO
-        }
-    }
+    receive(state, msg) {}
 };
