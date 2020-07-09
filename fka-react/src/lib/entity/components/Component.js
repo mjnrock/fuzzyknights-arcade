@@ -61,6 +61,13 @@ export default class Component extends EventEmitter {
         })
     }
 
+    /**
+     * <target> convenience getter
+    */
+    get _() {
+        return this;
+    }
+
     merge(prop, input) {
         if(Array.isArray(this.state[ prop ])) {
             this.state[ prop ] = [
