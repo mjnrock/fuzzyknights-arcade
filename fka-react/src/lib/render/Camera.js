@@ -93,9 +93,10 @@ export default class Camera extends LayeredCanvasNode {
     }
 
     draw() {
-        for(let layer of this.stack) {
-            layer.draw();
-        }
+        // for(let layer of this.stack) {
+        //     layer.draw();
+        // }
+        this.getLayer(1).draw();
 
         this.ctx.save();
         this.ctx.scale(this.scale, this.scale);

@@ -118,9 +118,13 @@ export default class CanvasNode extends Hive.Node {
         });
     }
     loadImages(arr = []) {
+        let promises = [];
+
         for(let imgArr of arr) {
-            this.loadImage(...(imgArr || []));
+            promises.push(this.loadImage(...(imgArr || [])));
         }
+
+        return Promise.all(promises);
     }
 
     play() {

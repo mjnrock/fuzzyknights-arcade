@@ -20,13 +20,18 @@ export default class GameView extends View {
             //* Viewport Config
             x: 0,
             y: 0,
-            w: 9,
-            h: 9,
+            w: 11,
+            h: 11,
 
             subject: this.game.player,
         });
-        this.camera.fps = 30;
-        this.camera.getLayer(1).loadImage("raccoon", "./assets/entity/raccoon.png").then(() => {
+        this.camera.getLayer(1).loadImages([
+            [ "raccoon", "./assets/entity/raccoon.png" ],
+            [ "beaver", "./assets/entity/beaver.png" ],
+            [ "rabbit", "./assets/entity/rabbit.png" ],
+            [ "walrus", "./assets/entity/walrus.png" ],
+            [ "bull", "./assets/entity/bull.png" ],
+        ]).then(() => {
             this.camera.play();
 
             setInterval(() => {
@@ -52,7 +57,7 @@ export default class GameView extends View {
                 // }, 30);
 
                 this.getGraph().tick();
-            }, 30);
+            }, 1000 / 60);
         });        
     }
 
