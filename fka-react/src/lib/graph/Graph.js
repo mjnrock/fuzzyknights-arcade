@@ -4,6 +4,9 @@ import { Bitwise } from "./../hive/Helper";
 import Node from "./Node";
 import { EnumMoveDirection } from "./../hive/KeyNode";
 
+import Tile from "./Tile";
+import Terrain, { EnumTerrainType } from "./Terrain";
+
 /*
  * This is meant to be the entire "level" in that dungeon game, or any space where "tessellated sub maps" is appropriate
  */
@@ -12,7 +15,56 @@ export const EnumEventType = {
     PLAYER_MOVEMENT_MASK: "PLAYER_MOVEMENT_MASK",
 };
 
+export class GraphFactory {
+    static Generate(gw, gh, nw, nh) {
+        const graph = new Graph();
+
+        for(let w = 0; w < gw; w++) {
+            for(let h = 0; h < gh; h++) {
+                const node = new Node();
+
+                node.seed(nw, nh, function(x, y) {
+                    let tile;
+
+                    if(
+                        (x === 0 && y === Math.floor(nh / 2))
+                        || (x === nw - 1 && y === Math.floor(nh / 2))
+                        || (x === Math.floor(nw / 2) && y === 0)
+                        || (x === Math.floor(nw / 2) && y === nh - 1)
+                    ) {
+                        tile = new Tile(
+                            new Terrain(EnumTerrainType.DOOR), {
+                            isNavigable: true,
+                            isInteractable: true,
+                        });
+                    } else if(this.isEdge(x, y)) {
+                        tile = new Tile(
+                            new Terrain(EnumTerrainType.WALL), {
+                            isNavigable: false
+                        });
+                    } else {
+                        tile = new Tile(
+                            new Terrain(EnumTerrainType.FLOOR), {
+                            isNavigable: true
+                        });
+                    }
+
+                    return tile;
+                });
+
+                graph.addNode(w, h, node);
+            }
+        }
+
+        return graph;
+    }
+};
+
 export default class Graph extends EventEmitter {
+    static get Factory() {
+        return GraphFactory;
+    }
+
     constructor(game) {
         super();
         this.id = uuidv4();
