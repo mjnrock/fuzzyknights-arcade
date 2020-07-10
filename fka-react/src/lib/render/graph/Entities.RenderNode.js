@@ -33,13 +33,11 @@ export default class RenderNodeEntities extends GridCanvasNode {
         this.ctx.save();
         this.ctx.scale(scale, scale);
         this.node.each((entity, i) => {
-            console.log(entity)
             const comp = entity.getComponent(EnumComponentType.POSITION);
-            const tx = comp.x;
-            const ty = comp.y;
 
-            if((tx >= x) && (tx <= (x + w)) && (ty >= y) && (ty <= (y + h))) {
-                this.gTile(this.img("raccoon"), 4, 0, tx, ty);
+            if((comp.x >= x) && (comp.x <= (x + w)) && (comp.y >= y) && (comp.y <= (y + h))) {
+                //TODO [ 4, 0 ] should be replaced with comp.facing converted into sprite tile
+                this.gTile(this.img("raccoon"), 4, 0, comp.x, comp.y);
             }
         });
         this.ctx.restore();
