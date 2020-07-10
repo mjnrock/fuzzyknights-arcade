@@ -2,6 +2,7 @@ import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
 
 import Position from "./components/Position";
+import { EnumComponentType } from "./components/Component";
 
 export const EnumEventType = {
     MOVE: "MOVE",
@@ -41,5 +42,12 @@ export default class Entity extends EventEmitter {
         }
 
         return null;
+    }
+
+    tick(dt) {
+        const comp = this.getComponent(EnumComponentType.POSITION);
+        
+        comp.x += comp.vx;
+        comp.y += comp.vy;
     }
 }; 

@@ -4,8 +4,6 @@ import GraphComponent from "./components/GraphComponent";
 import { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNode";
 import Camera from "../render/Camera";
 
-import { EnumComponentType } from "./../entity/components/Component";
-
 export default class GameView extends View {
     constructor(game, graph) {
         super(game);
@@ -30,12 +28,8 @@ export default class GameView extends View {
             this.camera.play();
 
             setInterval(() => {
-                const comp = this.game.player.getComponent(EnumComponentType.POSITION);
-                const node = graph.getNode(0, 0);
-
-                comp.x = ~~(Math.random() * node.tiles.width);
-                comp.y = ~~(Math.random() * node.tiles.height);
-            }, 500);
+                this.getGraph().tick();
+            }, 250);
         });        
     }
 

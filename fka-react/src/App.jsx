@@ -16,7 +16,7 @@ import Entity from "./lib/entity/Entity";
 import { EnumComponentType } from "./lib/entity/components/Component";
 
 const game = new Game();
-game.graph = Graph.Factory.Generate(2, 2, 20, 20);
+game.graph = Graph.Factory.Generate(2, 2, 20, 20, game);
 
 const node = game.graph.getNode(0, 0);
 const entity = new Entity({

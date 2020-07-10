@@ -168,4 +168,10 @@ export default class Node extends EventEmitter {
     removePortal(node, x, y) {
         this.portals = this.portals.filter(portal => portal.node !== node && portal.x !== x && portal.y !== y);
     }
+
+    tick(dt) {
+        this.entities.forEach(entity => {
+            entity.tick(dt);
+        });
+    }
 };

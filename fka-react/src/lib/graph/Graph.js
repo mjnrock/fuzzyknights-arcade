@@ -1,11 +1,14 @@
 import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
+// import Tone from "tone";
+
 import { Bitwise } from "./../hive/Helper";
 import Node from "./Node";
 import { EnumMoveDirection } from "./../hive/KeyNode";
 
 import Tile from "./Tile";
 import Terrain, { EnumTerrainType } from "./Terrain";
+import { EnumComponentType } from "./../entity/components/Component";
 
 /*
  * This is meant to be the entire "level" in that dungeon game, or any space where "tessellated sub maps" is appropriate
@@ -16,8 +19,8 @@ export const EnumEventType = {
 };
 
 export class GraphFactory {
-    static Generate(gw, gh, nw, nh) {
-        const graph = new Graph();
+    static Generate(gw, gh, nw, nh, game) {
+        const graph = new Graph(game);
 
         for(let w = 0; w < gw; w++) {
             for(let h = 0; h < gh; h++) {
@@ -140,35 +143,32 @@ export default class Graph extends EventEmitter {
         return arr;
     }
 
+    tick(dt) {
+        for(let node of Object.values(this.nodes)) {
+            node.tick(dt);
+        }
+    }
+
 
 
     onPlayerMovementMask(payload) {
         const { map, mask } = payload;
+        const comp = this.game.player.getComponent(EnumComponentType.POSITION);
 
         if(Bitwise.has(mask, map[ EnumMoveDirection.UP ])) {
-            
+            comp.vy = -1;
+        } else if(Bitwise.has(mask, map[ EnumMoveDirection.DOWN ])) {
+            comp.vy = 1;
         } else {
-
-        }
-
-        if(Bitwise.has(mask, map[ EnumMoveDirection.DOWN ])) {
-
-        } else {
-
+            comp.vy = 0;
         }
 
         if(Bitwise.has(mask, map[ EnumMoveDirection.LEFT ])) {
-
+            comp.vx = -1;
+        } else if(Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {
+            comp.vx = 1;
         } else {
-
+            comp.vx = 0;
         }
-
-        if(Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {
-
-        } else {
-
-        }
-
-        console.log(mask, map);
     }
 };
