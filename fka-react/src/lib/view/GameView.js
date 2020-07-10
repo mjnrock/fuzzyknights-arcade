@@ -15,7 +15,7 @@ export default class GameView extends View {
         this.camera = new Camera(graph.getNode(0, 0), {
             tw: 128,
             th: 128,
-            scale: 0.25,
+            scale: 1.0,
 
             //* Viewport Config
             x: 0,
@@ -42,7 +42,7 @@ export default class GameView extends View {
                 //     }
                 //     if(this.camera.scale >= 3) {
                 //         asc = false;
-                //     } else if(this.camera.scale <= 1) {
+                //     } else if(this.camera.scale <= 0.25) {
                 //         asc = true;
                 //     }
                 //     console.log(this.camera.scale)

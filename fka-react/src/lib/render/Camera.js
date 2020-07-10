@@ -100,20 +100,20 @@ export default class Camera extends LayeredCanvasNode {
         this.ctx.save();
         this.ctx.scale(this.scale, this.scale);
         
-        this.resize(this.viewport.pixel.width, this.viewport.pixel.height);
+        this.resize(this.viewport.pixel.width * this.scale, this.viewport.pixel.height * this.scale);
         this.ctx.clearRect(0, 0, this.width, this.height);
         this.prop({ fillStyle: "#000" }).rect(0, 0, this.width, this.height, { isFilled: true });
 
         if(this.subject) {
             const comp = this.subject.getComponent(EnumComponentType.POSITION);
-            const dw = ~~(this.viewport.pixel.width / this.scale / 2);
-            const dh = ~~(this.viewport.pixel.height / this.scale / 2);
+            const vw2 = ~~(this.viewport.pixel.width / 2);
+            const vh2 = ~~(this.viewport.pixel.height / 2);
 
             this.paint(
-                (comp.x * this.tw) - dw + (this.scale >= 1 ? this.tw / this.scale : 0),
-                (comp.y * this.th) - dh + (this.scale >= 1 ? this.th / this.scale : 0),
-                (this.viewport.pixel.width / this.scale),
-                (this.viewport.pixel.height / this.scale),
+                (comp.x * this.tw) - vw2,
+                (comp.y * this.th) - vh2,
+                this.viewport.pixel.width,
+                this.viewport.pixel.height,
                 0,
                 0,
                 this.width,
