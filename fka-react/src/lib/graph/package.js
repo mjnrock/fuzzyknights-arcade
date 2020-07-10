@@ -9,5 +9,5 @@ export default {
     Tile,
     Terrain,
 
-    GraphFactory: Graph.Factory,
+    Factory: Graph.Factory,
 };

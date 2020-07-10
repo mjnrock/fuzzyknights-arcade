@@ -14,7 +14,7 @@ import Graph from "./lib/graph/package";
 import GameView from "./lib/view/GameView";
 
 const game = new Game();
-game.graph = Graph.GraphFactory.Generate(2, 2, 20, 20);
+game.graph = Graph.Factory.Generate(2, 2, 20, 20);
 game.view = new GameView(game.graph);
 
 export const Context = React.createContext(game.view.camera);
