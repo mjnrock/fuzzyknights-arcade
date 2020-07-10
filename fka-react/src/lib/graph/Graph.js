@@ -1,7 +1,6 @@
 import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
 import { Bitwise } from "./../hive/Helper";
-
 import Node from "./Node";
 import { EnumMoveDirection } from "./../hive/KeyNode";
 
@@ -14,13 +13,12 @@ export const EnumEventType = {
 };
 
 export default class Graph extends EventEmitter {
-    constructor() {
+    constructor(game) {
         super();
         this.id = uuidv4();
+        this.game = game;
         
         this.nodes = {};
-
-        this.positions = new WeakMap(); // Keeps a weak reference to position, with entry as key
     }
 
     _key(x, y) {
@@ -36,7 +34,6 @@ export default class Graph extends EventEmitter {
             const key = this._key(x, y);
 
             this.nodes[ key ] = node;
-            this.positions.set(node, key);
         }
 
         return this;
@@ -47,23 +44,12 @@ export default class Graph extends EventEmitter {
 
         if(node instanceof Node) {
             delete this.nodes[ key ];
-            this.positions.delete(key);
         }
 
         return this;
     }
 
     neighbors(x, y) {
-        if(x instanceof Node) {
-            const key = this.positions.get(x);
-            const split = key.split(".");
-
-            if(split.length === 2) {
-                x = ~~split[ 0 ];
-                y = ~~split[ 1 ];
-            }
-        }
-
         return {
             north: this.nodes[ this._key(x, y - 1) ],
             east: this.nodes[ this._key(x + 1, y) ],
@@ -108,7 +94,7 @@ export default class Graph extends EventEmitter {
         const { map, mask } = payload;
 
         if(Bitwise.has(mask, map[ EnumMoveDirection.UP ])) {
-                
+            
         } else {
 
         }

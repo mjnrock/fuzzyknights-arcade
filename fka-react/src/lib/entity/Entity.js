@@ -12,4 +12,14 @@ export default class Entity extends EventEmitter {
         this.type = type;
         this.components = comps;
     }
+
+    getComponent(flag) {
+        for(let comp of this.components) {
+            if(comp.flag === flag) {
+                return comp;
+            }
+        }
+
+        return null;
+    }
 };

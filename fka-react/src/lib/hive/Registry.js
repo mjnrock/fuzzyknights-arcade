@@ -1,5 +1,6 @@
 import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
+import { type } from "os";
 
 export const EnumEventType = {
     UPDATE: "Registry.Update",
@@ -112,23 +113,33 @@ export default class Registry extends EventEmitter {
         return [ ...this.entries.values() ].some(entry => entry === value);
     }
 
-    merge(input) {
+    merge(input, filter) {
+        const setter = (key, value) => {            
+            if(typeof filter === "function") {
+                if(filter(key, value) === true) {
+                    this.set(key, value);
+                }
+            } else {
+                this.set(key, value);
+            }
+        };
+
         if(input instanceof Registry) {
             for(let [ key, value ] of input.entries) {
-                this.set(key, value);
+                setter(key, value);
             }
         } else if(input instanceof Map) {
             for(let [ key, value ] of input) {
-                this.set(key, value);
+                setter(key, value);
             }
         } else if(Array.isArray(input)) {
             for(let [ key, value ] of input) {
                 if(key !== void 0 && value !== void 0) {
-                    this.set(key, value);
+                    setter(key, value);
                 }
             }
         } else if(typeof input === "object") {
-            Object.entries(input).forEach(([ key, value ]) => this.set(key, value));
+            Object.entries(input).forEach(([ key, value ]) => setter(key, value));
         }
 
         return this;

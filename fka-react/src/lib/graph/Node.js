@@ -1,9 +1,6 @@
 import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
 
-// import Registry from "./../hive/Registry";
-import Tile from "./Tile";
-
 /*
  * This is meant to be equivalent to a "room" in that dungeon game, or a "map" in the outer world
  * The tiles are meant to be the individual tiles for that map, as a tessellated grid
@@ -19,13 +16,7 @@ export default class Node extends EventEmitter {
         super();
         this.id = uuidv4();
         
-        this.portals = {
-            north: null,
-            east: null,
-            south: null,
-            west: null,
-            spawn: null,
-        };
+        this.portals = [];
 
         this.tiles = {
             width: 1,
@@ -34,8 +25,6 @@ export default class Node extends EventEmitter {
         };
 
         this.entities = new Set(entities);
-
-        this.positions = new WeakMap(); // Keeps a weak reference to position, with entry as key
     }
 
     _key(x, y) {
@@ -63,10 +52,6 @@ export default class Node extends EventEmitter {
                     const entry = fn.call(this, x, y);
 
                     this.tiles[ key ] = entry;
-
-                    if(entry) {
-                        this.positions.set(entry, key);
-                    }
                 } else {
                     this.tiles[ key ] = null;
                 }
@@ -86,19 +71,6 @@ export default class Node extends EventEmitter {
         }
     }
 
-    pos(entry) {
-        const key = this.positions.get(entry);
-
-        if(key) {
-            const pos = key.split(".");
-
-            return [
-                ~~pos[ 0 ],
-                ~~pos[ 1 ],
-            ];
-        }
-    }
-
     get(x, y) {
         const key = this._key(x, y);
 
@@ -107,7 +79,6 @@ export default class Node extends EventEmitter {
     set(x, y, entry) {
         const key = this._key(x, y);
 
-        this.positions.set(entry, key);
         this.tiles[ key ] = entry;
 
         return this;
@@ -123,16 +94,6 @@ export default class Node extends EventEmitter {
     }
 
     neighbors(x, y) {
-        if(x instanceof Tile) {
-            const key = this.positions.get(x);
-            const split = key.split(".");
-
-            if(split.length === 2) {
-                x = ~~split[ 0 ];
-                y = ~~split[ 1 ];
-            }
-        }
-
         return {
             north: this.tiles[ this._key(x, y - 1) ],
             east: this.tiles[ this._key(x + 1, y) ],
@@ -177,34 +138,11 @@ export default class Node extends EventEmitter {
     get bounds() {
         return [ 0, 0, this.tiles.width - 1, this.tiles.height - 1 ];
     }
-    
-    get has() {
-        return {
-            north: this.portals.north instanceof Node,
-            east: this.portals.east instanceof Node,
-            south: this.portals.south instanceof Node,
-            west: this.portals.west instanceof Node,
-        };
-    }
 
     each(fn) {
         if(typeof fn === "function") {
             this.entities.forEach((entity, i) => fn(entity, i));
         }
-    }
-    entity(index = 0) {
-        return this.entities[ index ];
-    }
-    find(...indexesOrTypes) {
-        return this.entities.filter((entity, i) => {
-            if(indexesOrTypes.includes(i)) {
-                return true;
-            } else if(indexesOrTypes.some(entry => !Number.isInteger(entry) && entity.type === entry)) {
-                return true;
-            }
-
-            return false;
-        });
     }
 
     addEntity(entity) {
@@ -218,5 +156,16 @@ export default class Node extends EventEmitter {
         this.emit(EnumEventType.ENTITY_LEAVE, entity);
         
         return this;
+    }
+
+    addPortal(node, x, y) {
+        this.portals.push({
+            node,
+            x,
+            y,
+        });
+    }
+    removePortal(node, x, y) {
+        this.portals = this.portals.filter(portal => portal.node !== node && portal.x !== x && portal.y !== y);
     }
 };

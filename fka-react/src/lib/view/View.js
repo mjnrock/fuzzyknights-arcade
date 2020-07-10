@@ -5,12 +5,13 @@ import KeyNode from "./../hive/KeyNode";
 import Component from "./components/Component";
 
 export default class View extends Hive.Node {
-    constructor() {
+    constructor(game) {
         super({
             components: new Map(),
             mouse: new MouseNode({ element: window }),
             key: new KeyNode({ element: window }),
         });
+        this.game = game;
 
         this.mouse.addEffect((state, msg) => this.receive(msg.type, msg.payload, msg));
         this.key.addEffect((state, msg) => this.receive(msg.type, msg.payload, msg));

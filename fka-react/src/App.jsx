@@ -8,32 +8,22 @@ import {
 import ScrollToTop from "./ScrollToTop";
 import Routes from "./routes/package";
 
+import Game from "./lib/Game";
+
 import Graph from "./lib/graph/package";
 import GameView from "./lib/view/GameView";
-import RenderNode from "./lib/render/graph/RenderNode";
 
-const graph = Graph.GraphFactory.Generate(2, 2, 20, 20);
-const gameView = new GameView(graph);
-console.log(gameView)
+const game = new Game();
+game.graph = Graph.GraphFactory.Generate(2, 2, 20, 20);
+game.view = new GameView(game.graph);
 
-
-
-
-const node = graph.getNode(0, 0);
-const renderNode = new RenderNode(node, { size: [ 128, 128 ] });
-
-renderNode.getLayer(1).loadImage("raccoon", "./assets/entity/raccoon.png").then(() => {
-    node.addEntity(1);
-    renderNode.draw();
-});
-
-export const Context = React.createContext(renderNode);
+export const Context = React.createContext(game.view.camera);
 
 function App() {
     return (
         <Router>
             <ScrollToTop>
-                <Context.Provider value={{ node: renderNode }}>
+                <Context.Provider value={{ node: game.view.camera }}>
                     <Switch>                            
                         <Route path="/">
                             <Routes.Home />
