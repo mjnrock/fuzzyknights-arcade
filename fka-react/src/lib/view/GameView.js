@@ -15,6 +15,11 @@ export default class GameView extends View {
         this.camera = new Camera(graph.getNode(0, 0), {
             tw: 128,
             th: 128,
+
+            x: 0,
+            y: 0,
+            w: 9,
+            h: 8,
         });
         this.camera.getLayer(1).loadImage("raccoon", "./assets/entity/raccoon.png").then(() => {
             this.camera.node.addEntity(1);

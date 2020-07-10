@@ -26,9 +26,16 @@ export default class RenderNodeEntities extends GridCanvasNode {
         this.state.node = value;
     }
 
-    draw() {
+    draw(x, y, w, h) {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+
         this.node.each((entity, i) => {
-            this.gTile(this.img("raccoon"), 4, 0, 5, 5);
+            let tx = 5,
+                ty = 5;
+
+            if((tx >= x) && (tx <= (x + w)) && (ty >= y) && (ty <= (y + h))) {
+                this.gTile(this.img("raccoon"), 4, 0, tx, ty);
+            }
         });
 
         this.dispatch(EnumMessageType.PAINT);

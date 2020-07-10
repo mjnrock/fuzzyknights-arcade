@@ -34,26 +34,30 @@ export default class RenderNodeTerrain extends GridCanvasNode {
         this.state.node = value;
     }
 
-    draw() {
-        this.node.apply((x, y, tile) => {
-            const terrain = tile.terrain;
-
-            if(terrain.type === EnumTerrainType.FLOOR) {
-                this.prop({
-                    fillStyle: "#999",
-                }).gPoint(x, y);
-            } else if(terrain.type === EnumTerrainType.WALL) {
-                this.prop({
-                    fillStyle: "#555",
-                }).gPoint(x, y);
-            } else if(terrain.type === EnumTerrainType.DOOR) {
-                this.prop({
-                    fillStyle: "#222",
-                }).gPoint(x, y);
-            } else {
-                this.prop({
-                    fillStyle: "#000",
-                }).gPoint(x, y);
+    draw(x, y, w, h) {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        
+        this.node.apply((tx, ty, tile) => {
+            if(tx >= x && tx <= x + w && ty >= y && ty <= y + h) {
+                const terrain = tile.terrain;
+    
+                if(terrain.type === EnumTerrainType.FLOOR) {
+                    this.prop({
+                        fillStyle: "#999",
+                    }).gPoint(tx, ty);
+                } else if(terrain.type === EnumTerrainType.WALL) {
+                    this.prop({
+                        fillStyle: "#555",
+                    }).gPoint(tx, ty);
+                } else if(terrain.type === EnumTerrainType.DOOR) {
+                    this.prop({
+                        fillStyle: "#222",
+                    }).gPoint(tx, ty);
+                } else {
+                    this.prop({
+                        fillStyle: "#000",
+                    }).gPoint(tx, ty);
+                }
             }
         });
         

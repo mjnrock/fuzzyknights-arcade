@@ -54,8 +54,12 @@ export default class LayeredCanvasNode extends GridCanvasNode {
         return this;
     }
 
-    paint() {
-        this.stack.forEach(cnode => this.ctx.drawImage(cnode.canvas, 0, 0));
+    paint(...drawImageArgs) {
+        if(!drawImageArgs.length) {
+            drawImageArgs = [ 0, 0 ];
+        }
+        
+        this.stack.forEach(cnode => this.ctx.drawImage(cnode.canvas, ...drawImageArgs));
 
         this.dispatch(EnumMessageType.PAINT);
 
