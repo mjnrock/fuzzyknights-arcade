@@ -13,7 +13,7 @@ export default class Game extends Hive.Node {
         return this.state.players[ 0 ];
     }
     set player(player) {
-        this.state.player[ 0 ] = player;
+        this.state.players.splice(0, 1, player);
     }
 
     get graph() {

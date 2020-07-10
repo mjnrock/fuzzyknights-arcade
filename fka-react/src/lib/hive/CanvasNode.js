@@ -34,8 +34,15 @@ export default class CanvasNode extends Hive.Node {
     get width() {
         return this.canvas.width;
     }
+    set width(value) {
+        this.canvas.width = value;
+    }
+    
     get height() {
         return this.canvas.height;
+    }
+    set height(value) {
+        this.canvas.height = value;
     }
 
     get center() {
@@ -54,6 +61,9 @@ export default class CanvasNode extends Hive.Node {
 
     get fps() {
         return this.config.fps;
+    }
+    set fps(fps) {
+        this.config.fps = fps;
     }
 
     resize(width, height) {

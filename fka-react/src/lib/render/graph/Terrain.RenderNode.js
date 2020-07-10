@@ -34,9 +34,11 @@ export default class RenderNodeTerrain extends GridCanvasNode {
         this.state.node = value;
     }
 
-    draw(x, y, w, h) {
+    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0 } = {}) {
         this.ctx.clearRect(0, 0, this.width, this.height);
-        
+
+        this.ctx.save();
+        this.ctx.scale(scale, scale);
         this.node.apply((tx, ty, tile) => {
             if(tx >= x && tx <= x + w && ty >= y && ty <= y + h) {
                 const terrain = tile.terrain;
@@ -60,6 +62,7 @@ export default class RenderNodeTerrain extends GridCanvasNode {
                 }
             }
         });
+        this.ctx.restore();
         
 
         this.dispatch(EnumMessageType.PAINT);

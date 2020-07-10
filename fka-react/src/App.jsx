@@ -12,10 +12,25 @@ import Game from "./lib/Game";
 
 import Graph from "./lib/graph/package";
 import GameView from "./lib/view/GameView";
+import Entity from "./lib/entity/Entity";
+import { EnumComponentType } from "./lib/entity/components/Component";
 
 const game = new Game();
 game.graph = Graph.Factory.Generate(2, 2, 20, 20);
-game.view = new GameView(game.graph);
+
+const node = game.graph.getNode(0, 0);
+const entity = new Entity({
+    data: {
+        [ EnumComponentType.POSITION ]: {
+            x: 5,
+            y: 5,
+        }
+    }
+});
+node.addEntity(entity);
+game.player = entity;
+
+game.view = new GameView(game, game.graph);
 
 export const Context = React.createContext(game.view.camera);
 

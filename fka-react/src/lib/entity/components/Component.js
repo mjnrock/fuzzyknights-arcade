@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Bitwise } from "./../../hive/Helper";
 
 export const EnumComponentType = {
-    LOCATION: 2 << 0,
+    POSITION: 2 << 0,
 
     flagToName(flag) {
         for(let name in EnumComponentType) {

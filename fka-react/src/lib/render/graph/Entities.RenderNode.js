@@ -1,4 +1,5 @@
 import GridCanvasNode from "../../hive/GridCanvasNode";
+import { EnumComponentType } from "./../../entity/components/Component";
 
 export const EnumMessageType = {
     PAINT: "NodeEntities.Paint",
@@ -26,17 +27,22 @@ export default class RenderNodeEntities extends GridCanvasNode {
         this.state.node = value;
     }
 
-    draw(x, y, w, h) {
+    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0 } = {}) {
         this.ctx.clearRect(0, 0, this.width, this.height);
 
+        this.ctx.save();
+        this.ctx.scale(scale, scale);
         this.node.each((entity, i) => {
-            let tx = 5,
-                ty = 5;
+            console.log(entity)
+            const comp = entity.getComponent(EnumComponentType.POSITION);
+            const tx = comp.x;
+            const ty = comp.y;
 
             if((tx >= x) && (tx <= (x + w)) && (ty >= y) && (ty <= (y + h))) {
                 this.gTile(this.img("raccoon"), 4, 0, tx, ty);
             }
         });
+        this.ctx.restore();
 
         this.dispatch(EnumMessageType.PAINT);
     }

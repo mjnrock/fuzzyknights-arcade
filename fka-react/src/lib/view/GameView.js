@@ -4,9 +4,11 @@ import GraphComponent from "./components/GraphComponent";
 import { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNode";
 import Camera from "../render/Camera";
 
+import { EnumComponentType } from "./../entity/components/Component";
+
 export default class GameView extends View {
-    constructor(graph) {
-        super();
+    constructor(game, graph) {
+        super(game);
 
         const graphComp = new GraphComponent(graph);
         this.set("graph", graphComp);
@@ -15,15 +17,25 @@ export default class GameView extends View {
         this.camera = new Camera(graph.getNode(0, 0), {
             tw: 128,
             th: 128,
+            scale: 2,
 
-            x: 0,
-            y: 0,
-            w: 9,
-            h: 8,
+            //* Viewport Config
+            // x: 0,
+            // y: 0,
+            // w: 6,
+            // h: 6,
         });
+        this.camera.fps = 2;
         this.camera.getLayer(1).loadImage("raccoon", "./assets/entity/raccoon.png").then(() => {
-            this.camera.node.addEntity(1);
-            this.camera.draw();
+            this.camera.play();
+
+            setInterval(() => {
+                const comp = this.game.player.getComponent(EnumComponentType.POSITION);
+                const node = graph.getNode(0, 0);
+
+                comp.x = ~~(Math.random() * node.tiles.width);
+                comp.y = ~~(Math.random() * node.tiles.height);
+            }, 500);
         });        
     }
 
