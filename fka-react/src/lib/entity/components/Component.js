@@ -4,6 +4,7 @@ import { Bitwise } from "./../../hive/Helper";
 
 export const EnumComponentType = {
     POSITION: 2 << 0,
+    STATE: 2 << 1,
 
     flagToName(flag) {
         for(let name in EnumComponentType) {
