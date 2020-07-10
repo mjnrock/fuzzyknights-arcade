@@ -15,21 +15,44 @@ export default class GameView extends View {
         this.camera = new Camera(graph.getNode(0, 0), {
             tw: 128,
             th: 128,
-            scale: 2,
+            scale: 0.25,
 
             //* Viewport Config
-            // x: 0,
-            // y: 0,
-            // w: 6,
-            // h: 6,
+            x: 0,
+            y: 0,
+            w: 9,
+            h: 9,
+
+            subject: this.game.player,
         });
-        this.camera.fps = 2;
+        this.camera.fps = 30;
         this.camera.getLayer(1).loadImage("raccoon", "./assets/entity/raccoon.png").then(() => {
             this.camera.play();
 
             setInterval(() => {
+
+                // let i = 10000000000000,
+                //     asc = true;
+                // setInterval(() => {
+                //     const inc = i * Math.sin(Math.PI);
+                //     if(asc) {
+                //         this.camera.scale += inc;
+                //     } else {
+                //         this.camera.scale -= inc;
+                //     }
+                //     if(this.camera.scale >= 3) {
+                //         asc = false;
+                //     } else if(this.camera.scale <= 1) {
+                //         asc = true;
+                //     }
+                //     console.log(this.camera.scale)
+                //     ++i;
+    
+                //     this.getGraph().tick();
+                // }, 30);
+
                 this.getGraph().tick();
-            }, 250);
+            }, 30);
         });        
     }
 

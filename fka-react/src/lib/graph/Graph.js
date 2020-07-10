@@ -155,20 +155,42 @@ export default class Graph extends EventEmitter {
         const { map, mask } = payload;
         const comp = this.game.player.getComponent(EnumComponentType.POSITION);
 
-        if(Bitwise.has(mask, map[ EnumMoveDirection.UP ])) {
-            comp.vy = -1;
-        } else if(Bitwise.has(mask, map[ EnumMoveDirection.DOWN ])) {
-            comp.vy = 1;
+        if(Bitwise.has(mask, map[ EnumMoveDirection.UP ]) && Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {
+            comp.vy = -comp.speed;
+            comp.vx = comp.speed;
+            comp.facing = 45;
+        } else if(Bitwise.has(mask, map[ EnumMoveDirection.UP ]) && Bitwise.has(mask, map[ EnumMoveDirection.LEFT ])) {
+            comp.vy = -comp.speed;
+            comp.vx = -comp.speed;
+            comp.facing = 315;
+        } else if(Bitwise.has(mask, map[ EnumMoveDirection.DOWN ]) && Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {
+            comp.vy = comp.speed;
+            comp.vx = comp.speed;
+            comp.facing = 135;
+        } else if(Bitwise.has(mask, map[ EnumMoveDirection.DOWN ]) && Bitwise.has(mask, map[ EnumMoveDirection.LEFT ])) {
+            comp.vy = comp.speed;
+            comp.vx = -comp.speed;
+            comp.facing = 225;
         } else {
-            comp.vy = 0;
-        }
-
-        if(Bitwise.has(mask, map[ EnumMoveDirection.LEFT ])) {
-            comp.vx = -1;
-        } else if(Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {
-            comp.vx = 1;
-        } else {
-            comp.vx = 0;
+            if(Bitwise.has(mask, map[ EnumMoveDirection.UP ])) {
+                comp.vy = -comp.speed;
+                comp.facing = 0;
+            } else if(Bitwise.has(mask, map[ EnumMoveDirection.DOWN ])) {
+                comp.vy = comp.speed;
+                comp.facing = 180;
+            } else {
+                comp.vy = 0;
+            }
+    
+            if(Bitwise.has(mask, map[ EnumMoveDirection.LEFT ])) {
+                comp.vx = -comp.speed;
+                comp.facing = 270;
+            } else if(Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {
+                comp.vx = comp.speed;
+                comp.facing = 90;
+            } else {
+                comp.vx = 0;
+            }
         }
     }
 };

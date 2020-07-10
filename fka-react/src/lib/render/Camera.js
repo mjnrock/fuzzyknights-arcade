@@ -1,11 +1,12 @@
 import LayeredCanvasNode from "./../hive/LayeredCanvasNode";
 import { EnumMessageType } from "./../hive/CanvasNode";
+import { EnumComponentType } from "./../entity/components/Component";
 
 import RenderNodeTerrain, { EnumMessageType as EnumNodeTerrainMessageType } from "./graph/Terrain.RenderNode";
 import RenderNodeEntities, { EnumMessageType as EnumNodeEntitiesMessageType } from "./graph/Entities.RenderNode";
 
 export default class Camera extends LayeredCanvasNode {
-    constructor(node, { x, y, w, h, tw = 32, th = 32, size = [] } = {}) {
+    constructor(node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0 } = {}) {
         super({
             state: {
                 viewport: {
@@ -14,6 +15,8 @@ export default class Camera extends LayeredCanvasNode {
                     width: w,
                     height: h,
                 },
+                subject,
+                scale,
             },
             width: node.tiles.width * (size[ 0 ] || tw),
             height: node.tiles.height * (size[ 1 ] || th),
@@ -34,6 +37,24 @@ export default class Camera extends LayeredCanvasNode {
         this.addEffect(EnumMessageType.RENDER, () => {
             this.draw();
         });
+    }
+
+    get scale() {
+        return this.state.scale;
+    }
+    set scale(scale) {
+        this.state.scale = scale;
+    }
+
+    get subject() {
+        return this.state.subject;
+    }
+    set subject(subject) {
+        this.state.subject = subject;
+    }
+
+    desubject() {
+        this.state.subject = null;
     }
 
     get viewport() {
@@ -76,15 +97,40 @@ export default class Camera extends LayeredCanvasNode {
             layer.draw();
         }
 
-        this.paint(
-            this.viewport.pixel.x0,
-            this.viewport.pixel.y0,
-            this.viewport.pixel.width,
-            this.viewport.pixel.height,
-            0,
-            0,
-            Math.min(this.viewport.pixel.width, this.width),
-            Math.min(this.viewport.pixel.height, this.height),
-        );
+        this.ctx.save();
+        this.ctx.scale(this.scale, this.scale);
+        
+        this.resize(this.viewport.pixel.width, this.viewport.pixel.height);
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        this.prop({ fillStyle: "#000" }).rect(0, 0, this.width, this.height, { isFilled: true });
+
+        if(this.subject) {
+            const comp = this.subject.getComponent(EnumComponentType.POSITION);
+            const dw = ~~(this.viewport.pixel.width / this.scale / 2);
+            const dh = ~~(this.viewport.pixel.height / this.scale / 2);
+
+            this.paint(
+                (comp.x * this.tw) - dw + (this.scale >= 1 ? this.tw / this.scale : 0),
+                (comp.y * this.th) - dh + (this.scale >= 1 ? this.th / this.scale : 0),
+                (this.viewport.pixel.width / this.scale),
+                (this.viewport.pixel.height / this.scale),
+                0,
+                0,
+                this.width,
+                this.height,
+            );
+        } else {
+            this.paint(
+                this.viewport.pixel.x0,
+                this.viewport.pixel.y0,
+                this.viewport.pixel.width,
+                this.viewport.pixel.height,
+                0,
+                0,
+                Math.min(this.viewport.pixel.width, this.width),
+                Math.min(this.viewport.pixel.height, this.height),
+            );
+        }
+        this.ctx.restore();
     }
 }

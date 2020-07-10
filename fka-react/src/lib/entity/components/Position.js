@@ -8,7 +8,7 @@ export const EnumDirection = {
 };
 
 export default class Position extends Component {
-    constructor({ node, x, y, facing = EnumDirection.SOUTH , vx = 0, vy = 0 } = {}) {
+    constructor({ node, x, y, facing = EnumDirection.SOUTH , vx = 0, vy = 0, speed = 1 } = {}) {
         super(EnumComponentType.POSITION, {
             node,
             x,
@@ -16,6 +16,7 @@ export default class Position extends Component {
             facing,
             vx,
             vy,
+            speed,
         });
     }
 
@@ -33,6 +34,7 @@ export default class Position extends Component {
             y: Math.floor(this.state.y),
             vx: this.state.vx,
             vy: this.state.vy,
+            speed: this.state.speed,
         };
 
         obj.tile.arr = [ obj.tile.x, obj.tile.y ];
