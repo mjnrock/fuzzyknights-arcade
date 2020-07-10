@@ -24,7 +24,7 @@ const entity = new Entity({
         [ EnumComponentType.POSITION ]: {
             x: 5,
             y: 5,
-            speed: 0.28
+            speed: 0.09
         }
     }
 });

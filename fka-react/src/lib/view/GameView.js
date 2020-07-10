@@ -20,45 +20,30 @@ export default class GameView extends View {
             //* Viewport Config
             x: 0,
             y: 0,
-            w: 11,
-            h: 11,
+            w: 9,
+            h: 7,
 
             subject: this.game.player,
         });
-        this.camera.getLayer(1).loadImages([
-            [ "raccoon", "./assets/entity/raccoon.png" ],
-            [ "beaver", "./assets/entity/beaver.png" ],
-            [ "rabbit", "./assets/entity/rabbit.png" ],
-            [ "walrus", "./assets/entity/walrus.png" ],
-            [ "bull", "./assets/entity/bull.png" ],
+
+        this.camera.getLayer(0).loadImages([
+            [ "terrain.grass", "./assets/terrain/grass.png" ],
+            [ "terrain.dirt", "./assets/terrain/dirt.png" ],
+            [ "terrain.stone", "./assets/terrain/stone.png" ],
         ]).then(() => {
-            this.camera.play();
-
-            setInterval(() => {
-
-                // let i = 10000000000000,
-                //     asc = true;
-                // setInterval(() => {
-                //     const inc = i * Math.sin(Math.PI);
-                //     if(asc) {
-                //         this.camera.scale += inc;
-                //     } else {
-                //         this.camera.scale -= inc;
-                //     }
-                //     if(this.camera.scale >= 3) {
-                //         asc = false;
-                //     } else if(this.camera.scale <= 0.25) {
-                //         asc = true;
-                //     }
-                //     console.log(this.camera.scale)
-                //     ++i;
+            this.camera.getLayer(1).loadImages([
+                [ "entity.raccoon", "./assets/entity/raccoon.png" ],
+                [ "entity.beaver", "./assets/entity/beaver.png" ],
+                [ "entity.rabbit", "./assets/entity/rabbit.png" ],
+                [ "entity.walrus", "./assets/entity/walrus.png" ],
+                [ "entity.bull", "./assets/entity/bull.png" ],
+            ]).then(() => {
+                this.camera.getLayer(0).draw();
+                this.camera.play();
     
-                //     this.getGraph().tick();
-                // }, 30);
-
-                this.getGraph().tick();
-            }, 1000 / 60);
-        });        
+                setInterval(() => this.getGraph().tick(), 1000 / 60);
+            });  
+        });
     }
 
     getGraph() {

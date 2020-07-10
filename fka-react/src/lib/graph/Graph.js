@@ -154,22 +154,23 @@ export default class Graph extends EventEmitter {
     onPlayerMovementMask(payload) {
         const { map, mask } = payload;
         const comp = this.game.player.getComponent(EnumComponentType.POSITION);
+        const factor = 1.5;
 
         if(Bitwise.has(mask, map[ EnumMoveDirection.UP ]) && Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {
-            comp.vy = -comp.speed;
-            comp.vx = comp.speed;
+            comp.vy = -comp.speed / factor;
+            comp.vx = comp.speed / factor;
             comp.facing = 45;
         } else if(Bitwise.has(mask, map[ EnumMoveDirection.UP ]) && Bitwise.has(mask, map[ EnumMoveDirection.LEFT ])) {
-            comp.vy = -comp.speed;
-            comp.vx = -comp.speed;
+            comp.vy = -comp.speed / factor;
+            comp.vx = -comp.speed / factor;
             comp.facing = 315;
         } else if(Bitwise.has(mask, map[ EnumMoveDirection.DOWN ]) && Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {
-            comp.vy = comp.speed;
-            comp.vx = comp.speed;
+            comp.vy = comp.speed / factor;
+            comp.vx = comp.speed / factor;
             comp.facing = 135;
         } else if(Bitwise.has(mask, map[ EnumMoveDirection.DOWN ]) && Bitwise.has(mask, map[ EnumMoveDirection.LEFT ])) {
-            comp.vy = comp.speed;
-            comp.vx = -comp.speed;
+            comp.vy = comp.speed / factor;
+            comp.vx = -comp.speed / factor;
             comp.facing = 225;
         } else {
             if(Bitwise.has(mask, map[ EnumMoveDirection.UP ])) {
