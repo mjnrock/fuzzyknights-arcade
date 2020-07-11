@@ -1293,10 +1293,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@lespantsfancy/hive@^0.1.39":
-  version "0.1.43"
-  resolved "https://registry.yarnpkg.com/@lespantsfancy/hive/-/hive-0.1.43.tgz#d71ec2be21ad9646f148871bb2b399e166758f2e"
-  integrity sha512-ygUOLX6a7G5YpirRS9A4z/P6K5IkJySChT/FRZjTRH5VAWK+NkC8XtMOI+UrdkRBS2zZDfFvv9BEQB3x3Cz/dA==
+"@lespantsfancy/hive@^0.1.57":
+  version "0.1.57"
+  resolved "https://registry.yarnpkg.com/@lespantsfancy/hive/-/hive-0.1.57.tgz#bb5a183441cbcaa9822c8cd378285c8cfba42734"
+  integrity sha512-eHrhU/g0RWfwghTqo+Fd0j2ZRAk0TjX/22bhczV18wWtkvXypuk988rAjDNguayIBpVuoFdVy1p4dzzMqzDUcw==
   dependencies:
     is-base64 "^1.1.0"
     uuid "^8.1.0"

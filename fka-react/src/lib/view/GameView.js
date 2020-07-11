@@ -10,7 +10,7 @@ export default class GameView extends View {
 
         const graphComp = new GraphComponent(graph);
         this.set("graph", graphComp);
-        this.addEffect(EnumKeyMessageType.KEY_MASK, graphComp.receive.bind(graphComp));
+        this.addEffect((state, msg) => msg.type === EnumKeyMessageType.KEY_MASK ? graphComp.receive.call(graphComp, state, msg) : null);
 
         this.camera = new Camera(graph.getNode(0, 0), {
             tw: 128,

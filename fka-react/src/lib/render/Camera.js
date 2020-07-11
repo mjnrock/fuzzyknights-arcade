@@ -31,11 +31,23 @@ export default class Camera extends LayeredCanvasNode {
             node: node,
         });
 
-        this.getLayer(0).addEffect(EnumNodeTerrainMessageType.PAINT, this.paint.bind(this));
-        this.getLayer(1).addEffect(EnumNodeEntitiesMessageType.PAINT, this.paint.bind(this));
+        this.getLayer(0).addEffect((state, msg) => {
+            if(msg.type === EnumNodeTerrainMessageType.PAINT) {
+                this.paint.call(this);
+            }
+        });
+        this.getLayer(1).addEffect((state, msg) => {
+            if(msg.type === EnumNodeEntitiesMessageType.PAINT) {
+                this.paint()
+            }
+        });
+        // this.getLayer(0).addEffect(EnumNodeTerrainMessageType.PAINT, this.paint.bind(this));
+        // this.getLayer(1).addEffect(EnumNodeEntitiesMessageType.PAINT, this.paint.bind(this));
 
-        this.addEffect(EnumMessageType.RENDER, () => {
-            this.draw();
+        this.addEffect((state, msg) => {
+            if(msg.type === EnumMessageType.RENDER) {
+                this.draw();
+            }
         });
     }
 
