@@ -1,12 +1,28 @@
 import Hive from "@lespantsfancy/hive";
 
 export default class Game extends Hive.Node {
-    constructor() {
+    constructor({ settings = {} } = {}) {
         super({
             players: [],
             graph: null,
             view: null,
+
+            settings: {
+                isDebugMode: true,
+
+                ...settings,
+            },
         });        
+    }
+
+    setting(prop, value) {
+        if(prop in this.state.settings) {
+            if(value !== void 0) {
+                this.state.settings[ prop ] = value;
+            }
+
+            return this.state.settings[ prop ];
+        }
     }
 
     get player() {

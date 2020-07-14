@@ -137,26 +137,26 @@ export default class CanvasNode extends Hive.Node {
     
     render() {
         if(this.config.isActive === true) {
-            window.requestAnimationFrame((ts) => {
-                this.onRender(ts);
+            window.requestAnimationFrame((ts) => {                
+                const dt = ts - this.config.lastTimestamp;
+
+                this.onRender(dt);
+
+                this.dispatch(EnumMessageType.RENDER, {
+                    timestamp: ts,
+                    delta: dt,
+                    canvas: this.canvas,
+                    ctx: this.ctx,
+                });
+
+                this.config.fps = 1000 / dt;
+                this.config.lastTimestamp = ts;
                 
                 this.render();
             });
         }
     }
-    onRender(ts) {
-        const dt = ts - this.config.lastTimestamp;
-
-        this.dispatch(EnumMessageType.RENDER, {
-            timestamp: ts,
-            delta: dt,
-            canvas: this.canvas,
-            ctx: this.ctx,
-        });
-
-        this.config.fps = 1000 / dt;
-        this.config.lastTimestamp = ts;
-    }
+    onRender(dt) {}
 
     // Get a stream of the current canvas
     getStream(fps = 10) {

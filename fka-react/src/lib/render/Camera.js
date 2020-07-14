@@ -4,11 +4,13 @@ import { EnumComponentType } from "./../entity/components/Component";
 
 import RenderNodeTerrain, { EnumMessageType as EnumNodeTerrainMessageType } from "./graph/Terrain.RenderNode";
 import RenderNodeEntities, { EnumMessageType as EnumNodeEntitiesMessageType } from "./graph/Entities.RenderNode";
+import GridCanvasNode from "../hive/GridCanvasNode";
 
 export default class Camera extends LayeredCanvasNode {
-    constructor(node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0 } = {}) {
+    constructor(game, node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0 } = {}) {
         super({
             state: {
+                game: game,
                 viewport: {
                     x,
                     y,
@@ -24,6 +26,11 @@ export default class Camera extends LayeredCanvasNode {
             stack: [                
                 new RenderNodeTerrain(node, { tw, th, size }),
                 new RenderNodeEntities(node, { tw, th, size }),
+                new GridCanvasNode({
+                    width: node.tiles.width * (size[ 0 ] || tw),
+                    height: node.tiles.height * (size[ 1 ] || th),
+                    size: [ size[ 0 ] || tw, size[ 1 ] || th ],
+                })
             ],
         });
 
@@ -38,17 +45,44 @@ export default class Camera extends LayeredCanvasNode {
         });
         this.getLayer(1).addEffect((state, msg) => {
             if(msg.type === EnumNodeEntitiesMessageType.PAINT) {
-                this.paint()
+                this.paint.call(this);
             }
         });
-        // this.getLayer(0).addEffect(EnumNodeTerrainMessageType.PAINT, this.paint.bind(this));
-        // this.getLayer(1).addEffect(EnumNodeEntitiesMessageType.PAINT, this.paint.bind(this));
 
         this.addEffect((state, msg) => {
             if(msg.type === EnumMessageType.RENDER) {
                 this.draw();
             }
         });
+
+        this.getLayer(2).draw = function({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0, game } = {}) {            
+            if(game && game.setting("isDebugMode")) {
+                this.clear();
+        
+                this.ctx.save();
+                this.ctx.scale(scale, scale);
+                node.each((entity, i) => {
+                    const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
+        
+                    if((comp.x >= x) && (comp.x <= (x + w)) && (comp.y >= y) && (comp.y <= (y + h))) {
+                        this.prop({
+                            strokeStyle: "#0f0",
+                        })
+                        .circle(comp.x * this.tw, comp.y * this.th, comp.model.radius)
+                        .point(comp.x * this.tw, comp.y * this.th);
+                    }
+                });
+                this.ctx.restore();
+        
+                this.dispatch(EnumMessageType.PAINT);
+            } else {
+                this.clear();
+            }
+        };
+    }
+
+    get game() {
+        return this.state.game;
     }
 
     get scale() {
@@ -105,10 +139,12 @@ export default class Camera extends LayeredCanvasNode {
     }
 
     draw() {
+        //TODO This requires a refactor optimization before this will render smoothly (the Terrain rerendering is currently redraws everything always)
         // for(let layer of this.stack) {
-        //     layer.draw();
+        //     layer.draw({ game: this.game });
         // }
-        this.getLayer(1).draw();
+        this.getLayer(1).draw({ game: this.game });
+        this.getLayer(2).draw({ game: this.game });
 
         this.ctx.save();
         this.ctx.scale(this.scale, this.scale);
@@ -118,7 +154,7 @@ export default class Camera extends LayeredCanvasNode {
         this.prop({ fillStyle: "#000" }).rect(0, 0, this.width, this.height, { isFilled: true });
 
         if(this.subject) {
-            const comp = this.subject.getComponent(EnumComponentType.POSITION);
+            const comp = this.subject.getComponent(EnumComponentType.RIGID_BODY);
             const vw2 = ~~(this.viewport.pixel.width / 2);
             const vh2 = ~~(this.viewport.pixel.height / 2);
 

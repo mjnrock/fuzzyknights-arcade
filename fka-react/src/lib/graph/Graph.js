@@ -153,7 +153,7 @@ export default class Graph extends EventEmitter {
 
     onPlayerMovementMask(payload) {
         const { map, mask } = payload;
-        const comp = this.game.player.getComponent(EnumComponentType.POSITION);
+        const comp = this.game.player.getComponent(EnumComponentType.RIGID_BODY);
         const factor = 1.5;
 
         if(Bitwise.has(mask, map[ EnumMoveDirection.UP ]) && Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {

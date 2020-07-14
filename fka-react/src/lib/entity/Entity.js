@@ -1,7 +1,7 @@
 import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
 
-import Position from "./components/Position";
+import RigidBody from "./components/RigidBody";
 import { EnumComponentType } from "./components/Component";
 
 export const EnumEventType = {
@@ -19,7 +19,7 @@ export default class Entity extends EventEmitter {
         this.components = [
             ...comps,
 
-            new Position(),
+            new RigidBody(),
         ];
 
         for(let flag of Object.keys(data)) {
@@ -45,7 +45,7 @@ export default class Entity extends EventEmitter {
     }
 
     tick(dt) {
-        const comp = this.getComponent(EnumComponentType.POSITION);
+        const comp = this.getComponent(EnumComponentType.RIGID_BODY);
         
         comp.x += comp.vx;
         comp.y += comp.vy;

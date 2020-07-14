@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Bitwise } from "./../../hive/Helper";
 
 export const EnumComponentType = {
-    POSITION: 2 << 0,
+    RIGID_BODY: 2 << 0,
     STATE: 2 << 1,
 
     flagToName(flag) {
@@ -42,6 +42,7 @@ export default class Component extends EventEmitter {
 
         return new Proxy(this, {
             get: (target, prop) => {
+                // console.log(prop, prop in target, target[ prop ]);
                 if(prop in target) {
                     return target[ prop ];
                 }
@@ -55,6 +56,8 @@ export default class Component extends EventEmitter {
             set: (target, prop, value) => {
                 if(prop in this.state) {
                     this.state[ prop ] = value;
+                } else {
+                    target[ prop ] = value;
                 }
 
                 return target;

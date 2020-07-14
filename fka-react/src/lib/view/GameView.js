@@ -11,8 +11,9 @@ export default class GameView extends View {
         const graphComp = new GraphComponent(graph);
         this.set("graph", graphComp);
         this.addEffect((state, msg) => msg.type === EnumKeyMessageType.KEY_MASK ? graphComp.receive.call(graphComp, state, msg) : null);
+        this.addEffect((state, msg) => msg.type === EnumKeyMessageType.KEY_PRESS && msg.payload.code === 114 ? game.setting("isDebugMode", !game.setting("isDebugMode")) : null);
 
-        this.camera = new Camera(graph.getNode(0, 0), {
+        this.camera = new Camera(game, graph.getNode(0, 0), {
             tw: 128,
             th: 128,
             scale: 1.0,
@@ -39,9 +40,9 @@ export default class GameView extends View {
                 [ "entity.bull", "./assets/entity/bull.png" ],
             ]).then(() => {
                 this.camera.getLayer(0).draw();
+                this.camera.onRender = () => this.getGraph().tick();
+                
                 this.camera.play();
-    
-                setInterval(() => this.getGraph().tick(), 1000 / 60);
             });  
         });
     }
@@ -59,6 +60,8 @@ export default class GameView extends View {
                 map: this.key.map,
                 mask: payload
             });
+        } else if(type === EnumKeyMessageType.KEY_PRESS) {
+            this.dispatch(type, msg.payload);
         }
     }
 }

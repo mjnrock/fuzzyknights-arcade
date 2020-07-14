@@ -34,8 +34,8 @@ export default class RenderNodeTerrain extends GridCanvasNode {
         this.state.node = value;
     }
 
-    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0 } = {}) {
-        this.ctx.clearRect(0, 0, this.width, this.height);
+    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0, game } = {}) {
+        this.clear();
 
         this.ctx.save();
         this.ctx.scale(scale, scale);
@@ -58,12 +58,20 @@ export default class RenderNodeTerrain extends GridCanvasNode {
                 } else {
                     this.prop({
                         fillStyle: "#000",
+                        strokeStyle: "#000",
                     }).gPoint(tx, ty);
+                }
+
+                //STUB
+                // if(game && game.setting("isDebugMode")) {
+                if(true) {
+                    this.prop({
+                        strokeStyle: "#0f0",
+                    }).gRect(tx, ty, this.tw, this.th);
                 }
             }
         });
-        this.ctx.restore();
-        
+        this.ctx.restore();        
 
         this.dispatch(EnumMessageType.PAINT);
     }

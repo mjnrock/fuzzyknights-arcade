@@ -7,16 +7,18 @@ export const EnumDirection = {
     WEST: 2 << 3,
 };
 
-export default class Position extends Component {
-    constructor({ node, x, y, facing = EnumDirection.SOUTH , vx = 0, vy = 0, speed = 1 } = {}) {
-        super(EnumComponentType.POSITION, {
+export default class RigidBody extends Component {
+    constructor({ node, x = 1, y = 0, facing = EnumDirection.SOUTH , vx = 0, vy = 0, speed = 1, model, mass } = {}) {
+        super(EnumComponentType.RIGID_BODY, {
             node,
+            facing,
             x,
             y,
-            facing,
             vx,
             vy,
             speed,
+            model,
+            mass,
         });
     }
 

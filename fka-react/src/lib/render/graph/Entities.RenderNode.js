@@ -27,17 +27,17 @@ export default class RenderNodeEntities extends GridCanvasNode {
         this.state.node = value;
     }
 
-    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0 } = {}) {
+    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0, game } = {}) {
         this.ctx.clearRect(0, 0, this.width, this.height);
 
         this.ctx.save();
         this.ctx.scale(scale, scale);
         this.node.each((entity, i) => {
-            const comp = entity.getComponent(EnumComponentType.POSITION);
+            const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
 
             if((comp.x >= x) && (comp.x <= (x + w)) && (comp.y >= y) && (comp.y <= (y + h))) {
                 if(this.img("entity.beaver")) {
-                    this.tile(this.img("entity.beaver"), this.tw, comp.facing / 45 * this.tw, 0 * this.th, comp.x * this.tw, comp.y * this.th);
+                    this.tile(this.img("entity.beaver"), this.tw, comp.facing / 45 * this.tw, 0 * this.th, comp.x * this.tw - (this.tw / 2), comp.y * this.th - (this.th / 2));
                 }
             }
         });
