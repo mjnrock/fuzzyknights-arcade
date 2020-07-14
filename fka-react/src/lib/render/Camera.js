@@ -61,6 +61,17 @@ export default class Camera extends LayeredCanvasNode {
         
                 this.ctx.save();
                 this.ctx.scale(scale, scale);
+
+                //STUB
+                if(game && game.setting("isDebugMode")) {
+                    node.apply((tx, ty, tile) => {
+                        if(tx >= x && tx <= x + w && ty >= y && ty <= y + h) {
+                            this.prop({
+                                strokeStyle: "#0f0",
+                            }).gRect(tx, ty, this.tw, this.th);
+                        }
+                    });
+                }
                 
                 //TODO Move this to a proper location and determine collision from w/e holds that info after the refactor
                 node.each((entity, i) => {

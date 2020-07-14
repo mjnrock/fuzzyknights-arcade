@@ -40,7 +40,7 @@ export default class GameView extends View {
                 [ "entity.bull", "./assets/entity/bull.png" ],
             ]).then(() => {
                 this.camera.getLayer(0).draw();
-                this.camera.onRender = () => this.getGraph().tick();
+                this.camera.onRender = dt => this.getGraph().tick(dt / 1000);
                 
                 this.camera.play();
             });  

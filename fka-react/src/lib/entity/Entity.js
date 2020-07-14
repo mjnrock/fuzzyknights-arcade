@@ -47,7 +47,7 @@ export default class Entity extends EventEmitter {
     tick(dt) {
         const comp = this.getComponent(EnumComponentType.RIGID_BODY);
         
-        comp.x += comp.vx;
-        comp.y += comp.vy;
+        comp.x += comp.vx * dt;
+        comp.y += comp.vy * dt;
     }
 }; 

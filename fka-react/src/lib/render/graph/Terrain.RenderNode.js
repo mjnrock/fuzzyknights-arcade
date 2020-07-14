@@ -61,14 +61,6 @@ export default class RenderNodeTerrain extends GridCanvasNode {
                         strokeStyle: "#000",
                     }).gPoint(tx, ty);
                 }
-
-                //STUB
-                // if(game && game.setting("isDebugMode")) {
-                if(true) {
-                    this.prop({
-                        strokeStyle: "#0f0",
-                    }).gRect(tx, ty, this.tw, this.th);
-                }
             }
         });
         this.ctx.restore();        
