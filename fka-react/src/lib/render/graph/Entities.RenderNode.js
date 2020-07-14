@@ -37,10 +37,10 @@ export default class RenderNodeEntities extends GridCanvasNode {
 
             if((comp.x >= x) && (comp.x <= (x + w)) && (comp.y >= y) && (comp.y <= (y + h))) {
                 //  STUB
-                if(this.img("entity.beaver") && this.img("entity.rabbit")) {
-                    this.tile(entity === game.player ? this.img("entity.beaver") : this.img("entity.rabbit"), this.tw, comp.facing / 45 * this.tw, 0 * this.th, comp.x * this.tw - (this.tw / 2), comp.y * this.th - (this.th / 2));
-                }
-                // this.prop({ strokeStyle: "#000" }).circle(comp.x * this.tw, comp.y * this.th, 31);
+                // if(this.img("entity.beaver") && this.img("entity.rabbit")) {
+                //     this.tile(entity === game.player ? this.img("entity.beaver") : this.img("entity.rabbit"), this.tw, comp.facing / 45 * this.tw, 0 * this.th, comp.x * this.tw - (this.tw / 2), comp.y * this.th - (this.th / 2));
+                // }
+                this.prop({ strokeStyle: "#000", lineWidth: game && entity === game.player ? 3 : 1 }).circle(comp.x * this.tw, comp.y * this.th, 29);
             }
         });
         this.ctx.restore();
