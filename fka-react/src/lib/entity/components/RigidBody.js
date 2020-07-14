@@ -8,7 +8,7 @@ export const EnumDirection = {
 };
 
 export default class RigidBody extends Component {
-    constructor({ node, x = 1, y = 0, facing = EnumDirection.SOUTH , vx = 0, vy = 0, speed = 1, model, mass } = {}) {
+    constructor({ node, x = 1, y = 0, facing = 0, vx = 0, vy = 0, speed = 1, model, mass } = {}) {
         super(EnumComponentType.RIGID_BODY, {
             node,
             facing,

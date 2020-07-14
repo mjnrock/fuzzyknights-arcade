@@ -98,6 +98,34 @@ export default class Camera extends LayeredCanvasNode {
 
                         this.circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
                         this.point(comp.x * this.tw, comp.y * this.th);
+
+                        let x = Math.sin(comp.facing * Math.PI / 180),
+                            y = Math.cos(comp.facing * Math.PI / 180);
+
+                        if(x < 0.001 && x > -0.001) {
+                            x = 0;
+                        } else if(x > 0) {
+                            x = 1;
+                        } else if(x < 0) {
+                            x = -1;
+                        } else {
+                            x = 0;
+                        }
+
+                        if(y < 0.001 && y > -0.001) {
+                            y = 0;
+                        } else if(y > 0) {
+                            y = -1;
+                        } else if(y < 0) {
+                            y = 1;
+                        } else {
+                            y = 0;
+                        }
+
+                        x *= 0.5;
+                        y *= 0.5;
+
+                        this.prop({ strokeStyle: "#00f" }).line(comp.x * this.tw, comp.y * this.th, (comp.x + x) * this.tw, (comp.y + y) * this.th);
                     }
                 });
                 this.ctx.restore();
