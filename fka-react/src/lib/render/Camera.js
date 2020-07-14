@@ -99,6 +99,7 @@ export default class Camera extends LayeredCanvasNode {
                         this.circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
                         this.point(comp.x * this.tw, comp.y * this.th);
 
+                        //TODO Abstract this into a "Facing to X,Y" conversion function (e.g. Facing-factored Entity::speed)
                         let x = Math.sin(comp.facing * Math.PI / 180),
                             y = Math.cos(comp.facing * Math.PI / 180);
 
