@@ -7,9 +7,9 @@ export default class Circle extends Model {
         this.radius = radius;
     }
 
-    // hasIntersection(model) {
-    //     if(model instanceof Circle) {
-    //         return Math.pow(this.x - model.x, 2) + Math.pow(this.y - model.y, 2) <= Math.pow(this.radius + model.radius, 2);
-    //     }
-    // }
+    hasIntersection(x, y, m0, mx, my, { scale = 1 } = {}) {
+        if(this !== m0 && m0 instanceof Circle) {
+            return Math.pow(x - mx, 2) + Math.pow(y - my, 2) <= Math.pow((this.radius + m0.radius) / scale, 2);
+        }
+    }
 };

@@ -30,7 +30,18 @@ const entity = new Entity({
         }
     }
 });
+const e2 = new Entity({
+    data: {
+        [ EnumComponentType.RIGID_BODY ]: {
+            x: 5,
+            y: 5,
+            speed: 0.09,
+            model: new Circle(32),
+        }
+    }
+});
 node.addEntity(entity);
+node.addEntity(e2);
 game.player = entity;
 
 game.view = new GameView(game, game.graph);

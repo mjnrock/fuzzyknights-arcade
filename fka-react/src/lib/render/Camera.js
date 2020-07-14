@@ -61,15 +61,32 @@ export default class Camera extends LayeredCanvasNode {
         
                 this.ctx.save();
                 this.ctx.scale(scale, scale);
+                
+                //TODO Move this to a proper location and determine collision from w/e holds that info after the refactor
                 node.each((entity, i) => {
                     const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
         
-                    if((comp.x >= x) && (comp.x <= (x + w)) && (comp.y >= y) && (comp.y <= (y + h))) {
+                    if((comp.x >= x) && (comp.x <= (x + w)) && (comp.y >= y) && (comp.y <= (y + h))) {                                
                         this.prop({
                             strokeStyle: "#0f0",
-                        })
-                        .circle(comp.x * this.tw, comp.y * this.th, comp.model.radius)
-                        .point(comp.x * this.tw, comp.y * this.th);
+                        });
+
+                        node.each((e2, i) => {
+                            if(entity !== e2) {
+                                const c2 = e2.getComponent(EnumComponentType.RIGID_BODY);
+    
+                                if(comp.model.hasIntersection(comp.x, comp.y, c2.model, c2.x, c2.y, { scale: 128 })) {
+                                    this.prop({
+                                        strokeStyle: "#f00",
+                                    });
+
+                                    return;
+                                }
+                            }
+                        });
+
+                        this.circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
+                        this.point(comp.x * this.tw, comp.y * this.th);
                     }
                 });
                 this.ctx.restore();
