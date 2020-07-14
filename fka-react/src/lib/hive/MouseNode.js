@@ -241,6 +241,10 @@ export default class MouseNode extends Hive.Node {
                                     x: x1,
                                     y: y1,
                                 },
+                                target: {
+                                    width: this.element.width || window.innerWidth,
+                                    height: this.element.height || window.innerHeight,
+                                },
                             });
                         }
                         this.state.click[ btn ] = [];
@@ -305,6 +309,10 @@ export default class MouseNode extends Hive.Node {
                                     x: x1,
                                     y: y1,
                                 },
+                                target: {
+                                    width: this.element.width || window.innerWidth,
+                                    height: this.element.height || window.innerHeight,
+                                },
                             });
                         }
                         this.state.doubleClick[ btn ] = [];
@@ -357,6 +365,10 @@ export default class MouseNode extends Hive.Node {
                                 },
                                 width: x1 - x0,
                                 height: y1 - y0,
+                                target: {
+                                    width: this.element.width || window.innerWidth,
+                                    height: this.element.height || window.innerHeight,
+                                },
                             });
                         }
                         this.state.selection[ btn ] = [];
@@ -432,6 +444,10 @@ export default class MouseNode extends Hive.Node {
                                     y: dy
                                 },
                                 direction: dir,
+                                target: {
+                                    width: this.element.width || window.innerWidth,
+                                    height: this.element.height || window.innerHeight,
+                                },
                             });
                         }
                         this.state.swipe[ btn ] = [];
@@ -453,6 +469,10 @@ export default class MouseNode extends Hive.Node {
                 mask: this.state.mask.current,
                 x: x,
                 y: y,
+                target: {
+                    width: this.element.width || window.innerWidth,
+                    height: this.element.height || window.innerHeight,
+                },
                 event: e,
             });
         }
@@ -482,6 +502,10 @@ export default class MouseNode extends Hive.Node {
                 mask: this.state.mask.current,
                 x: x,
                 y: y,
+                target: {
+                    width: this.element.width || window.innerWidth,
+                    height: this.element.height || window.innerHeight,
+                },
                 event: e,
             });
         }
@@ -511,6 +535,10 @@ export default class MouseNode extends Hive.Node {
                         mask: this.state.mask.current,
                         x: x,
                         y: y,
+                        target: {
+                            width: this.element.width || window.innerWidth,
+                            height: this.element.height || window.innerHeight,
+                        },
                         event: e,
                     });
                 }
@@ -519,6 +547,10 @@ export default class MouseNode extends Hive.Node {
                     mask: this.state.mask.current,
                     x: x,
                     y: y,
+                    target: {
+                        width: this.element.width || window.innerWidth,
+                        height: this.element.height || window.innerHeight,
+                    },
                     event: e,
                 });
             }
@@ -534,6 +566,10 @@ export default class MouseNode extends Hive.Node {
                 mask: this.state.mask.current,
                 x: x,
                 y: y,
+                target: {
+                    width: this.element.width || window.innerWidth,
+                    height: this.element.height || window.innerHeight,
+                },
                 event: e,
             });
         }

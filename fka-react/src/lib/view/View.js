@@ -5,11 +5,11 @@ import KeyNode from "./../hive/KeyNode";
 import Component from "./components/Component";
 
 export default class View extends Hive.Node {
-    constructor(game) {
+    constructor(game, { mouseElement, keyElement } = {}) {
         super({
             components: new Map(),
-            mouse: new MouseNode({ element: window }),
-            key: new KeyNode({ element: window }),
+            mouse: new MouseNode({ element: mouseElement || window }),
+            key: new KeyNode({ element: keyElement || window }),
         });
         this.game = game;
 

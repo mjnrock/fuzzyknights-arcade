@@ -25,7 +25,7 @@ const entity = new Entity({
         [ EnumComponentType.RIGID_BODY ]: {
             x: 3,
             y: 3,
-            speed: 4.00,
+            speed: 3.00,
             model: new Circle(32),
         }
     }

@@ -150,12 +150,29 @@ export default class Graph extends EventEmitter {
     }
 
 
-
-    onPlayerMovementMask(payload) {
-        const { map, mask } = payload;
+    onPlayerFacing({ x, y, target } = {}) {
         const comp = this.game.player.getComponent(EnumComponentType.RIGID_BODY);
-        const factor = 1.5;
 
+        //? "target" is currently "window" and the player does not render in the true middle of the screen
+        //TODO Replace "target... / 2" with the proper reference point (e.g. the Player's rendered pixel position)
+        let theta = Math.atan2(y - target.height / 2, x - target.width / 2) * 180 / Math.PI + 90;
+        if(theta < 0) {
+            theta += 360;
+        }
+        theta = Math.round(theta / 45.0) * 45.0;
+
+        if(theta % 360 === 0) {
+            comp.facing = 0;
+        } else {
+            comp.facing = theta;
+        }
+    }
+
+    onPlayerMovementMask({ map, mask } = {}) {
+        const comp = this.game.player.getComponent(EnumComponentType.RIGID_BODY);
+        const factor = 1.0;
+
+        //TODO Change the factor based on FACING
         if(Bitwise.has(mask, map[ EnumMoveDirection.UP ]) && Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {
             comp.vy = -comp.speed / factor;
             comp.vx = comp.speed / factor;

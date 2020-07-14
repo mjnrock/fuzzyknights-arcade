@@ -1,6 +1,6 @@
 import View from "./View";
 import GraphComponent from "./components/GraphComponent";
-// import { EnumMessageType as EnumMouseMessageType } from "./../hive/MouseNode";
+import { EnumMessageType as EnumMouseMessageType } from "./../hive/MouseNode";
 import { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNode";
 import Camera from "../render/Camera";
 
@@ -8,9 +8,20 @@ export default class GameView extends View {
     constructor(game, graph) {
         super(game);
 
+        this.mouse.mergeConfig({
+            moveRequiresButton: false,
+        });
+
         const graphComp = new GraphComponent(graph);
         this.set("graph", graphComp);
-        this.addEffect((state, msg) => msg.type === EnumKeyMessageType.KEY_MASK ? graphComp.receive.call(graphComp, state, msg) : null);
+        this.addEffect((state, msg) => {
+            if(
+                msg.type === EnumKeyMessageType.KEY_MASK
+                || msg.type === EnumMouseMessageType.MOUSE_MOVE
+            ) {
+                graphComp.receive.call(graphComp, state, msg);
+            }
+        });
         this.addEffect((state, msg) => msg.type === EnumKeyMessageType.KEY_PRESS && msg.payload.code === 114 ? game.setting("isDebugMode", !game.setting("isDebugMode")) : null);
 
         this.camera = new Camera(game, graph.getNode(0, 0), {
@@ -61,6 +72,8 @@ export default class GameView extends View {
                 mask: payload
             });
         } else if(type === EnumKeyMessageType.KEY_PRESS) {
+            this.dispatch(type, msg.payload);
+        } else if(type === EnumMouseMessageType.MOUSE_MOVE) {
             this.dispatch(type, msg.payload);
         }
     }
