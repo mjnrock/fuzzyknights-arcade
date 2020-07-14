@@ -154,7 +154,7 @@ export default class Graph extends EventEmitter {
         const comp = this.game.player.getComponent(EnumComponentType.RIGID_BODY);
 
         //? "target" is currently "window" and the player does not render in the true middle of the screen
-        //TODO Replace "target... / 2" with the proper reference point (e.g. the Player's rendered pixel position)
+        //TODO Replace "target... / 2" with the proper reference point (e.g. the Player's rendered pixel position) (CSS is currently fixing this problem, but will only work if the Player is rendered in the exact middle of the screen)
         let theta = Math.atan2(y - target.height / 2, x - target.width / 2) * 180 / Math.PI + 90;
         if(theta < 0) {
             theta += 360;
