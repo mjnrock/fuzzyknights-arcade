@@ -22,6 +22,40 @@ export default class RigidBody extends Component {
         });
     }
 
+    facingXY(asArray = false) {
+        let x = Math.sin(this.facing * Math.PI / 180),
+            y = Math.cos(this.facing * Math.PI / 180);
+
+        if(x < 0.001 && x > -0.001) {
+            x = 0;
+        } else if(x > 0) {
+            x = 1;
+        } else if(x < 0) {
+            x = -1;
+        } else {
+            x = 0;
+        }
+
+        if(y < 0.001 && y > -0.001) {
+            y = 0;
+        } else if(y > 0) {
+            y = -1;
+        } else if(y < 0) {
+            y = 1;
+        } else {
+            y = 0;
+        }
+        
+        if(asArray === true) {
+            return [ x, y ];
+        }
+
+        return {
+            x,
+            y,
+        };
+    }
+
     get pos() {
         let obj = {
             x: this.state.x,

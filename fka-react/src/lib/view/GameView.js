@@ -29,15 +29,15 @@ export default class GameView extends View {
 
         this.bindKey(114, () => game.setting("isDebugMode", !game.setting("isDebugMode")));
         
-        // STUB
-        this.bindKey(32, () => graph.getNode(0, 0).addEntity(new EntityAction({
+        //  STUB
+        this.bindMouse(0, payload => graph.getNode(0, 0).addEntity(new EntityAction({
             x: game.player.pos.x,
             y: game.player.pos.y,            
             data: {
                 [ EnumComponentType.RIGID_BODY ]: {
                     model: new Arc(64, game.player.pos.facing - 45 - 90, game.player.pos.facing + 45 - 90),
-                    vx: 1,
-                    vy: 1,
+                    vx: 2.50 * game.player.getComponent(2 << 0).facingXY().x,
+                    vy: 2.50 * game.player.getComponent(2 << 0).facingXY().y,
                 }
             }
         })));
@@ -93,9 +93,6 @@ export default class GameView extends View {
             this.dispatch(type, msg.payload);
         } else if(type === EnumMouseMessageType.MOUSE_MOVE) {
             this.dispatch(type, msg.payload);
-            
-            //  STUB
-            this.game.player.getComponent(2 << 0).setCoords(msg.payload.x / 128, msg.payload.y / 128);
         }
     }
 }

@@ -467,6 +467,7 @@ export default class MouseNode extends Hive.Node {
             
             this.dispatch(EnumMessageType.MOUSE_DOWN, {
                 mask: this.state.mask.current,
+                button: e.button,
                 x: x,
                 y: y,
                 target: {
@@ -500,6 +501,7 @@ export default class MouseNode extends Hive.Node {
 
             this.dispatch(EnumMessageType.MOUSE_UP, {
                 mask: this.state.mask.current,
+                button: e.button,
                 x: x,
                 y: y,
                 target: {
@@ -533,6 +535,7 @@ export default class MouseNode extends Hive.Node {
                 if(e.buttons > 0) {
                     this.dispatch(EnumMessageType.MOUSE_MOVE, {
                         mask: this.state.mask.current,
+                        button: e.button,
                         x: x,
                         y: y,
                         target: {
@@ -545,6 +548,7 @@ export default class MouseNode extends Hive.Node {
             } else {
                 this.dispatch(EnumMessageType.MOUSE_MOVE, {
                     mask: this.state.mask.current,
+                    button: e.button,
                     x: x,
                     y: y,
                     target: {
@@ -564,6 +568,7 @@ export default class MouseNode extends Hive.Node {
 
             this.dispatch(EnumMessageType.MOUSE_CONTEXT_MENU, {
                 mask: this.state.mask.current,
+                button: e.button,
                 x: x,
                 y: y,
                 target: {

@@ -1,6 +1,6 @@
 import Hive from "@lespantsfancy/hive";
-import MouseNode from "./../hive/MouseNode";
-import KeyNode, { EnumMessageType } from "./../hive/KeyNode";
+import MouseNode, { EnumMessageType as EnumMouseMessageType } from "./../hive/MouseNode";
+import KeyNode, { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNode";
 
 import Component from "./components/Component";
 
@@ -15,9 +15,12 @@ export default class View extends Hive.Node {
 
         this.mouse.addEffect((state, msg) => this.receive(msg.type, msg.payload, msg));
         this.key.addEffect((state, msg) => this.receive(msg.type, msg.payload, msg));
-        this.key.addEffect((state, msg) => msg.type === EnumMessageType.KEY_UP ? this.onKeyBinding(msg.payload) : null);
+
+        this.mouse.addEffect((state, msg) => msg.type === EnumMouseMessageType.MOUSE_UP ? this.onMouseBinding(msg.payload) : null);
+        this.key.addEffect((state, msg) => msg.type === EnumKeyMessageType.KEY_UP ? this.onKeyBinding(msg.payload) : null);
 
         this.keyBindings = [];
+        this.mouseBindings = [];
     }
 
     onKeyBinding(payload) {
@@ -36,6 +39,27 @@ export default class View extends Hive.Node {
     }
     unbindKey(code) {
         this.keyBindings = this.keyBindings.filter(([ cd ]) => cd !== code);
+
+        return this;
+    }
+
+    onMouseBinding(payload) {
+        console.log(payload)
+        for(let [ button, fn ] of this.mouseBindings) {
+            if(payload.button === button) {
+                fn(payload);
+            }
+        }
+    }
+    bindMouse(button, fn) {
+        if(typeof fn === "function") {
+            this.mouseBindings.push([ button, fn ]);
+        }
+
+        return this;
+    }
+    unbindMouse(button) {
+        this.mouseBindings = this.mouseBindings.filter(([ btn ]) => btn !== button);
 
         return this;
     }
