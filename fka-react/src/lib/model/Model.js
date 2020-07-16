@@ -74,14 +74,29 @@ export default class Model {
             return false;
         };
         obj.CircleArc = (cx, cy, cr, ax, ay, ar, thetaStart, thetaEnd) => {
-            let theta = Math.atan2(cy - ay, cx - ax) * 180 / Math.PI;
+            //NOTE There is still probably a more robust way of doing this, but it should resolve anything that is less than a full circle
+            let theta = Math.atan2(ay - cy, ax - cx) * 180 / Math.PI - 90;
             if(theta < 0) {
                 theta += 360;
             }
+            
+            let result = theta >= thetaStart && theta <= thetaEnd;
+
+            theta = theta % 360;
+            thetaStart = thetaStart % 360;
+            thetaEnd = thetaEnd % 360;
+
+            if(thetaStart < 0) {
+                result = (theta >= (thetaStart + 360) && theta < 360)
+                    || (theta >= 0 && theta <= thetaEnd);
+            }
+            if(thetaStart > thetaEnd) {
+                result = (theta >= thetaStart && theta < 360)
+                    || ((theta + 360) <= (thetaEnd + 360));
+            }
 
             return Math.pow(cx - ax, 2) + Math.pow(cy - ay, 2) <= Math.pow(cr + ar, 2)
-                && theta >= thetaStart
-                && theta <= thetaEnd;
+                && result;
         };
         obj.CircleCircle = (cx0, cy0, cr0, cx1, cy1, cr1) => {            
             return Math.pow(cx0 - cx1, 2) + Math.pow(cy0 - cy1, 2) <= Math.pow(cr0 + cr1, 2);

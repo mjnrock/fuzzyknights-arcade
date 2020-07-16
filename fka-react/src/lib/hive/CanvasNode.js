@@ -14,6 +14,9 @@ export default class CanvasNode extends Hive.Node {
         });
 
         this.mergeConfig({
+            normalization: {
+                arc: -Math.PI / 4,
+            },
             isPlaying: false,
             lastTimestamp: 0,
             fps: 0,
@@ -216,39 +219,39 @@ export default class CanvasNode extends Hive.Node {
             const arr = [];
 
             for(let deg of degrees) {
-                arr.push(deg * Math.PI / 180);
+                arr.push((deg * Math.PI / 180) + this.config.normalization.arc);
             }
 
             return arr;
         }
 
-        return degrees[ 0 ] * Math.PI / 180;
+        return (degrees[ 0 ] * Math.PI / 180) + this.config.normalization.arc;
     }
     radToDeg(...radians) {
         if(radians.length > 1) {
             const arr = [];
 
-            for(let deg of radians) {
-                arr.push(deg * 180 / Math.PI);
+            for(let rad of radians) {
+                arr.push((rad + this.config.normalization.arc) * 180 / Math.PI);
             }
 
             return arr;
         }
 
-        return radians[ 0 ] * 180 / Math.PI;
+        return (radians[ 0 ] + this.config.normalization.arc) * 180 / Math.PI;
     }
 
     //* Shape methods
     arc(x, y, r, s = 0, e = Math.PI * 2, { isFilled = false } = {}) {
         if(isFilled) {
             this.ctx.beginPath();
-            this.ctx.arc(x, y, r, s, e);
+            this.ctx.arc(x, y, r, s + this.config.normalization.arc, e + this.config.normalization.arc);
             this.ctx.closePath();
             this.ctx.fill();
             this.ctx.stroke();
         } else {
             this.ctx.beginPath();
-            this.ctx.arc(x, y, r, s, e);
+            this.ctx.arc(x, y, r, s + this.config.normalization.arc, e + this.config.normalization.arc);
             this.ctx.closePath();
             this.ctx.stroke();
         }

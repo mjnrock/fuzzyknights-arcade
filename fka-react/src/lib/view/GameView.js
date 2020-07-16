@@ -30,19 +30,30 @@ export default class GameView extends View {
 
         this.bindKey(114, () => game.setting("isDebugMode", !game.setting("isDebugMode")));
         
+        //  STUB    Delete all non-players on "DELETE" key
+        this.bindKey(46, () => {
+            const node = game.graph.getNode(0, 0);
+            node.entities.clear();
+            node.addEntity(game.player);
+        });
+        
         this.bindMouse(0, payload => {
-            //  STUB
+            //  STUB    Spawn Arc entity on "LEFT" button
             const dx = payload.x - window.innerWidth / 2;
             const dy = payload.y - window.innerHeight / 2;
             const theta = NormalizeTheta(dx, dy);
 
+            let tl = game.player.pos.facing - 30;
+            let tr = game.player.pos.facing + 30;
+            
             graph.getNode(0, 0).addEntity(new EntityAction({
                 x: game.player.pos.x,
                 y: game.player.pos.y,
                 data: {
                     [ EnumComponentType.RIGID_BODY ]: {
                         facing: NormalizeTheta(dx, dy, { toNearestDegree: 45 }),
-                        model: new Arc(64, game.player.pos.facing - 45 - 90, game.player.pos.facing + 45 - 90),
+                        //TODO The Arc collision is not correct, but sometimes only visible if facing NORTH
+                        model: new Arc(80, tl, tr),
                         vx: 3.50 * Math.cos((theta - 90) / 180 * Math.PI),
                         vy: 3.50 * Math.sin((theta - 90) / 180 * Math.PI),
                     }

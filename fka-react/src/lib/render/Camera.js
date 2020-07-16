@@ -109,9 +109,10 @@ export default class Camera extends LayeredCanvasNode {
                         if(comp.model instanceof Models.Circle) {
                             this.circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
                         } else if(comp.model instanceof Models.Arc) {
-                            this.arc(comp.x * this.tw, comp.y * this.th, comp.model.radius, ...this.degToRad(comp.model.start, comp.model.end));
+                            // The 90 degree rotation is to accommodate the DOM x,y coordination system
+                            this.arc(comp.x * this.tw, comp.y * this.th, comp.model.radius, ...this.degToRad(comp.model.left, comp.model.right));
 
-                            const tps = comp.model.getTriangle(comp.x * this.tw, comp.y * this.th);
+                            const tps = comp.model.getTriangle(comp.x * this.tw, comp.y * this.th, { rotation: -90 });
                             this.triangle(...tps);
                         } else if(comp.model instanceof Models.Triangle) {
                             const tps = comp.model.getTriangle(comp.x * this.tw, comp.y * this.th);
