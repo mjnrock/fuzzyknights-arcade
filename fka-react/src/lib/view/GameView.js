@@ -7,7 +7,6 @@ import EntityAction from "../entity/EntityAction";
 
 import { EnumComponentType } from "./../entity/components/Component";
 import Arc from "../model/Arc";
-import Triangle from "../model/Triangle";
 
 export default class GameView extends View {
     constructor(game, graph) {
