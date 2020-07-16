@@ -26,6 +26,7 @@ export default class RigidBody extends Component {
         let obj = {
             x: this.state.x,
             y: this.state.y,
+            facing: this.state.facing,
         };
 
         obj.arr = [ obj.x, obj.y ];

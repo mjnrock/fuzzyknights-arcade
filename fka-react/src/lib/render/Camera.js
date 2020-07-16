@@ -6,6 +6,8 @@ import RenderNodeTerrain, { EnumMessageType as EnumNodeTerrainMessageType } from
 import RenderNodeEntities, { EnumMessageType as EnumNodeEntitiesMessageType } from "./graph/Entities.RenderNode";
 import GridCanvasNode from "../hive/GridCanvasNode";
 
+import Models from "./../model/package";
+
 export default class Camera extends LayeredCanvasNode {
     constructor(game, node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0 } = {}) {
         super({
@@ -95,9 +97,14 @@ export default class Camera extends LayeredCanvasNode {
                                 }
                             }
                         });
-
-                        this.circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
+                        
                         this.point(comp.x * this.tw, comp.y * this.th);
+                        
+                        if(comp.model instanceof Models.Circle) {
+                            this.circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
+                        } else if(comp.model instanceof Models.Arc) {
+                            this.arc(comp.x * this.tw, comp.y * this.th, comp.model.radius, ...this.degToRad(comp.model.start, comp.model.end));
+                        }
 
                         //TODO Abstract this into a "Facing to X,Y" conversion function (e.g. Facing-factored Entity::speed)
                         let x = Math.sin(comp.facing * Math.PI / 180),

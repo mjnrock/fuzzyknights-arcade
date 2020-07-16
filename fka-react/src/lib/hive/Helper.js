@@ -197,12 +197,42 @@ export class LinkedList {
 	}
 }
 
+export function Enumerator(items = {}) {
+    let obj = {
+        ...items,
+    };
+
+    obj.flagToName = (flag) => {
+        for(let name in obj) {
+            if(obj[ name ] === flag) {
+                return name;
+            }
+        }
+
+        return null;
+    }
+    obj.maskToNames = (mask) => {
+        let names = [];
+
+        for(let name in obj) {
+            if(Bitwise.has(mask, obj[ name ])) {
+                names.push(name);
+            }
+        }
+
+        return names;
+    }
+
+    return obj;
+};
+
 export default {
     GenerateUUID,
     Bitwise,
     Dice,
     LinkedListNode,
     LinkedList,
+    Enumerator,
 
     DistinctArrayFilter,
     ToDistinctArray,

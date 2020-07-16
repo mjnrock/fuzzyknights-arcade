@@ -1,32 +1,11 @@
 import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
-import { Bitwise } from "./../../hive/Helper";
+import { Enumerator } from "./../../hive/Helper";
 
-export const EnumComponentType = {
+export const EnumComponentType = Enumerator({
     RIGID_BODY: 2 << 0,
     STATE: 2 << 1,
-
-    flagToName(flag) {
-        for(let name in EnumComponentType) {
-            if(EnumComponentType[ name ] === flag) {
-                return name;
-            }
-        }
-
-        return null;
-    },
-    maskToNames(mask) {
-        let names = [];
-
-        for(let name in EnumComponentType) {
-            if(Bitwise.has(mask, EnumComponentType[ name ])) {
-                names.push(name);
-            }
-        }
-
-        return names;
-    }
-};
+});
 
 export const EnumEventType = {
     UPDATE: "UPDATE",

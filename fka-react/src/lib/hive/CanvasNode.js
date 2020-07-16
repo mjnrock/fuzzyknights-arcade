@@ -211,7 +211,51 @@ export default class CanvasNode extends Hive.Node {
         this.ctx.fillStyle = pBgColor;
     }
 
+    degToRad(...degrees) {
+        if(degrees.length > 1) {
+            const arr = [];
+
+            for(let deg of degrees) {
+                arr.push(deg * Math.PI / 180);
+            }
+
+            return arr;
+        }
+
+        return degrees[ 0 ] * Math.PI / 180;
+    }
+    radToDeg(...radians) {
+        if(radians.length > 1) {
+            const arr = [];
+
+            for(let deg of radians) {
+                arr.push(deg * 180 / Math.PI);
+            }
+
+            return arr;
+        }
+
+        return radians[ 0 ] * 180 / Math.PI;
+    }
+
     //* Shape methods
+    arc(x, y, r, s = 0, e = Math.PI * 2, { isFilled = false } = {}) {
+        if(isFilled) {
+            this.ctx.beginPath();
+            this.ctx.arc(x, y, r, s, e);
+            this.ctx.closePath();
+            this.ctx.fill();
+            this.ctx.stroke();
+        } else {
+            this.ctx.beginPath();
+            this.ctx.arc(x, y, r, s, e);
+            this.ctx.closePath();
+            this.ctx.stroke();
+        }
+
+        return this;
+    }
+
     circle(x, y, r, { isFilled = false } = {}) {
         if(isFilled) {
             this.ctx.beginPath();

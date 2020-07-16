@@ -3,6 +3,10 @@ import GraphComponent from "./components/GraphComponent";
 import { EnumMessageType as EnumMouseMessageType } from "./../hive/MouseNode";
 import { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNode";
 import Camera from "../render/Camera";
+import EntityAction from "../entity/EntityAction";
+
+import { EnumComponentType } from "./../entity/components/Component";
+import Arc from "../model/Arc";
 
 export default class GameView extends View {
     constructor(game, graph) {
@@ -22,7 +26,19 @@ export default class GameView extends View {
                 graphComp.receive.call(graphComp, state, msg);
             }
         });
-        this.addEffect((state, msg) => msg.type === EnumKeyMessageType.KEY_PRESS && msg.payload.code === 114 ? game.setting("isDebugMode", !game.setting("isDebugMode")) : null);
+
+        this.bindKey(114, () => game.setting("isDebugMode", !game.setting("isDebugMode")));
+        
+        // STUB
+        this.bindKey(32, () => graph.getNode(0, 0).addEntity(new EntityAction({
+            x: game.player.pos.x,
+            y: game.player.pos.y,            
+            data: {
+                [ EnumComponentType.RIGID_BODY ]: {
+                    model: new Arc(32, game.player.pos.facing - 45 - 90, game.player.pos.facing + 45 - 90),
+                }
+            }
+        })));
 
         this.camera = new Camera(game, graph.getNode(0, 0), {
             tw: 128,
