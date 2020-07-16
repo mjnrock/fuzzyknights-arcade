@@ -226,6 +226,23 @@ export function Enumerator(items = {}) {
     return obj;
 };
 
+export function NormalizeTheta(dx, dy, { toNearestDegree = false } = {}) {
+    let theta = Math.atan2(dy, dx) * 180 / Math.PI + 90;
+    if(theta < 0) {
+        theta += 360;
+    }
+
+    if(typeof toNearestDegree === "number") {
+        theta = Math.round(theta / toNearestDegree) * toNearestDegree;
+    }
+
+    if(theta % 360 === 0) {
+        theta = 0;
+    }
+
+    return theta;
+}
+
 export default {
     GenerateUUID,
     Bitwise,
@@ -233,6 +250,7 @@ export default {
     LinkedListNode,
     LinkedList,
     Enumerator,
+    NormalizeTheta,
 
     DistinctArrayFilter,
     ToDistinctArray,

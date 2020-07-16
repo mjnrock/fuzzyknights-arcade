@@ -22,9 +22,9 @@ export default class RigidBody extends Component {
         });
     }
 
-    facingXY(asArray = false) {
-        let x = Math.sin(this.facing * Math.PI / 180),
-            y = Math.cos(this.facing * Math.PI / 180);
+    static FacingToXY(facing) {
+        let x = Math.sin(facing * Math.PI / 180),
+            y = Math.cos(facing * Math.PI / 180);
 
         if(x < 0.001 && x > -0.001) {
             x = 0;
@@ -45,15 +45,24 @@ export default class RigidBody extends Component {
         } else {
             y = 0;
         }
-        
-        if(asArray === true) {
-            return [ x, y ];
-        }
 
         return {
             x,
             y,
         };
+    }
+
+    facingXY(asArray = false) {
+        let x = Math.sin(this.facing * Math.PI / 180),
+            y = Math.cos(this.facing * Math.PI / 180);
+
+        const res = RigidBody.FacingToXY(x, y);
+        
+        if(asArray === true) {
+            return [ res.x, res.y ];
+        }
+
+        return res;
     }
 
     get pos() {

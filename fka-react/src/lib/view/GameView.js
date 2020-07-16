@@ -1,3 +1,4 @@
+import { NormalizeTheta } from "./../hive/Helper";
 import View from "./View";
 import GraphComponent from "./components/GraphComponent";
 import { EnumMessageType as EnumMouseMessageType } from "./../hive/MouseNode";
@@ -29,18 +30,24 @@ export default class GameView extends View {
 
         this.bindKey(114, () => game.setting("isDebugMode", !game.setting("isDebugMode")));
         
-        //  STUB
-        this.bindMouse(0, payload => graph.getNode(0, 0).addEntity(new EntityAction({
-            x: game.player.pos.x,
-            y: game.player.pos.y,            
-            data: {
-                [ EnumComponentType.RIGID_BODY ]: {
-                    model: new Arc(64, game.player.pos.facing - 45 - 90, game.player.pos.facing + 45 - 90),
-                    vx: 2.50 * game.player.getComponent(2 << 0).facingXY().x,
-                    vy: 2.50 * game.player.getComponent(2 << 0).facingXY().y,
+        this.bindMouse(0, payload => {
+            //  STUB
+            const dx = payload.x - window.innerWidth / 2;
+            const dy = payload.y - window.innerHeight / 2;
+            const theta = NormalizeTheta(dx, dy);
+
+            graph.getNode(0, 0).addEntity(new EntityAction({
+                x: game.player.pos.x,
+                y: game.player.pos.y,            
+                data: {
+                    [ EnumComponentType.RIGID_BODY ]: {
+                        model: new Arc(64, game.player.pos.facing - 45 - 90, game.player.pos.facing + 45 - 90),
+                        vx: 3.50 * Math.cos((theta - 90) / 180 * Math.PI),
+                        vy: 3.50 * Math.sin((theta - 90) / 180 * Math.PI),
+                    }
                 }
-            }
-        })));
+            }));
+        });
 
         this.camera = new Camera(game, graph.getNode(0, 0), {
             tw: 128,
