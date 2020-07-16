@@ -38,9 +38,10 @@ export default class GameView extends View {
 
             graph.getNode(0, 0).addEntity(new EntityAction({
                 x: game.player.pos.x,
-                y: game.player.pos.y,            
+                y: game.player.pos.y,
                 data: {
                     [ EnumComponentType.RIGID_BODY ]: {
+                        facing: NormalizeTheta(dx, dy, { toNearestDegree: 45 }),
                         model: new Arc(64, game.player.pos.facing - 45 - 90, game.player.pos.facing + 45 - 90),
                         vx: 3.50 * Math.cos((theta - 90) / 180 * Math.PI),
                         vy: 3.50 * Math.sin((theta - 90) / 180 * Math.PI),
