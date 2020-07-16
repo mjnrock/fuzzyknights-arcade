@@ -44,6 +44,9 @@ export default class RenderNodeEntities extends GridCanvasNode {
                 // }
                 if(comp.model instanceof Models.Circle) {
                     this.prop({ strokeStyle: "#000", lineWidth: game && entity === game.player ? 3 : 1 }).circle(comp.x * this.tw, comp.y * this.th, 29);
+                    // if(this.img("entity.beaver") && this.img("entity.rabbit")) {
+                    //     this.tile(entity === game.player ? this.img("entity.beaver") : this.img("entity.rabbit"), this.tw, comp.facing / 45 * this.tw, 0 * this.th, comp.x * this.tw - (this.tw / 2), comp.y * this.th - (this.th / 2));
+                    // }
                 } else if(comp.model instanceof Models.Arc) {
                     // The 90 degree rotation is to accommodate the DOM x,y coordination system
                     this.prop({ strokeStyle: "#888" }).arc(comp.x * this.tw, comp.y * this.th, comp.model.radius, ...this.degToRad(comp.model.left, comp.model.right));

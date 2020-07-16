@@ -41,10 +41,9 @@ export default class GameView extends View {
             //  STUB    Spawn Arc entity on "LEFT" button
             const dx = payload.x - window.innerWidth / 2;
             const dy = payload.y - window.innerHeight / 2;
-            const theta = NormalizeTheta(dx, dy);
 
-            let tl = game.player.pos.facing - 30;
-            let tr = game.player.pos.facing + 30;
+            let tl = game.player.pos.facing - 75;
+            let tr = game.player.pos.facing + 75;
             
             graph.getNode(0, 0).addEntity(new EntityAction({
                 x: game.player.pos.x,
@@ -52,10 +51,53 @@ export default class GameView extends View {
                 data: {
                     [ EnumComponentType.RIGID_BODY ]: {
                         facing: NormalizeTheta(dx, dy, { toNearestDegree: 45 }),
-                        //TODO The Arc collision is not correct, but sometimes only visible if facing NORTH
-                        model: new Arc(80, tl, tr),
+                        model: new Arc(90, tl, tr),
+                    }
+                }
+            }));
+        });
+        this.bindMouse(2, payload => {
+            //  STUB    Spawn Arc entity on "LEFT" button
+            const dx = payload.x - window.innerWidth / 2;
+            const dy = payload.y - window.innerHeight / 2;
+            const theta = NormalizeTheta(dx, dy);
+
+            let tl = game.player.pos.facing - 35;
+            let tr = game.player.pos.facing + 35;
+            
+            graph.getNode(0, 0).addEntity(new EntityAction({
+                x: game.player.pos.x,
+                y: game.player.pos.y,
+                data: {
+                    [ EnumComponentType.RIGID_BODY ]: {
+                        facing: NormalizeTheta(dx, dy, { toNearestDegree: 45 }),
+                        model: new Arc(40, tl, tr),
                         vx: 3.50 * Math.cos((theta - 90) / 180 * Math.PI),
                         vy: 3.50 * Math.sin((theta - 90) / 180 * Math.PI),
+                    }
+                }
+            }));
+            graph.getNode(0, 0).addEntity(new EntityAction({
+                x: game.player.pos.x,
+                y: game.player.pos.y,
+                data: {
+                    [ EnumComponentType.RIGID_BODY ]: {
+                        facing: NormalizeTheta(dx, dy, { toNearestDegree: 45 }),
+                        model: new Arc(40, tl - 15, tr),
+                        vx: 3.50 * Math.cos((theta - 105) / 180 * Math.PI),
+                        vy: 3.50 * Math.sin((theta - 90) / 180 * Math.PI),
+                    }
+                }
+            }));
+            graph.getNode(0, 0).addEntity(new EntityAction({
+                x: game.player.pos.x,
+                y: game.player.pos.y,
+                data: {
+                    [ EnumComponentType.RIGID_BODY ]: {
+                        facing: NormalizeTheta(dx, dy, { toNearestDegree: 45 }),
+                        model: new Arc(40, tl, tr + 15),
+                        vx: 3.50 * Math.cos((theta - 90) / 180 * Math.PI),
+                        vy: 3.50 * Math.sin((theta - 75) / 180 * Math.PI),
                     }
                 }
             }));

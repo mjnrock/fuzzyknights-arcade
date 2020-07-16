@@ -108,6 +108,11 @@ export default class Camera extends LayeredCanvasNode {
                         
                         if(comp.model instanceof Models.Circle) {
                             this.circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
+                            if(entity === game.player) {
+                                this.prop({
+                                    strokeStyle: "#f0f",
+                                }).circle(comp.x * this.tw, comp.y * this.th, comp.model.radius + 64);
+                            }
                         } else if(comp.model instanceof Models.Arc) {
                             // The 90 degree rotation is to accommodate the DOM x,y coordination system
                             this.arc(comp.x * this.tw, comp.y * this.th, comp.model.radius, ...this.degToRad(comp.model.left, comp.model.right));
