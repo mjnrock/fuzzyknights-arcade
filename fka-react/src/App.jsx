@@ -14,7 +14,8 @@ import Graph from "./lib/graph/package";
 import GameView from "./lib/view/GameView";
 import Entity from "./lib/entity/Entity";
 import { EnumComponentType } from "./lib/entity/components/Component";
-import Circle from "./lib/model/Circle";
+
+import Models from "./lib/model/package";
 
 const game = new Game();
 game.graph = Graph.Factory.Generate(2, 2, 20, 20, game);
@@ -26,7 +27,8 @@ const entity = new Entity({
             x: 3,
             y: 3,
             speed: 3.00,
-            model: new Circle(32),
+            // model: new Models.Line(128, 128),
+            model: new Models.Circle(32),
         }
     }
 });
@@ -36,7 +38,7 @@ const e2 = new Entity({
             x: 5,
             y: 5,
             speed: 1.00,
-            model: new Circle(32),
+            model: new Models.Circle(32),
         }
     }
 });

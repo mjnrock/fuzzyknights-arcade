@@ -347,6 +347,20 @@ export default class CanvasNode extends Hive.Node {
         return this;
     }
 
+    triangle(p0 = [], p1 = [], p2 = []) {
+        if(arguments.length === 6) {
+            p0 = [ arguments[ 0 ], arguments[ 1 ] ];
+            p1 = [ arguments[ 2 ], arguments[ 3 ] ];
+            p2 = [ arguments[ 4 ], arguments[ 5 ] ];
+        }
+
+        this.line(...p0, ...p1);
+        this.line(...p1, ...p2);
+        this.line(...p2, ...p0);
+
+        return this;
+    }
+
     text(txt, x, y, { align = "center", color = "#000", font = "10pt mono" } = {}) {
         let xn = x,
             yn = y;

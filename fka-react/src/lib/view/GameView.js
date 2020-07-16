@@ -7,6 +7,7 @@ import EntityAction from "../entity/EntityAction";
 
 import { EnumComponentType } from "./../entity/components/Component";
 import Arc from "../model/Arc";
+import Triangle from "../model/Triangle";
 
 export default class GameView extends View {
     constructor(game, graph) {
@@ -35,7 +36,8 @@ export default class GameView extends View {
             y: game.player.pos.y,            
             data: {
                 [ EnumComponentType.RIGID_BODY ]: {
-                    model: new Arc(32, game.player.pos.facing - 45 - 90, game.player.pos.facing + 45 - 90),
+                    // model: new Arc(64, game.player.pos.facing - 45 - 90, game.player.pos.facing + 45 - 90),
+                    model: new Triangle(300, 300, -300, 600),
                 }
             }
         })));
@@ -91,6 +93,9 @@ export default class GameView extends View {
             this.dispatch(type, msg.payload);
         } else if(type === EnumMouseMessageType.MOUSE_MOVE) {
             this.dispatch(type, msg.payload);
+            
+            //  STUB
+            this.game.player.getComponent(2 << 0).setCoords(msg.payload.x / 128, msg.payload.y / 128);
         }
     }
 }

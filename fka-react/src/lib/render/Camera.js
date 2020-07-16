@@ -78,8 +78,14 @@ export default class Camera extends LayeredCanvasNode {
                 //TODO Move this to a proper location and determine collision from w/e holds that info after the refactor
                 node.each((entity, i) => {
                     const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
+
+                    if(comp.model instanceof Models.Arc) {
+                        this.prop({
+                            strokeStyle: "#0ff",
+                        }).circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
+                    }
         
-                    if((comp.x >= x) && (comp.x <= (x + w)) && (comp.y >= y) && (comp.y <= (y + h))) {                                
+                    if((comp.x >= x) && (comp.x <= (x + w)) && (comp.y >= y) && (comp.y <= (y + h))) {
                         this.prop({
                             strokeStyle: "#0f0",
                         });
@@ -88,7 +94,8 @@ export default class Camera extends LayeredCanvasNode {
                             if(entity !== e2) {
                                 const c2 = e2.getComponent(EnumComponentType.RIGID_BODY);
     
-                                if(comp.model.hasIntersection(comp.x, comp.y, c2.model, c2.x, c2.y, { scale: 128 })) {
+                                if(comp.model.hasCollision(comp.x, comp.y, c2.model, c2.x, c2.y, { scale: 128 })) {
+                                    console.log(true, entity, e2)
                                     this.prop({
                                         strokeStyle: "#f00",
                                     });
@@ -104,6 +111,15 @@ export default class Camera extends LayeredCanvasNode {
                             this.circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
                         } else if(comp.model instanceof Models.Arc) {
                             this.arc(comp.x * this.tw, comp.y * this.th, comp.model.radius, ...this.degToRad(comp.model.start, comp.model.end));
+
+                            const tps = comp.model.getTriangle(comp.x * this.tw, comp.y * this.th);
+                            this.triangle(...tps);
+                        } else if(comp.model instanceof Models.Triangle) {
+                            const tps = comp.model.getTriangle(comp.x * this.tw, comp.y * this.th);
+                            this.triangle(...tps);
+                        } else if(comp.model instanceof Models.Line) {
+                            const lps = comp.model.getLine(comp.x * this.tw, comp.y * this.th);
+                            this.line(...lps);
                         }
 
                         //TODO Abstract this into a "Facing to X,Y" conversion function (e.g. Facing-factored Entity::speed)

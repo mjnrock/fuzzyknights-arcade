@@ -8,7 +8,7 @@ export default class Rectangle extends Model {
         this.height = height;
     }
 
-    // hasIntersection(model) {
+    // hasCollision(model) {
     //     if(model instanceof Rectangle) {
     //         if(model.x > this.x + this.width || this.x > model.x + model.width || model.y > this.y + this.height || this.y > model.y + model.height) {
     //             return false;

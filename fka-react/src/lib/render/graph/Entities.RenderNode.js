@@ -46,6 +46,12 @@ export default class RenderNodeEntities extends GridCanvasNode {
                     this.prop({ strokeStyle: "#000", lineWidth: game && entity === game.player ? 3 : 1 }).circle(comp.x * this.tw, comp.y * this.th, 29);
                 } else if(comp.model instanceof Models.Arc) {
                     this.prop({ strokeStyle: "#888" }).arc(comp.x * this.tw, comp.y * this.th, comp.model.radius, ...this.degToRad(comp.model.start, comp.model.end));
+
+                    const tps = comp.model.getTriangle(comp.x * this.tw, comp.y * this.th);
+                    this.triangle(...tps);
+                } else if(comp.model instanceof Models.Triangle) {
+                    const tps = comp.model.getTriangle(comp.x * this.tw, comp.y * this.th);
+                    this.triangle(...tps);
                 }
             }
         });
