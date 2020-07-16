@@ -44,7 +44,6 @@ export default class View extends Hive.Node {
     }
 
     onMouseBinding(payload) {
-        console.log(payload)
         for(let [ button, fn ] of this.mouseBindings) {
             if(payload.button === button) {
                 fn(payload);
