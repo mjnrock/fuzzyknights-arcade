@@ -58,7 +58,7 @@ export default class Entity extends EventEmitter {
     }
 
     get isExpired() {
-        return this.lifespan > 0 && this.birth + this.lifespan >= Date.now();
+        return this.lifespan > 0 && (this.birth + this.lifespan <= Date.now());
     }
 
     tick(dt) {

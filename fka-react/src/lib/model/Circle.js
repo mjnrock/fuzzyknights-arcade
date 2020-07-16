@@ -1,4 +1,5 @@
 import Model from "./Model";
+import Arc from "./Arc";
 import Triangle from "./Triangle";
 
 export default class Circle extends Model {
@@ -13,8 +14,10 @@ export default class Circle extends Model {
             return false;
         }
 
-        if("radius" in m0) {
+        if(m0 instanceof Circle) {
             return Model.Detect.CircleCircle(x, y, this.radius / scale, mx, my, m0.radius / scale);
+        } else if(m0 instanceof Arc) {
+            return m0.hasCollision(mx, my, this, x, y, { scale });
         } else if(m0 instanceof Triangle) {
             const tps = m0.getTriangle(mx, my, { scale });
 

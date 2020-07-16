@@ -15,7 +15,7 @@ export default class View extends Hive.Node {
 
         this.mouse.addEffect((state, msg) => this.receive(msg.type, msg.payload, msg));
         this.key.addEffect((state, msg) => this.receive(msg.type, msg.payload, msg));
-        this.key.addEffect((state, msg) => msg.type === EnumMessageType.KEY_PRESS ? this.onKeyBinding(msg.payload) : null);
+        this.key.addEffect((state, msg) => msg.type === EnumMessageType.KEY_UP ? this.onKeyBinding(msg.payload) : null);
 
         this.keyBindings = [];
     }

@@ -226,6 +226,7 @@ export default class KeyNode extends Hive.Node {
         if(Bitwise.has(this.actionMask, EnumActionFlags.KEY_DOWN)) {
             this.dispatch(EnumMessageType.KEY_DOWN, {
                 mask: this.state.mask.current,
+                code: e.which,
                 event: e,
             });
         }
@@ -246,6 +247,7 @@ export default class KeyNode extends Hive.Node {
         if(Bitwise.has(this.actionMask, EnumActionFlags.KEY_DOWN)) {
             this.dispatch(EnumMessageType.KEY_UP, {
                 mask: this.state.mask.current,
+                code: e.which,
                 event: e,
             });
         }

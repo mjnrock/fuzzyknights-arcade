@@ -95,7 +95,6 @@ export default class Camera extends LayeredCanvasNode {
                                 const c2 = e2.getComponent(EnumComponentType.RIGID_BODY);
     
                                 if(comp.model.hasCollision(comp.x, comp.y, c2.model, c2.x, c2.y, { scale: 128 })) {
-                                    console.log(true, entity, e2)
                                     this.prop({
                                         strokeStyle: "#f00",
                                     });

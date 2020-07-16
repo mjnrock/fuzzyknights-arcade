@@ -170,8 +170,16 @@ export default class Node extends EventEmitter {
     }
 
     tick(dt) {
+        let purge = [];
+
         this.entities.forEach(entity => {
             entity.tick(dt);
+
+            if(entity.isExpired) {
+                purge.push(entity);
+            }
         });
+
+        purge.forEach(entity => this.removeEntity(entity));
     }
 };

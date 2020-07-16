@@ -36,8 +36,9 @@ export default class GameView extends View {
             y: game.player.pos.y,            
             data: {
                 [ EnumComponentType.RIGID_BODY ]: {
-                    // model: new Arc(64, game.player.pos.facing - 45 - 90, game.player.pos.facing + 45 - 90),
-                    model: new Triangle(300, 300, -300, 600),
+                    model: new Arc(64, game.player.pos.facing - 45 - 90, game.player.pos.facing + 45 - 90),
+                    vx: 1,
+                    vy: 1,
                 }
             }
         })));
