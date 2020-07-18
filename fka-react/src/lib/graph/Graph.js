@@ -15,6 +15,7 @@ import { EnumComponentType } from "./../entity/components/Component";
  */
 
 export const EnumEventType = {
+    PLAYER_FACING: "PLAYER_FACING",
     PLAYER_MOVEMENT_MASK: "PLAYER_MOVEMENT_MASK",
 };
 
@@ -166,13 +167,14 @@ export default class Graph extends EventEmitter {
         } else {
             comp.facing = theta;
         }
+
+        this.game.channel("graph").invoke(this, EnumEventType.PLAYER_FACING, this.game.player, ...arguments);
     }
 
     onPlayerMovementMask({ map, mask } = {}) {
         const comp = this.game.player.getComponent(EnumComponentType.RIGID_BODY);
         const factor = 1.0;
 
-        //TODO Change the factor based on FACING
         if(Bitwise.has(mask, map[ EnumMoveDirection.UP ]) && Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {
             comp.vy = -comp.speed / factor;
             comp.vx = comp.speed / factor;
@@ -210,5 +212,7 @@ export default class Graph extends EventEmitter {
                 comp.vx = 0;
             }
         }
+
+        this.game.channel("graph").invoke(this, EnumEventType.PLAYER_MOVEMENT_MASK, this.game.player, ...arguments);
     }
 };

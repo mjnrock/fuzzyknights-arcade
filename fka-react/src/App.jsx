@@ -46,7 +46,10 @@ node.addEntity(entity);
 node.addEntity(e2);
 game.player = entity;
 
+console.log(game)
 console.log(game.player)
+
+game.channel("graph").join(console.log, { ignore: [ "PLAYER_FACING" ] })
 
 game.view = new GameView(game, game.graph);
 

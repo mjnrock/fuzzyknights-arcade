@@ -5,9 +5,9 @@ import { Enumerator } from "./../hive/Helper";
 import RigidBody from "./components/RigidBody";
 import { EnumComponentType } from "./components/Component";
 
-export const EnumEventType = {
-    MOVE: "MOVE",
-};
+export const EnumEventType = Enumerator({
+    TICK: "Entity.Tick",
+});
 
 export const EnumEntityType = Enumerator({
     CREATURE: 2 << 0,
@@ -61,12 +61,16 @@ export default class Entity extends EventEmitter {
         return this.lifespan > 0 && (this.birth + this.lifespan <= Date.now());
     }
 
-    tick(dt) {
+    tick(dt, game) {
         if(!this.isExpired) {
             const comp = this.getComponent(EnumComponentType.RIGID_BODY);
             
             comp.x += comp.vx * dt;
             comp.y += comp.vy * dt;
+
+            if(game) {
+                game.channel("entity").invoke(this, EnumEventType.TICK, dt, game);
+            }
         }
 
         return !this.isExpired;
