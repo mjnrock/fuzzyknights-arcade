@@ -5,6 +5,8 @@ import { Enumerator } from "./../../hive/Helper";
 export const EnumComponentType = Enumerator({
     RIGID_BODY: 2 << 0,
     STATE: 2 << 1,
+    LIFE: 2 << 2,
+    ATTRIBUTES: 2 << 3,
 });
 
 export const EnumEventType = {

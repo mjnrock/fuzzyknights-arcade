@@ -68,5 +68,7 @@ export default class Entity extends EventEmitter {
             comp.x += comp.vx * dt;
             comp.y += comp.vy * dt;
         }
+
+        return !this.isExpired;
     }
 }; 

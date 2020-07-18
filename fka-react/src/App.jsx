@@ -12,7 +12,7 @@ import Game from "./lib/Game";
 
 import Graph from "./lib/graph/package";
 import GameView from "./lib/view/GameView";
-import Entity from "./lib/entity/Entity";
+import EntityCreature from "./lib/entity/EntityCreature";
 import { EnumComponentType } from "./lib/entity/components/Component";
 
 import Models from "./lib/model/package";
@@ -21,7 +21,7 @@ const game = new Game();
 game.graph = Graph.Factory.Generate(2, 2, 20, 20, game);
 
 const node = game.graph.getNode(0, 0);
-const entity = new Entity({
+const entity = new EntityCreature({
     data: {
         [ EnumComponentType.RIGID_BODY ]: {
             x: 3,
@@ -32,7 +32,7 @@ const entity = new Entity({
         }
     }
 });
-const e2 = new Entity({
+const e2 = new EntityCreature({
     data: {
         [ EnumComponentType.RIGID_BODY ]: {
             x: 5,
@@ -45,6 +45,8 @@ const e2 = new Entity({
 node.addEntity(entity);
 node.addEntity(e2);
 game.player = entity;
+
+console.log(game.player)
 
 game.view = new GameView(game, game.graph);
 

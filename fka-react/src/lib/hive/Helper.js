@@ -226,6 +226,68 @@ export function Enumerator(items = {}) {
     return obj;
 };
 
+export class ClassEnumerator {
+    constructor(entries = {}) {
+        this.entries = entries;
+
+        return new Proxy(this, {
+            get: (target, prop) => {
+                // console.log(prop, prop in target, target[ prop ]);
+                if(prop in target) {
+                    return target[ prop ];
+                }
+
+                if(prop in this.entries) {
+                    return this.entries[ prop ];
+                }
+
+                return target;
+            },
+            set: (target, prop, value) => {
+                if(prop in this.entries) {
+                    this.entries[ prop ] = value;
+                } else {
+                    target[ prop ] = value;
+                }
+
+                return target;
+            }
+        })
+    }
+
+    flagToName(flag) {
+        for(let name in this.entries) {
+            if(this.entries[ name ] === flag) {
+                return name;
+            }
+        }
+
+        return null;
+    }
+
+    maskToNames(mask) {
+        let names = [];
+
+        for(let name in this.entries) {
+            if(Bitwise.has(mask, this.entries[ name ])) {
+                names.push(name);
+            }
+        }
+
+        return names;
+    }
+
+    has(mask, flag) {
+        return Bitwise.has(mask, flag);
+    }
+    add(mask, ...flags) {
+        return Bitwise.add(mask, ...flags);
+    }
+    remove(mask, ...flags) {
+        return Bitwise.remove(mask, ...flags);
+    }
+}
+
 export function NormalizeTheta(dx, dy, { toNearestDegree = false } = {}) {
     let theta = Math.atan2(dy, dx) * 180 / Math.PI + 90;
     if(theta < 0) {
