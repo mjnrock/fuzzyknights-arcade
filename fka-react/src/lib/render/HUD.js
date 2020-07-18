@@ -15,22 +15,30 @@ export default class HUD extends GridCanvasNode {
         this.isActive = false;
     }
 
-    barHealth(life, x, y) {
-        let color = "#5c9e6a";
+    getColorFromScale(value, scale = []) {
+        for(let step of scale) {
+            if(Array.isArray(step)) {
+                const [ threshold, color ] = step;
 
-        if(life.HP.rate >= 0.93) {
-            color = "#5c9e6a";
-        } else if(life.HP.rate >= 0.85) {
-            color = "#8ed18f";
-        } else if(life.HP.rate >= 0.75) {
-            color = "#bad18e";
-        } else if(life.HP.rate >= 0.6) {
-            color = "#d1cd8e";
-        } else if(life.HP.rate >= 0.4) {
-            color = "#d1b28e";
-        } else {
-            color = "#d18e8e";
+                if(value >= threshold) {
+                    return color;
+                }
+            } else {
+                return step;
+            }
         }
+    }
+    // getColorFromWeightedPool() {}
+
+    barHealth(life, x, y) {
+        let color = this.getColorFromScale(life.HP.rate, [
+            [ 0.93, "#5c9e6a" ],
+            [ 0.85, "#8ed18f" ],
+            [ 0.75, "#bad18e" ],
+            [ 0.6, "#d1cd8e" ],
+            [ 0.4, "#d1b28e" ],
+            "#d18e8e",
+        ]);
 
         this.prop({
             strokeStyle: "#000",
