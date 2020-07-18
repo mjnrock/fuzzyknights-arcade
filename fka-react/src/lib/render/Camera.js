@@ -7,6 +7,7 @@ import RenderNodeEntities, { EnumMessageType as EnumNodeEntitiesMessageType } fr
 import GridCanvasNode from "../hive/GridCanvasNode";
 
 import Models from "./../model/package";
+import HUD from "./HUD";
 
 export default class Camera extends LayeredCanvasNode {
     constructor(game, node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0 } = {}) {
@@ -76,21 +77,21 @@ export default class Camera extends LayeredCanvasNode {
                 }
                 
                 //TODO Move this to a proper location and determine collision from w/e holds that info after the refactor
-                node.each((entity, i) => {
+                node.each(entity => {
                     const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
-
-                    if(comp.model instanceof Models.Arc) {
-                        this.prop({
-                            strokeStyle: "#0ff",
-                        }).circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
-                    }
         
                     if((comp.x >= x) && (comp.x <= (x + w)) && (comp.y >= y) && (comp.y <= (y + h))) {
+                        if(comp.model instanceof Models.Arc) {
+                            this.prop({
+                                strokeStyle: "#0ff",
+                            }).circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
+                        }
+
                         this.prop({
                             strokeStyle: "#0f0",
                         });
 
-                        node.each((e2, i) => {
+                        node.each(e2 => {
                             if(entity !== e2) {
                                 const c2 = e2.getComponent(EnumComponentType.RIGID_BODY);
     
@@ -113,6 +114,22 @@ export default class Camera extends LayeredCanvasNode {
                                     strokeStyle: "#f0f",
                                 }).circle(comp.x * this.tw, comp.y * this.th, comp.model.radius + 64);
                             }
+
+                            camera.HUD.draw({ canvas: this.canvas, x: comp.x, y: comp.y, entity: entity, game: game });
+                            // //  STUB
+                            // //? Health and Mana bars
+                            // this.prop({
+                            //     strokeStyle: "#000",
+                            // }).rect(comp.x * this.tw - this.tw / 4, comp.y * this.th - this.th / 2, this.tw / 2, 10);
+                            // this.prop({
+                            //     fillStyle: "#396",
+                            // }).rect(comp.x * this.tw - this.tw / 4 + 1, comp.y * this.th - this.th / 2 + 1, this.tw / 2 - 1, 8, { isFilled: true });
+                            // this.prop({
+                            //     strokeStyle: "#000",
+                            // }).rect(comp.x * this.tw - this.tw / 4, comp.y * this.th - this.th / 2 + 14, this.tw / 2, 10);
+                            // this.prop({
+                            //     fillStyle: "#369",
+                            // }).rect(comp.x * this.tw - this.tw / 4 + 1, comp.y * this.th - this.th / 2 + 14 + 1, this.tw / 2 - 1, 8, { isFilled: true });
                         } else if(comp.model instanceof Models.Arc) {
                             // The 90 degree rotation is to accommodate the DOM x,y coordination system
                             this.arc(comp.x * this.tw, comp.y * this.th, comp.model.radius, ...this.degToRad(comp.model.left, comp.model.right));
@@ -164,6 +181,9 @@ export default class Camera extends LayeredCanvasNode {
                 this.clear();
             }
         };
+
+        const camera = this;
+        this.HUD = new HUD(this);
     }
 
     get game() {

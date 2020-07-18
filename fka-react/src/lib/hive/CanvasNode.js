@@ -5,9 +5,9 @@ export const EnumMessageType = {
 };
 
 export default class CanvasNode extends Hive.Node {
-    constructor({ state = {}, config = {}, width, height } = {}) {
+    constructor({ state = {}, config = {}, width, height, canvas } = {}) {
         super({
-            canvas: document.createElement("canvas"),
+            canvas: canvas || document.createElement("canvas"),
             images: {},
             
             ...state,
@@ -29,6 +29,11 @@ export default class CanvasNode extends Hive.Node {
 
     get canvas() {
         return this.state.canvas;
+    }
+    set canvas(canvas) {
+        return this.mergeState({
+            canvas,
+        });
     }
     get ctx() {
         return this.state.canvas.getContext("2d");

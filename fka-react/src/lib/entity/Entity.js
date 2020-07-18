@@ -10,7 +10,7 @@ export const EnumEventType = {
 };
 
 export const EnumEntityType = Enumerator({
-    LIVING: 2 << 0,
+    CREATURE: 2 << 0,
     ACTION: 2 << 1,
 });
 

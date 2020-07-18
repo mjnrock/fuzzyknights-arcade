@@ -141,7 +141,7 @@ export default class Node extends EventEmitter {
 
     each(fn) {
         if(typeof fn === "function") {
-            this.entities.forEach((entity, i) => fn(entity, i));
+            this.entities.forEach((entity) => fn(entity));
         }
     }
 

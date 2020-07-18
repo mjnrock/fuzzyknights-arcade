@@ -21,4 +21,8 @@ export default class Life extends Component {
     get MANA() {
         return this.state[ EnumResourceType.MANA ];
     }
+
+    get isDead() {
+        return this.HP.isEmpty;
+    }
 };
