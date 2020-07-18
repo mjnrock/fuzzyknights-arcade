@@ -29,6 +29,10 @@ export default class GameView extends View {
         });
 
         this.bindKey(114, () => game.setting("isDebugMode", !game.setting("isDebugMode")));
+        this.bindKey(86, () => {
+            game.setting("showNameplates", !game.setting("showNameplates"));
+            this.camera.HUD.isActive = game.setting("showNameplates");
+        });
         
         //  STUB    Delete all non-players on "DELETE" key
         this.bindKey(46, () => {

@@ -9,6 +9,7 @@ export default class Game extends Hive.Node {
 
             settings: {
                 isDebugMode: true,
+                showNameplates: true,
 
                 ...settings,
             },
