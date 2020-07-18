@@ -64,8 +64,10 @@ export default class HUD extends GridCanvasNode {
             }
 
             const lifeComp = entity.getComponent(EnumComponentType.LIFE);
-            this.barHealth(lifeComp, x, y);
-            this.barResource(lifeComp, x, y);
+            if(lifeComp) {
+                this.barHealth(lifeComp, x, y);
+                this.barResource(lifeComp, x, y);
+            }
         }
     }
 }

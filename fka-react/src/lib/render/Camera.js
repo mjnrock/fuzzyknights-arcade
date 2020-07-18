@@ -115,21 +115,8 @@ export default class Camera extends LayeredCanvasNode {
                                 }).circle(comp.x * this.tw, comp.y * this.th, comp.model.radius + 64);
                             }
 
+                            //TODO The HUD should be extracted to some other layer
                             camera.HUD.draw({ canvas: this.canvas, x: comp.x, y: comp.y, entity: entity, game: game });
-                            // //  STUB
-                            // //? Health and Mana bars
-                            // this.prop({
-                            //     strokeStyle: "#000",
-                            // }).rect(comp.x * this.tw - this.tw / 4, comp.y * this.th - this.th / 2, this.tw / 2, 10);
-                            // this.prop({
-                            //     fillStyle: "#396",
-                            // }).rect(comp.x * this.tw - this.tw / 4 + 1, comp.y * this.th - this.th / 2 + 1, this.tw / 2 - 1, 8, { isFilled: true });
-                            // this.prop({
-                            //     strokeStyle: "#000",
-                            // }).rect(comp.x * this.tw - this.tw / 4, comp.y * this.th - this.th / 2 + 14, this.tw / 2, 10);
-                            // this.prop({
-                            //     fillStyle: "#369",
-                            // }).rect(comp.x * this.tw - this.tw / 4 + 1, comp.y * this.th - this.th / 2 + 14 + 1, this.tw / 2 - 1, 8, { isFilled: true });
                         } else if(comp.model instanceof Models.Arc) {
                             // The 90 degree rotation is to accommodate the DOM x,y coordination system
                             this.arc(comp.x * this.tw, comp.y * this.th, comp.model.radius, ...this.degToRad(comp.model.left, comp.model.right));
