@@ -76,7 +76,7 @@ export default class Camera extends LayeredCanvasNode {
                     });
                 }
                 
-                //TODO Move Collision testing into BroadcastNetwork and emit Collision events
+                //TODO Move Collision testing into BroadcastNetwork::node and emit Collision events
                 node.each((entity, i) => {
                     const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
         
