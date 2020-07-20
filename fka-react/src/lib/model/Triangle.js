@@ -1,4 +1,5 @@
 import Model from "./Model";
+import Circle from "./Circle";
 
 export default class Triangle extends Model {
     constructor(dx0, dy0, dx1, dy1) {
@@ -27,7 +28,7 @@ export default class Triangle extends Model {
             return false;
         }
 
-        if("radius" in m0) {
+        if(m0 instanceof Circle) {
             const tps = this.getTriangle(x, y, { scale });
 
             return Model.Detect.CirclePolygon(tps, mx, my, m0.radius / scale);

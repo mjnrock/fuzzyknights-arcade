@@ -77,7 +77,7 @@ export default class Camera extends LayeredCanvasNode {
                 }
                 
                 //TODO Move this to a proper location and determine collision from w/e holds that info after the refactor
-                node.each(entity => {
+                node.each((entity, i) => {
                     const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
         
                     if((comp.x >= x) && (comp.x <= (x + w)) && (comp.y >= y) && (comp.y <= (y + h))) {
@@ -87,23 +87,25 @@ export default class Camera extends LayeredCanvasNode {
                             }).circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
                         }
 
-                        this.prop({
-                            strokeStyle: "#0f0",
-                        });
-
-                        node.each(e2 => {
+                        node.each((e2, j) => {
                             if(entity !== e2) {
                                 const c2 = e2.getComponent(EnumComponentType.RIGID_BODY);
     
-                                if(comp.model.hasCollision(comp.x, comp.y, c2.model, c2.x, c2.y, { scale: 128 })) {
-                                    this.prop({
-                                        strokeStyle: "#f00",
-                                    });
-
-                                    return;
-                                }
+                                const hasCollision = comp.model.hasCollision(comp.x, comp.y, c2.model, c2.x, c2.y, { scale: 128 });
+                                comp.isColliding = comp.isColliding || hasCollision;
+                                c2.isColliding = c2.isColliding || hasCollision;
                             }
-                        });
+                        }, i + 1);
+
+                        if(comp.isColliding) {
+                            this.prop({
+                                strokeStyle: "#f00",
+                            });
+                        } else {
+                            this.prop({
+                                strokeStyle: "#0f0",
+                            });
+                        }
                         
                         this.point(comp.x * this.tw, comp.y * this.th);
                         

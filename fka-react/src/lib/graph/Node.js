@@ -140,9 +140,15 @@ export default class Node extends EventEmitter {
         return [ 0, 0, this.tiles.width - 1, this.tiles.height - 1 ];
     }
 
-    each(fn) {
+    each(fn, offset = 0) {
         if(typeof fn === "function") {
-            this.entities.forEach((entity) => fn(entity));
+            const entities = Array.from(this.entities);
+
+            for(let i = offset; i < entities.length; i++) {
+                // console.log(i)
+                fn(entities[ i ], i);
+            }
+            // this.entities.forEach((entity) => fn(entity));
         }
     }
 

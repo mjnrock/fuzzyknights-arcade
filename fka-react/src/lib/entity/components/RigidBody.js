@@ -19,6 +19,7 @@ export default class RigidBody extends Component {
             speed,
             model,
             mass,
+            isColliding: false,
         });
     }
 

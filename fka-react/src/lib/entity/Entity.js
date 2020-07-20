@@ -65,6 +65,7 @@ export default class Entity extends EventEmitter {
         if(!this.isExpired) {
             const comp = this.getComponent(EnumComponentType.RIGID_BODY);
             
+            comp.isColliding = false;
             comp.x += comp.vx * dt;
             comp.y += comp.vy * dt;
 

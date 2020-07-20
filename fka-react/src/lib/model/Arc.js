@@ -11,7 +11,7 @@ export default class Arc extends Model {
         this.right = right;
     }
 
-    getTriangle(x, y, { rotation = 0, scale = 1 } = {}) {
+    getTriangle(x, y, { rotation = -90, scale = 1 } = {}) {
         return [
             [ x, y ],
             [ x + this.radius * Math.cos((this.left + rotation) / 180 * Math.PI) / scale, y + this.radius * Math.sin((this.left + rotation) / 180 * Math.PI) / scale ],

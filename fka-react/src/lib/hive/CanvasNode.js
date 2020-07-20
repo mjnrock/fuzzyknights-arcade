@@ -146,7 +146,7 @@ export default class CanvasNode extends Hive.Node {
     render() {
         if(this.config.isActive === true) {
             window.requestAnimationFrame((ts) => {                
-                const dt = ts - this.config.lastTimestamp;
+                const dt = Math.min(ts - this.config.lastTimestamp, 1000 / 10);   // Create a 10fps floor
 
                 this.onRender(dt);
 
