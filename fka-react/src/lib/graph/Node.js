@@ -12,9 +12,10 @@ export const EnumEventType = {
 };
 
 export default class Node extends EventEmitter {
-    constructor({ entities = [] } = {}) {
+    constructor({ entities = [], game } = {}) {
         super();
         this.id = uuidv4();
+        this.game = game;
         
         this.portals = [];
 
@@ -148,12 +149,14 @@ export default class Node extends EventEmitter {
     addEntity(entity) {
         this.entities.add(entity);
         this.emit(EnumEventType.ENTITY_JOIN, entity);
+        this.game.channel("node").invoke(this, EnumEventType.ENTITY_JOIN, entity);
         
         return this;
     }
     removeEntity(entity) {
         this.entities.delete(entity);
         this.emit(EnumEventType.ENTITY_LEAVE, entity);
+        this.game.channel("node").invoke(this, EnumEventType.ENTITY_LEAVE, entity);
         
         return this;
     }
@@ -174,6 +177,8 @@ export default class Node extends EventEmitter {
 
         this.entities.forEach(entity => {
             entity.tick(dt);
+
+            //TODO Check for collisions
 
             if(entity.isExpired) {
                 purge.push(entity);

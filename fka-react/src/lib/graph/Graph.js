@@ -25,7 +25,7 @@ export class GraphFactory {
 
         for(let w = 0; w < gw; w++) {
             for(let h = 0; h < gh; h++) {
-                const node = new Node();
+                const node = new Node({ game });
 
                 node.seed(nw, nh, function(x, y) {
                     let tile;

@@ -23,6 +23,7 @@ export default class Game extends Hive.Node {
         });
 
         this.state.broadcastNetwork.newChannel("graph");
+        this.state.broadcastNetwork.newChannel("node");
         this.state.broadcastNetwork.newChannel("player");
         this.state.broadcastNetwork.newChannel("entity");
     }
