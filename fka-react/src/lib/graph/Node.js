@@ -181,10 +181,8 @@ export default class Node extends EventEmitter {
     tick(dt) {
         let purge = [];
 
-        this.entities.forEach(entity => {
+        this.each((entity, i) => {
             entity.tick(dt);
-
-            //TODO Check for collisions
 
             if(entity.isExpired) {
                 purge.push(entity);

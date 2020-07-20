@@ -76,7 +76,7 @@ export default class Camera extends LayeredCanvasNode {
                     });
                 }
                 
-                //TODO Move this to a proper location and determine collision from w/e holds that info after the refactor
+                //TODO Move Collision testing into BroadcastNetwork and emit Collision events
                 node.each((entity, i) => {
                     const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
         
