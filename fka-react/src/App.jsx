@@ -26,7 +26,7 @@ const entity = new EntityCreature({
         [ EnumComponentType.RIGID_BODY ]: {
             x: 3,
             y: 3,
-            speed: 3.00,
+            speed: 3.50,
             // model: new Models.Line(128, 128),
             model: new Models.Circle(32),
         }
