@@ -43,7 +43,7 @@ export default class EntityManager extends Hive.Node {
                     c2.isColliding = c2.isColliding || hasCollision;
 
                     if(comp.isColliding) {
-                        this.game.channel("entity").invoke(entity, EnumEventType.COLLISION, e2);
+                        this.game.channel("entity").invoke(e2, EnumEventType.COLLISION, entity);
                     }
                 }
             }, i + 1);
@@ -57,12 +57,21 @@ export default class EntityManager extends Hive.Node {
             const [ dt ] = args;
             const comp = this.getComponent(EnumComponentType.RIGID_BODY);
             
-            comp.isColliding = false;
-            comp.x += comp.vx * dt;
-            comp.y += comp.vy * dt;
+            if(comp) {
+                comp.isColliding = false;
+                comp.x += comp.vx * dt;
+                comp.y += comp.vy * dt;
+            }
         } else if(type === EnumEventType.COLLISION) {
             //TODO All collision logic stems from here.  Add a "spawned by" flag in Entity, to act as ability/entity progenitor
-            // const [ target ] = args;
+            const [ target ] = args;
+            
+            //  STUB
+            const comp = target.getComponent(EnumComponentType.LIFE);
+
+            if(comp) {
+                comp.HP.subtract(0.025);
+            }
 
             // console.log("Collision", this.id, target.id);
         }
