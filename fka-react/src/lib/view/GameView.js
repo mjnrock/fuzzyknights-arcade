@@ -3,7 +3,7 @@ import View from "./View";
 import GraphComponent from "./components/GraphComponent";
 import { EnumMessageType as EnumMouseMessageType } from "./../hive/MouseNode";
 import { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNode";
-import Camera from "../render/Camera";
+import RenderCamera from "../render/Camera";
 import EntityAction from "../entity/EntityAction";
 
 import { EnumComponentType } from "./../entity/components/Component";
@@ -93,8 +93,45 @@ export const Controls = {
     ]
 };
 
+export const Camera = (game, graph) => {
+    const camera = new RenderCamera(game, graph.getNode(0, 0), {
+        tw: 128,
+        th: 128,
+        scale: 1.0,
+
+        //* Viewport Config
+        x: 0,
+        y: 0,
+        w: 9,
+        h: 7,
+
+        subject: game.player,
+    });
+
+    camera.getLayer(0).loadImages([
+        [ "terrain.grass", "./assets/terrain/grass.png" ],
+        [ "terrain.dirt", "./assets/terrain/dirt.png" ],
+        [ "terrain.stone", "./assets/terrain/stone.png" ],
+    ]).then(() => {
+        camera.getLayer(1).loadImages([
+            [ "entity.raccoon", "./assets/entity/raccoon.png" ],
+            [ "entity.beaver", "./assets/entity/beaver.png" ],
+            [ "entity.rabbit", "./assets/entity/rabbit.png" ],
+            [ "entity.walrus", "./assets/entity/walrus.png" ],
+            [ "entity.bull", "./assets/entity/bull.png" ],
+        ]).then(() => {
+            camera.getLayer(0).draw();
+            camera.onRender = dt => graph.tick(dt / 1000);
+            
+            camera.play();
+        });  
+    });
+
+    return camera;
+}
+
 export default class GameView extends View {
-    constructor(game, graph, { controls = {} } = {}) {
+    constructor(game, graph, { camera, controls = {} } = {}) {
         super(game);
 
         this.mouse.mergeConfig({
@@ -116,38 +153,7 @@ export default class GameView extends View {
             this.bindMouse(...mouse);
         }
 
-        this.camera = new Camera(game, graph.getNode(0, 0), {
-            tw: 128,
-            th: 128,
-            scale: 1.0,
-
-            //* Viewport Config
-            x: 0,
-            y: 0,
-            w: 9,
-            h: 7,
-
-            subject: this.game.player,
-        });
-
-        this.camera.getLayer(0).loadImages([
-            [ "terrain.grass", "./assets/terrain/grass.png" ],
-            [ "terrain.dirt", "./assets/terrain/dirt.png" ],
-            [ "terrain.stone", "./assets/terrain/stone.png" ],
-        ]).then(() => {
-            this.camera.getLayer(1).loadImages([
-                [ "entity.raccoon", "./assets/entity/raccoon.png" ],
-                [ "entity.beaver", "./assets/entity/beaver.png" ],
-                [ "entity.rabbit", "./assets/entity/rabbit.png" ],
-                [ "entity.walrus", "./assets/entity/walrus.png" ],
-                [ "entity.bull", "./assets/entity/bull.png" ],
-            ]).then(() => {
-                this.camera.getLayer(0).draw();
-                this.camera.onRender = dt => this.getGraph().tick(dt / 1000);
-                
-                this.camera.play();
-            });  
-        });
+        this.camera = camera;
     }
 
     getGraph() {

@@ -11,7 +11,7 @@ import Routes from "./routes/package";
 import Game from "./lib/Game";
 
 import Graph from "./lib/graph/package";
-import GameView, { Controls as GameViewControls } from "./lib/view/GameView";
+import GameView, { Controls as GameViewControls, Camera as GameViewCamera } from "./lib/view/GameView";
 import EntityCreature from "./lib/entity/EntityCreature";
 import { EnumComponentType } from "./lib/entity/components/Component";
 
@@ -51,7 +51,7 @@ console.log(game.player)
 
 // game.channel("graph").join(console.log, { ignore: [ "PLAYER_FACING" ] })
 
-game.view = new GameView(game, game.graph, { controls: GameViewControls });
+game.view = new GameView(game, game.graph, { camera: GameViewCamera(game, game.graph), controls: GameViewControls });
 
 export const Context = React.createContext(game.view.camera);
 
