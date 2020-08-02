@@ -7,6 +7,7 @@ import { EnumComponentType } from "./components/Component";
 
 export const EnumEventType = Enumerator({
     TICK: "Entity.Tick",
+    COLLISION: "Entity.Collision",
 });
 
 export const EnumEntityType = Enumerator({

@@ -8,6 +8,7 @@ import GridCanvasNode from "../hive/GridCanvasNode";
 
 import Models from "./../model/package";
 import HUD from "./HUD";
+import RigidBody from "../entity/components/RigidBody";
 
 export default class Camera extends LayeredCanvasNode {
     constructor(game, node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0 } = {}) {
@@ -76,7 +77,6 @@ export default class Camera extends LayeredCanvasNode {
                     });
                 }
                 
-                //TODO Move Collision testing into BroadcastNetwork::node and emit Collision events
                 node.each((entity, i) => {
                     const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
         
@@ -86,16 +86,6 @@ export default class Camera extends LayeredCanvasNode {
                                 strokeStyle: "#0ff",
                             }).circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
                         }
-
-                        node.each((e2, j) => {
-                            if(entity !== e2) {
-                                const c2 = e2.getComponent(EnumComponentType.RIGID_BODY);
-    
-                                const hasCollision = comp.model.hasCollision(comp.x, comp.y, c2.model, c2.x, c2.y, { scale: 128 });
-                                comp.isColliding = comp.isColliding || hasCollision;
-                                c2.isColliding = c2.isColliding || hasCollision;
-                            }
-                        }, i + 1);
 
                         if(comp.isColliding) {
                             this.prop({
@@ -107,6 +97,7 @@ export default class Camera extends LayeredCanvasNode {
                             });
                         }
                         
+                        // Cener of Mass point
                         this.point(comp.x * this.tw, comp.y * this.th);
                         
                         if(comp.model instanceof Models.Circle) {
@@ -133,34 +124,10 @@ export default class Camera extends LayeredCanvasNode {
                             this.line(...lps);
                         }
 
-                        //TODO Abstract this into a "Facing to X,Y" conversion function (e.g. Facing-factored Entity::speed)
-                        let x = Math.sin(comp.facing * Math.PI / 180),
-                            y = Math.cos(comp.facing * Math.PI / 180);
+                        const { x, y } = RigidBody.FacingToXY(comp.facing);
+                        const factor = 0.4;
 
-                        if(x < 0.001 && x > -0.001) {
-                            x = 0;
-                        } else if(x > 0) {
-                            x = 1;
-                        } else if(x < 0) {
-                            x = -1;
-                        } else {
-                            x = 0;
-                        }
-
-                        if(y < 0.001 && y > -0.001) {
-                            y = 0;
-                        } else if(y > 0) {
-                            y = -1;
-                        } else if(y < 0) {
-                            y = 1;
-                        } else {
-                            y = 0;
-                        }
-
-                        x *= 0.5;
-                        y *= 0.5;
-
-                        this.prop({ strokeStyle: "#00f" }).line(comp.x * this.tw, comp.y * this.th, (comp.x + x) * this.tw, (comp.y + y) * this.th);
+                        this.prop({ strokeStyle: "#00f" }).line(comp.x * this.tw, comp.y * this.th, (comp.x + (x * factor)) * this.tw, (comp.y + (y * factor)) * this.th);
                     }
                 });
                 this.ctx.restore();

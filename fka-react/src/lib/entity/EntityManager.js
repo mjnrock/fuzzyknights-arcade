@@ -25,11 +25,28 @@ export default class EntityManager extends Hive.Node {
 
     tick(dt) {
         let purge = [];
-
+        
         this.node.each((entity, i) => {
             if(!entity.tick(dt, this.game)) {
                 purge.push(entity);
             }
+        });
+        this.node.each((entity, i) => {
+            const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
+
+            this.node.each((e2, j) => {
+                if(entity !== e2) {
+                    const c2 = e2.getComponent(EnumComponentType.RIGID_BODY);
+
+                    const hasCollision = comp.model.hasCollision(comp.x, comp.y, c2.model, c2.x, c2.y, { scale: 128 });
+                    comp.isColliding = comp.isColliding || hasCollision;
+                    c2.isColliding = c2.isColliding || hasCollision;
+
+                    if(comp.isColliding) {
+                        this.game.channel("entity").invoke(entity, EnumEventType.COLLISION, e2);
+                    }
+                }
+            }, i + 1);
         });
 
         purge.forEach(entity => this.node.removeEntity(entity));
@@ -43,6 +60,11 @@ export default class EntityManager extends Hive.Node {
             comp.isColliding = false;
             comp.x += comp.vx * dt;
             comp.y += comp.vy * dt;
+        } else if(type === EnumEventType.COLLISION) {
+            const [ target ] = args;
+
+            //TODO All collision logic stems from here.  Add a "spawned by" flag in Entity, to act as ability/entity progenitor
+            console.log("Collision", this.id, target.id);
         }
     }
 }
