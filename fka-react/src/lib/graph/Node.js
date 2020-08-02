@@ -26,7 +26,7 @@ export default class Node extends EventEmitter {
             "0.0": null,
         };
 
-        this.entityManager = new EntityManager(game, entities);
+        this.entityManager = new EntityManager(game, this, entities);
     }
 
     _key(x, y) {
@@ -182,6 +182,6 @@ export default class Node extends EventEmitter {
     }
 
     tick(dt) {
-        this.entityManager.tick(this, dt);
+        this.entityManager.tick(dt);
     }
 };
