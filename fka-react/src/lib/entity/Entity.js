@@ -4,6 +4,7 @@ import { Enumerator } from "./../hive/Helper";
 
 import RigidBody from "./components/RigidBody";
 import { EnumComponentType } from "./components/Component";
+import Action from "../combat/Action";
 
 export const EnumEventType = Enumerator({
     TICK: "Entity.Tick",
@@ -47,6 +48,12 @@ export default class Entity extends EventEmitter {
         const rb = this.getComponent(EnumComponentType.RIGID_BODY);
         
         return rb.pos;
+    }
+
+    perform(action, ...args) {
+        if(action instanceof Action) {
+            action.execute.call(this, ...args);
+        }
     }
 
     getComponent(flag) {

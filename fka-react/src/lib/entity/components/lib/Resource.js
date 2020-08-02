@@ -45,6 +45,15 @@ export default class Resource {
         return this;
     }
 
+    rate(rate = 1.0) {
+        this.value = this.min + (Math.abs(this.max - this.min) * rate);
+
+        return this;
+    }
+    percent(percent = 100) {
+        return this.rate(percent / 100);
+    }
+
     get isEmpty() {
         return this.value <= this.min;
     }
@@ -52,14 +61,14 @@ export default class Resource {
         return this.value >= this.max;
     }
 
-    get rate() {
+    get asRate() {
         let num = this.value - this.min;
         let den = this.max - this.min;
 
         return num / den;
     }
-    get percent() {
-        return this.rate * 100.0;
+    get asPercent() {
+        return this.asRate * 100.0;
     }
 
     fill() {

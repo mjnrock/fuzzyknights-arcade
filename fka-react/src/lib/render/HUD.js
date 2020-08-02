@@ -31,7 +31,7 @@ export default class HUD extends GridCanvasNode {
     // getColorFromWeightedPool() {}
 
     barHealth(life, x, y) {
-        let color = this.getColorFromScale(life.HP.rate, [
+        let color = this.getColorFromScale(life.HP.asRate, [
             [ 0.93, "#5c9e6a" ],
             [ 0.85, "#8ed18f" ],
             [ 0.75, "#bad18e" ],
@@ -45,7 +45,7 @@ export default class HUD extends GridCanvasNode {
         }).rect(x * this.tw - this.tw / 4, y * this.th - this.th / 2, this.tw / 2, 10);
         this.prop({
             fillStyle: color,
-        }).rect(x * this.tw - this.tw / 4 + 1, y * this.th - this.th / 2 + 1, (life.HP.rate * this.tw / 2) - 1, 8, { isFilled: true });
+        }).rect(x * this.tw - this.tw / 4 + 1, y * this.th - this.th / 2 + 1, (life.HP.asRate * this.tw / 2) - 1, 8, { isFilled: true });
     }
     barResource(life, x, y) {
         this.prop({
@@ -53,7 +53,7 @@ export default class HUD extends GridCanvasNode {
         }).rect(x * this.tw - this.tw / 4, y * this.th - this.th / 2 + 14, this.tw / 2, 10);
         this.prop({
             fillStyle: "#369",
-        }).rect(x * this.tw - this.tw / 4 + 1, y * this.th - this.th / 2 + 14 + 1, (life.MANA.rate * this.tw / 2) - 1, 8, { isFilled: true });
+        }).rect(x * this.tw - this.tw / 4 + 1, y * this.th - this.th / 2 + 14 + 1, (life.MANA.asRate * this.tw / 2) - 1, 8, { isFilled: true });
     }
 
 
