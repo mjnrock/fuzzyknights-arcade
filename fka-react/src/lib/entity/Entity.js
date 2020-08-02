@@ -52,7 +52,7 @@ export default class Entity extends EventEmitter {
 
     perform(action, ...args) {
         if(action instanceof Action) {
-            action.execute.call(this, ...args);
+            action.execute(this, ...args);
         }
     }
 

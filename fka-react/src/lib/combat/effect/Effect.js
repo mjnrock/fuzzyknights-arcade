@@ -21,25 +21,25 @@ export default class Effect {
         this.ignore = ignore;
     }
 
-    affect(entity) {
+    affect(entity, ...args) {
         if(typeof this.only === "number" && this.only !== 0) {
             if(Bitwise.has(this.only, entity.type)) {
-                this.effect(entity);
+                this.effect(entity, ...args);
             }
         } else if(typeof this.ignore === "number" && this.ignore !== 0) {
             if(!Bitwise.has(this.ignore, entity.type)) {
-                this.effect(entity);
+                this.effect(entity, ...args);
             }
         } else if(typeof this.only === "function") {
             if(this.only(entity) === true) {
-                this.effect(entity);
+                this.effect(entity, ...args);
             }
         } else if(typeof this.ignore === "function") {
             if(this.ignore(entity) === false) {
-                this.effect(entity);
+                this.effect(entity, ...args);
             }
         } else {
-            this.effect(entity);
+            this.effect(entity, ...args);
         }
 
         return this;

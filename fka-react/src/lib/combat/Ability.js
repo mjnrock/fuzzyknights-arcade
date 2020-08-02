@@ -3,9 +3,10 @@ export default class Ability {
         this.effects = effects;
     }
 
-    affect(entity) {
+    //TODO This is going to take some testing to make this work properly (e.g. with EffectSpawn)
+    affect(entity, ...args) {
         for(let effect of this.effects) {
-            effect.affect(entity);
+            effect.affect(entity, ...args);
         }
 
         return this;
