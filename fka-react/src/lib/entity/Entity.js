@@ -62,18 +62,12 @@ export default class Entity extends EventEmitter {
     }
 
     tick(dt, game) {
-        if(!this.isExpired) {
-            const comp = this.getComponent(EnumComponentType.RIGID_BODY);
-            
-            comp.isColliding = false;
-            comp.x += comp.vx * dt;
-            comp.y += comp.vy * dt;
+        if(game) {
+            game.channel("entity").invoke(this, EnumEventType.TICK, dt, game);
 
-            if(game) {
-                game.channel("entity").invoke(this, EnumEventType.TICK, dt, game);
-            }
+            return !this.isExpired;
         }
 
-        return !this.isExpired;
+        return false;
     }
-}; 
+};

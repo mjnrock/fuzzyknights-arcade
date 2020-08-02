@@ -1,5 +1,6 @@
 import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
+import EntityManager from "../entity/EntityManager";
 
 /*
  * This is meant to be equivalent to a "room" in that dungeon game, or a "map" in the outer world
@@ -25,7 +26,7 @@ export default class Node extends EventEmitter {
             "0.0": null,
         };
 
-        this.entities = new Set(entities);
+        this.entityManager = new EntityManager(game, entities);
     }
 
     _key(x, y) {
@@ -140,27 +141,29 @@ export default class Node extends EventEmitter {
         return [ 0, 0, this.tiles.width - 1, this.tiles.height - 1 ];
     }
 
+    get entities() {
+        return this.entityManager.entities;
+    }
+
     each(fn, offset = 0) {
         if(typeof fn === "function") {
-            const entities = Array.from(this.entities);
+            const entities = Array.from(this.entities.values());
 
             for(let i = offset; i < entities.length; i++) {
-                // console.log(i)
                 fn(entities[ i ], i);
             }
-            // this.entities.forEach((entity) => fn(entity));
         }
     }
 
     addEntity(entity) {
-        this.entities.add(entity);
+        this.entities.set(entity.id, entity);
         this.emit(EnumEventType.ENTITY_JOIN, entity);
         this.game.channel("node").invoke(this, EnumEventType.ENTITY_JOIN, entity);
         
         return this;
     }
     removeEntity(entity) {
-        this.entities.delete(entity);
+        this.entities.delete(entity.id);
         this.emit(EnumEventType.ENTITY_LEAVE, entity);
         this.game.channel("node").invoke(this, EnumEventType.ENTITY_LEAVE, entity);
         
@@ -179,16 +182,6 @@ export default class Node extends EventEmitter {
     }
 
     tick(dt) {
-        let purge = [];
-
-        this.each((entity, i) => {
-            entity.tick(dt);
-
-            if(entity.isExpired) {
-                purge.push(entity);
-            }
-        });
-
-        purge.forEach(entity => this.removeEntity(entity));
+        this.entityManager.tick(this, dt);
     }
 };

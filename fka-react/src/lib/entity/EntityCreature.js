@@ -25,8 +25,4 @@ export default class EntityCreature extends Entity {
     get isExpired() {
         return super.isExpired || this.isDead;
     }
-
-    tick(dt) {
-        super.tick(dt);
-    }
 }; 
