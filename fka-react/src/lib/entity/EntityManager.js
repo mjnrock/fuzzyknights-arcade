@@ -52,6 +52,12 @@ export default class EntityManager extends Hive.Node {
         purge.forEach(entity => this.node.removeEntity(entity));
     }
 
+    kill(entity) {
+        this.node.removeEntity(entity);
+
+        return this;
+    }
+
     onEntityEvent(type, ...args) {
         if(type === EnumEventType.TICK) {
             const [ dt ] = args;
