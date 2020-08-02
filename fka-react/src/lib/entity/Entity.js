@@ -16,12 +16,13 @@ export const EnumEntityType = Enumerator({
 });
 
 export default class Entity extends EventEmitter {
-    constructor({ type, comps = [], id, data = {}, lifespan = -1 } = {}) {
+    constructor({ type, comps = [], id, data = {}, lifespan = -1, parent } = {}) {
         super();
 
         this.id = id || uuidv4();
         this.birth = Date.now();
         this.lifespan = lifespan;
+        this.parent = parent;
         
         this.type = type;
 

@@ -40,7 +40,8 @@ export const Controls = {
                         facing: NormalizeTheta(dx, dy, { toNearestDegree: 45 }),
                         model: new Arc(90, tl, tr),
                     }
-                }
+                },
+                parent: this.game.player,
             }));
         } ],
         [ 2, function(payload) {
@@ -63,7 +64,8 @@ export const Controls = {
                         vx: 3.50 * Math.cos((theta - 90) / 180 * Math.PI),
                         vy: 3.50 * Math.sin((theta - 90) / 180 * Math.PI),
                     }
-                }
+                },
+                parent: this.game.player,
             }));
             graph.getNode(0, 0).addEntity(new EntityAction({
                 x: this.game.player.pos.x,
@@ -75,7 +77,8 @@ export const Controls = {
                         vx: 3.50 * Math.cos((theta - 105) / 180 * Math.PI),
                         vy: 3.50 * Math.sin((theta - 90) / 180 * Math.PI),
                     }
-                }
+                },
+                parent: this.game.player,
             }));
             graph.getNode(0, 0).addEntity(new EntityAction({
                 x: this.game.player.pos.x,
@@ -87,7 +90,8 @@ export const Controls = {
                         vx: 3.50 * Math.cos((theta - 90) / 180 * Math.PI),
                         vy: 3.50 * Math.sin((theta - 75) / 180 * Math.PI),
                     }
-                }
+                },
+                parent: this.game.player,
             }));
         } ],
     ]
@@ -128,7 +132,7 @@ export const StubCamera = (game, graph) => {
     });
 
     return camera;
-}
+};
 
 export default class GameView extends View {
     constructor(game, graph, { camera, controls = {} } = {}) {

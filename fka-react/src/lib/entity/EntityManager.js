@@ -23,6 +23,12 @@ export default class EntityManager extends Hive.Node {
         return this.state.entities;
     }
 
+    kill(entity) {
+        this.node.removeEntity(entity);
+
+        return this;
+    }
+
     tick(dt) {
         let purge = [];
         
@@ -31,6 +37,8 @@ export default class EntityManager extends Hive.Node {
                 purge.push(entity);
             }
         });
+
+        //TODO This collision detection needs refactoring to better deal with all collision scenarios
         this.node.each((entity, i) => {
             const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
 
@@ -42,7 +50,7 @@ export default class EntityManager extends Hive.Node {
                     comp.isColliding = comp.isColliding || hasCollision;
                     c2.isColliding = c2.isColliding || hasCollision;
 
-                    if(comp.isColliding) {
+                    if(hasCollision && !(entity.parent === e2 || e2.parent === entity)) {   //* Rough comparator, will need to be more robust later
                         this.game.send("entity", e2, EnumEventType.COLLISION, entity);
                     }
                 }
@@ -52,16 +60,12 @@ export default class EntityManager extends Hive.Node {
         purge.forEach(entity => this.node.removeEntity(entity));
     }
 
-    kill(entity) {
-        this.node.removeEntity(entity);
-
-        return this;
-    }
-
     onEntityEvent(type, ...args) {
+        const entity = this;
+
         if(type === EnumEventType.TICK) {
             const [ dt ] = args;
-            const comp = this.getComponent(EnumComponentType.RIGID_BODY);
+            const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
             
             if(comp) {
                 comp.isColliding = false;
@@ -78,8 +82,6 @@ export default class EntityManager extends Hive.Node {
             if(comp) {
                 comp.HP.subtract(0.025);
             }
-
-            // console.log("Collision", this.id, target.id);
         }
     }
 }
