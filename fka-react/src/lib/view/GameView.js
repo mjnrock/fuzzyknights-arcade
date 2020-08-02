@@ -10,7 +10,7 @@ import { EnumComponentType } from "./../entity/components/Component";
 import Arc from "../model/Arc";
 
 export const Controls = {
-    Key: [
+    key: [
         [ 114, function() { this.game.setting("isDebugMode", !this.game.setting("isDebugMode")) } ],
         [ 86, function() { 
             this.game.setting("showNameplates", !this.game.setting("showNameplates"));
@@ -22,7 +22,7 @@ export const Controls = {
             node.addEntity(this.game.player);
         } ],
     ],
-    Mouse: [
+    mouse: [
         [ 0, function(payload) {
             //  STUB    Spawn Arc entity on "LEFT" button
             const dx = payload.x - window.innerWidth / 2;
@@ -91,10 +91,10 @@ export const Controls = {
             }));
         } ],
     ]
-}
+};
 
 export default class GameView extends View {
-    constructor(game, graph) {
+    constructor(game, graph, { controls = {} } = {}) {
         super(game);
 
         this.mouse.mergeConfig({
@@ -109,10 +109,10 @@ export default class GameView extends View {
             }
         });
 
-        for(let key of Controls.Key) {
+        for(let key of controls.key) {
             this.bindKey(...key);
         }
-        for(let mouse of Controls.Mouse) {
+        for(let mouse of controls.mouse) {
             this.bindMouse(...mouse);
         }
 
