@@ -26,7 +26,7 @@ export default class View extends Hive.Node {
     onKeyBinding(payload) {
         for(let [ code, fn ] of this.keyBindings) {
             if(payload.code === code) {
-                fn(payload);
+                fn.call(this, payload);
             }
         }
     }
@@ -46,7 +46,7 @@ export default class View extends Hive.Node {
     onMouseBinding(payload) {
         for(let [ button, fn ] of this.mouseBindings) {
             if(payload.button === button) {
-                fn(payload);
+                fn.call(this, payload);
             }
         }
     }
