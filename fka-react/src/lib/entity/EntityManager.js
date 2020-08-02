@@ -61,10 +61,10 @@ export default class EntityManager extends Hive.Node {
             comp.x += comp.vx * dt;
             comp.y += comp.vy * dt;
         } else if(type === EnumEventType.COLLISION) {
-            const [ target ] = args;
-
             //TODO All collision logic stems from here.  Add a "spawned by" flag in Entity, to act as ability/entity progenitor
-            console.log("Collision", this.id, target.id);
+            // const [ target ] = args;
+
+            // console.log("Collision", this.id, target.id);
         }
     }
 }
