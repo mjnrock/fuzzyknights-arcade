@@ -93,7 +93,7 @@ export const Controls = {
     ]
 };
 
-export const Camera = (game, graph) => {
+export const StubCamera = (game, graph) => {
     const camera = new RenderCamera(game, graph.getNode(0, 0), {
         tw: 128,
         th: 128,
