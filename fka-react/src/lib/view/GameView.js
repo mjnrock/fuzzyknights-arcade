@@ -20,10 +20,7 @@ export default class GameView extends View {
         const graphComp = new GraphComponent(graph);
         this.set("graph", graphComp);
         this.addEffect((state, msg) => {
-            if(
-                msg.type === EnumKeyMessageType.KEY_MASK
-                || msg.type === EnumMouseMessageType.MOUSE_MOVE
-            ) {
+            if(msg.type === EnumKeyMessageType.KEY_MASK || msg.type === EnumMouseMessageType.MOUSE_MOVE) {
                 graphComp.receive.call(graphComp, state, msg);
             }
         });
@@ -35,7 +32,7 @@ export default class GameView extends View {
         });
         
         //  STUB    Delete all non-players on "DELETE" key
-        this.bindKey(46, () => {
+        this.bindKey(46, payload => {
             const node = game.graph.getNode(0, 0);
             node.entities.clear();
             node.addEntity(game.player);
