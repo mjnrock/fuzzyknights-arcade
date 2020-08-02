@@ -9,6 +9,7 @@ import Action from "../combat/Action";
 export const EnumEventType = Enumerator({
     TICK: "Entity.Tick",
     COLLISION: "Entity.Collision",
+    ACTION: "Entity.Action",
 });
 
 export const EnumEntityType = Enumerator({
@@ -50,9 +51,10 @@ export default class Entity extends EventEmitter {
         return rb.pos;
     }
 
-    perform(action, ...args) {
+    perform(game, action, ...args) {
         if(action instanceof Action) {
-            action.execute(this, ...args);
+            //TODO Modify this to create an action queue in a component, have tick perform all actions in queue
+            // game.send("entity", this, EnumEventType.ACTION, action, ...args);
         }
     }
 

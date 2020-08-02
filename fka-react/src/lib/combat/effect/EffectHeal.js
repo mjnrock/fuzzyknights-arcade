@@ -25,5 +25,7 @@ export default class EffectHeal extends Effect {
             only,
             ignore,
         });
+
+        this.amount = amount;
     }
 }

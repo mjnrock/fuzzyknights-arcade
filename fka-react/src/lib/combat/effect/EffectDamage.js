@@ -25,5 +25,7 @@ export default class EffectDamage extends Effect {
             only,
             ignore,
         });
+
+        this.amount = amount;
     }
 }

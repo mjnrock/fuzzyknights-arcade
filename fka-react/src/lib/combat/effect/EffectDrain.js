@@ -25,5 +25,7 @@ export default class EffectDrain extends Effect {
             only,
             ignore,
         });
+
+        this.amount = amount;
     }
 }

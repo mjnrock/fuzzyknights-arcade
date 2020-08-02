@@ -28,9 +28,9 @@ export default class Propagator extends Hive.Node {
     invoke(thisArg, type, ...args) {
         for(let [ fn, obj ] of this.subscribors.entries()) {
             if(obj.type === "only" && obj.entries.includes(type)) {
-                fn.call(thisArg || this, type, ...args);
+                fn(thisArg, type, ...args);
             } else if(obj.type === "ignore" && !obj.entries.includes(type)) {
-                fn.call(thisArg || this, type, ...args);
+                fn(thisArg, type, ...args);
             }
         }
     }

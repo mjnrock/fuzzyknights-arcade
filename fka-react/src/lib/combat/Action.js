@@ -6,9 +6,11 @@ export const EnumActionType = Enumerator({
 });
 
 export default class Action {
-    constructor({ type, consequence, pre, post, conditional } = {}) {
+    constructor({ type, consequence, lifespan, pre, post, conditional } = {}) {
         this.type = type;
         this.consequence = consequence;
+        this.lifespan = lifespan;
+
         this.hooks = {
             conditional,
             pre,
@@ -16,16 +18,20 @@ export default class Action {
         };
     }    
 
-    static Ability(ability) {
+    static Ability(ability, opts = {}) {
         return new Action({
             type: EnumActionType.ABILITY,
             consequence: ability,
+
+            ...opts,
         });
     }
-    static Interact(fn) {
+    static Interact(fn, opts = {}) {
         return new Action({
             type: EnumActionType.INTERACT,
             consequence: fn,
+
+            ...opts,
         });
     }
 

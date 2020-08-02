@@ -25,5 +25,7 @@ export default class EffectGain extends Effect {
             only,
             ignore,
         });
+
+        this.amount = amount;
     }
 }

@@ -48,11 +48,15 @@ export const Controls = {
             // }));
 
             //TODO This currently only Heals the Player, but not because of any collision, only because it's the performing entity
+            //TODO Entity.perform() => Spawns EntityAction at Entity[ x, y ] => EntityAction onCollision performs the work
             this.game.player.perform(
+                this.game,
                 Action.Ability(
                     new Ability([
-                        new Effects.Heal(1)
-                    ])
+                        new Effects.Heal(1, { only: entity => entity === this.game.player }),
+                    ]), {
+                        lifespan: 0,
+                    }
                 )
             );
         } ],

@@ -42,7 +42,7 @@ export default class Station extends Hive.Node {
 
     broadcast(thisArg, ...args) {
         for(let channel of this.channels.values()) {
-            channel.invoke(thisArg || this, ...args);
+            channel.invoke(thisArg, ...args);
         }
 
         return this;
@@ -52,7 +52,7 @@ export default class Station extends Hive.Node {
         const channel = this.channels.get(channelName);
 
         if(channel instanceof Propagator) {
-            channel.invoke(thisArg || this, type, ...args);
+            channel.invoke(thisArg, type, ...args);
         }
 
         return this;
