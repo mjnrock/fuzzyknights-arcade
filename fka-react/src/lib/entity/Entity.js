@@ -64,7 +64,7 @@ export default class Entity extends EventEmitter {
 
     tick(dt, game) {
         if(game) {
-            game.channel("entity").invoke(this, EnumEventType.TICK, dt, game);
+            game.send("entity", this, EnumEventType.TICK, dt, game);
 
             return !this.isExpired;
         }

@@ -43,7 +43,7 @@ export default class EntityManager extends Hive.Node {
                     c2.isColliding = c2.isColliding || hasCollision;
 
                     if(comp.isColliding) {
-                        this.game.channel("entity").invoke(e2, EnumEventType.COLLISION, entity);
+                        this.game.send("entity", e2, EnumEventType.COLLISION, entity);
                     }
                 }
             }, i + 1);

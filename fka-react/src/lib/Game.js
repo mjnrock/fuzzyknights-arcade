@@ -69,4 +69,15 @@ export default class Game extends Hive.Node {
     channel(name) {
         return this.state.broadcastNetwork.getChannel(name);
     }
+
+    send(channelName, thisArg, type, ...args) {
+        this.channel(channelName).invoke(thisArg, type, ...args);
+
+        return this;
+    }
+    broadcast(thisArg, ...args) {
+        this.broadcastNetwork.broadcast(thisArg, ...args);
+
+        return this;
+    }
 }

@@ -51,7 +51,7 @@ export default class GraphComponent extends Component {
             comp.facing = theta;
         }
 
-        this.game.channel("graph").invoke(this, EnumEventType.PLAYER_FACING, this.game.player, ...arguments);
+        this.game.send("graph", this, EnumEventType.PLAYER_FACING, this.game.player, ...arguments);
     }
 
     onPlayerMovementMask({ map, mask } = {}, state) {
@@ -96,6 +96,6 @@ export default class GraphComponent extends Component {
             }
         }
 
-        this.game.channel("graph").invoke(this, EnumEventType.PLAYER_MOVEMENT_MASK, this.game.player, ...arguments);
+        this.game.send("graph",this, EnumEventType.PLAYER_MOVEMENT_MASK, this.game.player, ...arguments);
     }
 };
