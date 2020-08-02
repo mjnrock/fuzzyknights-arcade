@@ -1,5 +1,5 @@
 export default class Ability {
-    constructor({ effects = [] } = {}) {;
+    constructor(effects = []) {;
         this.effects = effects;
     }
 

@@ -8,6 +8,9 @@ import EntityAction from "../entity/EntityAction";
 
 import { EnumComponentType } from "./../entity/components/Component";
 import Arc from "../model/Arc";
+import Action from "../combat/Action";
+import Ability from "../combat/Ability";
+import Effects from "./../combat/effect/package";
 
 export const Controls = {
     key: [
@@ -25,24 +28,33 @@ export const Controls = {
     mouse: [
         [ 0, function(payload) {
             //  STUB    Spawn Arc entity on "LEFT" button
-            const dx = payload.x - window.innerWidth / 2;
-            const dy = payload.y - window.innerHeight / 2;
-            const graph = this.getGraph();
+            // const dx = payload.x - window.innerWidth / 2;
+            // const dy = payload.y - window.innerHeight / 2;
+            // const graph = this.getGraph();
 
-            let tl = this.game.player.pos.facing - 75;
-            let tr = this.game.player.pos.facing + 75;
+            // let tl = this.game.player.pos.facing - 75;
+            // let tr = this.game.player.pos.facing + 75;
             
-            graph.getNode(0, 0).addEntity(new EntityAction({
-                x: this.game.player.pos.x,
-                y: this.game.player.pos.y,
-                data: {
-                    [ EnumComponentType.RIGID_BODY ]: {
-                        facing: NormalizeTheta(dx, dy, { toNearestDegree: 45 }),
-                        model: new Arc(90, tl, tr),
-                    }
-                },
-                parent: this.game.player,
-            }));
+            // graph.getNode(0, 0).addEntity(new EntityAction({
+            //     x: this.game.player.pos.x,
+            //     y: this.game.player.pos.y,
+            //     data: {
+            //         [ EnumComponentType.RIGID_BODY ]: {
+            //             facing: NormalizeTheta(dx, dy, { toNearestDegree: 45 }),
+            //             model: new Arc(90, tl, tr),
+            //         }
+            //     },
+            //     parent: this.game.player,
+            // }));
+
+            //TODO This currently only Heals the Player, but not because of any collision, only because it's the performing entity
+            this.game.player.perform(
+                Action.Ability(
+                    new Ability([
+                        new Effects.Heal(1)
+                    ])
+                )
+            );
         } ],
         [ 2, function(payload) {
             //  STUB    Spawn Arc entity on "LEFT" button

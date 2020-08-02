@@ -5,15 +5,6 @@ export const EnumActionType = Enumerator({
     INTERACT: 2 << 1,
 });
 
-export const Ability = (ability) => new Action({
-    type: EnumActionType.ABILITY,
-    consequence: ability,
-});
-export const Interact = (fn) => new Action({
-    type: EnumActionType.INTERACT,
-    consequence: fn,
-});
-
 export default class Action {
     constructor({ type, consequence, pre, post, conditional } = {}) {
         this.type = type;
@@ -23,8 +14,21 @@ export default class Action {
             pre,
             post,
         };
+    }    
+
+    static Ability(ability) {
+        return new Action({
+            type: EnumActionType.ABILITY,
+            consequence: ability,
+        });
     }
-    
+    static Interact(fn) {
+        return new Action({
+            type: EnumActionType.INTERACT,
+            consequence: fn,
+        });
+    }
+
     execute(entity, ...args) {
         if(typeof this.hooks.conditional === "function") {
             if(this.hooks.conditional(entity, ...args) !== true) {
