@@ -47,7 +47,6 @@ export default class GameLoop {
     /**
      * @param {number} dt Frame delta in ms
      */
-    //TODO GameView has a camera reference, but all Cameras and rendering should be held by a higher structure (e.g. a grand View/Render Manager)
     update(dt) {
         this.game.graph.tick(dt / 1000);
     }
@@ -56,7 +55,9 @@ export default class GameLoop {
      * @param {number} interpolationPercentage A factor between 0.0 and 1.0, used as a scaling weight similar to delta time
      */
     draw(interpolationPercentage) {
-        // console.log("%", interpolationPercentage);
+        //TODO GameView has a camera reference, but all Cameras and rendering should be held by a higher structure (e.g. a grand View/Render Manager)
+        this.game.view.camera.draw();
+        // console.log("%", interpolationPercentage);   //TODO Figure out how to add these "rendering fractional steps" into implementation
     }
 
     post(fps, panic) {

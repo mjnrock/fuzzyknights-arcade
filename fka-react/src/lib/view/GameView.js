@@ -137,7 +137,7 @@ export const StubCamera = (game, graph) => {
             
             //TODO GameLoop currently utilizes MainLoop, build up rendering manager paradigm and transfer Camera and rendering to its .draw()
             game.start();
-            camera.play();
+            // camera.play();
         });  
     });
 
