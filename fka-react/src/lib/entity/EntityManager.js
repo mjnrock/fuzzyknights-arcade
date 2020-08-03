@@ -79,18 +79,25 @@ export default class EntityManager extends Hive.Node {
         
         let purge = [];
         
-        this.node.each((entity, i) => {
+        //NOTE If desired, this modification only calls the .tick on entities within a Camera's viewport.  Might be useful here, but the idea should be considered to find its purpose.
+        const viewport = this.game.view.camera.viewport;
+        const entities = this.node.occupants(viewport.tile.x0, viewport.tile.y0, viewport.tile.x1, viewport.tile.y1);
+        
+        // this.node.each((entity, i) => {
+        entities.forEach((entity, i) => {
             if(!entity.tick(dt, this.game)) {
                 purge.push(entity);
             }
         });
 
         //TODO This collision detection needs refactoring to better deal with all collision scenarios
-        this.node.each((entity, i) => {
+        // this.node.each((entity, i) => {
+        entities.forEach((entity, i) => {
             const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
 
             if(comp) {
-                this.node.each((e2, j) => {
+                // this.node.each((e2, j) => {
+                entities.forEach((e2, j) => {
                     if(entity !== e2) {
                         const c2 = e2.getComponent(EnumComponentType.RIGID_BODY);
     

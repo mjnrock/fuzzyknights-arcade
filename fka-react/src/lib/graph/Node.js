@@ -30,13 +30,13 @@ export default class Node extends EventEmitter {
         this.entityManager = new EntityManager(game, this, entities);
     }
 
-    occupants(x, y, w, h) {
+    occupants(x0, y0, x1, y1) {
         let ents = [];
         this.entities.forEach(entity => {
             const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
 
             if(rb) {
-                if(rb.x >= x && rb.x <= (x + w) && rb.y >= y && rb.y <= (y + h)) {
+                if(rb.x >= x0 && rb.x <= x1 && rb.y >= y0 && rb.y <= y1) {
                     ents.push(entity);
                 }
             }

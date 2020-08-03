@@ -167,12 +167,12 @@ export default class Camera extends LayeredCanvasNode {
     get viewport() {
         const obj = {
             tile: {
-                x0: Number.isInteger(this.state.viewport.x) ? this.state.viewport.x : 0,
-                y0: Number.isInteger(this.state.viewport.y) ? this.state.viewport.y : 0,
-                x1: Number.isInteger(this.state.viewport.x) && Number.isInteger(this.state.viewport.width) ? this.state.viewport.x + this.state.viewport.width : this.node.tiles.width,
-                y1: Number.isInteger(this.state.viewport.y) && Number.isInteger(this.state.viewport.height) ? this.state.viewport.y + this.state.viewport.height : this.node.tiles.height,
-                width: Number.isInteger(this.state.viewport.width) ? this.state.viewport.width : this.node.tiles.width,
-                height: Number.isInteger(this.state.viewport.height) ? this.state.viewport.height : this.node.tiles.height,
+                x0: typeof this.state.viewport.x === "number" ? this.state.viewport.x : 0,
+                y0: typeof this.state.viewport.y === "number" ? this.state.viewport.y : 0,
+                x1: typeof this.state.viewport.x === "number" && typeof this.state.viewport.width === "number" ? this.state.viewport.x + this.state.viewport.width : this.node.tiles.width,
+                y1: typeof this.state.viewport.y === "number" && typeof this.state.viewport.height === "number" ? this.state.viewport.y + this.state.viewport.height : this.node.tiles.height,
+                width: typeof this.state.viewport.width === "number" ? this.state.viewport.width : this.node.tiles.width,
+                height: typeof this.state.viewport.height === "number" ? this.state.viewport.height : this.node.tiles.height,
             },
             pixel: {
                 x0: 0,
@@ -229,6 +229,15 @@ export default class Camera extends LayeredCanvasNode {
                 this.width,
                 this.height,
             );
+
+            this.mergeState({
+                viewport: {
+                    ...this.state.viewport,
+
+                    x: ((comp.x * this.tw) - vw2) / this.tw,
+                    y: ((comp.y * this.th) - vh2) / this.th,
+                }
+            });
         } else {
             this.paint(
                 this.viewport.pixel.x0,
