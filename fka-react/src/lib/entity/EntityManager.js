@@ -1,5 +1,5 @@
 import Hive from "@lespantsfancy/hive";
-import { EnumEventType } from "./Entity";
+import Entity, { EnumEventType } from "./Entity";
 import { EnumComponentType } from "./components/Component";
 import EntityAction from "./EntityAction";
 
@@ -38,6 +38,16 @@ export default class EntityManager extends Hive.Node {
         this.node.removeEntity(entity);
 
         //* Perform additional work here, if needed
+
+        return this;
+    }
+
+    perform(actor, action, ...args) {
+        const entity = actor instanceof Entity ? actor : this.entities.get(actor);
+
+        if(entity instanceof Entity) {
+            entity.perform(this.game, action, ...args);
+        }
 
         return this;
     }
@@ -101,7 +111,7 @@ export default class EntityManager extends Hive.Node {
             }
         } else if(type === EnumEventType.ACTION) {
             const [ action, x, y, facing ] = args;
-            
+
             this.node.addEntity(new EntityAction({
                 action: action,
                 data: {
