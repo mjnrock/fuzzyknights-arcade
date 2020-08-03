@@ -34,6 +34,14 @@ export default class EntityManager extends Hive.Node {
         return this;
     }
 
+    purge(entity) {
+        this.node.removeEntity(entity);
+
+        //* Perform additional work here, if needed
+
+        return this;
+    }
+
     tick(dt) {
         if(this.entities.size < 1) {
             return;
@@ -70,7 +78,7 @@ export default class EntityManager extends Hive.Node {
             }
         });
 
-        purge.forEach(entity => this.node.removeEntity(entity));
+        purge.forEach(entity => this.purge(entity));
     }
 
     onEntityEvent(entity, type, ...args) {
