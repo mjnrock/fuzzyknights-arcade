@@ -47,6 +47,7 @@ export default class GameLoop {
     /**
      * @param {number} dt Frame delta in ms
      */
+    //TODO GameView has a camera reference, but all Cameras and rendering should be held by a higher structure (e.g. a grand View/Render Manager)
     update(dt) {
         this.game.graph.tick(dt / 1000);
     }
