@@ -61,7 +61,7 @@ export default class EntityManager extends Hive.Node {
                             comp.isColliding = comp.isColliding || hasCollision;
                             c2.isColliding = c2.isColliding || hasCollision;
         
-                            if(hasCollision && !(entity.parent === e2 || e2.parent === entity)) {   //* Rough comparator, will need to be more robust later
+                            if(hasCollision) {   //* Rough comparator, will need to be more robust later
                                 this.game.send("entity", entity, EnumEventType.COLLISION, e2);
                             }
                         }
@@ -108,7 +108,8 @@ export default class EntityManager extends Hive.Node {
                                 model: action.model,
                                 facing: comp.facing,
                             }
-                        }
+                        },
+                        parent: entity,
                     }));
                 }
             }
