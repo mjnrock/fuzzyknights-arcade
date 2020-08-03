@@ -2,6 +2,7 @@ import Hive from "@lespantsfancy/hive";
 import { EnumEventType } from "./Entity";
 import { EnumComponentType } from "./components/Component";
 import EntityAction from "./EntityAction";
+import Models from "./../model/package";
 
 export default class EntityManager extends Hive.Node {
     constructor(game, node, entities = []) {
@@ -84,23 +85,30 @@ export default class EntityManager extends Hive.Node {
                 comp.y += comp.vy * dt;
             }
         } else if(type === EnumEventType.COLLISION) {
-            //TODO All collision logic stems from here.  Add a "spawned by" flag in Entity, to act as ability/entity progenitor
             const [ target ] = args;
-
-            console.log(entity instanceof EntityAction, target instanceof EntityAction)
             
-            //  STUB
-            const comp = target.getComponent(EnumComponentType.LIFE);
-
-            if(comp) {
-                comp.HP.subtract(0.025);
+            if (entity instanceof EntityAction) {
+                entity.action.execute(target);
+            } else if(target instanceof EntityAction) {
+                target.action.execute(entity);
             }
         } else if(type === EnumEventType.ACTION) {
             const [ action ] = args;
+            const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
             
-            this.node.addEntity(new EntityAction({
-                action: action,
-            }));
+            if(comp) {            
+                this.node.addEntity(new EntityAction({
+                    action: action,
+                    data: {
+                        [ EnumComponentType.RIGID_BODY ]: {
+                            x: comp.x,
+                            y: comp.y,
+                            speed: 0,
+                            model: new Models.Circle(100),
+                        }
+                    }
+                }));
+            }
         }
     }
 }

@@ -2,7 +2,7 @@ import Entity, { EnumEntityType } from "./Entity";
 import { EnumComponentType } from "./components/Component";
 
 export default class EntityAction extends Entity {
-    constructor({ action, data, x, y, lifespan = 1500, parent } = {}) {
+    constructor({ action, data, x, y, parent } = {}) {
         super({
             type: EnumEntityType.ACTION,
             data,
@@ -17,4 +17,10 @@ export default class EntityAction extends Entity {
 
         this.action = action;
     }
+
+    // tick(dt, game) {
+        
+
+    //     return super.tick(dt, game);
+    // }
 }

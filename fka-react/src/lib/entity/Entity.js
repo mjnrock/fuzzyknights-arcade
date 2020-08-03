@@ -54,7 +54,7 @@ export default class Entity extends EventEmitter {
     perform(game, action, ...args) {
         if(action instanceof Action) {
             //TODO Modify this to create an action queue in a component, have tick perform all actions in queue
-            // game.send("entity", this, EnumEventType.ACTION, action, ...args);
+            game.send("entity", this, EnumEventType.ACTION, action, ...args);
         }
     }
 
