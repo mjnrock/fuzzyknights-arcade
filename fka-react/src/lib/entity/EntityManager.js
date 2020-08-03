@@ -80,6 +80,7 @@ export default class EntityManager extends Hive.Node {
         let purge = [];
         
         //NOTE If desired, this modification only calls the .tick on entities within a Camera's viewport.  Might be useful here, but the idea should be considered to find its purpose.
+        //? Maybe take viewport + some distance?  Maybe Math.min(node w|h, 20)?
         const viewport = this.game.view.camera.viewport;
         const entities = this.node.occupants(viewport.tile.x0, viewport.tile.y0, viewport.tile.x1, viewport.tile.y1);
         
