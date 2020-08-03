@@ -2,6 +2,7 @@ import GridCanvasNode from "../../hive/GridCanvasNode";
 import { EnumComponentType } from "./../../entity/components/Component";
 
 import Models from "./../../model/package";
+import EntityParticle from "../../entity/EntityParticle";
 
 export const EnumMessageType = {
     PAINT: "NodeEntities.Paint",
@@ -43,7 +44,17 @@ export default class RenderNodeEntities extends GridCanvasNode {
                 //     this.tile(entity === game.player ? this.img("entity.beaver") : this.img("entity.rabbit"), this.tw, comp.facing / 45 * this.tw, 0 * this.th, comp.x * this.tw - (this.tw / 2), comp.y * this.th - (this.th / 2));
                 // }
                 if(comp.model instanceof Models.Circle) {
-                    this.prop({ strokeStyle: "#000", lineWidth: game && entity === game.player ? 3 : 1 }).circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
+                    if(entity instanceof EntityParticle) {
+                        if(this.img("entity.particle.poof")) {
+                            this.tile(this.img("entity.particle.poof"), this.tw, comp.facing / 45 * this.tw, 0 * this.th, comp.x * this.tw - (this.tw / 2), comp.y * this.th - (this.th / 2));
+                        }
+                    } else {
+                        if(this.img("entity.beaver") && this.img("entity.rabbit")) {
+                            this.tile(entity === game.player ? this.img("entity.beaver") : this.img("entity.rabbit"), this.tw, comp.facing / 45 * this.tw, 0 * this.th, comp.x * this.tw - (this.tw / 2), comp.y * this.th - (this.th / 2));
+                        }
+                    }
+
+                    // this.prop({ strokeStyle: color, lineWidth: game && entity === game.player ? 3 : 1 }).circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
                     // if(this.img("entity.beaver") && this.img("entity.rabbit")) {
                     //     this.tile(entity === game.player ? this.img("entity.beaver") : this.img("entity.rabbit"), this.tw, comp.facing / 45 * this.tw, 0 * this.th, comp.x * this.tw - (this.tw / 2), comp.y * this.th - (this.th / 2));
                     // }

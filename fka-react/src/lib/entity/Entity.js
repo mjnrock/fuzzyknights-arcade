@@ -15,6 +15,7 @@ export const EnumEventType = Enumerator({
 export const EnumEntityType = Enumerator({
     CREATURE: 2 << 0,
     ACTION: 2 << 1,
+    PARTICLE: 2 << 2,
 });
 
 export default class Entity extends EventEmitter {

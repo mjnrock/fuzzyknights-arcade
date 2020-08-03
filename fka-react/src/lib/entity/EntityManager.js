@@ -2,6 +2,9 @@ import Hive from "@lespantsfancy/hive";
 import Entity, { EnumEventType } from "./Entity";
 import { EnumComponentType } from "./components/Component";
 import EntityAction from "./EntityAction";
+import EntityParticle from "./EntityParticle";
+import EntityCreature from "./EntityCreature";
+import Circle from "../model/Circle";
 
 export default class EntityManager extends Hive.Node {
     constructor(game, node, entities = []) {
@@ -37,7 +40,24 @@ export default class EntityManager extends Hive.Node {
     purge(entity) {
         this.node.removeEntity(entity);
 
-        //* Perform additional work here, if needed
+        if(entity instanceof EntityCreature) {
+            //? Spawn a death poof
+            const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
+            if(rb) {
+                this.node.addEntity(new EntityParticle({
+                    lifespan: 750,
+                    data: {
+                        [ EnumComponentType.RIGID_BODY ]: {
+                            x: rb.x,
+                            y: rb.y,
+                            speed: 0,
+                            model: new Circle(32),
+                            facing: rb.facing,
+                        }
+                    },
+                }))
+            }
+        }
 
         return this;
     }

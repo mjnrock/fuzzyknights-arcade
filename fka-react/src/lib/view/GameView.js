@@ -131,10 +131,12 @@ export const StubCamera = (game, graph) => {
             [ "entity.rabbit", "./assets/entity/rabbit.png" ],
             [ "entity.walrus", "./assets/entity/walrus.png" ],
             [ "entity.bull", "./assets/entity/bull.png" ],
+            [ "entity.particle.poof", "./assets/entity/poof.png" ],
         ]).then(() => {
             camera.getLayer(0).draw();
-            camera.onRender = dt => graph.tick(dt / 1000);
             
+            //TODO GameLoop currently utilizes MainLoop, build up rendering manager paradigm and transfer Camera and rendering to its .draw()
+            game.start();
             camera.play();
         });  
     });
