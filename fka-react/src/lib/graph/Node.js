@@ -1,6 +1,7 @@
 import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
 import EntityManager from "../entity/EntityManager";
+import { EnumComponentType } from "../entity/components/Component";
 
 /*
  * This is meant to be equivalent to a "room" in that dungeon game, or a "map" in the outer world
@@ -27,6 +28,21 @@ export default class Node extends EventEmitter {
         };
 
         this.entityManager = new EntityManager(game, this, entities);
+    }
+
+    occupants(x, y, w, h) {
+        let ents = [];
+        this.entities.forEach(entity => {
+            const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
+
+            if(rb) {
+                if(rb.x >= x && rb.x <= (x + w) && rb.y >= y && rb.y <= (y + h)) {
+                    ents.push(entity);
+                }
+            }
+        });
+
+        return ents;
     }
 
     _key(x, y) {
