@@ -16,6 +16,7 @@ import EntityCreature from "./lib/entity/EntityCreature";
 import { EnumComponentType } from "./lib/entity/components/Component";
 
 import Models from "./lib/model/package";
+import { NormalizeTheta } from "./lib/hive/Helper";
 
 const game = new Game();
 game.graph = Graph.Factory.Generate(2, 2, 20, 20, game);
@@ -32,19 +33,26 @@ const entity = new EntityCreature({
         }
     }
 });
-const e2 = new EntityCreature({
-    data: {
-        [ EnumComponentType.RIGID_BODY ]: {
-            x: 5,
-            y: 5,
-            speed: 1.00,
-            model: new Models.Circle(32),
-        }
-    }
-});
 node.addEntity(entity);
-node.addEntity(e2);
 game.player = entity;
+
+for(let i = 0; i < 25; i++) {
+    const e2 = new EntityCreature({
+        data: {
+            [ EnumComponentType.RIGID_BODY ]: {
+                x: ~~(Math.random() * 20),
+                y: ~~(Math.random() * 20),
+                // vx: (Math.random() > 0.5 ? -1 : 1) * Math.random() * 2,
+                // vy: (Math.random() > 0.5 ? -1 : 1) * Math.random() * 2,
+                speed: 1.00,
+                model: new Models.Circle(32),
+                facing: NormalizeTheta((Math.random() > 0.5 ? -1 : 1) * Math.random(), (Math.random() > 0.5 ? -1 : 1) * Math.random(), { toNearestDegree: 45 }),
+            }
+        }
+    });
+
+    node.addEntity(e2);
+}
 
 console.log(game)
 console.log(game.player)
