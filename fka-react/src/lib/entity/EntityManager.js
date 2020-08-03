@@ -100,24 +100,21 @@ export default class EntityManager extends Hive.Node {
                 target.action.execute(entity);
             }
         } else if(type === EnumEventType.ACTION) {
-            const [ action ] = args;
-            const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
+            const [ action, x, y, facing ] = args;
             
-            if(comp) {
-                this.node.addEntity(new EntityAction({
-                    action: action,
-                    data: {
-                        [ EnumComponentType.RIGID_BODY ]: {
-                            x: comp.x,
-                            y: comp.y,
-                            speed: 0,
-                            model: action.model,
-                            facing: comp.facing,
-                        }
-                    },
-                    parent: entity,
-                }));
-            }
+            this.node.addEntity(new EntityAction({
+                action: action,
+                data: {
+                    [ EnumComponentType.RIGID_BODY ]: {
+                        x: x,
+                        y: y,
+                        speed: 0,
+                        model: action.model,
+                        facing: facing,
+                    }
+                },
+                parent: entity,
+            }));
         }
     }
 }
