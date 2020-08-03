@@ -45,20 +45,20 @@ export default class RenderNodeTerrain extends GridCanvasNode {
     
                 //  STUB
                 if(terrain.type === EnumTerrainType.FLOOR) {
-                    // if(this.img("terrain.grass")) {
-                    //     this.gTile(this.img("terrain.grass"), 0, 0, tx, ty);
-                    // }
-                    this.prop({ fillStyle: "#7bb080" }).gRect(tx, ty, 1, 1, { isFilled: true });
+                    if(this.img("terrain.grass")) {
+                        this.gTile(this.img("terrain.grass"), 0, 0, tx, ty);
+                    }
+                    // this.prop({ fillStyle: "#7bb080" }).gRect(tx, ty, 1, 1, { isFilled: true });
                 } else if(terrain.type === EnumTerrainType.WALL) {
-                    // if(this.img("terrain.stone")) {
-                    //     this.gTile(this.img("terrain.stone"), 0, 0, tx, ty);
-                    // }
-                    this.prop({ fillStyle: "grey" }).gRect(tx, ty, 1, 1, { isFilled: true });
+                    if(this.img("terrain.stone")) {
+                        this.gTile(this.img("terrain.stone"), 0, 0, tx, ty);
+                    }
+                    // this.prop({ fillStyle: "grey" }).gRect(tx, ty, 1, 1, { isFilled: true });
                 } else if(terrain.type === EnumTerrainType.DOOR) {
-                    // if(this.img("terrain.dirt")) {
-                    //     this.gTile(this.img("terrain.dirt"), 0, 0, tx, ty);
-                    // }
-                    this.prop({ fillStyle: "#444" }).gRect(tx, ty, 1, 1, { isFilled: true });
+                    if(this.img("terrain.dirt")) {
+                        this.gTile(this.img("terrain.dirt"), 0, 0, tx, ty);
+                    }
+                    // this.prop({ fillStyle: "#444" }).gRect(tx, ty, 1, 1, { isFilled: true });
                 } else {
                     this.prop({
                         fillStyle: "#000",
