@@ -51,10 +51,15 @@ export default class Entity extends EventEmitter {
         return rb.pos;
     }
 
+    //TODO Modify this to create an action queue in a component, have tick perform all actions in queue
     perform(game, action, ...args) {
         if(action instanceof Action) {
-            //TODO Modify this to create an action queue in a component, have tick perform all actions in queue
-            game.send("entity", this, EnumEventType.ACTION, action, ...args);
+            const life = this.getComponent(EnumComponentType.LIFE);
+            
+            //NOTE Modify the life.MANA necessity as other resources are introduced
+            if(life && life.MANA.subtract(action.cost, true)) {
+                game.send("entity", this, EnumEventType.ACTION, action, ...args);
+            }
         }
     }
 
