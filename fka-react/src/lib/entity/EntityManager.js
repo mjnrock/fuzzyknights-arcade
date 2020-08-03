@@ -2,7 +2,6 @@ import Hive from "@lespantsfancy/hive";
 import { EnumEventType } from "./Entity";
 import { EnumComponentType } from "./components/Component";
 import EntityAction from "./EntityAction";
-import Models from "./../model/package";
 
 export default class EntityManager extends Hive.Node {
     constructor(game, node, entities = []) {
@@ -87,16 +86,16 @@ export default class EntityManager extends Hive.Node {
         } else if(type === EnumEventType.COLLISION) {
             const [ target ] = args;
             
-            if (entity instanceof EntityAction) {
+            if(entity instanceof EntityAction && !(target instanceof EntityAction)) {
                 entity.action.execute(target);
-            } else if(target instanceof EntityAction) {
+            } else if(target instanceof EntityAction && !(entity instanceof EntityAction)) {
                 target.action.execute(entity);
             }
         } else if(type === EnumEventType.ACTION) {
             const [ action ] = args;
             const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
             
-            if(comp) {            
+            if(comp) {
                 this.node.addEntity(new EntityAction({
                     action: action,
                     data: {
@@ -104,7 +103,8 @@ export default class EntityManager extends Hive.Node {
                             x: comp.x,
                             y: comp.y,
                             speed: 0,
-                            model: new Models.Circle(100),
+                            model: action.model,
+                            facing: comp.facing,
                         }
                     }
                 }));

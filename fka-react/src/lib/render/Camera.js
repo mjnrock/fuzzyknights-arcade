@@ -101,7 +101,7 @@ export default class Camera extends LayeredCanvasNode {
                         this.point(comp.x * this.tw, comp.y * this.th);
                         
                         if(comp.model instanceof Models.Circle) {
-                            this.circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
+                            this.circle(comp.x * this.tw, comp.y * this.th, comp.model.radius + 2);
                             if(entity === game.player) {
                                 this.prop({
                                     strokeStyle: "#f0f",

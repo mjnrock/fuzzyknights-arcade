@@ -17,10 +17,4 @@ export default class EntityAction extends Entity {
 
         this.action = action;
     }
-
-    // tick(dt, game) {
-        
-
-    //     return super.tick(dt, game);
-    // }
 }

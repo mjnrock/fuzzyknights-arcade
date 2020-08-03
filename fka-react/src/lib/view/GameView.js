@@ -4,6 +4,7 @@ import GraphComponent from "./components/GraphComponent";
 import { EnumMessageType as EnumMouseMessageType } from "./../hive/MouseNode";
 import { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNode";
 import RenderCamera from "../render/Camera";
+import Models from "./../model/package";
 // import EntityAction from "../entity/EntityAction";
 
 // import { EnumComponentType } from "./../entity/components/Component";
@@ -35,6 +36,7 @@ export const Controls = {
                         // new Effects.Heal(1),
                     ]), {
                         lifespan: 1,
+                        model: new Models.Circle(64),
                     }
                 )
             );
@@ -45,9 +47,10 @@ export const Controls = {
                 Action.Ability(
                     new Ability([
                         // new Effects.Damage(1),
-                        new Effects.Heal(1),
+                        new Effects.Heal(1, { only: entity => entity === this.game.player }),
                     ]), {
                         lifespan: 1,
+                        model: new Models.Circle(64),
                     }
                 )
             );

@@ -6,10 +6,11 @@ export const EnumActionType = Enumerator({
 });
 
 export default class Action {
-    constructor({ type, consequence, lifespan, pre, post, conditional } = {}) {
+    constructor({ type, consequence, lifespan, model, pre, post, conditional } = {}) {
         this.type = type;
         this.consequence = consequence;
         this.lifespan = lifespan;
+        this.model = model;
 
         this.hooks = {
             conditional,
