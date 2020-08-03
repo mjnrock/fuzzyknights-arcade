@@ -10,7 +10,6 @@ import Models from "./../model/package";
 // import { EnumComponentType } from "./../entity/components/Component";
 // import Arc from "../model/Arc";
 import Action from "../combat/Action";
-import Ability from "../combat/Ability";
 import Effects from "./../combat/effect/package";
 
 export const Controls = {
@@ -30,29 +29,27 @@ export const Controls = {
         [ 0, function(payload) {
             this.game.player.perform(
                 this.game,
-                Action.Ability(
-                    new Ability([
+                Action.Ability({
+                    cost: 0,
+                    effects: [
                         new Effects.Damage(1),
-                        // new Effects.Heal(1),
-                    ]), {
-                        lifespan: 1,
-                        model: new Models.Circle(64),
-                    }
-                )
+                    ],
+                    lifespan: 1,
+                    model: new Models.Circle(64),
+                })
             );
         } ],
         [ 2, function(payload) {
             this.game.player.perform(
                 this.game,
-                Action.Ability(
-                    new Ability([
-                        // new Effects.Damage(1),
+                Action.Ability({
+                    cost: 1,
+                    effects: [
                         new Effects.Heal(1, { only: entity => entity === this.game.player }),
-                    ]), {
-                        lifespan: 1,
-                        model: new Models.Circle(64),
-                    }
-                )
+                    ],
+                    lifespan: 1,
+                    model: new Models.Circle(64),
+                })
             );
         } ],
         // [ 2, function(payload) {

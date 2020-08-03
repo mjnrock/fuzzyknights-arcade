@@ -19,13 +19,33 @@ export default class Resource {
         }
     }
 
-    add(value = 1) {
-        this.value += value;
+    add(value = 1, treatAsCost = false) {
+        if(treatAsCost === true) {
+            if(this.value + value <= this.max) {
+                this.value += value;
+
+                return true;
+            }
+
+            return false;
+        } else {
+            this.value += value;
+        }
 
         return this;
     }
-    subtract(value = 1) {
-        this.value -= value;
+    subtract(value = 1, treatAsCost = false) {
+        if(treatAsCost === true) {
+            if(this.value - value >= this.min) {
+                this.value -= value;
+
+                return true;
+            }
+
+            return false;
+        } else {
+            this.value -= value;
+        }
 
         return this;
     }
@@ -52,6 +72,14 @@ export default class Resource {
     }
     percent(percent = 100) {
         return this.rate(percent / 100);
+    }
+
+    test(costOrFn) {
+        if(typeof costOrFn === "function") {
+            return costOrFn(this);
+        }
+
+        return this.value - costOrFn >= 0;
     }
 
     get isEmpty() {

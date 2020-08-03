@@ -8,6 +8,8 @@ export default class EffectHeal extends Effect {
             effect: function(entity) {
                 const life = entity.getComponent(EnumComponentType.LIFE);
 
+                console.log(life.HP)
+
                 if(life) {
                     if(method === "-") {
                         life.HP.subtract(amount);

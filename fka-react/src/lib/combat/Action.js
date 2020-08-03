@@ -1,4 +1,5 @@
 import { Enumerator } from "./../hive/Helper";
+import Ability from "./Ability";
 
 export const EnumActionType = Enumerator({
     ABILITY: 2 << 0,
@@ -17,12 +18,19 @@ export default class Action {
             pre,
             post,
         };
-    }    
+    }
 
-    static Ability(ability, opts = {}) {
+    get cost() {
+        return this.consequence instanceof Ability ? this.consequence.cost : 0;
+    }
+
+    static Ability({ cost, effects, ...opts } = {}) {
         return new Action({
             type: EnumActionType.ABILITY,
-            consequence: ability,
+            consequence: new Ability(
+                cost,
+                effects,
+            ),
 
             ...opts,
         });

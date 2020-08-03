@@ -1,5 +1,6 @@
 export default class Ability {
-    constructor(effects = []) {;
+    constructor(cost = 0, effects = []) {;
+        this.cost = cost;
         this.effects = effects;
     }
 
@@ -8,7 +9,7 @@ export default class Ability {
         for(let effect of this.effects) {
             effect.affect(entity, ...args);
         }
-
+        
         return this;
     }
 };
