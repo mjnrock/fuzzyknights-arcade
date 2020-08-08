@@ -6,6 +6,7 @@ import EntityParticle from "./EntityParticle";
 import EntityCreature from "./EntityCreature";
 import Circle from "../model/Circle";
 import { EnumEventType as EnumNodeEventType} from "./../graph/Node";
+import { EnumEvent as EnumStateEvent } from "./../entity/components/State";
 
 export default class EntityManager extends Hive.Node {
     constructor(game, node, entities = []) {
@@ -42,16 +43,38 @@ export default class EntityManager extends Hive.Node {
     }
 
     kill(entity) {
-        this.node.removeEntity(entity);
+        this.remove(entity);
+
+        return this;
+    }
+
+    add(entity) {
+        this.entities.set(entity.id, entity);
+
+        const state = entity.getComponent(EnumComponentType.STATE);
+        if(state) {
+            state.handler = state => {
+                this.game.send("entity", entity, EnumStateEvent.STATE_CHANGE, state);
+            };
+            state.on(EnumStateEvent.STATE_CHANGE, state.handler);
+        }
+
+        return this;
+    }
+    remove(entity) {
+        this.entities.delete(entity.id);
+        
+        state.off(EnumStateEvent.STATE_CHANGE, state.handler);
 
         return this;
     }
 
     purge(entity) {
-        this.node.removeEntity(entity);
+        this.remove(entity);
 
         if(entity instanceof EntityCreature) {
             //? Spawn a death poof
+            //TODO Make this an event and spawn the entity as a result of the event
             const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
             if(rb) {
                 this.node.addEntity(new EntityParticle({
@@ -104,6 +127,7 @@ export default class EntityManager extends Hive.Node {
         //TODO This collision detection needs refactoring to better deal with all collision scenarios
         // this.node.each((entity, i) => {
         entities.forEach((entity, i) => {
+            //* Collision Check
             const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
 
             if(comp) {
@@ -123,6 +147,13 @@ export default class EntityManager extends Hive.Node {
                         }
                     }
                 }, i + 1);
+            }
+
+            //* State Updates
+            const state = entity.getComponent(EnumComponentType.STATE);
+
+            if(state) {
+
             }
         });
 
@@ -166,7 +197,7 @@ export default class EntityManager extends Hive.Node {
         }
     }
 
-    onEntityJoinNode(node, entity) {        
+    onEntityJoinNode(node, entity) {
         const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
                 
         if(rb) {

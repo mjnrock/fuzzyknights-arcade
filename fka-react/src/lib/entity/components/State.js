@@ -1,6 +1,7 @@
 import Component, { EnumComponentType } from "./Component";
-import Elapsable, { EnumEvent } from "./lib/Elapsable";
+import Elapsable from "./lib/Elapsable";
 import { EnumEvent as EnumElapsableEvent } from "./lib/Elapsable";
+import { EnumEventType } from "@lespantsfancy/hive/lib/Node";
 
 export const EnumState = {
     IDLE: "IDLE",
@@ -17,6 +18,10 @@ export const EnumCondition = {
     WEAK: "WEAK",
 };
 
+export const EnumEvent = {
+    STATE_CHANGE: "State.StateChange",
+};
+
 export default class State extends Component {
     constructor({ defaultState, currentState, condition } = {}) {
         super(EnumComponentType.STATE, {
@@ -31,6 +36,7 @@ export default class State extends Component {
         });
 
         this.sucessor = [];
+        this.handler = () => null;
     }
 
     get isExpired() {
@@ -51,17 +57,17 @@ export default class State extends Component {
 
     /**
      * 
-     * @param {int|Elapsable} maskOrElapsable 
+     * @param {int|Elapsable} data 
      * @param {int} duration 
      * @param  {...[ [ mask, duration ] ]} progression 
      */
-    set(maskOrElapsable, duration, ...progression) {
-        if(maskOrElapsable instanceof Elapsable) {
-            this.present = maskOrElapsable;
+    set(data, duration, ...progression) {
+        if(data instanceof Elapsable) {
+            this.present = data;
         } else {
             this.present = new Elapsable(duration, {
                 state: {
-                    data: maskOrElapsable,
+                    data: data,
                 },
                 startNow: true,
             });
@@ -84,12 +90,22 @@ export default class State extends Component {
         return this;
     }
 
+    add(...progressions) {
+        for(let progs of progressions) {
+            this.set(...progs);
+        }
+
+        return this;
+    }
+
     expire() {
         this.present = null;
 
         if(this.sucessor.length) {
             this.set(this.sucessor.shift());
             this.present.start();
+
+            this.emit(EnumEvent.STATE_CHANGE, this.current);
         }
 
         return this;
