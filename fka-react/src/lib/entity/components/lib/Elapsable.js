@@ -69,7 +69,7 @@ export default class Elapsable extends EventEmitter {
     }
 
     mutate(...args) {
-        if(typeof this.mutator === "function") {
+        if(this.state.start && typeof this.mutator === "function") {
             this.state = this.mutator(...args) || this.state;
 
             this.emit(EnumEvent.MUTATION, this.state, args);
