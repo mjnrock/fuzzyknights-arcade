@@ -10,7 +10,7 @@ export default class EffectKill extends Effect {
 
                 if(life) {
                     life.HP.empty();
-                    target.isExpired = true;
+                    target.lifespan = 0;
                 }
             },
             only,

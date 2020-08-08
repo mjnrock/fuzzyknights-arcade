@@ -11,8 +11,8 @@ import Models from "./../model/package";
 // import Arc from "../model/Arc";
 import Action from "../combat/Action";
 import Effects from "./../combat/effect/package";
-import EntityCreature from "./../entity/EntityCreature";
-import { EnumComponentType } from "./../entity/components/Component";
+// import EntityCreature from "./../entity/EntityCreature";
+// import { EnumComponentType } from "./../entity/components/Component";
 
 export const Controls = {
     key: [
@@ -49,14 +49,7 @@ export const Controls = {
                     cost: 1,
                     effects: [
                         new Effects.Heal(10, { only: (ea, target) => target === this.game.player }),
-                        new Effects.Spawn(new EntityCreature({
-                            data: {
-                                [ EnumComponentType.RIGID_BODY ]: {
-                                    speed: 0,
-                                    model: new Models.Circle(32),
-                                }
-                            }
-                        }), { only: (ea, target) => target === this.game.player }),
+                        new Effects.Kill({ ignore: (ea, target) => target === this.game.player })
                     ],
                     lifespan: 1,
                     model: new Models.Circle(64),
