@@ -44,25 +44,25 @@ export default class Action {
         });
     }
 
-    execute(entity, ...args) {
+    execute(ea, target, ...args) {
         if(typeof this.hooks.conditional === "function") {
-            if(this.hooks.conditional(entity, ...args) !== true) {
+            if(this.hooks.conditional(ea, target, ...args) !== true) {
                 return false;
             }
         }
 
         if(typeof this.hooks.pre === "function") {
-            this.hooks.pre(entity, ...args);
+            this.hooks.pre(ea, target, ...args);
         }
 
         if(this.type === EnumActionType.ABILITY) {
-            this.consequence.affect(entity, ...args);
+            this.consequence.affect(ea, target, ...args);
         } else if(this.type === EnumActionType.INTERACT) {
             // TODO
         }
 
         if(typeof this.hooks.post === "function") {
-            this.hooks.post(entity, ...args);
+            this.hooks.post(ea, target, ...args);
         }
     }
 };

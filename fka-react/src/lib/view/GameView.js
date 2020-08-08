@@ -32,7 +32,8 @@ export const Controls = {
                 Action.Ability({
                     cost: 0,
                     effects: [
-                        new Effects.Damage(1),
+                        new Effects.Damage(1, { ignore: (ea, target) => target === this.game.player }),
+                        new Effects.Move((ea, target, rb) => rb.facingXY(true).map(v => -v * 0.025 ), { ignore: (ea, target) => target === this.game.player }),
                     ],
                     lifespan: 1,
                     model: new Models.Circle(64),
@@ -45,7 +46,8 @@ export const Controls = {
                 Action.Ability({
                     cost: 1,
                     effects: [
-                        new Effects.Heal(1, { only: entity => entity === this.game.player }),
+                        new Effects.Heal(1, { only: (ea, target) => target === this.game.player }),
+                        // new Effects.Move(1, 1, { only: entity => entity === this.game.player }),
                     ],
                     lifespan: 1,
                     model: new Models.Circle(64),

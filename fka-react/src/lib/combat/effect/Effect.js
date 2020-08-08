@@ -10,6 +10,7 @@ export const EnumEffectType = Enumerator({
     DEBUFF: 2 << 5,
     KILL: 2 << 6,
     SPAWN: 2 << 7,
+    MOVE: 2 << 8,
 });
 
 export default class Effect {
@@ -21,25 +22,25 @@ export default class Effect {
         this.ignore = ignore;
     }
 
-    affect(entity, ...args) {
+    affect(ea, target, ...args) {
         if(typeof this.only === "number" && this.only !== 0) {
-            if(Bitwise.has(this.only, entity.type)) {
-                this.effect(entity, ...args);
+            if(Bitwise.has(this.only, target.type)) {
+                this.effect(ea, target, ...args);
             }
         } else if(typeof this.ignore === "number" && this.ignore !== 0) {
-            if(!Bitwise.has(this.ignore, entity.type)) {
-                this.effect(entity, ...args);
+            if(!Bitwise.has(this.ignore, target.type)) {
+                this.effect(ea, target, ...args);
             }
         } else if(typeof this.only === "function") {
-            if(this.only(entity) === true) {
-                this.effect(entity, ...args);
+            if(this.only(ea, target) === true) {
+                this.effect(ea, target, ...args);
             }
         } else if(typeof this.ignore === "function") {
-            if(this.ignore(entity) === false) {
-                this.effect(entity, ...args);
+            if(this.ignore(ea, target) === false) {
+                this.effect(ea, target, ...args);
             }
         } else {
-            this.effect(entity, ...args);
+            this.effect(ea, target, ...args);
         }
 
         return this;

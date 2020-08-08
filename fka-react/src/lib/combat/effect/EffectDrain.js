@@ -5,8 +5,8 @@ export default class EffectDrain extends Effect {
     constructor(amount = 0, { method = "-", only, ignore } = {}) {
         super({
             type: EnumEffectType.DRAIN,
-            effect: function(entity) {
-                const life = entity.getComponent(EnumComponentType.LIFE);
+            effect: function(ea, target) {
+                const life = target.getComponent(EnumComponentType.LIFE);
 
                 if(life) {
                     if(method === "-") {

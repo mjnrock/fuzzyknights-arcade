@@ -133,9 +133,9 @@ export default class EntityManager extends Hive.Node {
             const [ target ] = args;
             
             if(entity instanceof EntityAction && !(target instanceof EntityAction)) {
-                entity.action.execute(target);
+                entity.action.execute(entity, target);
             } else if(target instanceof EntityAction && !(entity instanceof EntityAction)) {
-                target.action.execute(entity);
+                target.action.execute(target, entity);
             }
         } else if(type === EnumEventType.ACTION) {
             const [ action, x, y, facing ] = args;

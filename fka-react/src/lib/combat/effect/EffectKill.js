@@ -5,12 +5,12 @@ export default class EffectKill extends Effect {
     constructor({ only, ignore } = {}) {
         super({
             type: EnumEffectType.DAMAGE,
-            effect: function(entity) {
-                const life = entity.getComponent(EnumComponentType.LIFE);
+            effect: function(ea, target) {
+                const life = target.getComponent(EnumComponentType.LIFE);
 
                 if(life) {
                     life.HP.empty();
-                    entity.isExpired = true;
+                    target.isExpired = true;
                 }
             },
             only,
