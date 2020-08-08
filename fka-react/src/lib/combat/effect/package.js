@@ -6,6 +6,7 @@ import EffectHeal from "./EffectHeal";
 import EffectKill from "./EffectKill";
 import EffectSpawn from "./EffectSpawn";
 import EffectMove from "./EffectMove";
+import EffectKnockback from "./EffectKnockback";
 
 export default {
     Effect,
@@ -16,4 +17,5 @@ export default {
     Kill: EffectKill,
     Spawn: EffectSpawn,
     Move: EffectMove,
+    Knockback: EffectKnockback,
 };

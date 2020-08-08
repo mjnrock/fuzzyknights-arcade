@@ -54,10 +54,7 @@ export default class RigidBody extends Component {
     }
 
     facingXY(asArray = false) {
-        let x = Math.sin(this.facing * Math.PI / 180),
-            y = Math.cos(this.facing * Math.PI / 180);
-
-        const res = RigidBody.FacingToXY(x, y);
+        const res = RigidBody.FacingToXY(this.facing);
         
         if(asArray === true) {
             return [ res.x, res.y ];
@@ -67,6 +64,13 @@ export default class RigidBody extends Component {
     }
 
     get pos() {
+        return {
+            x: this.state.x,
+            y: this.state.y,
+        };
+    }
+
+    get info() {
         let obj = {
             x: this.state.x,
             y: this.state.y,
