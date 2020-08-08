@@ -1,10 +1,11 @@
 import Hive from "@lespantsfancy/hive";
-import Entity, { EnumEventType } from "./Entity";
+import Entity, { EnumEventType as EnumEntityEventType } from "./Entity";
 import { EnumComponentType } from "./components/Component";
 import EntityAction from "./EntityAction";
 import EntityParticle from "./EntityParticle";
 import EntityCreature from "./EntityCreature";
 import Circle from "../model/Circle";
+import { EnumEventType as EnumNodeEventType} from "./../graph/Node";
 
 export default class EntityManager extends Hive.Node {
     constructor(game, node, entities = []) {
@@ -17,6 +18,15 @@ export default class EntityManager extends Hive.Node {
         this.game.channel("entity").join((entity, ...args) => {
             if(this.entities.has(entity.id)) {
                 this.onEntityEvent.call(this, entity, ...args);
+            }
+        });
+        this.game.channel("node").join((node, type, entity, ...args) => {
+            if(this.entities.has(entity.id)) {
+                if(type === EnumNodeEventType.ENTITY_JOIN) {
+                    this.onEntityJoinNode.call(this, node, entity);
+                } else if(type === EnumNodeEventType.ENTITY_LEAVE) {               
+                    this.onEntityLeaveNode.call(this, node, entity);
+                }
             }
         });
     }
@@ -108,7 +118,7 @@ export default class EntityManager extends Hive.Node {
                             c2.isColliding = c2.isColliding || hasCollision;
         
                             if(hasCollision) {   //* Rough comparator, will need to be more robust later
-                                this.game.send("entity", entity, EnumEventType.COLLISION, e2);
+                                this.game.send("entity", entity, EnumEntityEventType.COLLISION, e2);
                             }
                         }
                     }
@@ -120,7 +130,7 @@ export default class EntityManager extends Hive.Node {
     }
 
     onEntityEvent(entity, type, ...args) {
-        if(type === EnumEventType.TICK) {
+        if(type === EnumEntityEventType.TICK) {
             const [ dt ] = args;
             const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
             
@@ -129,7 +139,7 @@ export default class EntityManager extends Hive.Node {
                 comp.x += comp.vx * dt;
                 comp.y += comp.vy * dt;
             }
-        } else if(type === EnumEventType.COLLISION) {
+        } else if(type === EnumEntityEventType.COLLISION) {
             const [ target ] = args;
             
             if(entity instanceof EntityAction && !(target instanceof EntityAction)) {
@@ -137,7 +147,7 @@ export default class EntityManager extends Hive.Node {
             } else if(target instanceof EntityAction && !(entity instanceof EntityAction)) {
                 target.action.execute(target, entity);
             }
-        } else if(type === EnumEventType.ACTION) {
+        } else if(type === EnumEntityEventType.ACTION) {
             const [ action, x, y, facing ] = args;
 
             this.node.addEntity(new EntityAction({
@@ -153,6 +163,23 @@ export default class EntityManager extends Hive.Node {
                 },
                 parent: entity,
             }));
+        }
+    }
+
+    onEntityJoinNode(node, entity) {        
+        const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
+                
+        if(rb) {
+            rb.node = node;
+        }
+    }
+    onEntityLeaveNode(node, entity) {        
+        const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
+                
+        if(rb) {
+            if(rb.node.id === node.id) {
+                rb.node = null;
+            }
         }
     }
 }
