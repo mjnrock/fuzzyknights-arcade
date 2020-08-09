@@ -31,7 +31,6 @@ export const Controls = {
                     effects: [
                         new Effects.State([
                             [ EnumState.ATTACKING, 350 ],
-                            [ EnumState.RECOVERING, 350 ],
                         ], { only: (ea, target) => target === this.game.player }),
                         new Effects.Damage(1, { ignore: (ea, target) => target === this.game.player }),
                         new Effects.Knockback(0.05, { ignore: (ea, target) => target === this.game.player }),

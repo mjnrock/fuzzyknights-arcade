@@ -3,6 +3,7 @@ import { EnumComponentType } from "./../../entity/components/Component";
 
 import Models from "./../../model/package";
 import EntityParticle from "../../entity/EntityParticle";
+import { EnumState } from "../../entity/components/State";
 
 export const EnumMessageType = {
     PAINT: "NodeEntities.Paint",
@@ -37,6 +38,7 @@ export default class RenderNodeEntities extends GridCanvasNode {
         this.ctx.scale(scale, scale);
         this.node.each((entity, i) => {
             const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
+            const state = entity.getComponent(EnumComponentType.STATE);
 
             if((comp.x >= x) && (comp.x <= (x + w)) && (comp.y >= y) && (comp.y <= (y + h))) {
                 //  STUB
@@ -49,8 +51,20 @@ export default class RenderNodeEntities extends GridCanvasNode {
                             this.tile(this.img("entity.particle.poof"), this.tw, comp.facing / 45 * this.tw, 0 * this.th, comp.x * this.tw - (this.tw / 2), comp.y * this.th - (this.th / 2));
                         }
                     } else {
+                        //TODO Move the state-based graphics to a designated rendering manager
                         if(this.img("entity.beaver") && this.img("entity.rabbit")) {
-                            this.tile(entity === game.player ? this.img("entity.beaver") : this.img("entity.rabbit"), this.tw, comp.facing / 45 * this.tw, 0 * this.th, comp.x * this.tw - (this.tw / 2), comp.y * this.th - (this.th / 2));
+                            let image;
+                            if(entity === game.player) {
+                                image = this.img("entity.beaver");
+
+                                if(state.current === EnumState.ATTACKING) {
+                                    image = this.img("entity.bull");
+                                }
+                            } else {
+                                image = this.img("entity.rabbit")
+                            }
+                            
+                            this.tile(image, this.tw, comp.facing / 45 * this.tw, 0 * this.th, comp.x * this.tw - (this.tw / 2), comp.y * this.th - (this.th / 2));
                         }
                     }
 
