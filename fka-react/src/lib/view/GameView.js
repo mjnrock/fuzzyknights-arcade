@@ -11,6 +11,7 @@ import Models from "./../model/package";
 // import Arc from "../model/Arc";
 import Action from "../combat/Action";
 import Effects from "./../combat/effect/package";
+import { EnumState } from "../entity/components/State";
 // import EntityCreature from "./../entity/EntityCreature";
 // import { EnumComponentType } from "./../entity/components/Component";
 
@@ -34,6 +35,10 @@ export const Controls = {
                 Action.Ability({
                     cost: 0,
                     effects: [
+                        new Effects.State([
+                            [ EnumState.ATTACKING, 350 ],
+                            [ EnumState.RECOVERING, 350 ],
+                        ], { only: (ea, target) => target === this.game.player }),
                         new Effects.Damage(1, { ignore: (ea, target) => target === this.game.player }),
                         new Effects.Knockback(0.05, { ignore: (ea, target) => target === this.game.player }),
                     ],
@@ -48,8 +53,11 @@ export const Controls = {
                 Action.Ability({
                     cost: 1,
                     effects: [
+                        new Effects.State([
+                            [ EnumState.CASTING, 350 ],
+                            [ EnumState.RECOVERING, 350 ],
+                        ], { only: (ea, target) => target === this.game.player }),
                         new Effects.Heal(10, { only: (ea, target) => target === this.game.player }),
-                        new Effects.Kill({ ignore: (ea, target) => target === this.game.player })
                     ],
                     lifespan: 1,
                     model: new Models.Circle(64),

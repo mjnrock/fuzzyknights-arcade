@@ -12,6 +12,7 @@ export const EnumEffectType = Enumerator({
     KILL: 2 << 6,
     SPAWN: 2 << 7,
     MOVE: 2 << 8,
+    STATE: 2 << 9,
 });
 
 export default class Effect {

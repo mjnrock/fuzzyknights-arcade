@@ -7,6 +7,7 @@ import EffectKill from "./EffectKill";
 import EffectSpawn from "./EffectSpawn";
 import EffectMove from "./EffectMove";
 import EffectKnockback from "./EffectKnockback";
+import EffectState from "./EffectState";
 
 export default {
     Effect,
@@ -18,4 +19,5 @@ export default {
     Spawn: EffectSpawn,
     Move: EffectMove,
     Knockback: EffectKnockback,
+    State: EffectState,
 };

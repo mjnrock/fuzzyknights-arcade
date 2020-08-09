@@ -9,6 +9,7 @@ export const EnumState = {
     ATTACKING: "ATTACKING",
     DEFENDING: "DEFENDING",
     CASTING: "CASTING",
+    RECOVERING: "RECOVERING",
     DYING: "DYING",
     DEAD: "DEAD",
 };
@@ -87,8 +88,6 @@ export default class State extends Component {
             arr.reverse();
             this.sucessor = arr;
         }
-
-        console.log(this.state.present.state.value, this.state.present.birth, this.state.present.expiration);
 
         return this;
     }
