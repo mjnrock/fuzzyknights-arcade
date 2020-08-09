@@ -53,10 +53,7 @@ export const Controls = {
                 Action.Ability({
                     cost: 1,
                     effects: [
-                        new Effects.State([
-                            [ EnumState.CASTING, 350 ],
-                            [ EnumState.RECOVERING, 350 ],
-                        ], { only: (ea, target) => target === this.game.player }),
+                        new Effects.Kill({ ignore: (ea, target) => target === this.game.player }),
                         new Effects.Heal(10, { only: (ea, target) => target === this.game.player }),
                     ],
                     lifespan: 1,

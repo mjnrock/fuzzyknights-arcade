@@ -6,6 +6,7 @@ import EntityParticle from "./EntityParticle";
 import EntityCreature from "./EntityCreature";
 import Circle from "../model/Circle";
 import { EnumEventType as EnumNodeEventType} from "./../graph/Node";
+import { EnumState } from "./components/State";
 
 export default class EntityManager extends Hive.Node {
     constructor(game, node, entities = []) {
@@ -144,9 +145,9 @@ export default class EntityManager extends Hive.Node {
             if(state) {
                 state.check();
 
-                if(entity === this.game.player) {
-                    console.log(state.current)
-                }
+                // if(entity === this.game.player) {
+                //     console.log(state.current)
+                // }
             }
         });
 

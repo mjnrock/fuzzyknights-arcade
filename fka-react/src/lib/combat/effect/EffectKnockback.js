@@ -14,6 +14,10 @@ export default class EffectKnockback extends EffectMove {
                         comp.facing = (rb.facing + 180) % 360;
                     }
 
+                    if(typeof factor === "function") {
+                        return factor(rb.facingXY(), [ ea, target ], [ rb, comp ]);
+                    }
+
                     return rb.facingXY(true).map(v => v * factor);
                 }
 

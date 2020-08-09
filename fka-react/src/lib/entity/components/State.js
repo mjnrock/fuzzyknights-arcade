@@ -14,15 +14,6 @@ export const EnumState = {
     DEAD: "DEAD",
 };
 
-export const EnumCondition = {
-    NORMAL: "NORMAL",
-    WEAK: "WEAK",
-};
-
-export const EnumEvent = {
-    STATE_CHANGE: "State.StateChange",
-};
-
 export default class State extends Component {
     constructor({ defaultState, currentState } = {}) {
         super(EnumComponentType.STATE, {
@@ -117,5 +108,12 @@ export default class State extends Component {
         }
 
         return this.current;
+    }
+
+    clear() {
+        this.sucessor = [];
+        this.state.present = null;
+
+        return this;
     }
 };

@@ -1,16 +1,16 @@
 import Effect, { EnumEffectType } from "./Effect";
 import { EnumComponentType } from "../../entity/components/Component";
+import { EnumState } from "../../entity/components/State";
 
 export default class EffectKill extends Effect {
     constructor({ only, ignore } = {}) {
         super({
-            type: EnumEffectType.DAMAGE,
+            type: EnumEffectType.KILL,
             effect: function(ea, target) {
-                const life = target.getComponent(EnumComponentType.LIFE);
+                const state = target.getComponent(EnumComponentType.STATE);
 
-                if(life) {
-                    life.HP.empty();
-                    target.lifespan = 0;
+                if(state) {
+                    state.set(EnumState.DEAD, Infinity);
                 }
             },
             only,
