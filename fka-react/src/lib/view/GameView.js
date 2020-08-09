@@ -1,19 +1,13 @@
-// import { NormalizeTheta } from "./../hive/Helper";
 import View from "./View";
 import GraphComponent from "./components/GraphComponent";
 import { EnumMessageType as EnumMouseMessageType } from "./../hive/MouseNode";
 import { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNode";
 import RenderCamera from "../render/Camera";
 import Models from "./../model/package";
-// import EntityAction from "../entity/EntityAction";
 
-// import { EnumComponentType } from "./../entity/components/Component";
-// import Arc from "../model/Arc";
 import Action from "../combat/Action";
 import Effects from "./../combat/effect/package";
 import { EnumState } from "../entity/components/State";
-// import EntityCreature from "./../entity/EntityCreature";
-// import { EnumComponentType } from "./../entity/components/Component";
 
 export const Controls = {
     key: [
@@ -61,56 +55,6 @@ export const Controls = {
                 })
             );
         } ],
-        // [ 2, function(payload) {
-        //     //  STUB    Spawn Arc entity on "LEFT" button
-        //     const dx = payload.x - window.innerWidth / 2;
-        //     const dy = payload.y - window.innerHeight / 2;
-        //     const theta = NormalizeTheta(dx, dy);
-        //     const graph = this.getGraph();
-
-        //     let tl = this.game.player.pos.facing - 35;
-        //     let tr = this.game.player.pos.facing + 35;
-            
-        //     graph.getNode(0, 0).addEntity(new EntityAction({
-        //         x: this.game.player.pos.x,
-        //         y: this.game.player.pos.y,
-        //         data: {
-        //             [ EnumComponentType.RIGID_BODY ]: {
-        //                 facing: NormalizeTheta(dx, dy, { toNearestDegree: 45 }),
-        //                 model: new Arc(40, tl, tr),
-        //                 vx: 3.50 * Math.cos((theta - 90) / 180 * Math.PI),
-        //                 vy: 3.50 * Math.sin((theta - 90) / 180 * Math.PI),
-        //             }
-        //         },
-        //         parent: this.game.player,
-        //     }));
-        //     graph.getNode(0, 0).addEntity(new EntityAction({
-        //         x: this.game.player.pos.x,
-        //         y: this.game.player.pos.y,
-        //         data: {
-        //             [ EnumComponentType.RIGID_BODY ]: {
-        //                 facing: NormalizeTheta(dx, dy, { toNearestDegree: 45 }),
-        //                 model: new Arc(40, tl - 15, tr),
-        //                 vx: 3.50 * Math.cos((theta - 105) / 180 * Math.PI),
-        //                 vy: 3.50 * Math.sin((theta - 90) / 180 * Math.PI),
-        //             }
-        //         },
-        //         parent: this.game.player,
-        //     }));
-        //     graph.getNode(0, 0).addEntity(new EntityAction({
-        //         x: this.game.player.pos.x,
-        //         y: this.game.player.pos.y,
-        //         data: {
-        //             [ EnumComponentType.RIGID_BODY ]: {
-        //                 facing: NormalizeTheta(dx, dy, { toNearestDegree: 45 }),
-        //                 model: new Arc(40, tl, tr + 15),
-        //                 vx: 3.50 * Math.cos((theta - 90) / 180 * Math.PI),
-        //                 vy: 3.50 * Math.sin((theta - 75) / 180 * Math.PI),
-        //             }
-        //         },
-        //         parent: this.game.player,
-        //     }));
-        // } ],
     ]
 };
 

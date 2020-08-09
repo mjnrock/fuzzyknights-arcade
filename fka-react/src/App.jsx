@@ -14,7 +14,6 @@ import Graph from "./lib/graph/package";
 import GameView, { Controls as GameViewControls, StubCamera as GameViewStubCamera } from "./lib/view/GameView";
 import EntityCreature from "./lib/entity/EntityCreature";
 import { EnumComponentType } from "./lib/entity/components/Component";
-// import { EnumState } from "./lib/entity/components/State";
 
 import Models from "./lib/model/package";
 import { NormalizeTheta } from "./lib/hive/Helper";
@@ -34,16 +33,7 @@ const entity = new EntityCreature({
         }
     }
 });
-// const entityState = entity.getComponent(EnumComponentType.STATE);
-// if(entityState) {
-//     entityState.add(
-//         [ EnumState.WALKING, 1000 ],
-//         [ EnumState.ATTACKING, 1000 ],
-//         [ EnumState.DEFENDING, 1000 ],
-//         [ EnumState.DEAD, 500 ],
-//         [ EnumState.CASTING, 1000 ],
-//     );
-// }
+
 node.addEntity(entity);
 game.player = entity;
 
@@ -53,8 +43,6 @@ for(let i = 0; i < 25; i++) {
             [ EnumComponentType.RIGID_BODY ]: {
                 x: ~~(Math.random() * 20),
                 y: ~~(Math.random() * 20),
-                // vx: (Math.random() > 0.5 ? -1 : 1) * Math.random() * 2,
-                // vy: (Math.random() > 0.5 ? -1 : 1) * Math.random() * 2,
                 speed: 1.00,
                 model: new Models.Circle(32),
                 facing: NormalizeTheta((Math.random() > 0.5 ? -1 : 1) * Math.random(), (Math.random() > 0.5 ? -1 : 1) * Math.random(), { toNearestDegree: 45 }),
@@ -67,8 +55,6 @@ for(let i = 0; i < 25; i++) {
 
 console.log(game)
 console.log(game.player)
-
-// game.channel("graph").join(console.log, { ignore: [ "PLAYER_FACING" ] })
 
 game.view = new GameView(game, game.graph, { camera: GameViewStubCamera(game, game.graph), controls: GameViewControls });
 
