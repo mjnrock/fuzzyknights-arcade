@@ -1,7 +1,7 @@
+/* eslint-disable */
 import Component, { EnumComponentType } from "./Component";
 import Elapsable from "./lib/Elapsable";
 import { EnumEvent as EnumElapsableEvent } from "./lib/Elapsable";
-import { EnumEventType } from "@lespantsfancy/hive/lib/Node";
 
 export const EnumState = {
     IDLE: "IDLE",
@@ -23,7 +23,7 @@ export const EnumEvent = {
 };
 
 export default class State extends Component {
-    constructor({ defaultState, currentState, condition } = {}) {
+    constructor({ defaultState, currentState } = {}) {
         super(EnumComponentType.STATE, {
             default: defaultState || new Elapsable(Infinity, {
                 data: {
@@ -32,7 +32,6 @@ export default class State extends Component {
                 startNow: true,
             }),
             present: currentState,
-            condition,
         });
 
         this.sucessor = [];
@@ -40,72 +39,74 @@ export default class State extends Component {
     }
 
     get isExpired() {
-        if(!this.present) {
+        if(!this.state.present) {
             return true;
         }
 
-        return this.present.isComplete;
+        return this.state.present.isComplete;
     }
 
     get current() {
-        if(!this.present) {
-            return this.default.data.value;
+        if(!this.state.present) {
+            return this.state.default.state.value;
         }
 
-        return this.present.data.value && this.default.data.value;
+        return this.state.present.state.value || this.state.default.state.value;
     }
 
     /**
      * 
      * @param {int|Elapsable} data 
      * @param {int} duration 
-     * @param  {...[ [ mask, duration ] ]} progression 
+     * @param  {...[ [ mask, duration ] ]} progressions 
      */
-    set(data, duration, ...progression) {
+    set(data, duration, ...progressions) {
         if(data instanceof Elapsable) {
-            this.present = data;
+            this.state.present = data;
         } else {
-            this.present = new Elapsable(duration, {
-                state: {
-                    data: data,
+            this.state.present = new Elapsable(duration, {
+                data: {
+                    value: data,
                 },
-                startNow: true,
             });
+
         }
-        this.present.on(EnumElapsableEvent.EXPIRATION, () => this.expire());
+        this.state.present.on(EnumElapsableEvent.EXPIRATION, () => this.expire());
+        this.state.present.start();
 
         const arr = [];
-        for(let [ m, d ] of progression) {
+        for(let [ m, d ] of progressions) {
             arr.push(new Elapsable(d, {
-                state: {
-                    data: m,
+                data: {
+                    value: m,
                 },
             }));
         }
 
         if(arr.length) {
+            arr.reverse();
             this.sucessor = arr;
         }
+
+        console.log(this.state.present.state.value, this.state.present.birth, this.state.present.expiration);
 
         return this;
     }
 
     add(...progressions) {
-        for(let progs of progressions) {
-            this.set(...progs);
-        }
+        const params = [ ...progressions.shift(), ...progressions ];
+        this.set(...params);
 
         return this;
     }
 
     expire() {
-        this.present = null;
-
         if(this.sucessor.length) {
-            this.set(this.sucessor.shift());
-            this.present.start();
+            const elapser = this.sucessor.pop();
 
-            this.emit(EnumEvent.STATE_CHANGE, this.current);
+            this.set(elapser);
+        } else {
+            this.state.present = null;
         }
 
         return this;

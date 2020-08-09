@@ -172,7 +172,7 @@ export default class Node extends EventEmitter {
     }
 
     addEntity(entity) {
-        this.entities.add(entity);
+        this.entities.set(entity.id, entity);
         this.emit(EnumEventType.ENTITY_JOIN, entity);
         this.game.send("node", this, EnumEventType.ENTITY_JOIN, entity);
         

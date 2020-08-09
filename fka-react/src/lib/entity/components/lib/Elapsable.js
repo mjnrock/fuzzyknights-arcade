@@ -26,22 +26,15 @@ export default class Elapsable extends EventEmitter {
     get elapsed() {
         return Date.now() - this.state.start;
     }
+    get birth() {
+        return this.state.start;
+    }
     get expiration() {
         return this.state.start + this.state.duration;
     }
 
     get isComplete() {
-        const result = Date.now() >= this.expiration;
-
-        if(result === true) {
-            const start = this.state.start;
-            
-            this.state.start = null;
-
-            this.emit(EnumEvent.EXPIRATION, this.state, start);
-        }
-
-        return result;
+        return Date.now() >= this.expiration;
     }
 
     start({ requestTimeout = false } = {}) {

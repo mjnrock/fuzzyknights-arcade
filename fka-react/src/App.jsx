@@ -14,6 +14,7 @@ import Graph from "./lib/graph/package";
 import GameView, { Controls as GameViewControls, StubCamera as GameViewStubCamera } from "./lib/view/GameView";
 import EntityCreature from "./lib/entity/EntityCreature";
 import { EnumComponentType } from "./lib/entity/components/Component";
+// import { EnumState } from "./lib/entity/components/State";
 
 import Models from "./lib/model/package";
 import { NormalizeTheta } from "./lib/hive/Helper";
@@ -33,6 +34,16 @@ const entity = new EntityCreature({
         }
     }
 });
+// const entityState = entity.getComponent(EnumComponentType.STATE);
+// if(entityState) {
+//     entityState.add(
+//         [ EnumState.WALKING, 1000 ],
+//         [ EnumState.ATTACKING, 1000 ],
+//         [ EnumState.DEFENDING, 1000 ],
+//         [ EnumState.DEAD, 500 ],
+//         [ EnumState.CASTING, 1000 ],
+//     );
+// }
 node.addEntity(entity);
 game.player = entity;
 

@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Enumerator } from "./../hive/Helper";
 
 import RigidBody from "./components/RigidBody";
+import State from "./components/State";
 import { EnumComponentType } from "./components/Component";
 import Action from "../combat/Action";
 
@@ -32,6 +33,7 @@ export default class Entity extends EventEmitter {
         this.components = [
             ...comps,
 
+            new State(),
             new RigidBody(),
         ];
 

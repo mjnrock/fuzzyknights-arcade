@@ -6,7 +6,6 @@ import EntityParticle from "./EntityParticle";
 import EntityCreature from "./EntityCreature";
 import Circle from "../model/Circle";
 import { EnumEventType as EnumNodeEventType} from "./../graph/Node";
-import { EnumEvent as EnumStateEvent } from "./../entity/components/State";
 
 export default class EntityManager extends Hive.Node {
     constructor(game, node, entities = []) {
@@ -51,20 +50,10 @@ export default class EntityManager extends Hive.Node {
     add(entity) {
         this.entities.set(entity.id, entity);
 
-        const state = entity.getComponent(EnumComponentType.STATE);
-        if(state) {
-            state.handler = state => {
-                this.game.send("entity", entity, EnumStateEvent.STATE_CHANGE, state);
-            };
-            state.on(EnumStateEvent.STATE_CHANGE, state.handler);
-        }
-
         return this;
     }
     remove(entity) {
         this.entities.delete(entity.id);
-        
-        state.off(EnumStateEvent.STATE_CHANGE, state.handler);
 
         return this;
     }
@@ -153,7 +142,11 @@ export default class EntityManager extends Hive.Node {
             const state = entity.getComponent(EnumComponentType.STATE);
 
             if(state) {
+                state.check();
 
+                if(entity === this.game.player) {
+                    console.log(state.current)
+                }
             }
         });
 
