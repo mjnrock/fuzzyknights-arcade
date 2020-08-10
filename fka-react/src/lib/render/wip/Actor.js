@@ -1,39 +1,31 @@
-import Method from "./Method";
+import Character from "./Character";
 
 export default class Actor {
-    constructor(...methods) {
-        if(Array.isArray(methods[ 0 ]) && methods[ 0 ].length === 2) {
-            this.methods = new Map(methods.map(([ name, method ]) => [ name, method ]));
+    constructor(entity, ...methodsOrCharacter) {
+        this.entity = entity;
+
+        if(methodsOrCharacter[ 0 ] instanceof Character) {
+            this.character = methodsOrCharacter[ 0 ];
         } else {
-            this.methods = new Set(methods);
+            this.character = new Character(...methodsOrCharacter);
         }
-        this.role = methods.get(0) || methods.get(methods[ 0 ][ 1 ]);
     }
 
-    change(nameOrIndex) {
-        this.role = this.methods.get(nameOrIndex);
-
-        return this;
+    get change() {
+        return this.character.change;
     }
-
-    grow(method, name) {
-        if(method instanceof Method) {
-            if(this.methods instanceof Set) {
-                this.methods.add(method);
-            } else if(this.methods instanceof Map && name) {
-                this.methods.set(name, method);
-            }
-        }
-
-        return this;
+    get grow() {
+        return this.character.change;
     }
-    retire(nameOrIndex) {
-        this.methods.delete(nameOrIndex);
-
-        return this;
+    get retire() {
+        return this.character.change;
     }
 
     perform(...args) {
         return this.role.perform(...args);
+    }
+
+    static FromVisions(entity, ...visions) {
+        return new Actor(entity, Character.FromVisions(...visions));
     }
 };

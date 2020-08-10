@@ -22,6 +22,12 @@ export default class Method {
         }
     }
 
+    static isMethodable(vision) {
+        return Base64.Is(vision);
+            // || input instanceof Score
+            // || input instanceof Composition;
+    }
+
     perform(...args) {
         //  FIXME Files don't exist yet (Score & Composition)
         // if(this.vision instanceof Score || this.vision instanceof Composition) {
