@@ -21,8 +21,15 @@ export default class Actor {
         return this.character.change;
     }
 
+    /**
+     * This should be overwritten and is used as a hook in .perform(...args)
+     */
+    act() {}
+
     perform(...args) {
-        return this.role.perform(...args);
+        const img = this.character.perform(...args);
+
+        return this.act(this.entity, img) || img;
     }
 
     static FromVisions(entity, ...visions) {
