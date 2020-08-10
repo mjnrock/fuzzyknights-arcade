@@ -1,6 +1,6 @@
 import GridCanvasNode from "../../hive/GridCanvasNode";
 
-export default class Scenery extends GridCanvasNode {
+export default class Troupe extends GridCanvasNode {
     constructor(actors = [], { state = {}, config = {}, width, height, size } = {}) {
         super({ state, config, width, height, size });
 
@@ -10,12 +10,12 @@ export default class Scenery extends GridCanvasNode {
     has(actor) {
         return this.actors.has(actor);
     }
-    register(actor) {
+    join(actor) {
         this.actors.add(actor);
 
         return this;
     }
-    unregister(actor) {
+    leave(actor) {
         this.actors.delete(actor);
 
         return this;
@@ -24,5 +24,15 @@ export default class Scenery extends GridCanvasNode {
         this.actors = new Set();
 
         return this;
+    }
+
+    perform(...args) {
+        const map = new Map();
+
+        for(let actor of this.actors) {
+            map.set(actor.entity, actor.perform(...args));
+        }
+
+        return map;
     }
 };
