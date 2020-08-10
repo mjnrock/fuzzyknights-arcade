@@ -64,8 +64,8 @@ export const StubCamera = (game, graph) => {
         scale: 1.0,
 
         //* Viewport Config
-        x: 0,
-        y: 0,
+        x: 0,   // Only relevant w/o a subject
+        y: 0,   // Only relevant w/o a subject
         w: 9,
         h: 7,
 

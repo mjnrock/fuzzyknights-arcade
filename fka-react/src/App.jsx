@@ -27,7 +27,7 @@ const entity = new EntityCreature({
         [ EnumComponentType.RIGID_BODY ]: {
             x: 3,
             y: 3,
-            speed: 3.50,
+            speed: 1.50,
             // model: new Models.Line(128, 128),
             model: new Models.Circle(32),
         }
@@ -43,7 +43,7 @@ for(let i = 0; i < 25; i++) {
             [ EnumComponentType.RIGID_BODY ]: {
                 x: ~~(Math.random() * 20),
                 y: ~~(Math.random() * 20),
-                speed: 1.00,
+                speed: 3.50,
                 model: new Models.Circle(32),
                 facing: NormalizeTheta((Math.random() > 0.5 ? -1 : 1) * Math.random(), (Math.random() > 0.5 ? -1 : 1) * Math.random(), { toNearestDegree: 45 }),
             }
