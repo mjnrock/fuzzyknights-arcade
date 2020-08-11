@@ -31,7 +31,7 @@ export const Controls = {
                     cost: 0,
                     effects: [
                         new Effects.State([
-                            [ EnumState.ATTACKING, 350 ],
+                            [ EnumState.ATTACKING, 667 ],
                         ], { only: (ea, target) => target === this.game.player }),
                         new Effects.Damage(1, { ignore: (ea, target) => target === this.game.player }),
                         new Effects.Knockback(0.05, { ignore: (ea, target) => target === this.game.player }),

@@ -6,6 +6,7 @@ import EntityParticle from "./EntityParticle";
 import EntityCreature from "./EntityCreature";
 import Circle from "../model/Circle";
 import { EnumEventType as EnumNodeEventType} from "./../graph/Node";
+import { EnumState } from "./components/State";
 
 export default class EntityManager extends Hive.Node {
     constructor(game, node, entities = []) {
@@ -117,17 +118,17 @@ export default class EntityManager extends Hive.Node {
         // this.node.each((entity, i) => {
         entities.forEach((entity, i) => {
             //* Collision Check
-            const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
+            const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
 
-            if(comp) {
+            if(rb) {
                 // this.node.each((e2, j) => {
                 entities.forEach((e2, j) => {
                     if(entity !== e2) {
                         const c2 = e2.getComponent(EnumComponentType.RIGID_BODY);
     
                         if(c2) {
-                            const hasCollision = comp.model.hasCollision(comp.x, comp.y, c2.model, c2.x, c2.y, { scale: 128 });
-                            comp.isColliding = comp.isColliding || hasCollision;
+                            const hasCollision = rb.model.hasCollision(rb.x, rb.y, c2.model, c2.x, c2.y, { scale: 128 });
+                            rb.isColliding = rb.isColliding || hasCollision;
                             c2.isColliding = c2.isColliding || hasCollision;
         
                             if(hasCollision) {   //* Rough comparator, will need to be more robust later
@@ -144,8 +145,19 @@ export default class EntityManager extends Hive.Node {
             if(state) {
                 state.check();
 
+                if(rb) {
+                    if(rb.vx === 0 && rb.vy === 0 && state.currentValue === EnumState.WALKING) {
+                        state.expire();
+                    }
+
+                    if((rb.vx !== 0 || rb.vy !== 0) && state.currentValue !== EnumState.WALKING) {
+                        state.expire();
+                        state.set(EnumState.WALKING, Infinity);
+                        state.current.start();
+                    }
+                }
                 // if(entity === this.game.player) {
-                //     console.log(state.current)
+                //     console.log(state.currentValue)
                 // }
             }
         });

@@ -1,6 +1,4 @@
 import LayeredCanvasNode from "../../hive/LayeredCanvasNode";
-import RenderNodeTerrain from "./../graph/Terrain.RenderNode";
-import RenderNodeEntity from "./../graph/Entities.RenderNode";
 import EntityLayer from "./EntityLayer";
 import TerrainLayer from "./TerrainLayer";
 
@@ -10,10 +8,12 @@ import Score from "./../sequencer/Score";
 import Book from "./Book";
 import RACCOON_IDLE from "./../sequencer/data/raccoon.idle.json";
 import RACCOON_RUNNING from "./../sequencer/data/raccoon.running.json";
+import RACCOON_TAILWHIP from "./../sequencer/data/raccoon.tailwhip.json";
 
 const CookedBook = new Book();
 Score.Deserialize(RACCOON_IDLE).then(score => CookedBook.set("raccoon.idle", score));
 Score.Deserialize(RACCOON_RUNNING).then(score => CookedBook.set("raccoon.running", score));
+Score.Deserialize(RACCOON_TAILWHIP).then(score => CookedBook.set("raccoon.tailwhip", score));
 
 export default class Camera extends LayeredCanvasNode {
     constructor(game, node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0 } = {}) {
@@ -105,11 +105,11 @@ export default class Camera extends LayeredCanvasNode {
         const layer = this.getLayer(nameOrIndex);
 
         if(layer) {
-            const viewport = this.viewport;
-            layer.draw({
-                game: this.game,
-                node: this.node,
-            });
+            // const viewport = this.viewport;
+            // layer.draw({
+            //     game: this.game,
+            //     node: this.node,
+            // });
             //TODO Compare to Entities.RenderNode, Terrain.RenderNode, and Layered/Grid/CanvasNode for functionality
             //TODO Only render what is within the viewport of the Camera
             

@@ -42,9 +42,14 @@ export default class EntityLayer extends GridCanvasNode {
                 if(state.currentValue === EnumState.IDLE) {
                     score = this.book.get(`raccoon.idle`);
                 } else if(state.currentValue === EnumState.WALKING) {
-                    console.log(1234)
                     score = this.book.get(`raccoon.running`);
+                } else if(state.currentValue === EnumState.ATTACKING) {
+                    score = this.book.get(`raccoon.tailwhip`);
                 }
+
+                // if(entity === game.player) {
+                //     console.log(state.currentValue);
+                // }
 
                 if(score) {
                     score.drawTo(this.canvas, {
