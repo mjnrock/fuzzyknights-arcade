@@ -1,6 +1,6 @@
-import Entity from "./../../entity/Entity";
+import Entity from "../../../entity/Entity";
 // import Models from "./../../model/package";  //TODO Allow shapes to be expressed as canvas.toDataURL() of that Model being drawn as an accompanying command (e.g. Rectangle -> .rect, etc.)
-import Base64 from "./../../util/Base64";
+import Base64 from "../../../util/Base64";
 // HTMLImageElement, HTMLCanvasElement, Base64, Score/Composition, CanvasNode
 
 export default class Method {

@@ -48,7 +48,7 @@ export default class GameLoop {
      * @param {number} dt Frame delta in ms
      */
     update(dt) {
-        this.game.graph.tick(dt / 1000);
+        this.game.graph.tick(dt / 1000, Date.now());
     }
 
     /**

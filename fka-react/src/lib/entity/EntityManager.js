@@ -94,7 +94,7 @@ export default class EntityManager extends Hive.Node {
         return this;
     }
 
-    tick(dt) {
+    tick(dt, now) {
         if(this.entities.size < 1) {
             return;
         }
@@ -108,7 +108,7 @@ export default class EntityManager extends Hive.Node {
         
         // this.node.each((entity, i) => {
         entities.forEach((entity, i) => {
-            if(!entity.tick(dt, this.game)) {
+            if(!entity.tick(dt, now, this.game)) {
                 purge.push(entity);
             }
         });

@@ -209,7 +209,7 @@ export default class Node extends EventEmitter {
         this.portals = this.portals.filter(portal => portal.node !== node && portal.x !== x && portal.y !== y);
     }
 
-    tick(dt) {
-        this.entityManager.tick(dt);
+    tick(dt, now) {
+        this.entityManager.tick(dt, now);
     }
 };

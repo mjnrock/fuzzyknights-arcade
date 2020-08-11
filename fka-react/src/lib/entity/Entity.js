@@ -88,7 +88,7 @@ export default class Entity extends EventEmitter {
         return this.lifespan > 0 && (this.birth + this.lifespan <= Date.now());
     }
 
-    tick(dt, game) {
+    tick(dt, now, game) {
         if(game) {
             game.send("entity", this, EnumEventType.TICK, dt, game);
 

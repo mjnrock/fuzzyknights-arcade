@@ -2,7 +2,7 @@ import LayeredCanvasNode from "../../hive/LayeredCanvasNode";
 import RenderNodeTerrain from "./../graph/Terrain.RenderNode";
 import RenderNodeEntities from "./../graph/Entities.RenderNode";
 
-import Troupe from "./Troupe";
+import Troupe from "./tbc/Troupe";
 
 export default class Camera extends LayeredCanvasNode {
     constructor(game, node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0 } = {}) {

@@ -136,9 +136,9 @@ export default class Graph extends EventEmitter {
         return arr;
     }
 
-    tick(dt) {
+    tick(dt, now) {
         for(let node of Object.values(this.nodes)) {
-            node.tick(dt);
+            node.tick(dt, now);
         }
     }
 };
