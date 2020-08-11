@@ -79,7 +79,7 @@ export default class Score {
         };
     }
     
-    drawTo(canvas, { facing, elapsedTime, x, y, tx, ty, eraseFirst = false } = {}) {
+    drawTo(canvas, { facing, elapsedTime, x, y, tx, ty }) {
         const { position: [ sx, sy ] } = this.get(facing, elapsedTime) || {};
 
         if(sx !== void 0 && sy !== void 0) {
@@ -90,14 +90,6 @@ export default class Score {
                 y = ty * this.data.tile.height;
             }
 
-            if(eraseFirst) {
-                ctx.clearRect(
-                    x,
-                    y,
-                    this.data.tile.width,
-                    this.data.tile.height
-                );
-            }
             ctx.drawImage(
                 this.canvas,
                 sx,
