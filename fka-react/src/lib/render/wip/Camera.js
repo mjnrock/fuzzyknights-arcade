@@ -102,4 +102,18 @@ export default class Camera extends LayeredCanvasNode {
     set node(value) {
         this.state.node = value;
     }
+
+    drawLayer(nameOrIndex, ...args) {
+        const layer = this.getLayer(nameOrIndex);
+
+        if(layer) {
+            const viewport = this.viewport;
+            //TODO Compare to Entities.RenderNode, Terrain.RenderNode, and Layered/Grid/CanvasNode for functionality
+            //TODO Only render what is within the viewport of the Camera
+        }
+    }
+
+    draw(...args) {
+
+    }
 };
