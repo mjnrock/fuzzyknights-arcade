@@ -40,6 +40,13 @@ export default class State extends Component {
 
     get current() {
         if(!this.state.present) {
+            return this.state.default;
+        }
+
+        return this.state.present || this.state.default;
+    }
+    get currentValue() {
+        if(!this.state.present) {
             return this.state.default.state.value;
         }
 

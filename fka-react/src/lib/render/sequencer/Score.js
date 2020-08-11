@@ -59,6 +59,8 @@ export default class Score {
     }
 
     get(facing, elapsedTime) {
+        elapsedTime = elapsedTime % this.data.duration;
+        
         const theta = Math.round(facing / this.data.step) * this.data.step;
         const track = this.data.direction.get(theta);
 

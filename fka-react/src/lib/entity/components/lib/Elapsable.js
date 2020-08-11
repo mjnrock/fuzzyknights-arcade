@@ -24,7 +24,7 @@ export default class Elapsable extends EventEmitter {
         return this.state.duration;
     }
     get elapsed() {
-        return Date.now() - this.state.start;
+        return (Date.now() - this.state.start) || 0;
     }
     get birth() {
         return this.state.start;

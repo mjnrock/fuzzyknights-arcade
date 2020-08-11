@@ -2,8 +2,9 @@ import LayeredCanvasNode from "../../hive/LayeredCanvasNode";
 import RenderNodeTerrain from "./../graph/Terrain.RenderNode";
 import RenderNodeEntity from "./../graph/Entities.RenderNode";
 import EntityLayer from "./EntityLayer";
+import TerrainLayer from "./TerrainLayer";
 
-import EnumComponentType from "./../../entity/components/Component";
+import { EnumComponentType } from "./../../entity/components/Component";
 
 import Score from "./../sequencer/Score";
 import Book from "./Book";
@@ -19,6 +20,7 @@ export default class Camera extends LayeredCanvasNode {
         super({
             state: {
                 game: game,
+                node: node,
                 viewport: {
                     x,
                     y,
@@ -32,9 +34,10 @@ export default class Camera extends LayeredCanvasNode {
             height: node.tiles.height * (size[ 1 ] || th),
             size: [ size[ 0 ] || tw, size[ 1 ] || th ],
             stack: [                
-                [ "terrain", new RenderNodeTerrain(node, { tw, th, size }) ],
-                // [ "entity", new EntityLayer(CookedBook, { width: node.tiles.width * (size[ 0 ] || tw), height: node.tiles.height * (size[ 1 ] || th), tw, th, size }) ],
-                [ "entity", new RenderNodeEntity(node, { tw, th, size }) ],
+                [ "terrain", new TerrainLayer(CookedBook, { width: node.tiles.width * (size[ 0 ] || tw), height: node.tiles.height * (size[ 1 ] || th), tw, th, size }) ],
+                [ "entity", new EntityLayer(CookedBook, { width: node.tiles.width * (size[ 0 ] || tw), height: node.tiles.height * (size[ 1 ] || th), tw, th, size }) ],
+                // [ "terrain", new RenderNodeTerrain(node, { tw, th, size }) ],
+                // [ "entity", new RenderNodeEntity(node, { tw, th, size }) ],
             ],
         });
     }
@@ -114,6 +117,15 @@ export default class Camera extends LayeredCanvasNode {
     }
 
     draw(...args) {
+        this.getLayer("terrain").draw({
+            game: this.game,
+            node: this.node,
+        });
+        this.getLayer("entity").draw({
+            game: this.game,
+            node: this.node,
+        });
+
         this.ctx.save();
         this.ctx.scale(this.scale, this.scale);
         
