@@ -2,7 +2,8 @@ import View from "./View";
 import GraphComponent from "./components/GraphComponent";
 import { EnumMessageType as EnumMouseMessageType } from "./../hive/MouseNode";
 import { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNode";
-import RenderCamera from "../render/Camera";
+// import RenderCamera from "../render/Camera";
+// import RenderCamera from "../render/wip/Camera";
 import Models from "./../model/package";
 
 import Action from "../combat/Action";
@@ -57,44 +58,44 @@ export const Controls = {
     ]
 };
 
-export const StubCamera = (game, graph) => {
-    const camera = new RenderCamera(game, graph.getNode(0, 0), {
-        tw: 128,
-        th: 128,
-        scale: 1.0,
+// export const StubCamera = (game, graph) => {
+//     const camera = new RenderCamera(game, graph.getNode(0, 0), {
+//         tw: 128,
+//         th: 128,
+//         scale: 1.0,
 
-        //* Viewport Config
-        x: 0,   // Only relevant w/o a subject
-        y: 0,   // Only relevant w/o a subject
-        w: 9,
-        h: 7,
+//         //* Viewport Config
+//         x: 0,   // Only relevant w/o a subject
+//         y: 0,   // Only relevant w/o a subject
+//         w: 9,
+//         h: 7,
 
-        subject: game.player,
-    });
+//         subject: game.player,
+//     });
 
-    camera.getLayer(0).loadImages([
-        [ "terrain.grass", "./assets/terrain/grass.png" ],
-        [ "terrain.dirt", "./assets/terrain/dirt.png" ],
-        [ "terrain.stone", "./assets/terrain/stone.png" ],
-    ]).then(() => {
-        camera.getLayer(1).loadImages([
-            [ "entity.raccoon", "./assets/entity/raccoon.png" ],
-            [ "entity.beaver", "./assets/entity/beaver.png" ],
-            [ "entity.rabbit", "./assets/entity/rabbit.png" ],
-            [ "entity.walrus", "./assets/entity/walrus.png" ],
-            [ "entity.bull", "./assets/entity/bull.png" ],
-            [ "entity.particle.poof", "./assets/entity/poof.png" ],
-        ]).then(() => {
-            camera.getLayer(0).draw();
+//     camera.getLayer(0).loadImages([
+//         [ "terrain.grass", "./assets/terrain/grass.png" ],
+//         [ "terrain.dirt", "./assets/terrain/dirt.png" ],
+//         [ "terrain.stone", "./assets/terrain/stone.png" ],
+//     ]).then(() => {
+//         camera.getLayer(1).loadImages([
+//             [ "entity.raccoon", "./assets/entity/raccoon.png" ],
+//             [ "entity.beaver", "./assets/entity/beaver.png" ],
+//             [ "entity.rabbit", "./assets/entity/rabbit.png" ],
+//             [ "entity.walrus", "./assets/entity/walrus.png" ],
+//             [ "entity.bull", "./assets/entity/bull.png" ],
+//             [ "entity.particle.poof", "./assets/entity/poof.png" ],
+//         ]).then(() => {
+//             camera.getLayer(0).draw();
             
-            //TODO GameLoop currently utilizes MainLoop, build up rendering manager paradigm and transfer Camera and rendering to its .draw()
-            game.start();
-            // camera.play();
-        });  
-    });
+//             //TODO GameLoop currently utilizes MainLoop, build up rendering manager paradigm and transfer Camera and rendering to its .draw()
+//             game.start();
+//             // camera.play();
+//         });  
+//     });
 
-    return camera;
-};
+//     return camera;
+// };
 
 export default class GameView extends View {
     constructor(game, graph, { camera, controls = {} } = {}) {

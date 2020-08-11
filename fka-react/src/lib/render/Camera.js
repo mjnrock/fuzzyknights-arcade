@@ -38,6 +38,8 @@ export default class Camera extends LayeredCanvasNode {
             ],
         });
 
+        console.log(this)
+
         this.mergeState({
             node: node,
         });

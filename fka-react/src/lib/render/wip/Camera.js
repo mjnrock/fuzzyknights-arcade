@@ -1,8 +1,18 @@
 import LayeredCanvasNode from "../../hive/LayeredCanvasNode";
 import RenderNodeTerrain from "./../graph/Terrain.RenderNode";
-import RenderNodeEntities from "./../graph/Entities.RenderNode";
+import RenderNodeEntity from "./../graph/Entities.RenderNode";
+import EntityLayer from "./EntityLayer";
 
-import Troupe from "./tbc/Troupe";
+import EnumComponentType from "./../../entity/components/Component";
+
+import Score from "./../sequencer/Score";
+import Book from "./Book";
+import RACCOON_IDLE from "./../sequencer/data/raccoon.idle.json";
+import RACCOON_RUNNING from "./../sequencer/data/raccoon.running.json";
+
+const CookedBook = new Book();
+Score.Deserialize(RACCOON_IDLE).then(score => CookedBook.set("raccoon.idle", score));
+Score.Deserialize(RACCOON_RUNNING).then(score => CookedBook.set("raccoon.running", score));
 
 export default class Camera extends LayeredCanvasNode {
     constructor(game, node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0 } = {}) {
@@ -17,31 +27,16 @@ export default class Camera extends LayeredCanvasNode {
                 },
                 subject,
                 scale,
-                troupes: new Map(),
             },
             width: node.tiles.width * (size[ 0 ] || tw),
             height: node.tiles.height * (size[ 1 ] || th),
             size: [ size[ 0 ] || tw, size[ 1 ] || th ],
             stack: [                
                 [ "terrain", new RenderNodeTerrain(node, { tw, th, size }) ],
-                [ "entity", new RenderNodeEntities(node, { tw, th, size }) ],
+                // [ "entity", new EntityLayer(CookedBook, { width: node.tiles.width * (size[ 0 ] || tw), height: node.tiles.height * (size[ 1 ] || th), tw, th, size }) ],
+                [ "entity", new RenderNodeEntity(node, { tw, th, size }) ],
             ],
         });
-    }
-
-    enlist(nameOrIndex, troupe) {
-        this.troupes.set(nameOrIndex, troupe);
-
-        return this;
-    }
-    dismiss(nameOrIndex) {
-        this.troupes.delete(nameOrIndex);
-
-        return this;
-    }
-
-    get troupes() {
-        return this.state.troupes;
     }
 
     get game() {
@@ -108,12 +103,60 @@ export default class Camera extends LayeredCanvasNode {
 
         if(layer) {
             const viewport = this.viewport;
+            layer.draw({
+                game: this.game,
+                node: this.node,
+            });
             //TODO Compare to Entities.RenderNode, Terrain.RenderNode, and Layered/Grid/CanvasNode for functionality
             //TODO Only render what is within the viewport of the Camera
+            
         }
     }
 
     draw(...args) {
+        this.ctx.save();
+        this.ctx.scale(this.scale, this.scale);
+        
+        this.resize(this.viewport.pixel.width * this.scale, this.viewport.pixel.height * this.scale);
+        this.ctx.clearRect(0, 0, this.width, this.height);
+        this.prop({ fillStyle: "#000" }).rect(0, 0, this.width, this.height, { isFilled: true });
 
+        if(this.subject) {
+            const comp = this.subject.getComponent(EnumComponentType.RIGID_BODY);
+            const vw2 = ~~(this.viewport.pixel.width / 2);
+            const vh2 = ~~(this.viewport.pixel.height / 2);
+
+            this.paint(
+                (comp.x * this.tw) - vw2,
+                (comp.y * this.th) - vh2,
+                this.viewport.pixel.width,
+                this.viewport.pixel.height,
+                0,
+                0,
+                this.width,
+                this.height,
+            );
+
+            this.mergeState({
+                viewport: {
+                    ...this.state.viewport,
+
+                    x: ((comp.x * this.tw) - vw2) / this.tw,
+                    y: ((comp.y * this.th) - vh2) / this.th,
+                }
+            });
+        } else {
+            this.paint(
+                this.viewport.pixel.x0,
+                this.viewport.pixel.y0,
+                this.viewport.pixel.width,
+                this.viewport.pixel.height,
+                0,
+                0,
+                Math.min(this.viewport.pixel.width, this.width),
+                Math.min(this.viewport.pixel.height, this.height),
+            );
+        }
+        this.ctx.restore();
     }
 };

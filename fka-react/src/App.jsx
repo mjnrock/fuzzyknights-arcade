@@ -11,7 +11,8 @@ import Routes from "./routes/package";
 import Game from "./lib/Game";
 
 import Graph from "./lib/graph/package";
-import GameView, { Controls as GameViewControls, StubCamera as GameViewStubCamera } from "./lib/view/GameView";
+import GameView, { Controls as GameViewControls } from "./lib/view/GameView";
+import RenderCamera from "./lib/render/Camera";
 import EntityCreature from "./lib/entity/EntityCreature";
 import { EnumComponentType } from "./lib/entity/components/Component";
 
@@ -56,7 +57,23 @@ for(let i = 0; i < 25; i++) {
 console.log(game)
 console.log(game.player)
 
-game.view = new GameView(game, game.graph, { camera: GameViewStubCamera(game, game.graph), controls: GameViewControls });
+game.view = new GameView(game, game.graph, {
+    camera: new RenderCamera(game, game.graph.getNode(0, 0), {
+        tw: 128,
+        th: 128,
+        scale: 1.0,
+
+        //* Viewport Config
+        x: 0,   // Only relevant w/o a subject
+        y: 0,   // Only relevant w/o a subject
+        w: 9,
+        h: 7,
+
+        subject: game.player,
+    }),
+    controls: GameViewControls
+});
+game.start();
 
 export const Context = React.createContext(game.view.camera);
 

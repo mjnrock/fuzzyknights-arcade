@@ -36,10 +36,6 @@ export default class LayeredCanvasNode extends GridCanvasNode {
             this.mergeState({
                 stack: new Map(stack.map((m, i) => [ i, m ]))
             });
-        } else if(Number.isInteger(stack)) {
-            for(let i = 0; i < stack; i++) {
-                this.addLayer({ width, height, size });
-            }
         }
     }
     get stackSize() {
