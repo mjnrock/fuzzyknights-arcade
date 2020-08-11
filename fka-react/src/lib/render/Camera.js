@@ -1,20 +1,26 @@
-import LayeredCanvasNode from "./../hive/LayeredCanvasNode";
-import { EnumMessageType } from "./../hive/CanvasNode";
-import { EnumComponentType } from "./../entity/components/Component";
+import LayeredCanvasNode from "../hive/LayeredCanvasNode";
+import EntityLayer from "./EntityLayer";
+import TerrainLayer from "./TerrainLayer";
 
-import RenderNodeTerrain, { EnumMessageType as EnumNodeTerrainMessageType } from "./graph/Terrain.RenderNode";
-import RenderNodeEntities, { EnumMessageType as EnumNodeEntitiesMessageType } from "./graph/Entities.RenderNode";
-import GridCanvasNode from "../hive/GridCanvasNode";
+import { EnumComponentType } from "../entity/components/Component";
 
-import Models from "./../model/package";
-import HUD from "./HUD";
-import RigidBody from "../entity/components/RigidBody";
+import Score from "./sequencer/Score";
+import Book from "./Book";
+import RACCOON_IDLE from "./sequencer/data/raccoon.idle.json";
+import RACCOON_RUNNING from "./sequencer/data/raccoon.running.json";
+import RACCOON_TAILWHIP from "./sequencer/data/raccoon.tailwhip.json";
+
+const CookedBook = new Book();
+Score.Deserialize(RACCOON_IDLE).then(score => CookedBook.set("raccoon.idle", score));
+Score.Deserialize(RACCOON_RUNNING).then(score => CookedBook.set("raccoon.running", score));
+Score.Deserialize(RACCOON_TAILWHIP).then(score => CookedBook.set("raccoon.tailwhip", score));
 
 export default class Camera extends LayeredCanvasNode {
     constructor(game, node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0 } = {}) {
         super({
             state: {
                 game: game,
+                node: node,
                 viewport: {
                     x,
                     y,
@@ -28,120 +34,12 @@ export default class Camera extends LayeredCanvasNode {
             height: node.tiles.height * (size[ 1 ] || th),
             size: [ size[ 0 ] || tw, size[ 1 ] || th ],
             stack: [                
-                new RenderNodeTerrain(node, { tw, th, size }),
-                new RenderNodeEntities(node, { tw, th, size }),
-                new GridCanvasNode({
-                    width: node.tiles.width * (size[ 0 ] || tw),
-                    height: node.tiles.height * (size[ 1 ] || th),
-                    size: [ size[ 0 ] || tw, size[ 1 ] || th ],
-                })
+                [ "terrain", new TerrainLayer(CookedBook, { width: node.tiles.width * (size[ 0 ] || tw), height: node.tiles.height * (size[ 1 ] || th), tw, th, size }) ],
+                [ "entity", new EntityLayer(CookedBook, { width: node.tiles.width * (size[ 0 ] || tw), height: node.tiles.height * (size[ 1 ] || th), tw, th, size }) ],
+                // [ "terrain", new RenderNodeTerrain(node, { tw, th, size }) ],
+                // [ "entity", new RenderNodeEntity(node, { tw, th, size }) ],
             ],
         });
-
-        console.log(this)
-
-        this.mergeState({
-            node: node,
-        });
-
-        this.getLayer(0).addEffect((state, msg) => {
-            if(msg.type === EnumNodeTerrainMessageType.PAINT) {
-                this.paint.call(this);
-            }
-        });
-        this.getLayer(1).addEffect((state, msg) => {
-            if(msg.type === EnumNodeEntitiesMessageType.PAINT) {
-                this.paint.call(this);
-            }
-        });
-
-        this.addEffect((state, msg) => {
-            if(msg.type === EnumMessageType.RENDER) {
-                this.draw();
-            }
-        });
-
-        this.getLayer(2).draw = function({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0, game } = {}) {            
-            if(game && game.setting("isDebugMode")) {
-                this.clear();
-        
-                this.ctx.save();
-                this.ctx.scale(scale, scale);
-
-                //STUB
-                if(game && game.setting("isDebugMode")) {
-                    node.apply((tx, ty, tile) => {
-                        if(tx >= x && tx <= x + w && ty >= y && ty <= y + h) {
-                            this.prop({
-                                strokeStyle: "#0f0",
-                            }).gRect(tx, ty, this.tw, this.th);
-                        }
-                    });
-                }
-                
-                node.each((entity, i) => {
-                    const comp = entity.getComponent(EnumComponentType.RIGID_BODY);
-        
-                    if((comp.x >= x) && (comp.x <= (x + w)) && (comp.y >= y) && (comp.y <= (y + h))) {
-                        if(comp.model instanceof Models.Arc) {
-                            this.prop({
-                                strokeStyle: "#0ff",
-                            }).circle(comp.x * this.tw, comp.y * this.th, comp.model.radius);
-                        }
-
-                        if(comp.isColliding) {
-                            this.prop({
-                                strokeStyle: "#f00",
-                            });
-                        } else {
-                            this.prop({
-                                strokeStyle: "#0f0",
-                            });
-                        }
-                        
-                        // Cener of Mass point
-                        this.point(comp.x * this.tw, comp.y * this.th);
-                        
-                        if(comp.model instanceof Models.Circle) {
-                            this.circle(comp.x * this.tw, comp.y * this.th, comp.model.radius + 2);
-                            if(entity === game.player) {
-                                this.prop({
-                                    strokeStyle: "#f0f",
-                                }).circle(comp.x * this.tw, comp.y * this.th, comp.model.radius + 64);
-                            }
-
-                            //TODO The HUD should be extracted to some other layer
-                            camera.HUD.draw({ canvas: this.canvas, x: comp.x, y: comp.y, entity: entity, game: game });
-                        } else if(comp.model instanceof Models.Arc) {
-                            // The 90 degree rotation is to accommodate the DOM x,y coordination system
-                            this.arc(comp.x * this.tw, comp.y * this.th, comp.model.radius, ...this.degToRad(comp.model.left, comp.model.right));
-
-                            const tps = comp.model.getTriangle(comp.x * this.tw, comp.y * this.th, { rotation: -90 });
-                            this.triangle(...tps);
-                        } else if(comp.model instanceof Models.Triangle) {
-                            const tps = comp.model.getTriangle(comp.x * this.tw, comp.y * this.th);
-                            this.triangle(...tps);
-                        } else if(comp.model instanceof Models.Line) {
-                            const lps = comp.model.getLine(comp.x * this.tw, comp.y * this.th);
-                            this.line(...lps);
-                        }
-
-                        const { x, y } = RigidBody.FacingToXY(comp.facing);
-                        const factor = 0.4;
-
-                        this.prop({ strokeStyle: "#00f" }).line(comp.x * this.tw, comp.y * this.th, (comp.x + (x * factor)) * this.tw, (comp.y + (y * factor)) * this.th);
-                    }
-                });
-                this.ctx.restore();
-        
-                this.dispatch(EnumMessageType.PAINT);
-            } else {
-                this.clear();
-            }
-        };
-
-        const camera = this;
-        this.HUD = new HUD(this);
     }
 
     get game() {
@@ -164,6 +62,8 @@ export default class Camera extends LayeredCanvasNode {
 
     desubject() {
         this.state.subject = null;
+
+        return this;
     }
 
     get viewport() {
@@ -201,13 +101,30 @@ export default class Camera extends LayeredCanvasNode {
         this.state.node = value;
     }
 
-    draw() {
-        //TODO This requires a refactor optimization before this will render smoothly (the Terrain rerendering is currently redraws everything always)
-        // for(let layer of this.stack) {
-        //     layer.draw({ game: this.game });
-        // }
-        this.getLayer(1).draw({ game: this.game });
-        this.getLayer(2).draw({ game: this.game });
+    drawLayer(nameOrIndex, ...args) {
+        const layer = this.getLayer(nameOrIndex);
+
+        if(layer) {
+            // const viewport = this.viewport;
+            // layer.draw({
+            //     game: this.game,
+            //     node: this.node,
+            // });
+            //TODO Compare to Entities.RenderNode, Terrain.RenderNode, and Layered/Grid/CanvasNode for functionality
+            //TODO Only render what is within the viewport of the Camera
+            
+        }
+    }
+
+    draw(...args) {
+        this.getLayer("terrain").draw({
+            game: this.game,
+            node: this.node,
+        });
+        this.getLayer("entity").draw({
+            game: this.game,
+            node: this.node,
+        });
 
         this.ctx.save();
         this.ctx.scale(this.scale, this.scale);
@@ -254,4 +171,4 @@ export default class Camera extends LayeredCanvasNode {
         }
         this.ctx.restore();
     }
-}
+};

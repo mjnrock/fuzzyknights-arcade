@@ -1,6 +1,6 @@
-import GridCanvasNode from "../../hive/GridCanvasNode";
-import { EnumComponentType } from "../../entity/components/Component";
-import { EnumState } from "../../entity/components/State";
+import GridCanvasNode from "../hive/GridCanvasNode";
+import { EnumComponentType } from "../entity/components/Component";
+import { EnumState } from "../entity/components/State";
 
 export default class EntityLayer extends GridCanvasNode {
     constructor(book, { width, height, tw = 128, th = 128, size = [] } = {}) {

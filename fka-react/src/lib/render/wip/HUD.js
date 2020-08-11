@@ -1,5 +1,5 @@
-import { EnumComponentType } from "./../entity/components/Component";
-import GridCanvasNode from "../hive/GridCanvasNode";
+import { EnumComponentType } from "../../entity/components/Component";
+import GridCanvasNode from "../../hive/GridCanvasNode";
 
 export default class HUD extends GridCanvasNode {
     constructor(camera) {

@@ -1,5 +1,5 @@
-import GridCanvasNode from "../../hive/GridCanvasNode";
-import { EnumTerrainType } from "../../graph/Terrain";
+import GridCanvasNode from "../hive/GridCanvasNode";
+import { EnumTerrainType } from "../graph/Terrain";
 
 export default class TerrainLayer extends GridCanvasNode {
     constructor(book, { width, height, tw = 128, th = 128, size = [] } = {}) {

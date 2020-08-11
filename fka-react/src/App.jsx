@@ -12,7 +12,7 @@ import Game from "./lib/Game";
 
 import Graph from "./lib/graph/package";
 import GameView, { Controls as GameViewControls } from "./lib/view/GameView";
-import RenderCamera from "./lib/render/wip/Camera";
+import RenderCamera from "./lib/render/Camera";
 import EntityCreature from "./lib/entity/EntityCreature";
 import { EnumComponentType } from "./lib/entity/components/Component";
 

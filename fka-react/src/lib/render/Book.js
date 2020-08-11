@@ -1,4 +1,4 @@
-import Score from "./../sequencer/Score";
+import Score from "./sequencer/Score";
 
 export default class Book {
     constructor(entries = []) {

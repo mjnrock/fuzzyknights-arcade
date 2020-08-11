@@ -1,9 +1,9 @@
-import GridCanvasNode from "../../hive/GridCanvasNode";
-import { EnumComponentType } from "./../../entity/components/Component";
+import GridCanvasNode from "../../../lib/hive/GridCanvasNode";
+import { EnumComponentType } from "../../../lib/entity/components/Component";
 
-import Models from "./../../model/package";
-import EntityParticle from "../../entity/EntityParticle";
-import { EnumState } from "../../entity/components/State";
+import Models from "../../../lib/model/package";
+import EntityParticle from "../../../lib/entity/EntityParticle";
+import { EnumState } from "../../../lib/entity/components/State";
 
 export const EnumMessageType = {
     PAINT: "NodeEntities.Paint",
