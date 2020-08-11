@@ -15,10 +15,10 @@ export default class Actor {
         return this.character.change;
     }
     get grow() {
-        return this.character.change;
+        return this.character.grow;
     }
     get retire() {
-        return this.character.change;
+        return this.character.retire;
     }
 
     /**

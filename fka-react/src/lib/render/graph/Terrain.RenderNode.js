@@ -17,6 +17,11 @@ export default class RenderNodeTerrain extends GridCanvasNode {
         this.mergeState({
             node: node,
         });
+        
+        //  Isometric Transformation
+        // this.ctx.translate(this.width / 2, 0);   // This sets "where" the canvas origin is (in this case, the rotation point)
+        // this.ctx.scale(1, 0.5);
+        // this.ctx.rotate(45 * Math.PI /180);
 
         // //? This is meant to bind event handlers of this canvas to the React ref canvases
         // //FIXME Temp event association until Base64 class is modified to accommodate

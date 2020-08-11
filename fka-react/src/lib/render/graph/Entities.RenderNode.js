@@ -20,6 +20,11 @@ export default class RenderNodeEntities extends GridCanvasNode {
         this.mergeState({
             node: node,
         });
+        
+        //  Isometric Transformation
+        // this.ctx.translate(this.width / 2, 0);   // This sets "where" the canvas origin is (in this case, the rotation point)
+        //  // this.ctx.scale(1, 0.5);  //  Not scaling the entities makes an interesting effect
+        // this.ctx.rotate(45 * Math.PI /180);
 
         this.draw();
     }

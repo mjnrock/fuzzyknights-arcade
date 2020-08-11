@@ -1,6 +1,6 @@
 import GridCanvasNode from "../../hive/GridCanvasNode";
 
-export default class Troupe extends GridCanvasNode {
+export default class Layer extends GridCanvasNode {
     constructor(actors = [], { state = {}, config = {}, width, height, size } = {}) {
         super({ state, config, width, height, size });
 
