@@ -7,7 +7,8 @@ import Tile from "./Tile";
 import Terrain, { EnumTerrainType } from "./Terrain";
 
 /*
- * This is meant to be the entire "level" in that dungeon game, or any space where "tessellated sub maps" is appropriate
+ * This is meant to be the entire "level", or any space where "tessellated sub maps" are appropriate.
+ * As such, a world map would be a Graph with 1 or more Nodes; a dungeon would be another Graph with 1 or more Nodes; etc.
  */
 
 export class GraphFactory {

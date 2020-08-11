@@ -4,8 +4,9 @@ import EntityManager from "../entity/EntityManager";
 import { EnumComponentType } from "../entity/components/Component";
 
 /*
- * This is meant to be equivalent to a "room" in that dungeon game, or a "map" in the outer world
- * The tiles are meant to be the individual tiles for that map, as a tessellated grid
+ * This is meant to be equivalent to a "room", or a "map" in the outer world.
+ * The tiles are meant to be the individual tiles for that map, as a tessellated grid.
+ * As such, a Node should be considered the "tile level" of a map, where a Graph is the container.
  */
 
 export const EnumEventType = {
@@ -186,14 +187,25 @@ export default class Node extends EventEmitter {
         return this;
     }
 
-    addPortal(node, x, y) {
+    /**
+     * A specific abstraction to facilitate "teleportation" travel (i.e. inter-node, instances, buildings, etc.)
+     * Portal is in "this" scope.  @node can be "this" or another Node (i.e. intra- or inter-node portals)
+     * @param {number} x X activation point
+     * @param {number} y Y activation point
+     * @param {Node} node Destination Node
+     * @param {number} nx X destination point
+     * @param {number} ny Y destination point
+     */
+    addPortal(x, y, node, nx = 0, ny = 0) {
         this.portals.push({
-            node,
             x,
             y,
+            node,
+            nx,
+            ny,
         });
     }
-    removePortal(node, x, y) {
+    removePortal(x, y, node) {
         this.portals = this.portals.filter(portal => portal.node !== node && portal.x !== x && portal.y !== y);
     }
 

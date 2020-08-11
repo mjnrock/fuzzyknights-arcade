@@ -1,9 +1,10 @@
-import GridCanvasNode from "../../hive/GridCanvasNode";
+import { v4 as uuidv4 } from "uuid";
 
-export default class Layer extends GridCanvasNode {
-    constructor(actors = [], { state = {}, config = {}, width, height, size } = {}) {
+export default class Troupe {
+    constructor(actors = [], { state = {}, config = {}, width, height, size, id } = {}) {
         super({ state, config, width, height, size });
-
+        
+        this.id = id || uuidv4();
         this.actors = new Set(actors);
     }
 
