@@ -150,6 +150,8 @@ export default class EntityManager extends Hive.Node {
                         state.expire();
                     }
 
+                    //FIXME This works, but prevents any other state from being present if entity has velocity
+                    //TODO  Figure out a way to refactor this appropriately
                     if((rb.vx !== 0 || rb.vy !== 0) && state.currentValue !== EnumState.WALKING) {
                         state.expire();
                         state.set(EnumState.WALKING, Infinity);
