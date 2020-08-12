@@ -16,7 +16,7 @@ Score.Deserialize(RACCOON_RUNNING).then(score => CookedBook.set("raccoon.running
 Score.Deserialize(RACCOON_TAILWHIP).then(score => CookedBook.set("raccoon.tailwhip", score));
 
 export default class Camera extends LayeredCanvasNode {
-    constructor(game, node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0 } = {}) {
+    constructor(game, node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0, rotation = 0, translation = [ 0, 0 ] } = {}) {
         super({
             state: {
                 game: game,
@@ -29,6 +29,8 @@ export default class Camera extends LayeredCanvasNode {
                 },
                 subject,
                 scale,
+                rotation,
+                translation,
             },
             width: node.tiles.width * (size[ 0 ] || tw),
             height: node.tiles.height * (size[ 1 ] || th),
@@ -40,6 +42,9 @@ export default class Camera extends LayeredCanvasNode {
                 // [ "entity", new RenderNodeEntity(node, { tw, th, size }) ],
             ],
         });
+
+        this.ctx.translate(...translation);
+        this.ctx.rotate(rotation * Math.PI / 180);   // Expects Degrees
     }
 
     get game() {
