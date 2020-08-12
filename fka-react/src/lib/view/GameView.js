@@ -9,6 +9,8 @@ import Models from "./../model/package";
 import Action from "../combat/Action";
 import Effects from "./../combat/effect/package";
 import { EnumState } from "../entity/components/State";
+import Effect from "../combat/effect/Effect";
+import { EnumResourceType } from "../entity/components/Life";
 
 export const Controls = {
     key: [
@@ -28,15 +30,11 @@ export const Controls = {
             this.game.player.perform(
                 this.game,
                 Action.Ability({
-                    cost: 0,
+                    state: EnumState.ATTACKING,
                     effects: [
-                        new Effects.State([
-                            [ EnumState.ATTACKING, 667 ],
-                        ], { only: (ea, target) => target === this.game.player }),
-                        new Effects.Damage(1, { ignore: (ea, target) => target === this.game.player }),
-                        new Effects.Knockback(0.05, { ignore: (ea, target) => target === this.game.player }),
+                        new Effects.Damage(1, Effect.IgnoreInvoker),
+                        new Effects.Knockback(0.05, Effect.IgnoreInvoker),
                     ],
-                    lifespan: 1,
                     model: new Models.Circle(64),
                 })
             );
@@ -45,12 +43,12 @@ export const Controls = {
             this.game.player.perform(
                 this.game,
                 Action.Ability({
-                    cost: 1,
+                    state: EnumState.CASTING,
+                    cost: [ 1, EnumResourceType.MANA ],
                     effects: [
-                        new Effects.Kill({ ignore: (ea, target) => target === this.game.player }),
-                        new Effects.Heal(10, { only: (ea, target) => target === this.game.player }),
+                        new Effects.Kill(Effect.IgnoreInvoker),
+                        new Effects.Heal(10, Effect.OnlyInvoker),
                     ],
-                    lifespan: 1,
                     model: new Models.Circle(64),
                 })
             );

@@ -187,6 +187,7 @@ export default class EntityManager extends Hive.Node {
             }
         } else if(type === EnumEntityEventType.ACTION) {
             const [ action, x, y, facing ] = args;
+            const model = typeof action.model === "function" ? action.model(entity) : action.model;
 
             this.node.addEntity(new EntityAction({
                 action: action,
@@ -195,7 +196,7 @@ export default class EntityManager extends Hive.Node {
                         x: x,
                         y: y,
                         speed: 0,
-                        model: action.model,
+                        model: model,
                         facing: facing,
                     }
                 },

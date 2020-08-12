@@ -16,6 +16,14 @@ export const EnumEffectType = Enumerator({
 });
 
 export default class Effect {
+    /**
+     * This is functionally an abstract class, and should be treated as such
+     * @param {EnumEffectType} type | The flag of the Effect
+     * @param {fn(ea, target)} effect | What the Effect will do upon being invoked
+     * @param {EnumEntityType(s)|fn:bool} only [ 0 ] | Either an EnumEntityType bitmask or a function that only affects true-result entities
+     * @param {EnumEntityType(s)|fn:bool} ignore [ 0 ] | Either an EnumEntityType bitmask or a function that ignores true-result entities
+     * @param {bool} creaturesOnly [ true ] | A short-circuiting flag to bypass any non-EntityCreature.  @only and @ignore will follow, provided the target is an EntityCreature.  This must be flagged off if an Effect should affect other Entity types, as it is true by default.
+     */
     constructor({ type, effect, only = 0, ignore = 0, creaturesOnly = true } = {}) {;
         this.type = type;
         this.effect = effect;
@@ -26,6 +34,14 @@ export default class Effect {
         this.config = {
             CreaturesOnly: creaturesOnly,
         };
+    }
+
+    //* Static helper functions for basic, common considerations
+    static get OnlyInvoker() {
+        return { only: (ea, target) => target === ea.parent };
+    }
+    static get IgnoreInvoker() {
+        return { ignore: (ea, target) => target === ea.parent };
     }
 
     /**
