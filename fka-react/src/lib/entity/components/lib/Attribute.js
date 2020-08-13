@@ -2,7 +2,7 @@ import Resource from "./Resource";
 import { Bitwise } from "../../../hive/Helper";
 
 export default class Attribute extends Resource {
-    constructor(flag, value, { name, min, max, setter } = {}) {
+    constructor(flag, value = 0, { name, min, max, setter } = {}) {
         super(value, { min, max, setter });
 
         this.flag = flag;

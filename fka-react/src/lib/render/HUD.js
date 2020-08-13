@@ -1,5 +1,6 @@
 import { EnumComponentType } from "../entity/components/Component";
 import GridCanvasNode from "../hive/GridCanvasNode";
+import { EnumResourceType } from "./../entity/components/Life";
 
 export default class HUD extends GridCanvasNode {
     constructor(camera) {
@@ -39,7 +40,15 @@ export default class HUD extends GridCanvasNode {
             }
         }
     }
-    // getColorFromWeightedPool() {}
+    getColorFromResource(resource) {
+        const colors = {
+            [ EnumResourceType.MANA ]: "#369",
+            [ EnumResourceType.RAGE ]: "#993333",
+            [ EnumResourceType.ENERGY ]: "#c4b543",
+        };
+
+        return colors[ resource ];
+    }
 
     barHealth(life, x, y) {
         let color = this.getColorFromScale(life.HP.asRate, [
@@ -59,12 +68,16 @@ export default class HUD extends GridCanvasNode {
         }).rect(x * this.tw + this.tw / 4, y * this.th - 14 + 1, (life.HP.asRate * this.tw / 2) - 1, 8, { isFilled: true });
     }
     barResource(life, x, y) {
+        //TODO Determine Resource type, instead of just assuming Mana
+        const rate = life.MANA.asRate;
+        const color = this.getColorFromResource(EnumResourceType.MANA);
+
         this.prop({
             strokeStyle: "#000",
         }).rect(x * this.tw + this.tw / 4, y * this.th, this.tw / 2, 10);
         this.prop({
-            fillStyle: "#369",
-        }).rect(x * this.tw + this.tw / 4, y * this.th + 1, (life.MANA.asRate * this.tw / 2) - 1, 8, { isFilled: true });
+            fillStyle: color,
+        }).rect(x * this.tw + this.tw / 4, y * this.th + 1, (rate * this.tw / 2) - 1, 8, { isFilled: true });
     }
 
 
