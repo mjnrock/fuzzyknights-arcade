@@ -180,7 +180,7 @@ export default class Node extends EventEmitter {
         return this;
     }
     removeEntity(entity) {
-        this.entities.remove(entity);
+        this.entities.delete(entity.id);
         this.emit(EnumEventType.ENTITY_LEAVE, entity);
         this.game.send("node", this, EnumEventType.ENTITY_LEAVE, entity);
         

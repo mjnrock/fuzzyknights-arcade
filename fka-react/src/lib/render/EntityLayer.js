@@ -51,12 +51,13 @@ export default class EntityLayer extends GridCanvasNode {
                 //     console.log(state.currentValue);
                 // }
 
+                //FIXME 0.5 nudges are to center the tile; but this assumes tile and entity will have 1:1 ratio, which will not always be the case
                 if(score) {
                     score.drawTo(this.canvas, {
                         facing: rb.facing,
                         elapsedTime: state.current.elapsed,
-                        tx: rb.x,
-                        ty: rb.y,
+                        tx: rb.x - 0.5,
+                        ty: rb.y - 0.5,
                     });
                 }
             }

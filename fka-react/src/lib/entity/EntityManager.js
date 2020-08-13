@@ -137,6 +137,24 @@ export default class EntityManager extends Hive.Node {
                         }
                     }
                 }, i + 1);
+
+                //FIXME Formalize this into a Node Portals check
+                if(entity === this.game.player) {
+                    const n00 = this.game.graph.getNode(0, 0);
+                    const n10 = this.game.graph.getNode(1, 0);
+
+                    if(~~rb.x === 10 && ~~rb.y === 0) {
+                        n00.removeEntity(entity);
+                        n10.addEntity(entity);
+                        rb.x = 10.5;
+                        rb.y = 18.5;
+                    } else if(~~rb.x === 10 && ~~rb.y === 19) {
+                        n10.removeEntity(entity);
+                        n00.addEntity(entity);
+                        rb.x = 10.5;
+                        rb.y = 1.5;
+                    }
+                }
             }
 
             //* State Updates

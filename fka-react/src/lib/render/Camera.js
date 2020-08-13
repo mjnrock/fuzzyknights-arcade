@@ -10,6 +10,7 @@ import Book from "./Book";
 import RACCOON_IDLE from "./sequencer/data/raccoon.idle.json";
 import RACCOON_RUNNING from "./sequencer/data/raccoon.running.json";
 import RACCOON_TAILWHIP from "./sequencer/data/raccoon.tailwhip.json";
+import DebugLayer from "./DebugLayer";
 
 const CookedBook = new Book();
 Score.Deserialize(RACCOON_IDLE).then(score => CookedBook.set("raccoon.idle", score));
@@ -45,6 +46,7 @@ export default class Camera extends LayeredCanvasNode {
             [ "terrain", new TerrainLayer(CookedBook, { width: this.width, height: this.height, tw, th, size }) ],
             [ "entity", new EntityLayer(CookedBook, { width: this.width, height: this.height, tw, th, size }) ],
             [ "HUD", new HUD(this) ],
+            [ "debug", new DebugLayer({ width: this.width, height: this.height, tw, th, size }) ],
         ];
     
         this.ctx.translate(...translation);
@@ -104,27 +106,37 @@ export default class Camera extends LayeredCanvasNode {
     }
 
     get node() {
+        if(this.subject) {
+            const rb = this.subject.getComponent(EnumComponentType.RIGID_BODY);
+
+            if(rb) {
+                this.node = rb.node;
+            }
+        }
+        
         return this.state.node;
     }
     set node(value) {
         this.state.node = value;
     }
 
+    //TODO All Entity rendering uses the Top,Left corner for position; convert to TW/2,TH/2
     draw(...args) {
         const viewport = this.viewport;
-        const nudge = 2;
+        const padding = 1;  //* This prevents a hard tile cutoff on render
         const drawArgs = {
             game: this.game,
             node: this.node,
-            x: viewport.tile.x0 - nudge,
-            y: viewport.tile.y0 - nudge,
-            w: viewport.tile.width + nudge,
-            h: viewport.tile.height + nudge,
+            x: viewport.tile.x0 - padding,
+            y: viewport.tile.y0 - padding,
+            w: viewport.tile.width + padding,
+            h: viewport.tile.height + padding,
         };
 
         this.getLayer("terrain").draw(drawArgs);
         this.getLayer("entity").draw(drawArgs);
         this.getLayer("HUD").draw(drawArgs);
+        this.getLayer("debug").draw(drawArgs);
 
         // console.log(this.getLayer("HUD").canvas.toDataURL())
 
@@ -135,6 +147,7 @@ export default class Camera extends LayeredCanvasNode {
         this.ctx.clearRect(0, 0, this.width, this.height);
         this.prop({ fillStyle: "#000" }).rect(0, 0, this.width, this.height, { isFilled: true });
 
+        //TODO Fix the partial cutoff that render experiences upon moving; pad the total viewport size by 1 or 2 in all directions
         if(this.subject) {
             const comp = this.subject.getComponent(EnumComponentType.RIGID_BODY);
             const vw2 = ~~(this.viewport.pixel.width / 2);

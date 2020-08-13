@@ -94,8 +94,9 @@ export default class HUD extends GridCanvasNode {
                     const life = entity.getComponent(EnumComponentType.LIFE);
 
                     if(life) {
-                        this.barHealth(life, rb.x, rb.y);
-                        this.barResource(life, rb.x, rb.y);
+                        //FIXME 0.5 nudges are to center the tile; but this assumes tile and entity will have 1:1 ratio, which will not always be the case
+                        this.barHealth(life, rb.x - 0.5, rb.y - 0.5);
+                        this.barResource(life, rb.x - 0.5, rb.y - 0.5);
                     }
                 }
             });
