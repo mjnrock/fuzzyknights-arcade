@@ -120,7 +120,7 @@ export default class Camera extends LayeredCanvasNode {
         this.state.node = value;
     }
 
-    //TODO All Entity rendering uses the Top,Left corner for position; convert to TW/2,TH/2
+    //TODO There is a jerkiness that needs smoothing that is particularly visible in the Terrain
     draw(...args) {
         const viewport = this.viewport;
         const padding = 1;  //* This prevents a hard tile cutoff on render
@@ -160,8 +160,8 @@ export default class Camera extends LayeredCanvasNode {
                 this.viewport.pixel.height,
                 0,
                 0,
-                this.width,
-                this.height,
+                this.viewport.pixel.width,
+                this.viewport.pixel.height,
             );
 
             this.mergeState({
@@ -180,8 +180,8 @@ export default class Camera extends LayeredCanvasNode {
                 this.viewport.pixel.height,
                 0,
                 0,
-                Math.min(this.viewport.pixel.width, this.width),
-                Math.min(this.viewport.pixel.height, this.height),
+                this.viewport.pixel.width,
+                this.viewport.pixel.height,
             );
         }
         this.ctx.restore();

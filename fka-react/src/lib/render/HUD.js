@@ -68,9 +68,18 @@ export default class HUD extends GridCanvasNode {
         }).rect(x * this.tw + this.tw / 4, y * this.th - 14 + 1, (life.HP.asRate * this.tw / 2) - 1, 8, { isFilled: true });
     }
     barResource(life, x, y) {
-        //TODO Determine Resource type, instead of just assuming Mana
-        const rate = life.MANA.asRate;
-        const color = this.getColorFromResource(EnumResourceType.MANA);
+        let type;
+        
+        if(life.MANA.max !== void 0) {
+            type = "MANA";
+        } else if(life.RAGE.max !== void 0) {
+            type = "RAGE";
+        } else if(life.ENERGY.max !== void 0) {
+            type = "ENERGY";
+        }
+
+        const rate = life[ type ].asRate;
+        const color = this.getColorFromResource(EnumResourceType[ type ]);
 
         this.prop({
             strokeStyle: "#000",

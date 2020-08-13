@@ -30,7 +30,7 @@ const entity = new EntityCreature({
             y: 3,
             speed: 2.00,
             // model: new Models.Line(128, 128),
-            model: new Models.Circle(32),
+            model: new Models.Circle(24),
         }
     }
 });
@@ -45,7 +45,7 @@ for(let i = 0; i < 25; i++) {
                 x: ~~(Math.random() * 20),
                 y: ~~(Math.random() * 20),
                 speed: 3.50,
-                model: new Models.Circle(32),
+                model: new Models.Circle(24),
                 facing: NormalizeTheta((Math.random() > 0.5 ? -1 : 1) * Math.random(), (Math.random() > 0.5 ? -1 : 1) * Math.random(), { toNearestDegree: 45 }),
             }
         }

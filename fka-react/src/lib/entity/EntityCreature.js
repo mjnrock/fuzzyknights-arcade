@@ -12,7 +12,7 @@ export default class EntityCreature extends Entity {
             parent,
             type: EnumEntityType.CREATURE,
             comps: [
-                new Life({ hp: [ 10, 0, 10 ], mana: [ 5, 0, 5 ] }),
+                new Life({ hp: [ 10, 0, 10 ], energy: [ 5, 0, 5 ] }),
                 new Attributes(),
 
                 ...comps

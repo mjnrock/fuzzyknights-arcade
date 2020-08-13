@@ -44,7 +44,7 @@ export const Controls = {
                 this.game,
                 Action.Ability({
                     state: EnumState.CASTING,
-                    cost: [ 1, EnumResourceType.MANA ],
+                    cost: [ 1, EnumResourceType.ENERGY ],
                     effects: [
                         new Effects.Kill(Effect.IgnoreInvoker),
                         new Effects.Heal(10, Effect.OnlyInvoker),

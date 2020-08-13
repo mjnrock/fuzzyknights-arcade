@@ -17,7 +17,7 @@ export default class Game extends Hive.Node {
             loop: null,
 
             settings: {
-                isDebugMode: true,
+                isDebugMode: false,
                 showNameplates: true,
 
                 ...settings,
