@@ -100,7 +100,7 @@ export default class EntityManager extends Hive.Node {
             return;
         }
         
-        let purge = [];
+        let purge = new Set();
         
         //NOTE If desired, this modification only calls the .tick on entities within a Camera's viewport.  Might be useful here, but the idea should be considered to find its purpose.
         //? Maybe take viewport + some distance?  Maybe Math.min(node w|h, 20)?
@@ -110,7 +110,7 @@ export default class EntityManager extends Hive.Node {
         // this.node.each((entity, i) => {
         entities.forEach((entity, i) => {
             if(!entity.tick(dt, now, this.game)) {
-                purge.push(entity);
+                purge.add(entity);
             }
         });
 
@@ -144,6 +144,10 @@ export default class EntityManager extends Hive.Node {
 
             if(state) {
                 state.check();
+
+                if(state.currentValue === EnumState.DEAD) {
+                    purge.add(entity);
+                }
 
                 if(rb) {
                     if(rb.vx === 0 && rb.vy === 0 && state.currentValue === EnumState.WALKING) {

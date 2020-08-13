@@ -17,7 +17,7 @@ export const Controls = {
         [ 114, function() { this.game.setting("isDebugMode", !this.game.setting("isDebugMode")) } ],
         [ 86, function() { 
             this.game.setting("showNameplates", !this.game.setting("showNameplates"));
-            this.camera.HUD.isActive = this.game.setting("showNameplates");
+            this.camera.getLayer("HUD").isActive = this.game.setting("showNameplates");
         } ],
         [ 46, function() {
             const node = this.game.graph.getNode(0, 0);

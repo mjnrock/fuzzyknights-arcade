@@ -1,6 +1,7 @@
 import LayeredCanvasNode from "../hive/LayeredCanvasNode";
 import EntityLayer from "./EntityLayer";
 import TerrainLayer from "./TerrainLayer";
+import HUD from "./HUD";
 
 import { EnumComponentType } from "../entity/components/Component";
 
@@ -35,14 +36,17 @@ export default class Camera extends LayeredCanvasNode {
             width: node.tiles.width * (size[ 0 ] || tw),
             height: node.tiles.height * (size[ 1 ] || th),
             size: [ size[ 0 ] || tw, size[ 1 ] || th ],
-            stack: [                
-                [ "terrain", new TerrainLayer(CookedBook, { width: node.tiles.width * (size[ 0 ] || tw), height: node.tiles.height * (size[ 1 ] || th), tw, th, size }) ],
-                [ "entity", new EntityLayer(CookedBook, { width: node.tiles.width * (size[ 0 ] || tw), height: node.tiles.height * (size[ 1 ] || th), tw, th, size }) ],
-                // [ "terrain", new RenderNodeTerrain(node, { tw, th, size }) ],
-                // [ "entity", new RenderNodeEntity(node, { tw, th, size }) ],
-            ],
+            stack: [],
         });
-
+        
+        //TODO Strictly speaking, the layer canvases only need to be the size of the viewport, not the map
+        
+        this.stack = [
+            [ "terrain", new TerrainLayer(CookedBook, { width: this.width, height: this.height, tw, th, size }) ],
+            [ "entity", new EntityLayer(CookedBook, { width: this.width, height: this.height, tw, th, size }) ],
+            [ "HUD", new HUD(this) ],
+        ];
+    
         this.ctx.translate(...translation);
         this.ctx.rotate(rotation * Math.PI / 180);   // Expects Degrees
     }
@@ -106,30 +110,23 @@ export default class Camera extends LayeredCanvasNode {
         this.state.node = value;
     }
 
-    drawLayer(nameOrIndex, ...args) {
-        const layer = this.getLayer(nameOrIndex);
-
-        if(layer) {
-            // const viewport = this.viewport;
-            // layer.draw({
-            //     game: this.game,
-            //     node: this.node,
-            // });
-            //TODO Compare to Entities.RenderNode, Terrain.RenderNode, and Layered/Grid/CanvasNode for functionality
-            //TODO Only render what is within the viewport of the Camera
-            
-        }
-    }
-
     draw(...args) {
-        this.getLayer("terrain").draw({
+        const viewport = this.viewport;
+        const nudge = 2;
+        const drawArgs = {
             game: this.game,
             node: this.node,
-        });
-        this.getLayer("entity").draw({
-            game: this.game,
-            node: this.node,
-        });
+            x: viewport.tile.x0 - nudge,
+            y: viewport.tile.y0 - nudge,
+            w: viewport.tile.width + nudge,
+            h: viewport.tile.height + nudge,
+        };
+
+        this.getLayer("terrain").draw(drawArgs);
+        this.getLayer("entity").draw(drawArgs);
+        this.getLayer("HUD").draw(drawArgs);
+
+        // console.log(this.getLayer("HUD").canvas.toDataURL())
 
         this.ctx.save();
         this.ctx.scale(this.scale, this.scale);

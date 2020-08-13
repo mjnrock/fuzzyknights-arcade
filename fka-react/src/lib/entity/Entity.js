@@ -58,7 +58,6 @@ export default class Entity extends EventEmitter {
 
     //TODO Modify this to create an action queue in a component, have tick perform all actions in queue
     perform(game, action, ...args) {
-        console.log(action)
         if(action instanceof Action) {
             const rb = this.getComponent(EnumComponentType.RIGID_BODY);
             const life = this.getComponent(EnumComponentType.LIFE);
