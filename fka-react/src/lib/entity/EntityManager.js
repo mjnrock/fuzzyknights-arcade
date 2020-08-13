@@ -7,6 +7,7 @@ import EntityCreature from "./EntityCreature";
 import Circle from "../model/Circle";
 import { EnumEventType as EnumNodeEventType} from "./../graph/Node";
 import { EnumState } from "./components/State";
+import { EnumTerrainType } from "./../graph/Terrain";
 
 export default class EntityManager extends Hive.Node {
     constructor(game, node, entities = []) {
@@ -196,8 +197,14 @@ export default class EntityManager extends Hive.Node {
             
             if(comp) {
                 comp.isColliding = false;
-                comp.x += comp.vx * dt;
-                comp.y += comp.vy * dt;
+                const dx = comp.vx * dt;
+                const dy = comp.vy * dt;
+
+                //TODO Formalize this Node movement/Terrain collision paradigm
+                if(this.node.getTerrainType(~~(comp.x + dx), ~~(comp.y + dy)) !== EnumTerrainType.WALL) {
+                    comp.x += dx;
+                    comp.y += dy;
+                }
             }
         } else if(type === EnumEntityEventType.COLLISION) {
             const [ target ] = args;

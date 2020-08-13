@@ -208,6 +208,15 @@ export default class Node extends EventEmitter {
     removePortal(x, y, node) {
         this.portals = this.portals.filter(portal => portal.node !== node && portal.x !== x && portal.y !== y);
     }
+    
+    getTerrainType(x, y) {
+        const key = this._key(x, y);
+        const tile = this.tiles[ key ];
+
+        if(tile) {
+            return tile.terrain.type;
+        }
+    }
 
     tick(dt, now) {
         this.entityManager.tick(dt, now);
