@@ -1,6 +1,8 @@
 import Slot from "./Slot";
 
-//TODO This should use Slot as its workhorse
+//! -------------------------------------------------
+//TODO This should use Slot as its workhorse (also in .get, .set, .remove, etc.)
+//! -------------------------------------------------
 export default class Inventory {
     constructor(size, { content = [] } = {}) {
         this.size = size || 1;
