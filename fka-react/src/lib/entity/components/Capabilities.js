@@ -68,6 +68,15 @@ export default class Capabilities extends Component {
         return false;
     }
 
+    //TODO WIP
+    // use(game, entity, index, ...args) {
+    //     const action = this.index(index);
+
+    //     if(action) {
+    //         action.execute()
+    //     }
+    // }
+
     //* Library Section
     search(input) {        
         if(input instanceof Action) {

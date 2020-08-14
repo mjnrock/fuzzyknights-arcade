@@ -89,8 +89,6 @@ for(let i = 0; i < 25; i++) {
 
 console.log(game)
 console.log(game.player)
-console.log(game.player.getComponent(EnumComponentType.CAPABILITIES));
-console.log(game.player.getComponent(EnumComponentType.CAPABILITIES).index(0));
 
 //  FIXME   RenderCamera needs to be under a render manager
 game.view = new GameView(game, game.graph, {
