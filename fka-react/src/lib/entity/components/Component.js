@@ -7,6 +7,8 @@ export const EnumComponentType = Enumerator({
     STATE: 2 << 1,
     LIFE: 2 << 2,
     ATTRIBUTES: 2 << 3,
+    CAPABILITIES: 2 << 4,
+    STORAGE: 2 << 5,
 });
 
 export const EnumEventType = {
