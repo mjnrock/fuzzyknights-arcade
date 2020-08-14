@@ -18,9 +18,10 @@ export default class Action {
      * @param {?fn(ea, target, ...args)} post | A hook function to run after @consequence
      * @param {?fn(ea, target, ...args)} conditional | A hook function to determine if @consequence should be run
      */
-    constructor({ type, consequence, lifespan = 1, model, state, pre, post, conditional } = {}) {
+    constructor({ type, consequence, lifespan = 1, model, state, pre, post, conditional, name } = {}) {
         this.type = type;
         this.consequence = consequence;
+        this.name = name;
         this.lifespan = lifespan;
         this.model = model;
         this.compState = state;

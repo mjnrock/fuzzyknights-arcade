@@ -19,8 +19,8 @@ export default class Resource {
         }
     }
 
-    add(value = 1, treatAsCost = false) {
-        if(treatAsCost === true) {
+    add(value = 1, enforceHardBoundary = false) {
+        if(enforceHardBoundary === true) {
             if(this.value + value <= this.max) {
                 this.value += value;
 
@@ -34,8 +34,8 @@ export default class Resource {
 
         return this;
     }
-    subtract(value = 1, treatAsCost = false) {
-        if(treatAsCost === true) {
+    subtract(value = 1, enforceHardBoundary = false) {
+        if(enforceHardBoundary === true) {
             if(this.value - value >= this.min) {
                 this.value -= value;
 

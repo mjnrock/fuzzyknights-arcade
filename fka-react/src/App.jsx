@@ -18,12 +18,45 @@ import { EnumComponentType } from "./lib/entity/components/Component";
 
 import Models from "./lib/model/package";
 import { NormalizeTheta } from "./lib/hive/Helper";
+import Capabilities from "./lib/entity/components/Capabilities";
+
+//  STUB
+//- Capabilities Imports
+import Action from "./lib/combat/Action";
+import Effects from "./lib/combat/effect/package";
+import { EnumState } from "./lib/entity/components/State";
+import { EnumResourceType } from "./lib/entity/components/Life";
 
 const game = new Game();
 game.graph = Graph.Factory.Generate(2, 2, 20, 20, game);
 
 const node = game.graph.getNode(0, 0);
 const entity = new EntityCreature({
+    comps: [
+        new Capabilities({
+            library: [
+                Action.Ability({
+                    name: "attack",
+                    state: EnumState.ATTACKING,
+                    effects: [
+                        new Effects.Damage(1, Effects.Effect.IgnoreInvoker),
+                        new Effects.Knockback(0.05, Effects.Effect.IgnoreInvoker),
+                    ],
+                    model: new Models.Circle(64),
+                }),
+                Action.Ability({
+                    name: "defend",
+                    state: EnumState.CASTING,
+                    cost: [ 1, EnumResourceType.ENERGY ],
+                    effects: [
+                        new Effects.Kill(Effects.Effect.IgnoreInvoker),
+                        new Effects.Heal(10, Effects.Effect.OnlyInvoker),
+                    ],
+                    model: new Models.Circle(64),
+                }),
+            ]
+        })
+    ],
     data: {
         [ EnumComponentType.RIGID_BODY ]: {
             x: 3,
@@ -56,6 +89,8 @@ for(let i = 0; i < 25; i++) {
 
 console.log(game)
 console.log(game.player)
+console.log(game.player.getComponent(EnumComponentType.CAPABILITIES));
+console.log(game.player.getComponent(EnumComponentType.CAPABILITIES).index(0));
 
 //  FIXME   RenderCamera needs to be under a render manager
 game.view = new GameView(game, game.graph, {

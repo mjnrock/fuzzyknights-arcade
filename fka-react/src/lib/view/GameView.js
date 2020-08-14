@@ -4,13 +4,13 @@ import { EnumMessageType as EnumMouseMessageType } from "./../hive/MouseNode";
 import { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNode";
 // import RenderCamera from "../render/Camera";
 // import RenderCamera from "../render/wip/Camera";
-import Models from "./../model/package";
+// import Models from "./../model/package";
 
-import Action from "../combat/Action";
-import Effects from "./../combat/effect/package";
-import { EnumState } from "../entity/components/State";
-import Effect from "../combat/effect/Effect";
-import { EnumResourceType } from "../entity/components/Life";
+// import Action from "../combat/Action";
+// import Effects from "./../combat/effect/package";
+// import { EnumState } from "../entity/components/State";
+// import Effect from "../combat/effect/Effect";
+// import { EnumResourceType } from "../entity/components/Life";
 
 export const Controls = {
     key: [
@@ -27,31 +27,10 @@ export const Controls = {
     ],
     mouse: [
         [ 0, function(payload) {
-            this.game.player.perform(
-                this.game,
-                Action.Ability({
-                    state: EnumState.ATTACKING,
-                    effects: [
-                        new Effects.Damage(1, Effect.IgnoreInvoker),
-                        new Effects.Knockback(0.05, Effect.IgnoreInvoker),
-                    ],
-                    model: new Models.Circle(64),
-                })
-            );
+            this.game.player.perform(this.game, 0);
         } ],
         [ 2, function(payload) {
-            this.game.player.perform(
-                this.game,
-                Action.Ability({
-                    state: EnumState.CASTING,
-                    cost: [ 1, EnumResourceType.ENERGY ],
-                    effects: [
-                        new Effects.Kill(Effect.IgnoreInvoker),
-                        new Effects.Heal(10, Effect.OnlyInvoker),
-                    ],
-                    model: new Models.Circle(64),
-                })
-            );
+            this.game.player.perform(this.game, 1);
         } ],
     ]
 };

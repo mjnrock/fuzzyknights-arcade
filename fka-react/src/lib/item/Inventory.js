@@ -34,4 +34,8 @@ export default class Inventory {
     remove(index) {
         this.content.delete(index);
     }
+    
+    getItem(index) {
+        return this.get(index).item;
+    }
 }

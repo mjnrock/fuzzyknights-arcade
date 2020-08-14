@@ -86,11 +86,11 @@ export default class EntityManager extends Hive.Node {
         return this;
     }
 
-    perform(actor, action, ...args) {
+    perform(actor, index, ...args) {
         const entity = actor instanceof Entity ? actor : this.entities.get(actor);
 
         if(entity instanceof Entity) {
-            entity.perform(this.game, action, ...args);
+            entity.perform(this.game, index, ...args);
         }
 
         return this;

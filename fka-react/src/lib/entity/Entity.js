@@ -56,20 +56,25 @@ export default class Entity extends EventEmitter {
         return rb.pos;
     }
 
-    //TODO Modify this to create an action queue in a component, have tick perform all actions in queue
-    perform(game, action, ...args) {
-        if(action instanceof Action) {
-            const rb = this.getComponent(EnumComponentType.RIGID_BODY);
-            const life = this.getComponent(EnumComponentType.LIFE);
+    perform(game, index, ...args) {
+        const cap = this.getComponent(EnumComponentType.CAPABILITIES);
+
+        if(cap) {
+            const action = cap.index(index);
             
-            //NOTE Modify the life.MANA necessity as other resources are introduced
-            if(rb && life) {
-                if(Array.isArray(action.cost)) {
-                    if(life[ EnumResourceType.flagToName(action.cost[ 1 ]) ].subtract(action.cost[ 0 ], true)) {
+            if(action instanceof Action) {
+                const rb = this.getComponent(EnumComponentType.RIGID_BODY);
+                const life = this.getComponent(EnumComponentType.LIFE);
+                
+                //TODO Refactor this once "Requirements" are added to Abilities
+                if(rb && life) {
+                    if(Array.isArray(action.cost)) {
+                        if(life[ EnumResourceType.flagToName(action.cost[ 1 ]) ].subtract(action.cost[ 0 ], true)) {
+                            game.send("entity", this, EnumEventType.ACTION, action, rb.x, rb.y, rb.facing, ...args);
+                        }
+                    } else if(action.cost === 0) {
                         game.send("entity", this, EnumEventType.ACTION, action, rb.x, rb.y, rb.facing, ...args);
                     }
-                } else if(action.cost === 0) {
-                    game.send("entity", this, EnumEventType.ACTION, action, rb.x, rb.y, rb.facing, ...args);
                 }
             }
         }
