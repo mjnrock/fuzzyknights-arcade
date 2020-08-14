@@ -2,13 +2,13 @@ import Slot from "./Slot";
 
 //TODO This should use Slot as its workhorse
 export default class Inventory {
-    constructor({ size = 1, content = [] } = {}) {
-        this.size = size;
+    constructor(size, { content = [] } = {}) {
+        this.size = size || 1;
         this.content = new Map(content);
 
         if(!content.length) {
             for(let i = 0; i < this.size; i++) {
-                this.content.set(i, null);
+                this.content.set(i, new Slot());
             }
         }
     }

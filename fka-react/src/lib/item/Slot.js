@@ -5,4 +5,10 @@ export default class Slot {
     constructor(item = null) {
         this.item = item;
     }
+
+    clear() {
+        this.item = null;
+
+        return this;
+    }
 }
