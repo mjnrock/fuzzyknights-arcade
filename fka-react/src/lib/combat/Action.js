@@ -37,12 +37,13 @@ export default class Action {
         return this.consequence instanceof Ability ? this.consequence.cost : 0;
     }
 
-    static Ability({ cost, effects, ...opts } = {}) {
+    static Ability({ cost, effects, duration, ...opts } = {}) {
         return new Action({
             type: EnumActionType.ABILITY,
             consequence: new Ability(
                 cost,
                 effects,
+                duration,
             ),
 
             ...opts,
@@ -72,7 +73,7 @@ export default class Action {
             const state = ea.parent.getComponent(EnumComponentType.STATE);
 
             if(state) {
-                state.set(this.compState, 667);    //TODO Change duration to a lookup value based on the Action/Ability
+                state.set(this.compState, this.consequence.duration);    //TODO Change duration to a lookup value based on the Action/Ability
             }
 
             this.consequence.affect(ea, target, ...args);

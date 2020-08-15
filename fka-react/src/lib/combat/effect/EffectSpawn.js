@@ -6,11 +6,12 @@ export default class EffectSpawn extends Effect {
         super({
             type: EnumEffectType.SPAWN,
             effect: function(ea, target) {
+                const ent = entity();
                 const comp = ea.parent.getComponent(EnumComponentType.RIGID_BODY);
-                const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
+                const rb = ent.getComponent(EnumComponentType.RIGID_BODY);
 
                 if(comp && rb) {
-                    comp.node.addEntity(entity);      //TODO This might be serialized at some point, so refactor to use a Node Lookup in the current Game.Graph                    
+                    comp.node.addEntity(ent);      //TODO This might be serialized at some point, so refactor to use a Node Lookup in the current Game.Graph                    
     
                     if(typeof fn === "function") {
                         const [ nx, ny ] = fn(ea, target);
@@ -22,6 +23,10 @@ export default class EffectSpawn extends Effect {
                     }
 
                     rb.facing = comp.facing;
+
+                    const [ vx, vy ] = rb.facingXY(true);
+                    rb.vx = vx * 2.5;
+                    rb.vy = vy * 2.5;
                 }
             },
             only,

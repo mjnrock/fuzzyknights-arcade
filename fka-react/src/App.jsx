@@ -17,7 +17,6 @@ import EntityCreature from "./lib/entity/EntityCreature";
 import { EnumComponentType } from "./lib/entity/components/Component";
 
 import Models from "./lib/model/package";
-import { NormalizeTheta } from "./lib/hive/Helper";
 import Capabilities from "./lib/entity/components/Capabilities";
 
 //  STUB
@@ -26,6 +25,8 @@ import Action from "./lib/combat/Action";
 import Effects from "./lib/combat/effect/package";
 import { EnumState } from "./lib/entity/components/State";
 import { EnumResourceType } from "./lib/entity/components/Life";
+import EntityParticle from "./lib/entity/EntityParticle";
+import Elapsable from "./lib/entity/components/lib/Elapsable";
 
 const game = new Game();
 game.graph = Graph.Factory.Generate(2, 2, 20, 20, game);
@@ -42,17 +43,44 @@ const entity = new EntityCreature({
                         new Effects.Damage(1, Effects.Effect.IgnoreInvoker),
                         new Effects.Knockback(0.05, Effects.Effect.IgnoreInvoker),
                     ],
+                    duration: 667,
                     model: new Models.Circle(64),
                 }),
                 Action.Ability({
                     name: "defend",
-                    state: EnumState.CASTING,
+                    state: EnumState.DEFENDING,
                     cost: [ 1, EnumResourceType.ENERGY ],
                     effects: [
-                        new Effects.Kill(Effects.Effect.IgnoreInvoker),
                         new Effects.Heal(10, Effects.Effect.OnlyInvoker),
                     ],
+                    duration: 333,
                     model: new Models.Circle(64),
+                }),
+                Action.Ability({
+                    name: "fireball",
+                    state: EnumState.CASTING,
+                    // cost: [ 1, EnumResourceType.MANA ],
+                    effects: [
+                        //TODO Refactor Spawnables to facilitate spawning, facing/velocity, and onCollision event
+                        new Effects.Spawn(() => new EntityParticle({    //? Needs to be a function
+                            lifespan: 1000,
+                            data: {
+                                [ EnumComponentType.RIGID_BODY ]: {
+                                    model: new Models.Circle(24),
+                                },
+                                [ EnumComponentType.STATE ]: {
+                                    default: new Elapsable(Infinity, {
+                                        data: {
+                                            value: EnumState.MOVING,
+                                        },
+                                        startNow: true,
+                                    })
+                                },
+                            }
+                        }), Effects.Effect.OnlyInvoker),
+                    ],
+                    duration: 333,
+                    model: new Models.Circle(32),
                 }),
             ]
         })
@@ -71,21 +99,21 @@ const entity = new EntityCreature({
 node.addEntity(entity);
 game.player = entity;
 
-for(let i = 0; i < 25; i++) {
-    const e2 = new EntityCreature({
-        data: {
-            [ EnumComponentType.RIGID_BODY ]: {
-                x: ~~(Math.random() * 20),
-                y: ~~(Math.random() * 20),
-                speed: 3.50,
-                model: new Models.Circle(24),
-                facing: NormalizeTheta((Math.random() > 0.5 ? -1 : 1) * Math.random(), (Math.random() > 0.5 ? -1 : 1) * Math.random(), { toNearestDegree: 45 }),
-            }
-        }
-    });
+// for(let i = 0; i < 25; i++) {
+//     const e2 = new EntityCreature({
+//         data: {
+//             [ EnumComponentType.RIGID_BODY ]: {
+//                 x: ~~(Math.random() * 20),
+//                 y: ~~(Math.random() * 20),
+//                 speed: 3.50,
+//                 model: new Models.Circle(24),
+//                 facing: NormalizeTheta((Math.random() > 0.5 ? -1 : 1) * Math.random(), (Math.random() > 0.5 ? -1 : 1) * Math.random(), { toNearestDegree: 45 }),
+//             }
+//         }
+//     });
 
-    node.addEntity(e2);
-}
+//     node.addEntity(e2);
+// }
 
 console.log(game)
 console.log(game.player)

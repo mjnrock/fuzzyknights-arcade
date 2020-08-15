@@ -1,6 +1,7 @@
 import GridCanvasNode from "../hive/GridCanvasNode";
 import { EnumComponentType } from "../entity/components/Component";
 import { EnumState } from "../entity/components/State";
+import EntityCreature from "../entity/EntityCreature";
 
 export default class EntityLayer extends GridCanvasNode {
     constructor(book, { width, height, tw = 128, th = 128, size = [] } = {}) {
@@ -41,10 +42,16 @@ export default class EntityLayer extends GridCanvasNode {
                 //FIXME [ presently partial STUB ] "raccoon.STATE" needs to be dynamically created
                 if(state.currentValue === EnumState.IDLE) {
                     score = this.book.get(`raccoon.idle`);
-                } else if(state.currentValue === EnumState.WALKING) {
-                    score = this.book.get(`raccoon.running`);
+                } else if(state.currentValue === EnumState.MOVING) {
+                    if(entity instanceof EntityCreature) {
+                        score = this.book.get(`raccoon.running`);
+                    } else {
+                        score = this.book.get(`spell.fireball`);
+                    }
                 } else if(state.currentValue === EnumState.ATTACKING) {
                     score = this.book.get(`raccoon.tailwhip`);
+                } else if(state.currentValue === EnumState.DEFENDING) {
+                    score = this.book.get(`raccoon.tuck`);
                 }
 
                 // if(entity === game.player) {
