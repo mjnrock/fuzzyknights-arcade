@@ -61,11 +61,13 @@ const entity = new EntityCreature({
                     state: EnumState.CASTING,
                     // cost: [ 1, EnumResourceType.MANA ],
                     effects: [
-                        //TODO Refactor Spawnables to facilitate spawning, facing/velocity, and onCollision event
-                        new Effects.Spawn(() => new EntityParticle({    //? Needs to be a function
+                        //TODO Refactor Spawnables to facilitate spawning, facing/velocity (via mouse position), and onCollision event
+                        //  STUB    EntityParticle is not the appropriate entity
+                        new Effects.Spawn(() => new EntityParticle({    //? Needs to be a "generator" function, otherwise keeps spawning same instance
                             lifespan: 1000,
                             data: {
                                 [ EnumComponentType.RIGID_BODY ]: {
+                                    speed: 5.0,
                                     model: new Models.Circle(24),
                                 },
                                 [ EnumComponentType.STATE ]: {

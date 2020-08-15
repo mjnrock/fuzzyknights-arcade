@@ -24,6 +24,16 @@ export const Controls = {
             node.entities.clear();
             node.addEntity(this.game.player);
         } ],
+
+        [ 49, function() {
+            this.game.player.perform(this.game, 0);
+        } ],
+        [ 50, function() {
+            this.game.player.perform(this.game, 1);
+        } ],
+        [ 51, function() {
+            this.game.player.perform(this.game, 2);
+        } ],
     ],
     mouse: [
         [ 0, function(payload) {

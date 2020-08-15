@@ -25,8 +25,8 @@ export default class EffectSpawn extends Effect {
                     rb.facing = comp.facing;
 
                     const [ vx, vy ] = rb.facingXY(true);
-                    rb.vx = vx * 2.5;
-                    rb.vy = vy * 2.5;
+                    rb.vx = vx * rb.speed;
+                    rb.vy = vy * rb.speed;
                 }
             },
             only,
