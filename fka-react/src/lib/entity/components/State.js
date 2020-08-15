@@ -5,7 +5,7 @@ import { EnumEvent as EnumElapsableEvent } from "./lib/Elapsable";
 
 export const EnumState = {
     IDLE: "IDLE",
-    WALKING: "WALKING",
+    MOVING: "MOVING",
     ATTACKING: "ATTACKING",
     DEFENDING: "DEFENDING",
     CASTING: "CASTING",

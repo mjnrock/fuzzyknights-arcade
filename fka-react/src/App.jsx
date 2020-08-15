@@ -15,6 +15,7 @@ import GameView, { Controls as GameViewControls } from "./lib/view/GameView";
 import RenderCamera from "./lib/render/Camera";
 import EntityCreature from "./lib/entity/EntityCreature";
 import { EnumComponentType } from "./lib/entity/components/Component";
+import { NormalizeTheta } from "./lib/hive/Helper";
 
 import Models from "./lib/model/package";
 import Capabilities from "./lib/entity/components/Capabilities";
@@ -58,7 +59,8 @@ const entity = new EntityCreature({
                 }),
                 Action.Ability({
                     name: "fireball",
-                    state: EnumState.CASTING,
+                    // state: EnumState.CASTING,
+                    state: EnumState.IDLE,
                     // cost: [ 1, EnumResourceType.MANA ],
                     effects: [
                         //TODO Refactor Spawnables to facilitate spawning, facing/velocity (via mouse position), and onCollision event
@@ -101,21 +103,21 @@ const entity = new EntityCreature({
 node.addEntity(entity);
 game.player = entity;
 
-// for(let i = 0; i < 25; i++) {
-//     const e2 = new EntityCreature({
-//         data: {
-//             [ EnumComponentType.RIGID_BODY ]: {
-//                 x: ~~(Math.random() * 20),
-//                 y: ~~(Math.random() * 20),
-//                 speed: 3.50,
-//                 model: new Models.Circle(24),
-//                 facing: NormalizeTheta((Math.random() > 0.5 ? -1 : 1) * Math.random(), (Math.random() > 0.5 ? -1 : 1) * Math.random(), { toNearestDegree: 45 }),
-//             }
-//         }
-//     });
+for(let i = 0; i < 25; i++) {
+    const e2 = new EntityCreature({
+        data: {
+            [ EnumComponentType.RIGID_BODY ]: {
+                x: ~~(Math.random() * 20),
+                y: ~~(Math.random() * 20),
+                speed: 3.50,
+                model: new Models.Circle(24),
+                facing: NormalizeTheta((Math.random() > 0.5 ? -1 : 1) * Math.random(), (Math.random() > 0.5 ? -1 : 1) * Math.random(), { toNearestDegree: 45 }),
+            }
+        }
+    });
 
-//     node.addEntity(e2);
-// }
+    node.addEntity(e2);
+}
 
 console.log(game)
 console.log(game.player)
