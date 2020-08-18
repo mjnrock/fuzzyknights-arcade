@@ -12,6 +12,8 @@ import RACCOON_RUNNING from "./sequencer/data/raccoon.running.json";
 import RACCOON_TAILWHIP from "./sequencer/data/raccoon.tailwhip.json";
 import RACCOON_TUCK from "./sequencer/data/raccoon.tuck.json";
 import SPELL_FIREBALL from "./sequencer/data/spell.fireball.json";
+import SWORD_IDLE from "./sequencer/data/sword.idle.json";
+import SHIELD_IDLE from "./sequencer/data/shield.idle.json";
 import DebugLayer from "./DebugLayer";
 import Composition from "./sequencer/Composition";
 
@@ -23,10 +25,13 @@ Promise.all([
     Score.Deserialize(RACCOON_TAILWHIP).then(score => CookedBook.set("raccoon.tailwhip", score)),
     Score.Deserialize(RACCOON_TUCK).then(score => CookedBook.set("raccoon.tuck", score)),
     Score.Deserialize(SPELL_FIREBALL).then(score => CookedBook.set("spell.fireball", score)),
+    Score.Deserialize(SWORD_IDLE).then(score => CookedBook.set("sword.idle", score)),
+    Score.Deserialize(SHIELD_IDLE).then(score => CookedBook.set("shield.idle", score)),
 ]).then(() => {    
     CookedBook.set("raccoon.running", new Composition([
-        [ "left", CookedBook.get("raccoon.running") ],
-        [ "right", CookedBook.get("spell.fireball") ],
+        [ "body", CookedBook.get("raccoon.running") ],
+        [ "left", CookedBook.get("sword.idle") ],
+        [ "right", CookedBook.get("shield.idle") ],
     ]));
 })
 

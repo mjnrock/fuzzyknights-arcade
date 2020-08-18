@@ -1,14 +1,16 @@
 import { v4 as uuidv4 } from "uuid";
 
 export const Facing = {
-    0: [ "right", "left", "body", "ground", "head", "corona" ],
-    45: [ "right", "left", "body", "ground", "head", "corona" ],
-    90: [ "right", "left", "body", "ground", "head", "corona" ],
-    135: [ "right", "left", "body", "ground", "head", "corona" ],
-    180: [ "left", "right", "body", "ground", "head", "corona" ],
-    225: [ "left", "right", "body", "ground", "head", "corona" ],
-    270: [ "left", "right", "body", "ground", "head", "corona" ],
-    315: [ "left", "right", "body", "ground", "head", "corona" ],
+    0: [ "left", "right", "body", ],    //"ground", "head", "corona" ],
+    45: [ "left", "right", "body", ],   //"ground", "head", "corona" ],
+    135: [ "body", "left", "right", ],  //"ground", "head", "corona" ],
+    180: [ "body", "left", "right", ],  //"ground", "head", "corona" ],
+    315: [ "left", "right", "body", ],  //"ground", "head", "corona" ],
+
+
+    90: [ "left", "body", "right", ],   //"ground", "head", "corona" ],
+    225: [ "right", "body", "left", ],  //"ground", "head", "corona" ],
+    270: [ "right", "body", "left", ],  //"ground", "head", "corona" ],
 };
 
 export default class Composition {
@@ -28,13 +30,15 @@ export default class Composition {
         const arr = [ ...this.scores.entries() ];
         arr.sort(([ aname ], [ bname ]) => Facing[ facing ].indexOf(aname) - Facing[ facing ].indexOf(bname));
 
-        return arr.map(([ name, score ]) => ({ name, score, data: score.get(facing, elapsedTime) }));
+        return new Set(arr.map(([ name, score ]) => ({ name, score, data: score.get(facing, elapsedTime) })));
     }
     
     drawTo(canvas, { facing, elapsedTime, x, y, tx, ty }) {
         const scores = this.get(facing, elapsedTime);
+        //FIXME Something is fucked and I don't know what; it seems like it should work properly, but it doesn't
+        console.log(facing, Facing[ facing ], [ ...scores.values() ].map(score => score.name))
 
-        for(let { score, data } of scores) {
+        for(let { score, data } of [ ...scores.values() ]) {
             const [ sx, sy ] = data.position;
 
             if(sx !== void 0 && sy !== void 0) {
