@@ -2,12 +2,12 @@ export default class Ability {
     /**
      * @param {Requirement[]} requirements [ [] ] | An array of requirements that can be checked against for invocation
      * @param {Effect[]} effects [ [] ] | An array of effects that will be processed in insertion order
-     * @param {number} duration | For how long the Entity will be locked out of further Actions (i.e. recovery time)
+     * @param {number} cooldown | For how long the Entity will be locked out of further Actions (i.e. recovery time)
      */
-    constructor(requirements = [], effects = [], duration) {;
+    constructor(requirements = [], effects = [], cooldown) {;
         this.requirements = requirements;
         this.effects = effects;
-        this.duration = duration;
+        this.cooldown = cooldown;
     }
 
     judge(entity, ...args) {

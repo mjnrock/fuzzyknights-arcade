@@ -64,7 +64,8 @@ export default class Entity extends EventEmitter {
             if(action instanceof Action && action.judge(this) === true) {
                 const rb = this.getComponent(EnumComponentType.RIGID_BODY);
 
-                cap.lock(action.lockout);
+                console.log(action.cooldown, cap.lockedUntil)
+                cap.lock(action.cooldown);
                 game.send("entity", this, EnumEventType.ACTION, action, rb.x, rb.y, rb.facing, ...args);
             }
         }

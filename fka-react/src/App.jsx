@@ -45,7 +45,7 @@ const entity = new EntityCreature({
                         new Effects.Damage(1, Effects.Effect.IgnoreInvoker),
                         new Effects.Knockback(0.05, Effects.Effect.IgnoreInvoker),
                     ],
-                    duration: 667,
+                    cooldown: 667,
                     model: new Models.Circle(64),
                 }),
                 Action.Ability({
@@ -54,7 +54,7 @@ const entity = new EntityCreature({
                     effects: [
                         new Effects.Heal(10, Effects.Effect.OnlyInvoker),
                     ],
-                    duration: 333,
+                    cooldown: 333,
                     model: new Models.Circle(64),
                 }),
                 Action.Ability({
@@ -85,7 +85,7 @@ const entity = new EntityCreature({
                             }
                         }), Effects.Effect.OnlyInvoker),
                     ],
-                    duration: 333,
+                    cooldown: 333,
                     model: new Models.Circle(32),
                 }),
             ]

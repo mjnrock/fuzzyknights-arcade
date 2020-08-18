@@ -35,17 +35,17 @@ export default class Action {
         };
     }
 
-    get lockout() {
-        return Date.now() + (this.consequence instanceof Ability ? this.consequence.duration : MINIMUM_LOCKOUT);
+    get cooldown() {
+        return Date.now() + (this.consequence instanceof Ability ? this.consequence.cooldown : MINIMUM_LOCKOUT);
     }
 
-    static Ability({ requirements, effects, duration, ...opts } = {}) {
+    static Ability({ requirements, effects, cooldown, ...opts } = {}) {
         return new Action({
             type: EnumActionType.ABILITY,
             consequence: new Ability(
                 requirements,
                 effects,
-                duration,
+                cooldown,
             ),
 
             ...opts,
@@ -86,7 +86,7 @@ export default class Action {
             const state = ea.parent.getComponent(EnumComponentType.STATE);
 
             if(state) {
-                state.set(this.compState, this.consequence.duration);    //TODO Change duration to a lookup value based on the Action/Ability
+                state.set(this.compState, this.consequence.cooldown);
             }
 
             this.consequence.affect(ea, target, ...args);
