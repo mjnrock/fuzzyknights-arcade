@@ -13,13 +13,22 @@ import RACCOON_TAILWHIP from "./sequencer/data/raccoon.tailwhip.json";
 import RACCOON_TUCK from "./sequencer/data/raccoon.tuck.json";
 import SPELL_FIREBALL from "./sequencer/data/spell.fireball.json";
 import DebugLayer from "./DebugLayer";
+import Composition from "./sequencer/Composition";
 
+//  STUB
 const CookedBook = new Book();
-Score.Deserialize(RACCOON_IDLE).then(score => CookedBook.set("raccoon.idle", score));
-Score.Deserialize(RACCOON_RUNNING).then(score => CookedBook.set("raccoon.running", score));
-Score.Deserialize(RACCOON_TAILWHIP).then(score => CookedBook.set("raccoon.tailwhip", score));
-Score.Deserialize(RACCOON_TUCK).then(score => CookedBook.set("raccoon.tuck", score));
-Score.Deserialize(SPELL_FIREBALL).then(score => CookedBook.set("spell.fireball", score));
+Promise.all([
+    Score.Deserialize(RACCOON_IDLE).then(score => CookedBook.set("raccoon.idle", score)),
+    Score.Deserialize(RACCOON_RUNNING).then(score => CookedBook.set("raccoon.running", score)),
+    Score.Deserialize(RACCOON_TAILWHIP).then(score => CookedBook.set("raccoon.tailwhip", score)),
+    Score.Deserialize(RACCOON_TUCK).then(score => CookedBook.set("raccoon.tuck", score)),
+    Score.Deserialize(SPELL_FIREBALL).then(score => CookedBook.set("spell.fireball", score)),
+]).then(() => {    
+    CookedBook.set("raccoon.running", new Composition([
+        [ "left", CookedBook.get("raccoon.running") ],
+        [ "right", CookedBook.get("spell.fireball") ],
+    ]));
+})
 
 export default class Camera extends LayeredCanvasNode {
     constructor(game, node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0, rotation = 0, translation = [ 0, 0 ] } = {}) {
