@@ -6,7 +6,6 @@ import RigidBody from "./components/RigidBody";
 import State, { EnumState } from "./components/State";
 import { EnumComponentType } from "./components/Component";
 import Action from "../combat/Action";
-import { EnumResourceType } from "./components/Life";
 
 export const EnumEventType = Enumerator({
     TICK: "Entity.Tick",
@@ -64,17 +63,9 @@ export default class Entity extends EventEmitter {
             
             if(action instanceof Action) {
                 const rb = this.getComponent(EnumComponentType.RIGID_BODY);
-                const life = this.getComponent(EnumComponentType.LIFE);
                 
-                //TODO Refactor this once "Requirements" are added to Abilities
-                if(rb && life) {
-                    if(Array.isArray(action.cost)) {
-                        if(life[ EnumResourceType.flagToName(action.cost[ 1 ]) ].subtract(action.cost[ 0 ], true)) {
-                            game.send("entity", this, EnumEventType.ACTION, action, rb.x, rb.y, rb.facing, ...args);
-                        }
-                    } else if(action.cost === 0) {
-                        game.send("entity", this, EnumEventType.ACTION, action, rb.x, rb.y, rb.facing, ...args);
-                    }
+                if(action.judge(this) === true) {
+                    game.send("entity", this, EnumEventType.ACTION, action, rb.x, rb.y, rb.facing, ...args);
                 }
             }
         }

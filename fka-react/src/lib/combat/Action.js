@@ -33,15 +33,15 @@ export default class Action {
         };
     }
 
-    get cost() {
-        return this.consequence instanceof Ability ? this.consequence.cost : 0;
-    }
+    // get cost() {
+    //     return this.consequence instanceof Ability ? this.consequence.requirements : 0;
+    // }
 
-    static Ability({ cost, effects, duration, ...opts } = {}) {
+    static Ability({ requirements, effects, duration, ...opts } = {}) {
         return new Action({
             type: EnumActionType.ABILITY,
             consequence: new Ability(
-                cost,
+                requirements,
                 effects,
                 duration,
             ),
@@ -56,6 +56,17 @@ export default class Action {
 
             ...opts,
         });
+    }
+
+    judge(entity, ...args) {
+        if(this.type === EnumActionType.ABILITY) {
+            return this.consequence.judge(entity, ...args);
+        } else if(this.type === EnumActionType.INTERACT) {
+            //TODO
+            return true;
+        }
+
+        return false;
     }
 
     execute(ea, target, ...args) {

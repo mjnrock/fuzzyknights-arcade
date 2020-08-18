@@ -10,15 +10,15 @@ export default class EffectDamage extends Effect {
 
                 if(life) {
                     if(method === "-") {
-                        life.HP.subtract(amount);
+                        life.HEALTH.subtract(amount);
                     } else if(method === "+") {
-                        life.HP.add(amount);
+                        life.HEALTH.add(amount);
                     } else if(method === "%") {
-                        life.HP.percent(amount);
+                        life.HEALTH.percent(amount);
                     } else if(method === "-%") {
-                        life.HP.subtract(Math.abs(life.HP.max - life.HP.min) * (amount / 100));
+                        life.HEALTH.subtract(Math.abs(life.HEALTH.max - life.HEALTH.min) * (amount / 100));
                     } else if(method === "+%") {
-                        life.HP.add(Math.abs(life.HP.max - life.HP.min) * (amount / 100));
+                        life.HEALTH.add(Math.abs(life.HEALTH.max - life.HEALTH.min) * (amount / 100));
                     }
                 }
             },

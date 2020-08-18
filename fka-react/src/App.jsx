@@ -24,10 +24,11 @@ import Capabilities from "./lib/entity/components/Capabilities";
 //- Capabilities Imports
 import Action from "./lib/combat/Action";
 import Effects from "./lib/combat/effect/package";
+import Requirements from "./lib/combat/requirement/package";
 import { EnumState } from "./lib/entity/components/State";
-import { EnumResourceType } from "./lib/entity/components/Life";
 import EntityParticle from "./lib/entity/EntityParticle";
 import Elapsable from "./lib/entity/components/lib/Elapsable";
+import { EnumResourceType } from "./lib/entity/components/Life";
 
 const game = new Game();
 game.graph = Graph.Factory.Generate(2, 2, 20, 20, game);
@@ -50,7 +51,10 @@ const entity = new EntityCreature({
                 Action.Ability({
                     name: "defend",
                     state: EnumState.DEFENDING,
-                    cost: [ 1, EnumResourceType.ENERGY ],
+                    requirements: [
+                        new Requirements.Resource(EnumResourceType.ENERGY, 1),
+                        new Requirements.Resource(EnumResourceType.HEALTH, 1),
+                    ],
                     effects: [
                         new Effects.Heal(10, Effects.Effect.OnlyInvoker),
                     ],

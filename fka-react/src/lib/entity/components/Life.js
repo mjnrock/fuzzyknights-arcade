@@ -19,7 +19,7 @@ export default class Life extends Component {
         });
     }
 
-    get HP() {
+    get HEALTH() {
         return this.state[ EnumResourceType.HEALTH ];
     }
     get MANA() {
@@ -33,6 +33,6 @@ export default class Life extends Component {
     }
 
     get isDead() {
-        return this.HP.isEmpty;
+        return this.HEALTH.isEmpty;
     }
 };
