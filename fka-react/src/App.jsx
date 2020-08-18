@@ -93,7 +93,12 @@ const entity = new EntityCreature({
             speed: 2.00,
             // model: new Models.Line(128, 128),
             model: new Models.Circle(24),
-        }
+        },
+        //TODO This ONLY does a key:value set; modify to be a function that passes the Component as parameter, and sets Component to returned value
+        // [ EnumComponentType.LIFE ]: {
+        //     hp: [ 25, 0, 25 ],
+        //     energy: [ 10, 0, 10 ],
+        // }
     }
 });
 

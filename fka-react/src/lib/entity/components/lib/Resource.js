@@ -109,4 +109,12 @@ export default class Resource {
 
         return this;
     }
+
+    reroll(value, min, max) {
+        this.min = min;
+        this.max = max;
+        this.value = value;
+
+        return this;
+    }
 }
