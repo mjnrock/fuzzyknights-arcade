@@ -17,8 +17,6 @@ export default class Life extends Component {
             [ EnumResourceType.RAGE ]: new Attribute(EnumResourceType.RAGE, rage[ 0 ], { name: "Rage", min: rage[ 1 ], max: rage[ 2 ]}),
             [ EnumResourceType.ENERGY ]: new Attribute(EnumResourceType.ENERGY, energy[ 0 ], { name: "Energy", min: energy[ 1 ], max: energy[ 2 ]}),
         });
-
-        console.log(hp, energy)
     }
 
     get HEALTH() {

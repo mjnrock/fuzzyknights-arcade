@@ -26,6 +26,7 @@ export default class EffectSpawn extends Effect {
 
                     rb.facing = comp.facing;
 
+                    //TODO Take @theta from Game object, once Key/Mouse data has been stored there from GameView
                     const [ vx, vy ] = rb.facingXY(true);
                     rb.vx = vx * rb.speed;
                     rb.vy = vy * rb.speed;

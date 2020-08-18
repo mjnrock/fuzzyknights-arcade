@@ -36,14 +36,14 @@ export const Controls = {
         } ],
     ],
     mouse: [
-        [ 0, function(payload) {
-            this.game.player.perform(this.game, 0);
+        [ 0, function(e) {
+            this.game.player.perform(this.game, 0, e);
         } ],
-        [ 1, function(payload) {
-            this.game.player.perform(this.game, 1);
+        [ 1, function(e) {
+            this.game.player.perform(this.game, 1, e);
         } ],
-        [ 2, function(payload) {
-            this.game.player.perform(this.game, 2);
+        [ 2, function(e) {
+            this.game.player.perform(this.game, 2, e);
         } ],
     ]
 };
@@ -100,6 +100,12 @@ export default class GameView extends View {
         this.addEffect((state, msg) => {
             if(msg.type === EnumKeyMessageType.KEY_MASK || msg.type === EnumMouseMessageType.MOUSE_MOVE) {
                 graphComp.receive.call(graphComp, state, msg);
+                
+                //TODO Store the relevant Mouse and Key data in the Game object, itself (i.e. cursor position, key mask, etc.), so Game can control Player-based events properly
+                // if(msg.type === EnumMouseMessageType.MOUSE_MOVE) {
+                //     const [ xc, yc ] = [ this.game.view.camera.width / 2, this.game.view.camera.height / 2 ];
+                //     theta = Math.atan2(e.y - yc, e.x - xc) * 180 / Math.PI;
+                // }
             }
         });
 
