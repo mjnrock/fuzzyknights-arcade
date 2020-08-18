@@ -1,13 +1,15 @@
 import Effect, { EnumEffectType } from "./Effect";
 import { EnumComponentType } from "./../../entity/components/Component";
+// import EnumDamageType from "./../DamageType";
 
 export default class EffectDamage extends Effect {
-    constructor(amount = 0, { method = "-", only, ignore } = {}) {
+    constructor(type, amount = 0, { method = "-", only, ignore } = {}) {
         super({
             type: EnumEffectType.DAMAGE,
             effect: function(ea, target) {
                 const life = target.getComponent(EnumComponentType.LIFE);
 
+                //TODO Account for DamageType and accompanying Resistances
                 if(life) {
                     if(method === "-") {
                         life.HEALTH.subtract(amount);
@@ -26,6 +28,7 @@ export default class EffectDamage extends Effect {
             ignore,
         });
 
+        this.type = type;
         this.amount = amount;
     }
 }

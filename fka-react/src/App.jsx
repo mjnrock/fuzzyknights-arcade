@@ -29,6 +29,7 @@ import { EnumState } from "./lib/entity/components/State";
 import EntityParticle from "./lib/entity/EntityParticle";
 import Elapsable from "./lib/entity/components/lib/Elapsable";
 import { EnumResourceType } from "./lib/entity/components/Life";
+import EnumDamageType from "./lib/combat/DamageType";
 
 const game = new Game();
 game.graph = Graph.Factory.Generate(2, 2, 20, 20, game);
@@ -42,7 +43,7 @@ const entity = new EntityCreature({
                     name: "attack",
                     state: EnumState.ATTACKING,
                     effects: [
-                        new Effects.Damage(1, Effects.Effect.IgnoreInvoker),
+                        new Effects.Damage(EnumDamageType.PHYSICAL, 1, Effects.Effect.IgnoreInvoker),
                         new Effects.Knockback(0.05, Effects.Effect.IgnoreInvoker),
                     ],
                     cooldown: 667,

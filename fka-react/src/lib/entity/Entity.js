@@ -21,7 +21,7 @@ export const EnumEntityType = Enumerator({
 });
 
 export default class Entity extends EventEmitter {
-    constructor({ type, comps = [], id, data = {}, lifespan = -1, parent } = {}) {
+    constructor({ type, comps = [], id, data = {}, lifespan = -1, parent, hooks = {} } = {}) {
         super();
 
         this.id = id || uuidv4();
@@ -30,6 +30,15 @@ export default class Entity extends EventEmitter {
         this.parent = parent;
         
         this.type = type;
+        
+        //TODO Hooks should allow for ANY game event hook, but the Death and Collision are key placeholders until such time
+        //? These should all return Actions
+        this.hooks = {
+            onDeath: () => null,
+            onCollision: () => null,
+
+            ...hooks,
+        };
 
         this.components = [
             ...comps,
@@ -64,7 +73,6 @@ export default class Entity extends EventEmitter {
             if(action instanceof Action && action.judge(this) === true) {
                 const rb = this.getComponent(EnumComponentType.RIGID_BODY);
 
-                console.log(action.cooldown, cap.lockedUntil)
                 cap.lock(action.cooldown);
                 game.send("entity", this, EnumEventType.ACTION, action, rb.x, rb.y, rb.facing, ...args);
             }

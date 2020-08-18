@@ -2,9 +2,7 @@ import Hive from "@lespantsfancy/hive";
 import Entity, { EnumEventType as EnumEntityEventType } from "./Entity";
 import { EnumComponentType } from "./components/Component";
 import EntityAction from "./EntityAction";
-import EntityParticle from "./EntityParticle";
 import EntityCreature from "./EntityCreature";
-import Circle from "../model/Circle";
 import { EnumEventType as EnumNodeEventType} from "./../graph/Node";
 import { EnumState } from "./components/State";
 import { EnumTerrainType } from "./../graph/Terrain";
@@ -61,27 +59,13 @@ export default class EntityManager extends Hive.Node {
     }
 
     purge(entity) {
-        this.remove(entity);
-
         if(entity instanceof EntityCreature) {
-            //? Spawn a death poof
-            //TODO Make this an event and spawn the entity as a result of the event
-            const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
-            if(rb) {
-                this.node.addEntity(new EntityParticle({
-                    lifespan: 750,
-                    data: {
-                        [ EnumComponentType.RIGID_BODY ]: {
-                            x: rb.x,
-                            y: rb.y,
-                            speed: 0,
-                            model: new Circle(32),
-                            facing: rb.facing,
-                        }
-                    },
-                }))
+            if(typeof entity.hooks.onDeath === "function") {
+                entity.hooks.onDeath();
             }
         }
+
+        this.remove(entity);
 
         return this;
     }

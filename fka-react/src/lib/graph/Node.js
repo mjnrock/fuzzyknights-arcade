@@ -10,8 +10,8 @@ import { EnumComponentType } from "../entity/components/Component";
  */
 
 export const EnumEventType = {
-    ENTITY_JOIN: "ENTITY_JOIN",
-    ENTITY_LEAVE: "ENTITY_LEAVE",
+    ENTITY_JOIN: "Node.EntityJoin",
+    ENTITY_LEAVE: "Node.EntityLeave",
 };
 
 export default class Node extends EventEmitter {

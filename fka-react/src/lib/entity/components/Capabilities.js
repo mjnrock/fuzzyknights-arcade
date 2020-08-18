@@ -122,6 +122,15 @@ export default class Capabilities extends Component {
 
         return arr[ index ];
     }
+    recollate(n0, n1) {
+        const e0 = this.state.library.get(n0);
+        const e1 = this.state.library.get(n1);
+
+        this.state.library.set(n0, e1);
+        this.state.library.set(n1, e0);
+
+        return this;
+    }
 
     //* Current Section
     //- Mainly helper functions
@@ -148,6 +157,15 @@ export default class Capabilities extends Component {
         const arr = [ ...this.state.current.values() ];
 
         return arr[ index ];
+    }
+    swap(n0, n1) {
+        const e0 = this.state.current.get(n0);
+        const e1 = this.state.current.get(n1);
+
+        this.state.current.set(n0, e1);
+        this.state.current.set(n1, e0);
+
+        return this;
     }
 
     unlock() {
