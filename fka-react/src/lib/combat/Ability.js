@@ -2,7 +2,7 @@ export default class Ability {
     /**
      * @param {Requirement[]} requirements [ [] ] | An array of requirements that can be checked against for invocation
      * @param {Effect[]} effects [ [] ] | An array of effects that will be processed in insertion order
-     * @param {number} duration | For how long will the Ability "last"
+     * @param {number} duration | For how long the Entity will be locked out of further Actions (i.e. recovery time)
      */
     constructor(requirements = [], effects = [], duration) {;
         this.requirements = requirements;

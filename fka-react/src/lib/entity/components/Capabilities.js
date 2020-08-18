@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Component, { EnumComponentType } from "./Component";
 import Action from "../../combat/Action";
 
@@ -11,7 +12,7 @@ export default class Capabilities extends Component {
         super(EnumComponentType.CAPABILITIES, {
             library: new Map(),  // The "spellbook"
             current: new Map(),  // The "equipped" equivalent for abilities
-            lastAction: null,   // Use as a flag variable for the GCD
+            lockedUntil: null,   // Use as a flag variable for the GCD
         });
 
         for(let action of library) {
@@ -24,6 +25,16 @@ export default class Capabilities extends Component {
                 this.add(action);
             }
         }
+    }
+
+    get check() {
+        if(Date.now() >= this.state.lockedUntil) {
+            this.unlock();
+
+            return true;
+        }
+
+        return false;
     }
 
     get isCurrentOpen() {
@@ -68,15 +79,6 @@ export default class Capabilities extends Component {
         return false;
     }
 
-    //TODO WIP
-    // use(game, entity, index, ...args) {
-    //     const action = this.index(index);
-
-    //     if(action) {
-    //         action.execute()
-    //     }
-    // }
-
     //* Library Section
     search(input) {        
         if(input instanceof Action) {
@@ -86,7 +88,6 @@ export default class Capabilities extends Component {
         }
     }
     learn(action) {
-        console.log(action)
         if(action instanceof Action && (this.isLibraryOpen || this.state.library.has(action.name))) {
             this.state.library.set(action.name, action);
 
@@ -147,5 +148,16 @@ export default class Capabilities extends Component {
         const arr = [ ...this.state.current.values() ];
 
         return arr[ index ];
+    }
+
+    unlock() {
+        this.state.lockedUntil = null;
+
+        return this;
+    }
+    lock(until) {
+        this.state.lockedUntil = until;
+
+        return this;
     }
 }

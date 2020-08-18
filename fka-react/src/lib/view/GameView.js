@@ -39,8 +39,10 @@ export const Controls = {
         [ 0, function(payload) {
             this.game.player.perform(this.game, 0);
         } ],
+        [ 1, function(payload) {
+            this.game.player.perform(this.game, 1);
+        } ],
         [ 2, function(payload) {
-            // this.game.player.perform(this.game, 1);
             this.game.player.perform(this.game, 2);
         } ],
     ]

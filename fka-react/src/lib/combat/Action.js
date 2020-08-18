@@ -7,6 +7,8 @@ export const EnumActionType = Enumerator({
     INTERACT: 2 << 1,
 });
 
+export const MINIMUM_LOCKOUT = 150;
+
 export default class Action {
     /**
      * @param {EnumActionType} type | The type of action, either to signify an Ability usage or as an interaction event (e.g. Portals)
@@ -33,9 +35,9 @@ export default class Action {
         };
     }
 
-    // get cost() {
-    //     return this.consequence instanceof Ability ? this.consequence.requirements : 0;
-    // }
+    get lockout() {
+        return Date.now() + (this.consequence instanceof Ability ? this.consequence.duration : MINIMUM_LOCKOUT);
+    }
 
     static Ability({ requirements, effects, duration, ...opts } = {}) {
         return new Action({
