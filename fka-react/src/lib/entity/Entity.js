@@ -11,6 +11,8 @@ export const EnumEventType = Enumerator({
     TICK: "Entity.Tick",
     COLLISION: "Entity.Collision",
     ACTION: "Entity.Action",
+    INTERACTION: "Entity.Interaction",
+    DIE: "Entity.Die",
 });
 
 export const EnumEntityType = Enumerator({
@@ -18,10 +20,11 @@ export const EnumEntityType = Enumerator({
     ACTION: 2 << 1,
     PARTICLE: 2 << 2,
     PORTAL: 2 << 3,
+    PROJECTILE: 2 << 4,
 });
 
 export default class Entity extends EventEmitter {
-    constructor({ type, comps = [], id, data = {}, lifespan = -1, parent, hooks = {} } = {}) {
+    constructor({ type, comps = [], id, data = {}, lifespan = -1, parent, x, y, hooks = {} } = {}) {
         super();
 
         this.id = id || uuidv4();
@@ -31,14 +34,7 @@ export default class Entity extends EventEmitter {
         
         this.type = type;
         
-        //TODO Hooks should allow for ANY game event hook, but the Death and Collision are key placeholders until such time
-        //? These should all return Actions
-        this.hooks = {
-            onDeath: () => null,
-            onCollision: () => null,
-
-            ...hooks,
-        };
+        this.hooks = hooks;
 
         this.components = [
             ...comps,
@@ -56,12 +52,28 @@ export default class Entity extends EventEmitter {
                 }
             }
         }
+
+        if(x !== void 0  && y !== void 0) {
+            const rb = this.getComponent(EnumComponentType.RIGID_BODY);
+            rb.setCoords(x, y);
+        }
     }
 
     get pos() {
         const rb = this.getComponent(EnumComponentType.RIGID_BODY);
         
         return rb.pos;
+    }
+    get node() {
+        const rb = this.getComponent(EnumComponentType.RIGID_BODY);
+        
+        return rb.node;
+    }
+
+    hook(event, ...args) {
+        if(typeof this.hooks[ event ] === "function") {
+            this.hooks[ event ].call(this, ...args);
+        }
     }
 
     perform(game, index, ...args) {
@@ -101,7 +113,7 @@ export default class Entity extends EventEmitter {
 
     tick(dt, now, game) {
         if(game) {
-            game.send("entity", this, EnumEventType.TICK, dt, game);
+            game.send("entity", this, EnumEventType.TICK, dt, now, game);
 
             return !this.isExpired;
         }

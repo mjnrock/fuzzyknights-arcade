@@ -2,6 +2,7 @@ import GridCanvasNode from "../hive/GridCanvasNode";
 import { EnumComponentType } from "../entity/components/Component";
 import { EnumState } from "../entity/components/State";
 import EntityCreature from "../entity/EntityCreature";
+import EntityProjectile from "../entity/EntityProjectile";
 
 export default class EntityLayer extends GridCanvasNode {
     constructor(book, { width, height, tw = 128, th = 128, size = [] } = {}) {
@@ -45,7 +46,7 @@ export default class EntityLayer extends GridCanvasNode {
                 } else if(state.currentValue === EnumState.MOVING) {
                     if(entity instanceof EntityCreature) {
                         score = this.book.get(`raccoon.running`);
-                    } else {
+                    } else if(entity instanceof EntityProjectile) {
                         score = this.book.get(`spell.fireball`);
                     }
                 } else if(state.currentValue === EnumState.ATTACKING) {

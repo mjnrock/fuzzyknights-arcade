@@ -7,6 +7,8 @@ export default class EffectSpawn extends Effect {
             type: EnumEffectType.SPAWN,
             effect: function(ea, target) {
                 const ent = entity();
+                ent.parent = ea.parent;
+
                 const comp = ea.parent.getComponent(EnumComponentType.RIGID_BODY);
                 const rb = ent.getComponent(EnumComponentType.RIGID_BODY);
 

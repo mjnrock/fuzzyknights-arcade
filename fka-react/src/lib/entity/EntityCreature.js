@@ -4,10 +4,11 @@ import Life from "./components/Life";
 import Attributes from "./components/Attributes";
 
 export default class EntityCreature extends Entity {
-    constructor({ comps = [], id, data = {}, lifespan = -1, parent } = {}) {
+    constructor({ comps = [], id, data = {}, lifespan = -1, parent, x, y } = {}) {
         super({
             id,
             data,
+            x, y,
             lifespan,
             parent,
             type: EnumEntityType.CREATURE,

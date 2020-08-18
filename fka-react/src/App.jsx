@@ -26,10 +26,10 @@ import Action from "./lib/combat/Action";
 import Effects from "./lib/combat/effect/package";
 import Requirements from "./lib/combat/requirement/package";
 import { EnumState } from "./lib/entity/components/State";
-import EntityParticle from "./lib/entity/EntityParticle";
-import Elapsable from "./lib/entity/components/lib/Elapsable";
+import { EnumEventType as EnumEntityEventType } from "./lib/entity/Entity";
 import { EnumResourceType } from "./lib/entity/components/Life";
 import EnumDamageType from "./lib/combat/DamageType";
+import EntityProjectile from "./lib/entity/EntityProjectile";
 
 const game = new Game();
 game.graph = Graph.Factory.Generate(2, 2, 20, 20, game);
@@ -66,23 +66,17 @@ const entity = new EntityCreature({
                         new Requirements.Resource(EnumResourceType.ENERGY, 1),
                     ],
                     effects: [
-                        //TODO Refactor Spawnables to facilitate spawning, facing/velocity (via mouse position), and onCollision event
-                        //  STUB    EntityParticle is not the appropriate entity
-                        new Effects.Spawn(() => new EntityParticle({    //? Needs to be a "generator" function, otherwise keeps spawning same instance
+                        new Effects.Spawn(() => new EntityProjectile({    //? Needs to be a "generator" function, otherwise keeps spawning same instance
                             lifespan: 1000,
-                            data: {
-                                [ EnumComponentType.RIGID_BODY ]: {
-                                    speed: 5.0,
-                                    model: new Models.Circle(24),
-                                },
-                                [ EnumComponentType.STATE ]: {
-                                    default: new Elapsable(Infinity, {
-                                        data: {
-                                            value: EnumState.MOVING,
-                                        },
-                                        startNow: true,
-                                    })
-                                },
+                            model: [ 24 ],
+                            speed: 5.0,
+                            hooks: {
+                                [ EnumEntityEventType.COLLISION ]: function(target) {
+                                    if(this.parent !== target) {
+                                        this.node.entityManager.kill(target);
+                                        this.node.entityManager.kill(this);
+                                    }
+                                }
                             }
                         }), Effects.Effect.OnlyInvoker),
                     ],

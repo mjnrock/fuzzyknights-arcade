@@ -2,7 +2,6 @@ import Hive from "@lespantsfancy/hive";
 import Entity, { EnumEventType as EnumEntityEventType } from "./Entity";
 import { EnumComponentType } from "./components/Component";
 import EntityAction from "./EntityAction";
-import EntityCreature from "./EntityCreature";
 import { EnumEventType as EnumNodeEventType} from "./../graph/Node";
 import { EnumState } from "./components/State";
 import { EnumTerrainType } from "./../graph/Terrain";
@@ -59,12 +58,7 @@ export default class EntityManager extends Hive.Node {
     }
 
     purge(entity) {
-        if(entity instanceof EntityCreature) {
-            if(typeof entity.hooks.onDeath === "function") {
-                entity.hooks.onDeath();
-            }
-        }
-
+        entity.hook(EnumEntityEventType.DIE);
         this.remove(entity);
 
         return this;
@@ -193,11 +187,14 @@ export default class EntityManager extends Hive.Node {
         } else if(type === EnumEntityEventType.COLLISION) {
             const [ target ] = args;
             
-            if(entity instanceof EntityAction && !(target instanceof EntityAction)) {
-                entity.action.execute(entity, target);
-            } else if(target instanceof EntityAction && !(entity instanceof EntityAction)) {
-                target.action.execute(target, entity);
+            if(entity instanceof EntityAction) {
+                if(!(target instanceof EntityAction)) {
+                    entity.action.execute(entity, target);
+                }
             }
+            
+            entity.hook(EnumEntityEventType.COLLISION, target);
+            target.hook(EnumEntityEventType.COLLISION, entity);
         } else if(type === EnumEntityEventType.ACTION) {
             const [ action, x, y, facing ] = args;
             const model = typeof action.model === "function" ? action.model(entity) : action.model;
