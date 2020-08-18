@@ -51,10 +51,6 @@ const entity = new EntityCreature({
                 Action.Ability({
                     name: "defend",
                     state: EnumState.DEFENDING,
-                    requirements: [
-                        new Requirements.Resource(EnumResourceType.ENERGY, 1),
-                        new Requirements.Resource(EnumResourceType.HEALTH, 1),
-                    ],
                     effects: [
                         new Effects.Heal(10, Effects.Effect.OnlyInvoker),
                     ],
@@ -65,7 +61,9 @@ const entity = new EntityCreature({
                     name: "fireball",
                     // state: EnumState.CASTING,
                     state: EnumState.IDLE,
-                    // cost: [ 1, EnumResourceType.MANA ],
+                    requirements: [
+                        new Requirements.Resource(EnumResourceType.ENERGY, 1),
+                    ],
                     effects: [
                         //TODO Refactor Spawnables to facilitate spawning, facing/velocity (via mouse position), and onCollision event
                         //  STUB    EntityParticle is not the appropriate entity
