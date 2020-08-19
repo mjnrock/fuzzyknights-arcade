@@ -31,6 +31,25 @@ import { EnumResourceType } from "./lib/entity/components/Life";
 import EnumDamageType from "./lib/combat/DamageType";
 import EntityProjectile from "./lib/entity/EntityProjectile";
 
+
+
+import Registry from "./lib/util/Registry";
+
+const reg = new Registry();
+reg.create({
+    key: [ "test", "bob" ],
+    value: 3
+});
+reg.create(19);
+
+console.log(reg.get("test"));
+console.log(reg.get("bob"));
+console.log(reg.get(reg.find("test").id));
+console.log(reg.find("test"));
+console.log(reg.entries);
+
+
+
 const game = Game.$ || new Game();
 game.graph = Graph.Factory.Generate(2, 2, 20, 20, game);
 

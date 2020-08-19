@@ -22,7 +22,33 @@ export default class Score {
         if(mixer instanceof Mixer && Object.keys(data).length) {            
             mixer.toData().then(data => this.data = data);
         }
+
+        // this.config = {
+        //     shouldRepeat: true,
+        // };
     }
+
+    // toggle(key) {
+    //     if(key in this.config) {
+    //         this.config[ key ] = !this.config[ key ];
+    //     }
+
+    //     return this;
+    // }
+    // turnOn(key) {
+    //     if(key in this.config) {
+    //         this.config[ key ] = true;
+    //     }
+
+    //     return this;
+    // }
+    // turnOff(key) {
+    //     if(key in this.config) {
+    //         this.config[ key ] = false;
+    //     }
+
+    //     return this;
+    // }
 
     get canvas() {
         if("x0" in this.bounds && "y0" in this.bounds && "x1" in this.bounds && "y1" in this.bounds) {
