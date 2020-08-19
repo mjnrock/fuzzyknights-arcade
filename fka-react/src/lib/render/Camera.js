@@ -13,9 +13,12 @@ import RACCOON_TAILWHIP from "./sequencer/data/raccoon.tailwhip.json";
 import RACCOON_TUCK from "./sequencer/data/raccoon.tuck.json";
 import SPELL_FIREBALL from "./sequencer/data/spell.fireball.json";
 import SWORD_IDLE from "./sequencer/data/sword.idle.json";
+import SWORD_ATTACKING from "./sequencer/data/sword.attacking.json";
 import SHIELD_IDLE from "./sequencer/data/shield.idle.json";
 import DebugLayer from "./DebugLayer";
 import Composition from "./sequencer/Composition";
+
+//  NOTE Fireballs get "stuck" on the side of the screen and entities "pop in" because the Game loop currently render only and exactly the viewport; extend viewport by 1 or 2 tiles and move Game loop invocation elsewhere
 
 //  STUB
 const CookedBook = new Book();
@@ -27,10 +30,16 @@ Promise.all([
     Score.Deserialize(SPELL_FIREBALL).then(score => CookedBook.set("spell.fireball", score)),
     Score.Deserialize(SWORD_IDLE).then(score => CookedBook.set("sword.idle", score)),
     Score.Deserialize(SHIELD_IDLE).then(score => CookedBook.set("shield.idle", score)),
+    Score.Deserialize(SWORD_ATTACKING).then(score => CookedBook.set("sword.attacking", score)),
 ]).then(() => {    
     CookedBook.set("player.idle", new Composition([
         [ "body", CookedBook.get("raccoon.idle") ],
         [ "right", CookedBook.get("sword.idle") ],
+        [ "left", CookedBook.get("shield.idle") ],
+    ]));
+    CookedBook.set("player.attacking", new Composition([
+        [ "body", CookedBook.get("raccoon.idle") ],
+        [ "right", CookedBook.get("sword.attacking") ],
         [ "left", CookedBook.get("shield.idle") ],
     ]));
     CookedBook.set("raccoon.running", new Composition([

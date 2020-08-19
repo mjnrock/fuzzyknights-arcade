@@ -40,7 +40,7 @@ export default class EntityLayer extends GridCanvasNode {
 
             if((rb.x >= x) && (rb.x <= (x + w)) && (rb.y >= y) && (rb.y <= (y + h))) {
                 let score;
-                //FIXME [ presently partial STUB ] "raccoon.STATE" needs to be dynamically created
+                //FIXME [ presently partial STUB ] "ENTITY.STATE" needs to be dynamically created
                 if(state.currentValue === EnumState.IDLE) {
                     if(entity === game.player) {
                         score = this.book.get(`player.idle`);
@@ -54,7 +54,11 @@ export default class EntityLayer extends GridCanvasNode {
                         score = this.book.get(`spell.fireball`);
                     }
                 } else if(state.currentValue === EnumState.ATTACKING) {
-                    score = this.book.get(`raccoon.tailwhip`);
+                    if(entity === game.player) {
+                        score = this.book.get(`player.attacking`);
+                    } else {
+                        score = this.book.get(`raccoon.tailwhip`);
+                    }
                 } else if(state.currentValue === EnumState.DEFENDING) {
                     score = this.book.get(`raccoon.tuck`);
                 }

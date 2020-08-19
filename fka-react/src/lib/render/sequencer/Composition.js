@@ -10,7 +10,7 @@ export const EnumFacing = {
         225: [ "right", "body", "left", ],  //"ground", "head", "corona" ],
         270: [ "right", "body", "left", ],  //"ground", "head", "corona" ],
         315: [ "left", "right", "body", ],  //"ground", "head", "corona" ],
-    }
+    },
 };
 
 export default class Composition {
