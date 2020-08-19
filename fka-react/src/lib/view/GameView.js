@@ -2,15 +2,6 @@ import View from "./View";
 import GraphComponent from "./components/GraphComponent";
 import { EnumMessageType as EnumMouseMessageType } from "./../hive/MouseNode";
 import { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNode";
-// import RenderCamera from "../render/Camera";
-// import RenderCamera from "../render/wip/Camera";
-// import Models from "./../model/package";
-
-// import Action from "../combat/Action";
-// import Effects from "./../combat/effect/package";
-// import { EnumState } from "../entity/components/State";
-// import Effect from "../combat/effect/Effect";
-// import { EnumResourceType } from "../entity/components/Life";
 
 export const Controls = {
     key: [
@@ -48,45 +39,6 @@ export const Controls = {
     ]
 };
 
-// export const StubCamera = (game, graph) => {
-//     const camera = new RenderCamera(game, graph.getNode(0, 0), {
-//         tw: 128,
-//         th: 128,
-//         scale: 1.0,
-
-//         //* Viewport Config
-//         x: 0,   // Only relevant w/o a subject
-//         y: 0,   // Only relevant w/o a subject
-//         w: 9,
-//         h: 7,
-
-//         subject: game.player,
-//     });
-
-//     camera.getLayer(0).loadImages([
-//         [ "terrain.grass", "./assets/terrain/grass.png" ],
-//         [ "terrain.dirt", "./assets/terrain/dirt.png" ],
-//         [ "terrain.stone", "./assets/terrain/stone.png" ],
-//     ]).then(() => {
-//         camera.getLayer(1).loadImages([
-//             [ "entity.raccoon", "./assets/entity/raccoon.png" ],
-//             [ "entity.beaver", "./assets/entity/beaver.png" ],
-//             [ "entity.rabbit", "./assets/entity/rabbit.png" ],
-//             [ "entity.walrus", "./assets/entity/walrus.png" ],
-//             [ "entity.bull", "./assets/entity/bull.png" ],
-//             [ "entity.particle.poof", "./assets/entity/poof.png" ],
-//         ]).then(() => {
-//             camera.getLayer(0).draw();
-            
-//             //TODO GameLoop currently utilizes MainLoop, build up rendering manager paradigm and transfer Camera and rendering to its .draw()
-//             game.start();
-//             // camera.play();
-//         });  
-//     });
-
-//     return camera;
-// };
-
 export default class GameView extends View {
     constructor(game, graph, { camera, controls = {} } = {}) {
         super(game);
@@ -101,7 +53,7 @@ export default class GameView extends View {
             if(msg.type === EnumKeyMessageType.KEY_MASK || msg.type === EnumMouseMessageType.MOUSE_MOVE) {
                 graphComp.receive.call(graphComp, state, msg);
                 
-                //TODO Store the relevant Mouse and Key data in the Game object, itself (i.e. cursor position, key mask, etc.), so Game can control Player-based events properly
+                //TODO Store the relevant Mouse and Key data in the Game object, itself (i.e. cursor position, key mask, etc.), so Game can control Player-based events easily
                 // if(msg.type === EnumMouseMessageType.MOUSE_MOVE) {
                 //     const [ xc, yc ] = [ this.game.view.camera.width / 2, this.game.view.camera.height / 2 ];
                 //     theta = Math.atan2(e.y - yc, e.x - xc) * 180 / Math.PI;

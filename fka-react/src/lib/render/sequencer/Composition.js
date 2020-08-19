@@ -2,14 +2,14 @@ import { v4 as uuidv4 } from "uuid";
 
 export const EnumFacing = {
     TOP_DOWN: {
-        0: [ "left", "right", "body", ],    //"ground", "head", "corona" ],
-        45: [ "left", "right", "body", ],   //"ground", "head", "corona" ],
-        90: [ "left", "body", "right", ],   //"ground", "head", "corona" ],
-        135: [ "body", "left", "right", ],  //"ground", "head", "corona" ],
-        180: [ "body", "left", "right", ],  //"ground", "head", "corona" ],
-        225: [ "right", "body", "left", ],  //"ground", "head", "corona" ],
-        270: [ "right", "body", "left", ],  //"ground", "head", "corona" ],
-        315: [ "left", "right", "body", ],  //"ground", "head", "corona" ],
+        0: [ "right", "left", "body", ],    //"ground", "shadow", "head", "corona" ],
+        45: [ "left", "right", "body", ],   //"ground", "shadow", "head", "corona" ],
+        90: [ "left", "body", "right", ],   //"ground", "shadow", "head", "corona" ],
+        135: [ "body", "left", "right", ],  //"ground", "shadow", "head", "corona" ],
+        180: [ "body", "left", "right", ],  //"ground", "shadow", "head", "corona" ],
+        225: [ "body", "right", "left", ],  //"ground", "shadow", "head", "corona" ],
+        270: [ "right", "body", "left", ],  //"ground", "shadow", "head", "corona" ],
+        315: [ "right", "left", "body", ],  //"ground", "shadow", "head", "corona" ],
     },
 };
 

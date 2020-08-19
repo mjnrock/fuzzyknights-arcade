@@ -96,6 +96,6 @@ export default class GraphComponent extends Component {
             }
         }
 
-        this.game.send("graph",this, EnumEventType.PLAYER_MOVEMENT_MASK, this.game.player, ...arguments);
+        this.game.send("graph", this, EnumEventType.PLAYER_MOVEMENT_MASK, this.game.player, ...arguments);
     }
 };

@@ -3,12 +3,22 @@ import { v4 as uuidv4 } from "uuid";
 import Propagator from "./Propagator";
 
 export default class Station extends Hive.Node {
-    constructor({ channels = [], state  = {}, config = {} } = {}) {
+    constructor(channels = [], { state  = {}, config = {} } = {}) {
         super({
-            channels: new Map(channels),         
+            channels: new Map(),         
 
             ...state,
         });
+
+        if(channels.length) {
+            if(Array.isArray(channels[ 0 ])) {
+                this.state.channels = new Map(channels);
+            } else if(typeof channels[ 0 ] === "string" || channels[ 0 ] instanceof String) {
+                for(let name of channels) {
+                    this.newChannel(name);
+                }
+            }
+        }
 
         this.id = uuidv4();
 

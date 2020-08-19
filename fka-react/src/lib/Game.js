@@ -1,11 +1,6 @@
 import Hive from "@lespantsfancy/hive";
 import Station from "./hive/Station";
-import Propagator from "./hive/Propagator";
 import GameLoop from "./GameLoop";
-
-export const ChannelManifest = [
-    new Propagator()
-];
 
 export default class Game extends Hive.Node {
     constructor({ settings = {}, fps = 60 } = {}) {
@@ -13,7 +8,7 @@ export default class Game extends Hive.Node {
             players: [],
             graph: null,
             view: null,
-            broadcastNetwork: new Station(ChannelManifest),
+            broadcastNetwork: new Station([ "graph", "node", "player", "entity", ]),
             loop: null,
 
             settings: {
@@ -25,11 +20,6 @@ export default class Game extends Hive.Node {
         });
 
         this.state.loop = new GameLoop(this, fps);
-
-        this.state.broadcastNetwork.newChannel("graph");
-        this.state.broadcastNetwork.newChannel("node");
-        this.state.broadcastNetwork.newChannel("player");
-        this.state.broadcastNetwork.newChannel("entity");
     }
 
     setting(prop, value) {
