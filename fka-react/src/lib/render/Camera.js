@@ -15,6 +15,7 @@ import SPELL_FIREBALL from "./sequencer/data/spell.fireball.json";
 import SWORD_IDLE from "./sequencer/data/sword.idle.json";
 import SWORD_ATTACKING from "./sequencer/data/sword.attacking.json";
 import SHIELD_IDLE from "./sequencer/data/shield.idle.json";
+import SHIELD_BLOCK from "./sequencer/data/shield.block.json";
 import DebugLayer from "./DebugLayer";
 import Composition from "./sequencer/Composition";
 
@@ -31,6 +32,7 @@ Promise.all([
     Score.Deserialize(SWORD_IDLE).then(score => CookedBook.set("sword.idle", score)),
     Score.Deserialize(SHIELD_IDLE).then(score => CookedBook.set("shield.idle", score)),
     Score.Deserialize(SWORD_ATTACKING).then(score => CookedBook.set("sword.attacking", score)),
+    Score.Deserialize(SHIELD_BLOCK).then(score => CookedBook.set("shield.defending", score)),
 ]).then(() => {    
     CookedBook.set("player.idle", new Composition([
         [ "body", CookedBook.get("raccoon.idle") ],
@@ -47,7 +49,11 @@ Promise.all([
         [ "right", CookedBook.get("sword.idle") ],
         [ "left", CookedBook.get("shield.idle") ],
     ]));
-})
+    CookedBook.set("raccoon.tuck", new Composition([
+        [ "body", CookedBook.get("raccoon.tuck") ],
+        [ "left", CookedBook.get("shield.defending") ],
+    ]));
+});
 
 export default class Camera extends LayeredCanvasNode {
     constructor(game, node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0, rotation = 0, translation = [ 0, 0 ] } = {}) {
@@ -83,6 +89,15 @@ export default class Camera extends LayeredCanvasNode {
     
         this.ctx.translate(...translation);
         this.ctx.rotate(rotation * Math.PI / 180);   // Expects Degrees
+    }
+
+    get pos() {
+        return {
+            x0: this.state.viewport.x,
+            y0: this.state.viewport.y,
+            x1: this.state.viewport.x + this.state.viewport.width,
+            y1: this.state.viewport.y + this.state.viewport.height,
+        };
     }
 
     get game() {

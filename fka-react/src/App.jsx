@@ -31,7 +31,7 @@ import { EnumResourceType } from "./lib/entity/components/Life";
 import EnumDamageType from "./lib/combat/DamageType";
 import EntityProjectile from "./lib/entity/EntityProjectile";
 
-const game = new Game();
+const game = Game.$ || new Game();
 game.graph = Graph.Factory.Generate(2, 2, 20, 20, game);
 
 const node = game.graph.getNode(0, 0);

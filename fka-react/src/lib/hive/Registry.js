@@ -9,7 +9,6 @@ export default class Registry extends EventEmitter {
     constructor({ setter, getter, entries = [], state = {} } = {}) {
         super({
             entries: new Map(entries),
-            // objects: new WeakMap(),     // This is there for whenever having access to { value: key } (sic) is important or useful
             //? @getter/@setter are key/key-value hooks, allowing functions to dynamically modify parameters, if needed (i.e. get/set rules)
             getter: getter,     // Modify the @key when using this.get(...)
             setter: setter,     // Modify the @key and @value when using this.set(...)
@@ -46,9 +45,6 @@ export default class Registry extends EventEmitter {
     get entries() {
         return this.state.entries;
     }
-    // get objects() {
-    //     return this.state.entries;
-    // }
 
     get size() {
         return this.entries.size;
@@ -62,9 +58,6 @@ export default class Registry extends EventEmitter {
         return this.entries.clear();
     }
 
-    // oget(value) {
-    //     return this.objects.get(value);
-    // }
     get(key) {
         if(this.getter) {
             const k = this.getter(key);
@@ -80,19 +73,15 @@ export default class Registry extends EventEmitter {
 
             this.entries.set(k, v);
 
-            // if(typeof v === "object") {
-            //     this.objects.set(v, k);
-            // }
+            if(suppress !== true) {
+                this.emit(EnumEventType.UPDATE, k, v, Date.now());
+            }
         } else {
             this.entries.set(key, value);
 
-            // if(typeof value === "object") {
-            //     this.objects.set(value, key);
-            // }
-        }
-
-        if(suppress !== true) {
-            this.emit(EnumEventType.UPDATE, Date.now());
+            if(suppress !== true) {
+                this.emit(EnumEventType.UPDATE, key, value, Date.now());
+            }
         }
 
         return this;
@@ -103,14 +92,10 @@ export default class Registry extends EventEmitter {
 
             return this.entries.delete(k);
         }
-        // this.objects.delete(this.entries.get(key));
 
         return this.entries.delete(key);
     }
 
-    // ohas(value) {
-    //     return this.objects.has(value);
-    // }
     has(key) {
         if(this.getter) {
             const k = this.getter(key);
@@ -170,6 +155,7 @@ export default class Registry extends EventEmitter {
 
                 this.emit(EnumEventType.UPDATE, Date.now());
             } else {
+                //  This is intentionally left to manually use .getter (scope = this), if present; as this should remain a raw iterator
                 for(let [ key, value ] of this.entries) {
                     fn.call(this, key, value);
                 }

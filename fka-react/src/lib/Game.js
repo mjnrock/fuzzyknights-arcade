@@ -1,6 +1,7 @@
 import Hive from "@lespantsfancy/hive";
 import Station from "./hive/Station";
 import GameLoop from "./GameLoop";
+import { v4 as uuidv4 } from "uuid";
 
 export default class Game extends Hive.Node {
     constructor({ settings = {}, fps = 60 } = {}) {
@@ -19,7 +20,23 @@ export default class Game extends Hive.Node {
             },
         });
 
+        this.id = uuidv4();
+
         this.state.loop = new GameLoop(this, fps);
+
+        // Create Singleton pattern
+        if(!Game.Instance) {
+            Game.Instance = this;
+        }
+    }
+
+    // Access Singleton pattern via Game.$
+    static get $() {
+        if(!Game.Instance) {
+            Game.Instance = new Game();
+        }
+
+        return Game.Instance;
     }
 
     setting(prop, value) {
