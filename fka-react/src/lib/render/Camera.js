@@ -30,8 +30,8 @@ Promise.all([
 ]).then(() => {    
     CookedBook.set("raccoon.running", new Composition([
         [ "body", CookedBook.get("raccoon.running") ],
-        [ "left", CookedBook.get("sword.idle") ],
-        [ "right", CookedBook.get("shield.idle") ],
+        [ "right", CookedBook.get("sword.idle") ],
+        [ "left", CookedBook.get("shield.idle") ],
     ]));
 })
 
