@@ -1,14 +1,16 @@
 import { v4 as uuidv4 } from "uuid";
 
-export const Facing = {
-    0: [ "left", "right", "body", ],    //"ground", "head", "corona" ],
-    45: [ "left", "right", "body", ],   //"ground", "head", "corona" ],
-    90: [ "left", "body", "right", ],   //"ground", "head", "corona" ],
-    135: [ "body", "left", "right", ],  //"ground", "head", "corona" ],
-    180: [ "body", "left", "right", ],  //"ground", "head", "corona" ],
-    225: [ "right", "body", "left", ],  //"ground", "head", "corona" ],
-    270: [ "right", "body", "left", ],  //"ground", "head", "corona" ],
-    315: [ "left", "right", "body", ],  //"ground", "head", "corona" ],
+export const EnumFacing = {
+    TOP_DOWN: {
+        0: [ "left", "right", "body", ],    //"ground", "head", "corona" ],
+        45: [ "left", "right", "body", ],   //"ground", "head", "corona" ],
+        90: [ "left", "body", "right", ],   //"ground", "head", "corona" ],
+        135: [ "body", "left", "right", ],  //"ground", "head", "corona" ],
+        180: [ "body", "left", "right", ],  //"ground", "head", "corona" ],
+        225: [ "right", "body", "left", ],  //"ground", "head", "corona" ],
+        270: [ "right", "body", "left", ],  //"ground", "head", "corona" ],
+        315: [ "left", "right", "body", ],  //"ground", "head", "corona" ],
+    }
 };
 
 export default class Composition {
@@ -24,9 +26,9 @@ export default class Composition {
      * @param {int} elapsedTime (ms)
      * @returns [ { name, score, data: Score.get(@facing, @elapsedTime) }, ... ]
      */
-    get(facing, elapsedTime) {
+    get(facing, elapsedTime, { lookup = EnumFacing.TOP_DOWN } = {}) {
         const arr = [ ...this.scores.entries() ];
-        arr.sort(([ aname ], [ bname ]) => Facing[ facing ].indexOf(aname) - Facing[ facing ].indexOf(bname));
+        arr.sort(([ aname ], [ bname ]) => lookup[ facing ].indexOf(aname) - lookup[ facing ].indexOf(bname));
 
         return new Set(arr.map(([ name, score ]) => ({ name, score, data: score.get(facing, elapsedTime) })));
     }

@@ -28,6 +28,11 @@ Promise.all([
     Score.Deserialize(SWORD_IDLE).then(score => CookedBook.set("sword.idle", score)),
     Score.Deserialize(SHIELD_IDLE).then(score => CookedBook.set("shield.idle", score)),
 ]).then(() => {    
+    CookedBook.set("player.idle", new Composition([
+        [ "body", CookedBook.get("raccoon.idle") ],
+        [ "right", CookedBook.get("sword.idle") ],
+        [ "left", CookedBook.get("shield.idle") ],
+    ]));
     CookedBook.set("raccoon.running", new Composition([
         [ "body", CookedBook.get("raccoon.running") ],
         [ "right", CookedBook.get("sword.idle") ],

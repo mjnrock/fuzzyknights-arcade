@@ -42,7 +42,11 @@ export default class EntityLayer extends GridCanvasNode {
                 let score;
                 //FIXME [ presently partial STUB ] "raccoon.STATE" needs to be dynamically created
                 if(state.currentValue === EnumState.IDLE) {
-                    score = this.book.get(`raccoon.idle`);
+                    if(entity === game.player) {
+                        score = this.book.get(`player.idle`);
+                    } else {
+                        score = this.book.get(`raccoon.idle`);
+                    }
                 } else if(state.currentValue === EnumState.MOVING) {
                     if(entity instanceof EntityCreature) {
                         score = this.book.get(`raccoon.running`);
