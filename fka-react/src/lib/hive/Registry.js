@@ -1,6 +1,5 @@
 import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
-import { type } from "os";
 
 export const EnumEventType = {
     UPDATE: "Registry.Update",
@@ -11,8 +10,9 @@ export default class Registry extends EventEmitter {
         super({
             entries: new Map(entries),
             // objects: new WeakMap(),     // This is there for whenever having access to { value: key } (sic) is important or useful
-            getter: getter,
-            setter: setter,
+            //? @getter/@setter are key/key-value hooks, allowing functions to dynamically modify parameters, if needed (i.e. get/set rules)
+            getter: getter,     // Modify the @key when using this.get(...)
+            setter: setter,     // Modify the @key and @value when using this.set(...)
             
             ...state
         });
@@ -46,9 +46,9 @@ export default class Registry extends EventEmitter {
     get entries() {
         return this.state.entries;
     }
-    get objects() {
-        return this.state.entries;
-    }
+    // get objects() {
+    //     return this.state.entries;
+    // }
 
     get size() {
         return this.entries.size;
@@ -113,6 +113,11 @@ export default class Registry extends EventEmitter {
         return [ ...this.entries.values() ].some(entry => entry === value);
     }
 
+    /**
+     * Contextually iterate over @input and apply @filter(key, value) at a row level (if filter result is *true*), if included; else, this.set(key, value)
+     * @param {Registry|Map|Array|Object} input 
+     * @param {?fn} filter | 
+     */
     merge(input, filter) {
         const setter = (key, value) => {            
             if(typeof filter === "function") {
