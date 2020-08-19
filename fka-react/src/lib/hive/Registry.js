@@ -98,6 +98,11 @@ export default class Registry extends EventEmitter {
         return this;
     }
     remove(key) {
+        if(this.getter) {
+            const k = this.getter(key);
+
+            return this.entries.delete(k);
+        }
         // this.objects.delete(this.entries.get(key));
 
         return this.entries.delete(key);
@@ -107,6 +112,12 @@ export default class Registry extends EventEmitter {
     //     return this.objects.has(value);
     // }
     has(key) {
+        if(this.getter) {
+            const k = this.getter(key);
+
+            return this.entries.has(k);
+        }
+
         return this.entries.has(key);
     }
     includes(value) {
