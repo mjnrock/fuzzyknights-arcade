@@ -1,4 +1,5 @@
 import Hive from "@lespantsfancy/hive";
+import Game from "./../Game";
 import Entity, { EnumEventType as EnumEntityEventType } from "./Entity";
 import { EnumComponentType } from "./components/Component";
 import EntityAction from "./EntityAction";
@@ -7,19 +8,18 @@ import { EnumState } from "./components/State";
 import { EnumTerrainType } from "./../graph/Terrain";
 
 export default class EntityManager extends Hive.Node {
-    constructor(game, node, entities = []) {
+    constructor(node, entities = []) {
         super({
-            game: game,
             node: node,
             entities: new Map(entities.map(entity => [ entity.id, entity ])),
         });
 
-        this.game.channel("entity").join((entity, ...args) => {
+        Game.$.channel("entity").join((entity, ...args) => {
             if(this.entities.has(entity.id)) {
                 this.onEntityEvent.call(this, entity, ...args);
             }
         });
-        this.game.channel("node").join((node, type, entity, ...args) => {
+        Game.$.channel("node").join((node, type, entity, ...args) => {
             if(this.entities.has(entity.id)) {
                 if(type === EnumNodeEventType.ENTITY_JOIN) {
                     this.onEntityJoinNode.call(this, node, entity);
@@ -30,9 +30,6 @@ export default class EntityManager extends Hive.Node {
         });
     }
 
-    get game() {
-        return this.state.game;
-    }
     get node() {
         return this.state.node;
     }
@@ -68,7 +65,7 @@ export default class EntityManager extends Hive.Node {
         const entity = actor instanceof Entity ? actor : this.entities.get(actor);
 
         if(entity instanceof Entity) {
-            entity.perform(this.game, index, ...args);
+            entity.perform(index, ...args);
         }
 
         return this;
@@ -83,12 +80,12 @@ export default class EntityManager extends Hive.Node {
         
         //NOTE If desired, this modification only calls the .tick on entities within a Camera's viewport.  Might be useful here, but the idea should be considered to find its purpose.
         //? Maybe take viewport + some distance?  Maybe Math.min(node w|h, 20)?
-        const viewport = this.game.view.camera.viewport;
+        const viewport = Game.$.view.camera.viewport;
         const entities = this.node.occupants(viewport.tile.x0, viewport.tile.y0, viewport.tile.x1, viewport.tile.y1);
         
         // this.node.each((entity, i) => {
         entities.forEach((entity, i) => {
-            if(!entity.tick(dt, now, this.game)) {
+            if(!entity.tick(dt, now, Game.$)) {
                 purge.add(entity);
             }
         });
@@ -111,16 +108,16 @@ export default class EntityManager extends Hive.Node {
                             c2.isColliding = c2.isColliding || hasCollision;
         
                             if(hasCollision) {   //* Rough comparator, will need to be more robust later
-                                this.game.send("entity", entity, EnumEntityEventType.COLLISION, e2);
+                                Game.$.send("entity", entity, EnumEntityEventType.COLLISION, e2);
                             }
                         }
                     }
                 }, i + 1);
 
                 //FIXME Formalize this into a Node Portals check
-                if(entity === this.game.player) {
-                    const n00 = this.game.graph.getNode(0, 0);
-                    const n10 = this.game.graph.getNode(1, 0);
+                if(entity === Game.$.player) {
+                    const n00 = Game.$.graph.getNode(0, 0);
+                    const n10 = Game.$.graph.getNode(1, 0);
 
                     if(~~rb.x === 10 && ~~rb.y === 0) {
                         n00.removeEntity(entity);
@@ -159,7 +156,7 @@ export default class EntityManager extends Hive.Node {
                         state.current.start();
                     }
                 }
-                // if(entity === this.game.player) {
+                // if(entity === Game.$.player) {
                 //     console.log(state.currentValue)
                 // }
             }

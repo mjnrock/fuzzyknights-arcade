@@ -90,7 +90,7 @@ export default class HUD extends GridCanvasNode {
     }
 
 
-    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0, node, game } = {}) {
+    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0, node } = {}) {
         this.ctx.clearRect(0, 0, this.width, this.height);
 
         this.ctx.save();

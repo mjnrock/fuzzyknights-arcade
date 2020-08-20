@@ -1,3 +1,4 @@
+import Game from "./../Game";
 import LayeredCanvasNode from "../hive/LayeredCanvasNode";
 import EntityLayer from "./EntityLayer";
 import TerrainLayer from "./TerrainLayer";
@@ -56,10 +57,10 @@ Promise.all([
 });
 
 export default class Camera extends LayeredCanvasNode {
-    constructor(game, node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0, rotation = 0, translation = [ 0, 0 ] } = {}) {
+    constructor(node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0, rotation = 0, translation = [ 0, 0 ] } = {}) {
         super({
             state: {
-                game: game,
+                game: Game.$,   //  NOTE    See note at this.game
                 node: node,
                 viewport: {
                     x,
@@ -100,9 +101,11 @@ export default class Camera extends LayeredCanvasNode {
         };
     }
 
+    //  NOTE    Until a React refactor takes place, Camera (as the current "Context node" at the time of this comment), needs access to Game.$, so this is the working solution
     get game() {
         return this.state.game;
     }
+
 
     get scale() {
         return this.state.scale;
@@ -172,7 +175,6 @@ export default class Camera extends LayeredCanvasNode {
         const viewport = this.viewport;
         const padding = 1;  //* This prevents a hard tile cutoff on render
         const drawArgs = {
-            game: this.game,
             node: this.node,
             x: viewport.tile.x0 - padding,
             y: viewport.tile.y0 - padding,

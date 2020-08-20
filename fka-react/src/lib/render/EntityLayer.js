@@ -1,3 +1,4 @@
+import Game from "./../Game";
 import GridCanvasNode from "../hive/GridCanvasNode";
 import { EnumComponentType } from "../entity/components/Component";
 import { EnumState } from "../entity/components/State";
@@ -29,7 +30,7 @@ export default class EntityLayer extends GridCanvasNode {
         this.state.book = value;
     }
 
-    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0, node, game } = {}) {
+    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0, node } = {}) {
         this.ctx.clearRect(0, 0, this.width, this.height);
 
         this.ctx.save();
@@ -42,7 +43,7 @@ export default class EntityLayer extends GridCanvasNode {
                 let score;
                 //FIXME [ presently partial STUB ] "ENTITY.STATE" needs to be dynamically created
                 if(state.currentValue === EnumState.IDLE) {
-                    if(entity === game.player) {
+                    if(entity === Game.$.player) {
                         score = this.book.get(`player.idle`);
                     } else {
                         score = this.book.get(`raccoon.idle`);
@@ -54,7 +55,7 @@ export default class EntityLayer extends GridCanvasNode {
                         score = this.book.get(`spell.fireball`);
                     }
                 } else if(state.currentValue === EnumState.ATTACKING) {
-                    if(entity === game.player) {
+                    if(entity === Game.$.player) {
                         score = this.book.get(`player.attacking`);
                     } else {
                         score = this.book.get(`raccoon.tailwhip`);
@@ -63,7 +64,7 @@ export default class EntityLayer extends GridCanvasNode {
                     score = this.book.get(`raccoon.tuck`);
                 }
 
-                // if(entity === game.player) {
+                // if(entity === Game.$.player) {
                 //     console.log(state.currentValue);
                 // }
 

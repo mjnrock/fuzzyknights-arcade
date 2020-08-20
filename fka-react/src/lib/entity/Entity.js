@@ -2,6 +2,7 @@ import EventEmitter from "events";
 import { v4 as uuidv4 } from "uuid";
 import { Enumerator } from "./../hive/Helper";
 
+import Game from "./../Game";
 import RigidBody from "./components/RigidBody";
 import State, { EnumState } from "./components/State";
 import { EnumComponentType } from "./components/Component";
@@ -76,7 +77,7 @@ export default class Entity extends EventEmitter {
         }
     }
 
-    perform(game, index, ...args) {
+    perform(index, ...args) {
         const cap = this.getComponent(EnumComponentType.CAPABILITIES);
 
         if(cap && cap.check) {
@@ -86,7 +87,7 @@ export default class Entity extends EventEmitter {
                 const rb = this.getComponent(EnumComponentType.RIGID_BODY);
 
                 cap.lock(action.cooldown);
-                game.send("entity", this, EnumEventType.ACTION, action, rb.x, rb.y, rb.facing, ...args);
+                Game.$.send("entity", this, EnumEventType.ACTION, action, rb.x, rb.y, rb.facing, ...args);
             }
         }
     }
@@ -111,13 +112,9 @@ export default class Entity extends EventEmitter {
         return this.lifespan > 0 && (this.birth + this.lifespan <= Date.now());
     }
 
-    tick(dt, now, game) {
-        if(game) {
-            game.send("entity", this, EnumEventType.TICK, dt, now, game);
+    tick(dt, now) {
+        Game.$.send("entity", this, EnumEventType.TICK, dt, now);
 
-            return !this.isExpired;
-        }
-
-        return false;
+        return !this.isExpired;
     }
 };

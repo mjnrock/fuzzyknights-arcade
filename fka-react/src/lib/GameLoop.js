@@ -1,8 +1,8 @@
 import MainLoop from "mainloop.js";
+import Game from "./Game";
 
 export default class GameLoop {
-    constructor(game, fps = 30) {
-        this.game = game;
+    constructor(fps = 30) {
         this._fps = fps;
 
         this.loop = MainLoop.setBegin(this.pre.bind(this))
@@ -48,7 +48,7 @@ export default class GameLoop {
      * @param {number} dt Frame delta in ms
      */
     update(dt) {
-        this.game.graph.tick(dt / 1000, Date.now());
+        Game.$.graph.tick(dt / 1000, Date.now());
     }
 
     /**
@@ -56,7 +56,7 @@ export default class GameLoop {
      */
     draw(interpolationPercentage) {
         //TODO GameView has a camera reference, but all Cameras and rendering should be held by a higher structure (e.g. a grand View/Render Manager)
-        this.game.view.camera.draw();
+        Game.$.view.camera.draw();
         // console.log("%", interpolationPercentage);   //TODO Figure out how to add these "rendering fractional steps" into implementation
     }
 

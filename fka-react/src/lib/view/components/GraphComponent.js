@@ -1,3 +1,4 @@
+import Game from "./../../Game";
 import Component from "./Component";
 import { EnumMessageType as EnumMouseMessageType } from "./../../hive/MouseNode";
 import { EnumMessageType as EnumKeyMessageType } from "./../../hive/KeyNode";
@@ -35,7 +36,7 @@ export default class GraphComponent extends Component {
 
 
     onPlayerFacing({ x, y, target } = {}, state) {
-        const comp = this.game.player.getComponent(EnumComponentType.RIGID_BODY);
+        const comp = Game.$.player.getComponent(EnumComponentType.RIGID_BODY);
 
         //? "target" is currently "window" and the player does not render in the true middle of the screen
         //TODO Replace "target... / 2" with the proper reference point (e.g. the Player's rendered pixel position) (CSS is currently fixing this problem, but will only work if the Player is rendered in the exact middle of the screen)
@@ -51,11 +52,11 @@ export default class GraphComponent extends Component {
             comp.facing = theta;
         }
 
-        this.game.send("graph", this, EnumEventType.PLAYER_FACING, this.game.player, ...arguments);
+        Game.$.send("graph", this, EnumEventType.PLAYER_FACING, Game.$.player, ...arguments);
     }
 
     onPlayerMovementMask({ map, mask } = {}, state) {
-        const comp = this.game.player.getComponent(EnumComponentType.RIGID_BODY);
+        const comp = Game.$.player.getComponent(EnumComponentType.RIGID_BODY);
         const factor = 1.0;
 
         if(Bitwise.has(mask, map[ EnumMoveDirection.UP ]) && Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {
@@ -96,6 +97,6 @@ export default class GraphComponent extends Component {
             }
         }
 
-        this.game.send("graph", this, EnumEventType.PLAYER_MOVEMENT_MASK, this.game.player, ...arguments);
+        Game.$.send("graph", this, EnumEventType.PLAYER_MOVEMENT_MASK, Game.$.player, ...arguments);
     }
 };

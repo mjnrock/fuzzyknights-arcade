@@ -5,13 +5,12 @@ import KeyNode, { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNod
 import Component from "./components/Component";
 
 export default class View extends Hive.Node {
-    constructor(game, { mouseElement, keyElement } = {}) {
+    constructor({ mouseElement, keyElement } = {}) {
         super({
             components: new Map(),
             mouse: new MouseNode({ element: mouseElement || window }),
             key: new KeyNode({ element: keyElement || window }),
         });
-        this.game = game;
 
         this.mouse.addEffect((state, msg) => this.receive(msg.type, msg.payload, msg));
         this.key.addEffect((state, msg) => this.receive(msg.type, msg.payload, msg));

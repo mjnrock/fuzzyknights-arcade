@@ -1,4 +1,5 @@
 import EventEmitter from "events";
+import Game from "./../Game";
 import { v4 as uuidv4 } from "uuid";
 import EntityManager from "../entity/EntityManager";
 import { EnumComponentType } from "../entity/components/Component";
@@ -15,10 +16,9 @@ export const EnumEventType = {
 };
 
 export default class Node extends EventEmitter {
-    constructor({ entities = [], game } = {}) {
+    constructor({ entities = [] } = {}) {
         super();
         this.id = uuidv4();
-        this.game = game;
         
         this.portals = [];
 
@@ -28,7 +28,7 @@ export default class Node extends EventEmitter {
             "0.0": null,
         };
 
-        this.entityManager = new EntityManager(game, this, entities);
+        this.entityManager = new EntityManager(this, entities);
     }
 
     occupants(x0, y0, x1, y1) {
@@ -175,14 +175,14 @@ export default class Node extends EventEmitter {
     addEntity(entity) {
         this.entities.set(entity.id, entity);
         this.emit(EnumEventType.ENTITY_JOIN, entity);
-        this.game.send("node", this, EnumEventType.ENTITY_JOIN, entity);
+        Game.$.send("node", this, EnumEventType.ENTITY_JOIN, entity);
         
         return this;
     }
     removeEntity(entity) {
         this.entities.delete(entity.id);
         this.emit(EnumEventType.ENTITY_LEAVE, entity);
-        this.game.send("node", this, EnumEventType.ENTITY_LEAVE, entity);
+        Game.$.send("node", this, EnumEventType.ENTITY_LEAVE, entity);
         
         return this;
     }

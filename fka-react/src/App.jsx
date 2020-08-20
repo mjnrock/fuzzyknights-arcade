@@ -50,10 +50,9 @@ console.log(reg.entries);
 
 
 
-const game = Game.$ || new Game();
-game.graph = Graph.Factory.Generate(2, 2, 20, 20, game);
+Game.$.graph = Graph.Factory.Generate(2, 2, 20, 20, Game.$);
 
-const node = game.graph.getNode(0, 0);
+const node = Game.$.graph.getNode(0, 0);
 const entity = new EntityCreature({
     comps: [
         new Capabilities({
@@ -122,7 +121,7 @@ const entity = new EntityCreature({
 });
 
 node.addEntity(entity);
-game.player = entity;
+Game.$.player = entity;
 
 for(let i = 0; i < 25; i++) {
     const e2 = new EntityCreature({
@@ -140,12 +139,12 @@ for(let i = 0; i < 25; i++) {
     node.addEntity(e2);
 }
 
-console.log(game)
-console.log(game.player)
+console.log(Game.$)
+console.log(Game.$.player)
 
 //  FIXME   RenderCamera needs to be under a render manager
-game.view = new GameView(game, game.graph, {
-    camera: new RenderCamera(game, game.graph.getNode(0, 0), {
+Game.$.view = new GameView(Game.$.graph, {
+    camera: new RenderCamera(Game.$.graph.getNode(0, 0), {
         tw: 128,
         th: 128,
         scale: 1.0,
@@ -156,19 +155,19 @@ game.view = new GameView(game, game.graph, {
         w: 9,
         h: 7,
 
-        subject: game.player,
+        subject: Game.$.player,
     }),
     controls: GameViewControls
 });
-game.start();
+Game.$.start();
 
-export const Context = React.createContext(game.view.camera);
+export const Context = React.createContext(Game.$.view.camera);
 
 function App() {
     return (
         <Router>
             <ScrollToTop>
-                <Context.Provider value={{ node: game.view.camera }}>
+                <Context.Provider value={{ node: Game.$.view.camera }}>
                     <Switch>                            
                         <Route path="/">
                             <Routes.Home />

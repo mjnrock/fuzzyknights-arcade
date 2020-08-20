@@ -22,7 +22,7 @@ export default class Game extends Hive.Node {
 
         this.id = uuidv4();
 
-        this.state.loop = new GameLoop(this, fps);
+        this.state.loop = new GameLoop(fps);
 
         // Create Singleton pattern
         if(!Game.Instance) {

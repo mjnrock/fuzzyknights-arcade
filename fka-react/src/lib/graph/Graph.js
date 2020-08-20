@@ -12,12 +12,12 @@ import Terrain, { EnumTerrainType } from "./Terrain";
  */
 
 export class GraphFactory {
-    static Generate(gw, gh, nw, nh, game) {
-        const graph = new Graph(game);
+    static Generate(gw, gh, nw, nh) {
+        const graph = new Graph();
 
         for(let w = 0; w < gw; w++) {
             for(let h = 0; h < gh; h++) {
-                const node = new Node({ game });
+                const node = new Node();
 
                 node.seed(nw, nh, function(x, y) {
                     let tile;
@@ -61,10 +61,9 @@ export default class Graph extends EventEmitter {
         return GraphFactory;
     }
 
-    constructor(game) {
+    constructor() {
         super();
         this.id = uuidv4();
-        this.game = game;
         
         this.nodes = {};
     }

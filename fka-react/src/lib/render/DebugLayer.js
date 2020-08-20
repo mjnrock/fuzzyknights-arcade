@@ -1,3 +1,4 @@
+import Game from "./../Game";
 import GridCanvasNode from "../hive/GridCanvasNode";
 import { EnumComponentType } from "./../entity/components/Component";
 import RigidBody from "./../entity/components/RigidBody";
@@ -12,10 +13,10 @@ export default class EntityLayer extends GridCanvasNode {
         });
     }
 
-    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0, node, game } = {}) {
+    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0, node } = {}) {
         this.clear();        
 
-        if(game.setting("isDebugMode")) {
+        if(Game.$.setting("isDebugMode")) {
             this.ctx.save();
             this.ctx.scale(scale, scale);
 
