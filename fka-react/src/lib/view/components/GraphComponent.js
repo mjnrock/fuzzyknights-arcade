@@ -57,23 +57,23 @@ export default class GraphComponent extends Component {
 
     onPlayerMovementMask({ map, mask } = {}, state) {
         const comp = Game.$.player.getComponent(EnumComponentType.RIGID_BODY);
-        const factor = 1.0;
+        const factor = 0.75;
 
         if(Bitwise.has(mask, map[ EnumMoveDirection.UP ]) && Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {
-            comp.vy = -comp.speed / factor;
-            comp.vx = comp.speed / factor;
+            comp.vy = -comp.speed * factor;
+            comp.vx = comp.speed * factor;
             comp.facing = 45;
         } else if(Bitwise.has(mask, map[ EnumMoveDirection.UP ]) && Bitwise.has(mask, map[ EnumMoveDirection.LEFT ])) {
-            comp.vy = -comp.speed / factor;
-            comp.vx = -comp.speed / factor;
+            comp.vy = -comp.speed * factor;
+            comp.vx = -comp.speed * factor;
             comp.facing = 315;
         } else if(Bitwise.has(mask, map[ EnumMoveDirection.DOWN ]) && Bitwise.has(mask, map[ EnumMoveDirection.RIGHT ])) {
-            comp.vy = comp.speed / factor;
-            comp.vx = comp.speed / factor;
+            comp.vy = comp.speed * factor;
+            comp.vx = comp.speed * factor;
             comp.facing = 135;
         } else if(Bitwise.has(mask, map[ EnumMoveDirection.DOWN ]) && Bitwise.has(mask, map[ EnumMoveDirection.LEFT ])) {
-            comp.vy = comp.speed / factor;
-            comp.vx = -comp.speed / factor;
+            comp.vy = comp.speed * factor;
+            comp.vx = -comp.speed * factor;
             comp.facing = 225;
         } else {
             if(Bitwise.has(mask, map[ EnumMoveDirection.UP ])) {

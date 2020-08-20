@@ -1,5 +1,6 @@
 import Effect, { EnumEffectType } from "./Effect";
 import { EnumComponentType } from "../../entity/components/Component";
+import Game from "../../Game";
 
 export default class EffectSpawn extends Effect {
     constructor(entity, { only, ignore, x, y, fn } = {}) {
@@ -26,10 +27,17 @@ export default class EffectSpawn extends Effect {
 
                     rb.facing = comp.facing;
 
-                    //TODO Take @theta from Game object, once Key/Mouse data has been stored there from GameView
-                    const [ vx, vy ] = rb.facingXY(true);
-                    rb.vx = vx * rb.speed;
-                    rb.vy = vy * rb.speed;
+                    if(ea.parent === Game.$.player) {
+                        const { tx, ty } = Game.$.view.cursor;
+                        const theta = Math.atan2(ty - comp.y, tx - comp.x);
+
+                        rb.vx = Math.cos(theta) * rb.speed;
+                        rb.vy = Math.sin(theta) * rb.speed;
+                    } else {
+                        const [ vx, vy ] = rb.facingXY(true);
+                        rb.vx = vx * rb.speed;
+                        rb.vy = vy * rb.speed;
+                    }
                 }
             },
             only,

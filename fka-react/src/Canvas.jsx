@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+import Game from "./lib/Game";
 import Base64 from "@lespantsfancy/hive/lib/client/util/Base64";
 
 export default function Canvas(props) {
@@ -37,6 +38,10 @@ export default function Canvas(props) {
             ref.onmousedown = canvas.onmousedown;
 
             ctx.drawImage(canvas, 0, 0);
+
+            if(Game.$.state.react.canvas !== ref) {
+                Game.$.state.react.canvas = ref;
+            }
         }
         // eslint-disable-next-line
     }, [ canvas ]);

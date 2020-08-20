@@ -28,8 +28,9 @@ export const Controls = {
         } ],
     ],
     mouse: [
-        [ 0, function(e) {
-            Game.$.player.perform(0, e);
+        [ 0, function(...args) {
+            console.log(this.cursor)
+            Game.$.player.perform(0, ...args);
         } ],
         [ 1, function(e) {
             Game.$.player.perform(1, e);
@@ -70,6 +71,32 @@ export default class GameView extends View {
         }
 
         this.camera = camera;
+        this.controls = {
+            cursor: {
+                x: 0,
+                y: 0,
+                tx: 0,
+                ty: 0,
+            },
+        };
+    }
+
+    get cursor() {
+        return this.controls.cursor;
+    }
+    set cursor(ts) {
+        if(!Array.isArray(ts)) {
+            return this;
+        }
+
+        this.controls.cursor = {
+            x: ts[ 0 ],
+            y: ts[ 1 ],
+            tx: ts[ 2 ],
+            ty: ts[ 3 ],
+        };
+        
+        return this;
     }
 
     getGraph() {
@@ -88,6 +115,22 @@ export default class GameView extends View {
         } else if(type === EnumKeyMessageType.KEY_PRESS) {
             this.dispatch(type, msg.payload);
         } else if(type === EnumMouseMessageType.MOUSE_MOVE) {
+            if(Game.$.react.canvas) {
+                const { top, left, bottom, right } = Game.$.react.canvas.getBoundingClientRect();
+                const { x, y } = msg.payload;
+
+                if(x >= left && x <= right && y >= top && y <= bottom) {
+                    const { x0, y0 } = this.camera.pos;
+                    let tx = (x - left) / this.camera.tw;
+                    let ty = (y - top) / this.camera.th;
+
+                    tx += x0;
+                    ty += y0;
+                    
+                    this.cursor = [ x - left, y - top, tx, ty ];
+                }
+            }
+
             this.dispatch(type, msg.payload);
         }
     }

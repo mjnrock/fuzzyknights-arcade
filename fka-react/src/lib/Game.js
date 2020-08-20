@@ -18,6 +18,10 @@ export default class Game extends Hive.Node {
 
                 ...settings,
             },
+
+            react: {
+                canvas: null,
+            },
         });
 
         this.id = uuidv4();
@@ -58,6 +62,10 @@ export default class Game extends Hive.Node {
         this.state.loop.stop();
 
         return this;
+    }
+
+    get react() {
+        return this.state.react;
     }
 
     get player() {
