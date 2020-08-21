@@ -16,6 +16,21 @@ export const Controls = {
             node.entities.clear();
             node.addEntity(Game.$.player);
         } ],
+        [ 122, function() {
+            if(Game.$.react.canvas) {
+                const elem = Game.$.react.canvas;
+
+                if(elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if(elem.mozRequestFullScreen) { /* Firefox */
+                    elem.mozRequestFullScreen();
+                } else if(elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                    elem.webkitRequestFullscreen();
+                } else if(elem.msRequestFullscreen) { /* IE/Edge */
+                    elem.msRequestFullscreen();
+                }
+            }
+        } ],
 
         [ 49, function() {
             Game.$.player.perform(0);

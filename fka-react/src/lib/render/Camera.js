@@ -173,14 +173,27 @@ export default class Camera extends LayeredCanvasNode {
     //TODO There is a jerkiness that needs smoothing that is particularly visible in the Terrain
     draw(...args) {
         const viewport = this.viewport;
-        const padding = 1;  //* This prevents a hard tile cutoff on render
+        const padding = 1;  //* This prevents a hard tile cutoff on render     
+
+        //  FIXME   This is the rough idea, but it is not correct (cf. "fka-react/2020-08-21 11_41_16-Window.png")
+        //  NOTE    The fix could compare the previous "aspect ratio" to the fullscreen canvas aspect ratio, and scale accordingly
+        // if(document.fullscreenElement) {
+        //     const width = window.innerWidth;
+        //     const height = window.innerHeight;
+            
+        //     viewport.pixel.width = width;
+        //     viewport.pixel.height = height;
+        //     viewport.tile.width = ~~(width / this.tw);
+        //     viewport.tile.height = ~~(height / this.th);
+        // }
+
         const drawArgs = {
             node: this.node,
             x: viewport.tile.x0 - padding,
             y: viewport.tile.y0 - padding,
             w: viewport.tile.width + padding,
             h: viewport.tile.height + padding,
-        };
+        };   
 
         this.getLayer("terrain").draw(drawArgs);
         this.getLayer("entity").draw(drawArgs);
@@ -192,25 +205,25 @@ export default class Camera extends LayeredCanvasNode {
         this.ctx.save();
         this.ctx.scale(this.scale, this.scale);
         
-        this.resize(this.viewport.pixel.width * this.scale, this.viewport.pixel.height * this.scale);
+        this.resize(viewport.pixel.width * this.scale, viewport.pixel.height * this.scale);
         this.ctx.clearRect(0, 0, this.width, this.height);
         this.prop({ fillStyle: "#000" }).rect(0, 0, this.width, this.height, { isFilled: true });
 
         //TODO Fix the partial cutoff that render experiences upon moving; pad the total viewport size by 1 or 2 in all directions
         if(this.subject) {
             const comp = this.subject.getComponent(EnumComponentType.RIGID_BODY);
-            const vw2 = ~~(this.viewport.pixel.width / 2);
-            const vh2 = ~~(this.viewport.pixel.height / 2);
+            const vw2 = ~~(viewport.pixel.width / 2);
+            const vh2 = ~~(viewport.pixel.height / 2);
 
             this.paint(
                 (comp.x * this.tw) - vw2,
                 (comp.y * this.th) - vh2,
-                this.viewport.pixel.width,
-                this.viewport.pixel.height,
+                viewport.pixel.width,
+                viewport.pixel.height,
                 0,
                 0,
-                this.viewport.pixel.width,
-                this.viewport.pixel.height,
+                viewport.pixel.width,
+                viewport.pixel.height,
             );
 
             this.mergeState({
@@ -223,14 +236,14 @@ export default class Camera extends LayeredCanvasNode {
             });
         } else {
             this.paint(
-                this.viewport.pixel.x0,
-                this.viewport.pixel.y0,
-                this.viewport.pixel.width,
-                this.viewport.pixel.height,
+                viewport.pixel.x0,
+                viewport.pixel.y0,
+                viewport.pixel.width,
+                viewport.pixel.height,
                 0,
                 0,
-                this.viewport.pixel.width,
-                this.viewport.pixel.height,
+                viewport.pixel.width,
+                viewport.pixel.height,
             );
         }
         this.ctx.restore();
