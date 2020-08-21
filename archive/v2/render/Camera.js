@@ -1,14 +1,14 @@
-import LayeredCanvasNode from "../../lib/hive/LayeredCanvasNode";
-import { EnumMessageType } from "../../lib/hive/CanvasNode";
-import { EnumComponentType } from "../../lib/entity/components/Component";
+import LayeredCanvasNode from "../../../fka-react/src/lib/hive/LayeredCanvasNode";
+import { EnumMessageType } from "../../../fka-react/src/lib/hive/CanvasNode";
+import { EnumComponentType } from "../../../fka-react/src/lib/entity/components/Component";
 
 import RenderNodeTerrain, { EnumMessageType as EnumNodeTerrainMessageType } from "./graph/Terrain.RenderNode";
 import RenderNodeEntities, { EnumMessageType as EnumNodeEntitiesMessageType } from "./graph/Entities.RenderNode";
-import GridCanvasNode from "../../lib/hive/GridCanvasNode";
+import GridCanvasNode from "../../../fka-react/src/lib/hive/GridCanvasNode";
 
-import Models from "../../lib/model/package";
-import HUD from "../../lib/render/HUD";
-import RigidBody from "../../lib/entity/components/RigidBody";
+import Models from "../../../fka-react/src/lib/model/package";
+import HUD from "../../../fka-react/src/lib/render/HUD";
+import RigidBody from "../../../fka-react/src/lib/entity/components/RigidBody";
 
 export default class Camera extends LayeredCanvasNode {
     constructor(game, node, { x, y, w, h, tw = 32, th = 32, size = [], subject, scale = 1.0 } = {}) {

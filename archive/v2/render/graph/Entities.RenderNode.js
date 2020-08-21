@@ -1,9 +1,9 @@
-import GridCanvasNode from "../../../lib/hive/GridCanvasNode";
-import { EnumComponentType } from "../../../lib/entity/components/Component";
+import GridCanvasNode from "../../../../fka-react/src/lib/hive/GridCanvasNode";
+import { EnumComponentType } from "../../../../fka-react/src/lib/entity/components/Component";
 
-import Models from "../../../lib/model/package";
-import EntityParticle from "../../../lib/entity/EntityParticle";
-import { EnumState } from "../../../lib/entity/components/State";
+import Models from "../../../../fka-react/src/lib/model/package";
+import EntityParticle from "../../../../fka-react/src/lib/entity/EntityParticle";
+import { EnumState } from "../../../../fka-react/src/lib/entity/components/State";
 
 export const EnumMessageType = {
     PAINT: "NodeEntities.Paint",

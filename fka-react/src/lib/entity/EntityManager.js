@@ -85,21 +85,18 @@ export default class EntityManager extends Hive.Node {
         const viewport = Game.$.view.camera.viewport;
         const entities = this.node.occupants(viewport.tile.x0, viewport.tile.y0, viewport.tile.x1, viewport.tile.y1);
         
-        // this.node.each((entity, i) => {
         entities.forEach((entity, i) => {
             if(!entity.tick(dt, now, Game.$)) {
                 purge.add(entity);
             }
         });
 
-        //TODO This collision detection needs refactoring to better deal with all collision scenarios
-        // this.node.each((entity, i) => {
+        //TODO This collision detection needs refactoring to better deal with all collision scenarios (e.g. Walls, Terrain, etc.)
         entities.forEach((entity, i) => {
             //* Collision Check
             const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
 
             if(rb) {
-                // this.node.each((e2, j) => {
                 entities.forEach((e2, j) => {
                     if(entity !== e2) {
                         const c2 = e2.getComponent(EnumComponentType.RIGID_BODY);
@@ -116,24 +113,9 @@ export default class EntityManager extends Hive.Node {
                     }
                 }, i + 1);
 
-                //FIXME Formalize this into a Node Portals check
+                // Only allow players to access portals
                 if(entity === Game.$.player) {
                     rb.node.checkPortals(entity, rb.x, rb.y);
-
-                    // const n00 = Game.$.graph.getNode(0, 0);
-                    // const n10 = Game.$.graph.getNode(1, 0);
-
-                    // if(~~rb.x === 10 && ~~rb.y === 0) {
-                    //     n00.removeEntity(entity);
-                    //     n10.addEntity(entity);
-                    //     rb.x = 10.5;
-                    //     rb.y = 18.5;
-                    // } else if(~~rb.x === 10 && ~~rb.y === 19) {
-                    //     n10.removeEntity(entity);
-                    //     n00.addEntity(entity);
-                    //     rb.x = 10.5;
-                    //     rb.y = 1.5;
-                    // }
                 }
             }
 
@@ -160,9 +142,6 @@ export default class EntityManager extends Hive.Node {
                         state.current.start();
                     }
                 }
-                // if(entity === Game.$.player) {
-                //     console.log(state.currentValue)
-                // }
             }
         });
 
