@@ -146,7 +146,6 @@ for(let i = 0; i < 25; i++) {
 console.log(Game.$)
 console.log(Game.$.player)
 
-//  FIXME   RenderCamera needs to be under a render manager
 Game.$.view = new GameView(Game.$.graph, {
     camera: new RenderCamera(Game.$.graph.getNode(0, 0), {
         tw: 128,
