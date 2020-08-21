@@ -83,7 +83,7 @@ export default class EntityManager extends Hive.Node {
         //NOTE If desired, this modification only calls the .tick on entities within a Camera's viewport.  Might be useful here, but the idea should be considered to find its purpose.
         //? Maybe take viewport + some distance?  Maybe Math.min(node w|h, 20)?
         const viewport = Game.$.view.camera.viewport;
-        const padding = 0;
+        const padding = 1;
         const entities = this.node.occupants(
             viewport.tile.x0 - padding,
             viewport.tile.y0 - padding,
@@ -91,19 +91,19 @@ export default class EntityManager extends Hive.Node {
             viewport.tile.y1 + padding,
         );
         
-        entities.forEach((entity, i) => {
+        this.node.each((entity, i) => {
             if(!entity.tick(dt, now, Game.$)) {
                 purge.add(entity);
             }
         });
 
         //TODO This collision detection needs refactoring to better deal with all collision scenarios (e.g. Walls, Terrain, etc.)
-        entities.forEach((entity, i) => {
+        this.node.each((entity, i) => {
             //* Collision Check
             const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
 
             if(rb) {
-                entities.forEach((e2, j) => {
+                entities.forEach((e2, j) => {   // Anything outside of the "viewport" is non-collidable, and therefore, don't bother (thus @entities)
                     if(entity !== e2) {
                         const c2 = e2.getComponent(EnumComponentType.RIGID_BODY);
     

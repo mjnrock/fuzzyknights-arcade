@@ -186,6 +186,8 @@ export default class Camera extends LayeredCanvasNode {
         //     viewport.tile.width = ~~(width / this.tw);
         //     viewport.tile.height = ~~(height / this.th);
         // }
+        
+        //TODO  Fullscreen changes something about the cursor position, and as a result, completely breaks the mouse-to-player relation
 
         const drawArgs = {
             node: this.node,
