@@ -50,11 +50,12 @@ console.log(reg.entries);
 
 
 
-Game.$.graph = Graph.Factory.Generate(2, 2, 20, 20, Game.$);
+Game.$.graph = Graph.Factory.Generate(2, 2, 20, 20, [
+    [ [ 0, 0 ], 10, 0, [ 1, 0 ], 10.5, 18.5 ],
+    [ [ 1, 0 ], 10, 19, [ 0, 0 ], 10.5, 1.5 ],
+]);
 
 const node = Game.$.graph.getNode(0, 0);
-Game.$.graph.addPortal([ 0, 0 ], 10, 0, [ 1, 0 ], 10.5, 18.5);
-Game.$.graph.addPortal([ 1, 0 ], 10, 19, [ 0, 0 ], 10.5, 1.5);
 
 const entity = new EntityCreature({
     comps: [

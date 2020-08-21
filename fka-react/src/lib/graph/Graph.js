@@ -12,7 +12,7 @@ import Terrain, { EnumTerrainType } from "./Terrain";
  */
 
 export class GraphFactory {
-    static Generate(gw, gh, nw, nh) {
+    static Generate(gw, gh, nw, nh, portals = []) {
         const graph = new Graph();
 
         for(let w = 0; w < gw; w++) {
@@ -50,6 +50,10 @@ export class GraphFactory {
 
                 graph.addNode(w, h, node);
             }
+        }
+
+        for(let portal of portals) {
+            graph.addPortal(...portal);
         }
 
         return graph;
