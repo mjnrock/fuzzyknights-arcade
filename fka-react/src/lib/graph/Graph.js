@@ -96,6 +96,27 @@ export default class Graph extends EventEmitter {
         return this;
     }
 
+    // addPortal(n0, x0, y0, n1, x1, y1, { twoWay = false, rx, ry } = {}) {
+    addPortal(n0, x0, y0, n1, x1, y1) {
+        if(Array.isArray(n0) && n0.length === 2) {
+            n0 = this.getNode(...n0);
+        }
+        if(Array.isArray(n1) && n1.length === 2) {
+            n1 = this.getNode(...n1);
+        }
+
+        if(n0 instanceof Node && n1 instanceof Node) {
+            n0.addPortal(x0, y0, n1, x1, y1);
+
+            //  TODO Make this kind of thing possible, without creating infinite loops (e.g. interaction activation, offset, etc.)
+            // if(twoWay === true) {
+            //     n1.addPortal(x1, y1, n0, x0, y0);
+            // } else if(typeof rx === "number" && typeof ry === "number") {
+            //     n1.addPortal(rx, ry, n0, x0, y0);
+            // }
+        }
+    }
+
     neighbors(x, y) {
         return {
             north: this.nodes[ this._key(x, y - 1) ],
