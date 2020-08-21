@@ -17,6 +17,7 @@ export const Controls = {
             node.addEntity(Game.$.player);
         } ],
         [ 122, function() {
+            //? Fullscreen the Canvas on F11
             if(Game.$.react.canvas) {
                 const elem = Game.$.react.canvas;
 
@@ -44,7 +45,6 @@ export const Controls = {
     ],
     mouse: [
         [ 0, function(...args) {
-            console.log(this.cursor)
             Game.$.player.perform(0, ...args);
         } ],
         [ 1, function(e) {

@@ -13,6 +13,7 @@ import { EnumComponentType } from "../entity/components/Component";
 export const EnumEventType = {
     ENTITY_JOIN: "Node.EntityJoin",
     ENTITY_LEAVE: "Node.EntityLeave",
+    ENTITY_PORTAL: "Node.EntityPortal",
 };
 
 export default class Node extends EventEmitter {
@@ -207,6 +208,19 @@ export default class Node extends EventEmitter {
     }
     removePortal(x, y, node) {
         this.portals = this.portals.filter(portal => portal.node !== node && portal.x !== x && portal.y !== y);
+    }
+
+    checkPortals(entity, x, y) {
+        for(let portal of this.portals) {
+            if(~~x === portal.x && ~~y === portal.y) {
+                this.emit(EnumEventType.ENTITY_PORTAL, entity, portal);
+                Game.$.send("node", this, EnumEventType.ENTITY_PORTAL, entity, portal);
+
+                return portal;
+            }
+        }
+
+        return false;
     }
     
     getTerrainType(x, y) {

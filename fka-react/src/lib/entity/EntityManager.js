@@ -20,11 +20,13 @@ export default class EntityManager extends Hive.Node {
             }
         });
         Game.$.channel("node").join((node, type, entity, ...args) => {
-            if(this.entities.has(entity.id)) {
+            if(this.node === node) {
                 if(type === EnumNodeEventType.ENTITY_JOIN) {
                     this.onEntityJoinNode.call(this, node, entity);
                 } else if(type === EnumNodeEventType.ENTITY_LEAVE) {               
                     this.onEntityLeaveNode.call(this, node, entity);
+                } else if(type === EnumNodeEventType.ENTITY_PORTAL) {
+                    this.onEntityPortal.call(this, node, entity, ...args);
                 }
             }
         });
@@ -116,20 +118,22 @@ export default class EntityManager extends Hive.Node {
 
                 //FIXME Formalize this into a Node Portals check
                 if(entity === Game.$.player) {
-                    const n00 = Game.$.graph.getNode(0, 0);
-                    const n10 = Game.$.graph.getNode(1, 0);
+                    rb.node.checkPortals(entity, rb.x, rb.y);
 
-                    if(~~rb.x === 10 && ~~rb.y === 0) {
-                        n00.removeEntity(entity);
-                        n10.addEntity(entity);
-                        rb.x = 10.5;
-                        rb.y = 18.5;
-                    } else if(~~rb.x === 10 && ~~rb.y === 19) {
-                        n10.removeEntity(entity);
-                        n00.addEntity(entity);
-                        rb.x = 10.5;
-                        rb.y = 1.5;
-                    }
+                    // const n00 = Game.$.graph.getNode(0, 0);
+                    // const n10 = Game.$.graph.getNode(1, 0);
+
+                    // if(~~rb.x === 10 && ~~rb.y === 0) {
+                    //     n00.removeEntity(entity);
+                    //     n10.addEntity(entity);
+                    //     rb.x = 10.5;
+                    //     rb.y = 18.5;
+                    // } else if(~~rb.x === 10 && ~~rb.y === 19) {
+                    //     n10.removeEntity(entity);
+                    //     n00.addEntity(entity);
+                    //     rb.x = 10.5;
+                    //     rb.y = 1.5;
+                    // }
                 }
             }
 
@@ -226,6 +230,17 @@ export default class EntityManager extends Hive.Node {
             if(rb.node.id === node.id) {
                 rb.node = null;
             }
+        }
+    }
+    onEntityPortal(node, entity, portal) {
+        const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
+                
+        if(rb) {
+            node.removeEntity(entity);
+            portal.node.addEntity(entity);
+
+            rb.x = portal.nx;
+            rb.y = portal.ny;
         }
     }
 }
