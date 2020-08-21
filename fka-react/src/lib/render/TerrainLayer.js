@@ -32,7 +32,7 @@ export default class TerrainLayer extends GridCanvasNode {
         this.state.book = value;
     }
 
-    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0, node } = {}) {
+    draw({ x0 = 0, y0 = 0, x1 = this.width, y1 = this.height, scale = 1.0, node } = {}) {
         if(!this.state.lastDraw) {
             this.ctx.clearRect(0, 0, this.width, this.height);
 

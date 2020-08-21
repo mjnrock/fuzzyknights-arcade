@@ -90,7 +90,7 @@ export default class HUD extends GridCanvasNode {
     }
 
 
-    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0, node } = {}) {
+    draw({ x0 = 0, y0 = 0, x1 = this.width, y1 = this.height, scale = 1.0, node } = {}) {
         this.ctx.clearRect(0, 0, this.width, this.height);
 
         this.ctx.save();
@@ -99,7 +99,7 @@ export default class HUD extends GridCanvasNode {
             node.each((entity, i) => {
                 const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
     
-                if((rb.x >= x) && (rb.x <= (x + w)) && (rb.y >= y) && (rb.y <= (y + h))) {
+                if((rb.x >= x0) && (rb.x <= x1) && (rb.y >= y0) && (rb.y <= y1)) {
                     const life = entity.getComponent(EnumComponentType.LIFE);
 
                     if(life) {

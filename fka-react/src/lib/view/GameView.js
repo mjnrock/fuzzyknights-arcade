@@ -69,12 +69,6 @@ export default class GameView extends View {
         this.addEffect((state, msg) => {
             if(msg.type === EnumKeyMessageType.KEY_MASK || msg.type === EnumMouseMessageType.MOUSE_MOVE) {
                 graphComp.receive.call(graphComp, state, msg);
-                
-                //TODO Store the relevant Mouse and Key data in the Game object, itself (i.e. cursor position, key mask, etc.), so Game can control Player-based events easily
-                // if(msg.type === EnumMouseMessageType.MOUSE_MOVE) {
-                //     const [ xc, yc ] = [ Game.$.view.camera.width / 2, Game.$.view.camera.height / 2 ];
-                //     theta = Math.atan2(e.y - yc, e.x - xc) * 180 / Math.PI;
-                // }
             }
         });
 
@@ -143,10 +137,10 @@ export default class GameView extends View {
                     ty += y0;
                     
                     this.cursor = [ x - left, y - top, tx, ty ];
+
+                    this.dispatch(type, this.cursor);
                 }
             }
-
-            this.dispatch(type, msg.payload);
         }
     }
 }

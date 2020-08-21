@@ -189,11 +189,11 @@ export default class Camera extends LayeredCanvasNode {
 
         const drawArgs = {
             node: this.node,
-            x: viewport.tile.x0 - padding,
-            y: viewport.tile.y0 - padding,
-            w: viewport.tile.width + padding,
-            h: viewport.tile.height + padding,
-        };   
+            x0: viewport.tile.x0 - padding,
+            y0: viewport.tile.y0 - padding,
+            x1: viewport.tile.x1 + padding,
+            y1: viewport.tile.y1 + padding,
+        };
 
         this.getLayer("terrain").draw(drawArgs);
         this.getLayer("entity").draw(drawArgs);

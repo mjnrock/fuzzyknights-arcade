@@ -13,7 +13,7 @@ export default class EntityLayer extends GridCanvasNode {
         });
     }
 
-    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0, node } = {}) {
+    draw({ x0 = 0, y0 = 0, x1 = this.width, y1 = this.height, scale = 1.0, node } = {}) {
         this.clear();        
 
         if(Game.$.setting("isDebugMode")) {
@@ -21,7 +21,7 @@ export default class EntityLayer extends GridCanvasNode {
             this.ctx.scale(scale, scale);
 
             node.apply((tx, ty, tile) => {
-                if(tx >= x && tx <= x + w && ty >= y && ty <= y + h) {
+                if(tx >= x0 && tx <= x1 && ty >= y0 && ty <= y1) {
                     this.prop({
                         strokeStyle: "#0f0",
                     }).gRect(tx, ty, this.tw, this.th);
@@ -31,7 +31,7 @@ export default class EntityLayer extends GridCanvasNode {
             node.each((entity, i) => {
                 const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
 
-                if((rb.x >= x) && (rb.x <= (x + w)) && (rb.y >= y) && (rb.y <= (y + h))) {
+                if((rb.x >= x0) && (rb.x <= x1) && (rb.y >= y0) && (rb.y <= y1)) {
                     if(rb.model instanceof Models.Arc) {
                         this.prop({
                             strokeStyle: "#0ff",

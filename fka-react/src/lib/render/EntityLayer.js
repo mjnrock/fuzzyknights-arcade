@@ -30,7 +30,7 @@ export default class EntityLayer extends GridCanvasNode {
         this.state.book = value;
     }
 
-    draw({ x = 0, y = 0, w = this.width, h = this.height, scale = 1.0, node } = {}) {
+    draw({ x0 = 0, y0 = 0, x1 = this.width, y1 = this.height, scale = 1.0, node } = {}) {
         this.ctx.clearRect(0, 0, this.width, this.height);
 
         this.ctx.save();
@@ -39,7 +39,7 @@ export default class EntityLayer extends GridCanvasNode {
             const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
             const state = entity.getComponent(EnumComponentType.STATE);
 
-            if((rb.x >= x) && (rb.x <= (x + w)) && (rb.y >= y) && (rb.y <= (y + h))) {
+            if((rb.x >= x0) && (rb.x <= x1) && (rb.y >= y0) && (rb.y <= y1)) {
                 let score;
                 //FIXME [ presently partial STUB ] "ENTITY.STATE" needs to be dynamically created
                 if(state.currentValue === EnumState.IDLE) {
