@@ -27,7 +27,7 @@ export default function TitleView(props) {
     ];
 
     return (
-        <Segment>
+        <Segment style={ props.style }>
             <Header as="h1" textAlign="center">
                 Fuzzy Knights
                 <Header.Subheader>Defenders of the Forest</Header.Subheader>

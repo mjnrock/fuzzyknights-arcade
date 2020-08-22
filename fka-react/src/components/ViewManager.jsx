@@ -39,7 +39,7 @@ export default function ViewManager(props) {
     let current = null;
     if(view instanceof GameView) {
         current = (
-            <GameViewComponent style={{ border: "10px solid #000" }} />
+            <GameViewComponent />
         );
     } else if(view instanceof TitleView) {
         current = (
