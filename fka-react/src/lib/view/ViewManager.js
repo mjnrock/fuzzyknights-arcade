@@ -35,8 +35,18 @@ export default class ViewManager extends Registry {
         this.current = this.get("TitleView")();
     }
 
+    use(key) {
+        const current = this.get(key);
+
+        if(current) {
+            this.current = current();
+        }
+
+        return this;
+    }
+
     start() {
-        this.current = this.get("GameView")();
+        this.use("GameView");
         Game.$.start();
     }
     stop() {

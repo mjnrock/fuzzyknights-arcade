@@ -23,7 +23,7 @@ function ColoredConfig({ setting } = {}) {
 }
 
 export default function Home(props) {
-    const [ world, setWorld ] = useState();
+    const [ world, setWorld ] = useState(); //TODO Transition to an internal Game flag (e.g. isRunning) with a reaction to GAME_START/GAME_STOP
 
     console.log(Game.$.view.current)
 
@@ -51,7 +51,7 @@ export default function Home(props) {
                     <TitleView onWorld={ (game, i) => {
                         setWorld(game);
                         Game.$.view.start();
-                    } } />
+                    }} />
                 )
             }
         </Segment>

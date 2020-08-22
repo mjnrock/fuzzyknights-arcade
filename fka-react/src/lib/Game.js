@@ -3,6 +3,12 @@ import Station from "./hive/Station";
 import GameLoop from "./GameLoop";
 import { v4 as uuidv4 } from "uuid";
 import ViewManager from "./view/ViewManager";
+import { Enumerator } from "./hive/Helper";
+
+export const EnumEventType = Enumerator({
+    GAME_START: "Game.Start",
+    GAME_STOP: "Game.Stop",
+});
 
 export default class Game extends Hive.Node {
     constructor({ settings = {}, fps = 60 } = {}) {
@@ -14,6 +20,7 @@ export default class Game extends Hive.Node {
             loop: null,
 
             settings: {
+                isRunning: false,
                 isDebugMode: false,
                 showNameplates: true,
 
@@ -44,6 +51,10 @@ export default class Game extends Hive.Node {
         return Game.Instance;
     }
 
+    get isRunning() {
+        return this.state.settings.isRunning;
+    }
+
     setting(prop, value) {
         if(prop in this.state.settings) {
             if(value !== void 0) {
@@ -55,12 +66,16 @@ export default class Game extends Hive.Node {
     }
 
     start() {
+        this.state.settings.isRunning = true;
         this.state.loop.start();
+        this.dispatch(EnumEventType.GAME_START, this);
 
         return this;
     }
     stop() {
+        this.state.settings.isRunning = false;
         this.state.loop.stop();
+        this.dispatch(EnumEventType.GAME_STOP, this);
 
         return this;
     }
