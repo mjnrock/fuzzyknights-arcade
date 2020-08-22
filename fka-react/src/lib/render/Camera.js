@@ -20,8 +20,6 @@ import SHIELD_BLOCK from "./sequencer/data/shield.block.json";
 import DebugLayer from "./DebugLayer";
 import Composition from "./sequencer/Composition";
 
-//  NOTE Fireballs get "stuck" on the side of the screen and entities "pop in" because the Game loop currently render only and exactly the viewport; extend viewport by 1 or 2 tiles and move Game loop invocation elsewhere
-
 //  STUB
 const CookedBook = new Book();
 Promise.all([
@@ -78,8 +76,6 @@ export default class Camera extends LayeredCanvasNode {
             size: [ size[ 0 ] || tw, size[ 1 ] || th ],
             stack: [],
         });
-        
-        //TODO Strictly speaking, the layer canvases only need to be the size of the viewport, not the map
         
         this.stack = [
             [ "terrain", new TerrainLayer(CookedBook, { width: this.width, height: this.height, tw, th, size }) ],
@@ -210,8 +206,7 @@ export default class Camera extends LayeredCanvasNode {
         this.resize(viewport.pixel.width * this.scale, viewport.pixel.height * this.scale);
         this.ctx.clearRect(0, 0, this.width, this.height);
         this.prop({ fillStyle: "#000" }).rect(0, 0, this.width, this.height, { isFilled: true });
-
-        //TODO Fix the partial cutoff that render experiences upon moving; pad the total viewport size by 1 or 2 in all directions
+        
         if(this.subject) {
             const comp = this.subject.getComponent(EnumComponentType.RIGID_BODY);
             const vw2 = ~~(viewport.pixel.width / 2);

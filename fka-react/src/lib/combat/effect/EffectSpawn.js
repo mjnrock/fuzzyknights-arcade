@@ -1,6 +1,7 @@
 import Effect, { EnumEffectType } from "./Effect";
 import { EnumComponentType } from "../../entity/components/Component";
 import Game from "../../Game";
+import Node from "./../../graph/Node";
 
 export default class EffectSpawn extends Effect {
     constructor(entity, { only, ignore, x, y, fn } = {}) {
@@ -14,7 +15,15 @@ export default class EffectSpawn extends Effect {
                 const rb = ent.getComponent(EnumComponentType.RIGID_BODY);
 
                 if(comp && rb) {
-                    comp.node.addEntity(ent);      //TODO This might be serialized at some point, so refactor to use a Node Lookup in the current Game.Graph                    
+                    if(comp.node instanceof Node) {
+                        comp.node.addEntity(ent);
+                    } else if(typeof comp.node === "object") {
+                        const node = Game.$.graph.getNodeById(comp.node.id);
+
+                        if(node) {
+                            node.addEntity(ent);
+                        }
+                    }
     
                     if(typeof fn === "function") {
                         const [ nx, ny ] = fn(ea, target);

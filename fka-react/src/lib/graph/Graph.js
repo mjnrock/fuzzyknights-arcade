@@ -79,6 +79,13 @@ export default class Graph extends EventEmitter {
     getNode(x, y) {
         return this.nodes[ this._key(x, y) ];
     }
+    getNodeById(id) {
+        for(let node of Object.values(this.nodes)) {
+            if(node.id === id) {
+                return node;
+            }
+        }
+    }
 
     addNode(x, y, node) {
         if(node instanceof Node) {
