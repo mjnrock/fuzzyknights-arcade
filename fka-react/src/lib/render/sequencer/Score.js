@@ -2,6 +2,12 @@ import { v4 as uuidv4 } from "uuid";
 import Base64 from "./../../util/Base64";
 import Mixer from "./Mixer";
 
+//  STUB
+export const GAME_TILE_SIZE = {
+    WIDTH: 128,
+    HEIGHT: 128,
+};
+
 export default class Score {
     constructor(mixer, { weight = 1, canvas, bounds = {}, data = {}, id } = {}) {
         this.id = id || uuidv4();
@@ -109,8 +115,8 @@ export default class Score {
             const ctx = canvas.getContext("2d");
 
             if(tx !== void 0 && ty !== void 0) {
-                x = tx * this.data.tile.width;
-                y = ty * this.data.tile.height;
+                x = tx * GAME_TILE_SIZE.WIDTH;
+                y = ty * GAME_TILE_SIZE.HEIGHT;
             }
 
             ctx.drawImage(
@@ -119,8 +125,8 @@ export default class Score {
                 sy,
                 this.data.tile.width,
                 this.data.tile.height,
-                x,
-                y,
+                x - this.data.tile.width / 2,
+                y - this.data.tile.height / 2,
                 this.data.tile.width,
                 this.data.tile.height
             );

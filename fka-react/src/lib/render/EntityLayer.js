@@ -40,28 +40,29 @@ export default class EntityLayer extends GridCanvasNode {
             const state = entity.getComponent(EnumComponentType.STATE);
 
             if((rb.x >= x0) && (rb.x <= x1) && (rb.y >= y0) && (rb.y <= y1)) {
-                let score;
+                let scomp;
                 //FIXME [ presently partial STUB ] "ENTITY.STATE" needs to be dynamically created
                 if(state.currentValue === EnumState.IDLE) {
                     if(entity === Game.$.player) {
-                        score = this.book.get(`player.idle`);
+                        scomp = this.book.get(`player.idle`);
                     } else {
-                        score = this.book.get(`raccoon.idle`);
+                        // scomp = this.book.get(`raccoon.idle`);
+                        scomp = this.book.get(`tree`);
                     }
                 } else if(state.currentValue === EnumState.MOVING) {
                     if(entity instanceof EntityCreature) {
-                        score = this.book.get(`raccoon.running`);
+                        scomp = this.book.get(`raccoon.running`);
                     } else if(entity instanceof EntityProjectile) {
-                        score = this.book.get(`spell.fireball`);
+                        scomp = this.book.get(`spell.fireball`);
                     }
                 } else if(state.currentValue === EnumState.ATTACKING) {
                     if(entity === Game.$.player) {
-                        score = this.book.get(`player.attacking`);
+                        scomp = this.book.get(`player.attacking`);
                     } else {
-                        score = this.book.get(`raccoon.tailwhip`);
+                        scomp = this.book.get(`raccoon.tailwhip`);
                     }
                 } else if(state.currentValue === EnumState.DEFENDING) {
-                    score = this.book.get(`raccoon.tuck`);
+                    scomp = this.book.get(`raccoon.tuck`);
                 }
 
                 // if(entity === Game.$.player) {
@@ -69,12 +70,12 @@ export default class EntityLayer extends GridCanvasNode {
                 // }
 
                 //FIXME 0.5 nudges are to center the tile; but this assumes tile and entity will have 1:1 ratio, which will not always be the case
-                if(score) {
-                    score.drawTo(this.canvas, {
+                if(scomp) {
+                    scomp.drawTo(this.canvas, {
                         facing: rb.facing,
                         elapsedTime: state.current.elapsed,
-                        tx: rb.x - 0.5,
-                        ty: rb.y - 0.5,
+                        tx: rb.x,
+                        ty: rb.y,
                     });
                 }
             }

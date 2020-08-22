@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import { GAME_TILE_SIZE } from "./Score";
 
 export const EnumFacing = {
     TOP_DOWN: {
@@ -69,18 +70,18 @@ export default class Composition {
                 const ctx = canvas.getContext("2d");
 
                 if(tx !== void 0 && ty !== void 0) {
-                    x = tx * score.data.tile.width;
-                    y = ty * score.data.tile.height;
+                    x = tx * GAME_TILE_SIZE.WIDTH;
+                    y = ty * GAME_TILE_SIZE.HEIGHT;
                 }
-
+                
                 ctx.drawImage(
                     score.canvas,
                     sx,
                     sy,
                     score.data.tile.width,
                     score.data.tile.height,
-                    x,
-                    y,
+                    x - score.data.tile.width / 2,
+                    y - score.data.tile.height / 2,
                     score.data.tile.width,
                     score.data.tile.height
                 );

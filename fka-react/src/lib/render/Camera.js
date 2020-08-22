@@ -17,6 +17,7 @@ import SWORD_IDLE from "./sequencer/data/sword.idle.json";
 import SWORD_ATTACKING from "./sequencer/data/sword.attacking.json";
 import SHIELD_IDLE from "./sequencer/data/shield.idle.json";
 import SHIELD_BLOCK from "./sequencer/data/shield.block.json";
+import TREE from "./sequencer/data/tree-2.json";
 import DebugLayer from "./DebugLayer";
 import Composition from "./sequencer/Composition";
 
@@ -32,6 +33,7 @@ Promise.all([
     Score.Deserialize(SHIELD_IDLE).then(score => CookedBook.set("shield.idle", score)),
     Score.Deserialize(SWORD_ATTACKING).then(score => CookedBook.set("sword.attacking", score)),
     Score.Deserialize(SHIELD_BLOCK).then(score => CookedBook.set("shield.defending", score)),
+    Score.Deserialize(TREE).then(score => CookedBook.set("tree", score)),
 ]).then(() => {    
     CookedBook.set("player.idle", new Composition([
         [ "body", CookedBook.get("raccoon.idle") ],
