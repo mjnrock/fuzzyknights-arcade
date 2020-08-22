@@ -4,6 +4,8 @@ import Game from "./lib/Game";
 import Base64 from "@lespantsfancy/hive/lib/client/util/Base64";
 
 export default function Canvas(props) {
+    const { src: propsSrc, onDraw, ...rest } = props;
+
     let canvasRef = React.createRef();
     const [ canvas, setCanvas ] = useState();
 
@@ -11,11 +13,11 @@ export default function Canvas(props) {
         const ref = canvasRef.current;
 
         if(ref) {            
-            if(props.src) {
-                Base64.Decode(props.src).then(cvs => {
+            if(propsSrc) {
+                Base64.Decode(propsSrc).then(cvs => {
                     //FIXME Temp event association until Base64 class is modified to accommodate
-                    if(props.src instanceof HTMLCanvasElement) {
-                        cvs.onmousedown = props.src.onmousedown;
+                    if(propsSrc instanceof HTMLCanvasElement) {
+                        cvs.onmousedown = propsSrc.onmousedown;
                     }
 
                     setCanvas(cvs);
@@ -42,11 +44,15 @@ export default function Canvas(props) {
             if(Game.$.state.react.canvas !== ref) {
                 Game.$.state.react.canvas = ref;
             }
+
+            if(typeof onDraw === "function") {
+                onDraw(ref);
+            }
         }
         // eslint-disable-next-line
     }, [ canvas ]);
 
     return (
-        <canvas ref={ canvasRef } />
+        <canvas ref={ canvasRef } { ...rest } />
     );
 };
