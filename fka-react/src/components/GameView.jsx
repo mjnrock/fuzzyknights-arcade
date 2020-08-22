@@ -12,7 +12,7 @@ export default function GameView({ state, canvasProps = {}, style = {}, ...rest 
         <div id="game-view" { ...rest } style={{ ...style }}>
             <Canvas src={ state.view.current.camera.canvas } { ...canvasProps } />
 
-            <div style={{ position: "absolute", left: `calc(100vw / 2 - 64px * 3)`, top: `calc(100vh - 175px)`, width: "100%", }}>
+            <div style={{ position: "absolute", left: `calc(100vw / 2 - 64px * 3)`, top: `calc(100vh - 175px)`, }}>
                 {
                     [ 1, 2, 3, 4, 5, 6 ].map(value => (
                         <Popup key={ value } trigger={(                        
