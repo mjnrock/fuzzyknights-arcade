@@ -42,7 +42,7 @@ export default class ViewManager extends Registry {
             this.current = current();
         }
 
-        return this;
+        return this.current;
     }
 
     start() {

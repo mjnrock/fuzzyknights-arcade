@@ -1,12 +1,10 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React from "react";
 import { useNodeContext } from "@lespantsfancy/hive/lib/react";
 import { Segment, List, Button, Modal, Icon } from "semantic-ui-react";
 
 import { Context } from "../App";
-import GameView from "./../components/GameView";
-import TitleView from "./../components/TitleView";
-import Game from "../lib/Game";
+import ViewManager from "../components/ViewManager";
 
 function ColoredConfig({ setting } = {}) {
     const { state } = useNodeContext(Context);
@@ -23,10 +21,6 @@ function ColoredConfig({ setting } = {}) {
 }
 
 export default function Home(props) {
-    const [ world, setWorld ] = useState(); //TODO Transition to an internal Game flag (e.g. isRunning) with a reaction to GAME_START/GAME_STOP
-
-    console.log(Game.$.view.current)
-
     return (
         <Segment>
             <Modal
@@ -44,16 +38,7 @@ export default function Home(props) {
                 }
             />
 
-            {
-                world ? (
-                    <GameView />
-                ) : (
-                    <TitleView onWorld={ (game, i) => {
-                        setWorld(game);
-                        Game.$.view.start();
-                    }} />
-                )
-            }
+            <ViewManager />
         </Segment>
     )
 }
