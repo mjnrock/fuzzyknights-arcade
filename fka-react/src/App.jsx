@@ -42,11 +42,11 @@ reg.create({
 });
 reg.create(19);
 
-console.log(reg.get("test"));
-console.log(reg.get("bob"));
-console.log(reg.get(reg.find("test").id));
-console.log(reg.find("test"));
-console.log(reg.entries);
+// console.log(reg.get("test"));
+// console.log(reg.get("bob"));
+// console.log(reg.get(reg.find("test").id));
+// console.log(reg.find("test"));
+// console.log(reg.entries);
 
 
 
@@ -143,8 +143,8 @@ for(let i = 0; i < 25; i++) {
     node.addEntity(e2);
 }
 
-console.log(Game.$)
-console.log(Game.$.player)
+// console.log(Game.$)
+// console.log(Game.$.player)
 
 Game.$.view = new GameView(Game.$.graph, {
     camera: new RenderCamera(Game.$.graph.getNode(0, 0), {
@@ -164,13 +164,13 @@ Game.$.view = new GameView(Game.$.graph, {
 });
 Game.$.start();
 
-export const Context = React.createContext(Game.$.view.camera);
+export const Context = React.createContext(Game.$);
 
 function App() {
     return (
         <Router>
             <ScrollToTop>
-                <Context.Provider value={{ node: Game.$.view.camera }}>
+                <Context.Provider value={{ node: Game.$ }}>
                     <Switch>                            
                         <Route path="/">
                             <Routes.Home />

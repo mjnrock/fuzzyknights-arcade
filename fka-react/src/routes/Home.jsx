@@ -1,9 +1,11 @@
-import React from "react";
+/* eslint-disable */
+import React, { useState } from "react";
 import { useNodeContext } from "@lespantsfancy/hive/lib/react";
 import { Segment, List, Button, Modal, Icon } from "semantic-ui-react";
 
 import { Context } from "../App";
-import Canvas from "../Canvas";
+import GameView from "./../components/GameView";
+import TitleView from "./../components/TitleView";
 
 function ColoredConfig({ setting } = {}) {
     const { state } = useNodeContext(Context);
@@ -20,10 +22,10 @@ function ColoredConfig({ setting } = {}) {
 }
 
 export default function Home(props) {
-    const { node } = useNodeContext(Context);
+    const [ world, setWorld ] = useState();
 
     return (
-        <Segment>            
+        <Segment>
             <Modal
                 trigger={
                     <Button icon>
@@ -39,7 +41,13 @@ export default function Home(props) {
                 }
             />
 
-            <Canvas src={ node.canvas } />
+            {
+                world ? (
+                    <GameView />
+                ) : (
+                    <TitleView onWorld={ (game, i) => setWorld(game) } />
+                )
+            }
         </Segment>
     )
 }

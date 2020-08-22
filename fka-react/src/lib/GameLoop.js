@@ -56,6 +56,7 @@ export default class GameLoop {
      */
     draw(interpolationPercentage) {
         Game.$.view.camera.draw();
+        Game.$.dispatch();
         // console.log("%", interpolationPercentage);   //TODO Figure out how to add these "rendering fractional steps" into implementation
     }
 
