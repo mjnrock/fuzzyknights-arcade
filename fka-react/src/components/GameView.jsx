@@ -9,10 +9,10 @@ import Canvas from "../Canvas";
 
 export default function GameView(props) {
     const { node, state } = useNodeContext(Context);
-    const [ canvas, setCanvas ] = useState(state.view.camera.canvas);
+    const [ canvas, setCanvas ] = useState(state.view.current.camera.canvas);
 
     useEffect(() => {
-        const fn = state => setCanvas(state.view.camera.canvas);
+        const fn = state => setCanvas(state.view.current.camera.canvas);
         node.addEffect(fn);
 
         return () => node.removeEffect(fn);
@@ -27,7 +27,7 @@ export default function GameView(props) {
                 <Icon corner name="add" />
             </Button>
             
-            <Canvas src={ canvas } />
+            <Canvas src={ state.view.current.camera.canvas } />
         </Fragment>
     )
 }

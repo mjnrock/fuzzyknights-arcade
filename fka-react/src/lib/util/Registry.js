@@ -8,7 +8,51 @@ export default class Registry {
         this.version = version;
 
         this.add(...entries);
+
+        // this._current = {
+        //     index: -1,
+        //     entry: null,
+        // };
     }
+
+    // get current() {
+    //     return this._current.entry;
+    // }
+    // set current(index) {
+    //     this._current.index = Math.max(0, Math.min(this.entries.size, index));
+    //     this._current.entry = [ ...this.entries.values() ][ this._current.index ];
+
+    //     return this;
+    // }
+
+    // get index() {
+    //     return this._current.index;
+    // }
+
+    // next() {
+    //     if(this.index === this.entries.size - 1) {
+    //         this.current = 0;
+    //     } else {
+    //         this.current = Math.max(0, Math.min(this.entries.size, this.index + 1));
+    //     }
+
+    //     return this;
+    // }
+    // previous() {
+    //     if(this.index === 0) {
+    //         this.current = this.entries.size - 1;
+    //     } else {
+    //         this.current = Math.max(0, Math.min(this.entries.size, this.index - 1));
+    //     }
+
+    //     return this;
+    // }
+
+    // use(index) {
+    //     this.current = index;
+
+    //     return this;
+    // }
 
     get(...keys) {
         if(keys.length === 1) {
@@ -72,8 +116,8 @@ export default class Registry {
                 }
 
                 this.entries.delete(keyOrEntry.id);
-            } else {
-                const entry = this.get(keyOrEntry);
+            } else if(typeof keyOrEntry === "string" || keyOrEntry instanceof String) {
+                const entry = this.find(keyOrEntry);
                 
                 this.remove(entry);
             }
@@ -99,6 +143,10 @@ export default class Registry {
         this.add(entry);
 
         return entry;
+    }
+
+    static Entry(...args) {
+        return new Entry(...args);
     }
 
     patch() {

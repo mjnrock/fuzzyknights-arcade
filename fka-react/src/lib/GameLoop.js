@@ -1,5 +1,6 @@
 import MainLoop from "mainloop.js";
 import Game from "./Game";
+import GameView from "./view/GameView";
 
 export default class GameLoop {
     constructor(fps = 30) {
@@ -55,8 +56,10 @@ export default class GameLoop {
      * @param {number} interpolationPercentage A factor between 0.0 and 1.0, used as a scaling weight similar to delta time
      */
     draw(interpolationPercentage) {
-        Game.$.view.camera.draw();
-        Game.$.dispatch();
+        if(Game.$.view.current instanceof GameView) {
+            Game.$.view.current.camera.draw();
+            Game.$.dispatch();
+        }
         // console.log("%", interpolationPercentage);   //TODO Figure out how to add these "rendering fractional steps" into implementation
     }
 

@@ -6,6 +6,7 @@ import { Segment, List, Button, Modal, Icon } from "semantic-ui-react";
 import { Context } from "../App";
 import GameView from "./../components/GameView";
 import TitleView from "./../components/TitleView";
+import Game from "../lib/Game";
 
 function ColoredConfig({ setting } = {}) {
     const { state } = useNodeContext(Context);
@@ -23,6 +24,8 @@ function ColoredConfig({ setting } = {}) {
 
 export default function Home(props) {
     const [ world, setWorld ] = useState();
+
+    console.log(Game.$.view.current)
 
     return (
         <Segment>
@@ -45,7 +48,10 @@ export default function Home(props) {
                 world ? (
                     <GameView />
                 ) : (
-                    <TitleView onWorld={ (game, i) => setWorld(game) } />
+                    <TitleView onWorld={ (game, i) => {
+                        setWorld(game);
+                        Game.$.view.start();
+                    } } />
                 )
             }
         </Segment>
