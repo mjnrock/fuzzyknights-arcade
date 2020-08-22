@@ -1,4 +1,3 @@
-import Game from "../Game";
 import View from "./View";
 
 export default class TitleView extends View {

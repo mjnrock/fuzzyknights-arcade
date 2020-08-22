@@ -11,8 +11,6 @@ import Routes from "./routes/package";
 import Game from "./lib/Game";
 
 import Graph from "./lib/graph/package";
-import GameView, { Controls as GameViewControls } from "./lib/view/GameView";
-import RenderCamera from "./lib/render/Camera";
 import EntityCreature from "./lib/entity/EntityCreature";
 import { EnumComponentType } from "./lib/entity/components/Component";
 import { NormalizeTheta } from "./lib/hive/Helper";
@@ -34,7 +32,6 @@ import EntityProjectile from "./lib/entity/EntityProjectile";
 
 
 import Registry from "./lib/util/Registry";
-import ViewManager from "./lib/view/ViewManager";
 
 const reg = new Registry();
 reg.create({
@@ -146,25 +143,6 @@ for(let i = 0; i < 25; i++) {
 
 // console.log(Game.$)
 // console.log(Game.$.player)
-
-Game.$.view = new ViewManager();
-// Game.$.view = new GameView(Game.$.graph, {
-//     camera: new RenderCamera(Game.$.graph.getNode(0, 0), {
-//         tw: 128,
-//         th: 128,
-//         scale: 1.0,
-
-//         //* Viewport Config
-//         x: 0,   // Only relevant w/o a subject
-//         y: 0,   // Only relevant w/o a subject
-//         w: 9,
-//         h: 7,
-
-//         subject: Game.$.player,
-//     }),
-//     controls: GameViewControls
-// });
-// Game.$.start();
 
 export const Context = React.createContext(Game.$);
 

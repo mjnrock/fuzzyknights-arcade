@@ -2,13 +2,14 @@ import Hive from "@lespantsfancy/hive";
 import Station from "./hive/Station";
 import GameLoop from "./GameLoop";
 import { v4 as uuidv4 } from "uuid";
+import ViewManager from "./view/ViewManager";
 
 export default class Game extends Hive.Node {
     constructor({ settings = {}, fps = 60 } = {}) {
         super({
             players: [],
             graph: null,
-            view: null,
+            view: new ViewManager(),
             broadcastNetwork: new Station([ "graph", "node", "player", "entity", ]),
             loop: null,
 
