@@ -5,21 +5,37 @@ import KeyNode, { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNod
 import Component from "./components/Component";
 
 export default class View extends Hive.Node {
-    constructor({ mouseElement, keyElement } = {}) {
+    constructor({ mouseElement, keyElement, silent = false } = {}) {
         super({
             components: new Map(),
             mouse: new MouseNode({ element: mouseElement || window }),
             key: new KeyNode({ element: keyElement || window }),
         });
 
-        this.mouse.addEffect((state, msg) => this.receive(msg.type, msg.payload, msg));
-        this.key.addEffect((state, msg) => this.receive(msg.type, msg.payload, msg));
+        if(silent === true) {       
+            this.silent();
+        } else {
+            this.mouse.addEffect((state, msg) => this.receive(msg.type, msg.payload, msg));
+            this.key.addEffect((state, msg) => this.receive(msg.type, msg.payload, msg));
+    
+            this.mouse.addEffect((state, msg) => msg.type === EnumMouseMessageType.MOUSE_UP ? this.onMouseBinding(msg.payload) : null);
+            this.key.addEffect((state, msg) => msg.type === EnumKeyMessageType.KEY_UP ? this.onKeyBinding(msg.payload) : null);
+    
+            this.keyBindings = [];
+            this.mouseBindings = [];   
+        }
+    }
 
-        this.mouse.addEffect((state, msg) => msg.type === EnumMouseMessageType.MOUSE_UP ? this.onMouseBinding(msg.payload) : null);
-        this.key.addEffect((state, msg) => msg.type === EnumKeyMessageType.KEY_UP ? this.onKeyBinding(msg.payload) : null);
+    silent() {
+        this.mergeState({
+            mouse: null,
+            key: null,
+        });
 
         this.keyBindings = [];
         this.mouseBindings = [];
+
+        return this;
     }
 
     onKeyBinding(payload) {

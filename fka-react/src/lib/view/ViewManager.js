@@ -32,7 +32,7 @@ export default class ViewManager extends Registry {
             value:  () => new TitleView(),
         });
 
-        this.current = this.get("TitleView")();
+        this.current = this.use("TitleView");
     }
 
     use(key) {
