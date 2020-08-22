@@ -18,9 +18,8 @@ export const Controls = {
         } ],
         [ 122, function() {
             //? Fullscreen the Canvas on F11
-            if(Game.$.react.canvas) {
-                const elem = Game.$.react.canvas;
-
+            const elem = document.getElementById("game-view");
+            if(elem) {
                 if(elem.requestFullscreen) {
                     elem.requestFullscreen();
                 } else if(elem.mozRequestFullScreen) { /* Firefox */
