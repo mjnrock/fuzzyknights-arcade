@@ -170,7 +170,7 @@ export default class Camera extends LayeredCanvasNode {
 
     //TODO There is a jerkiness that needs smoothing that is particularly visible in the Terrain
     draw(...args) {
-        if(Game.$.react.canvas) {
+        if(Game.$.react.canvas && this.canvas !== Game.$.react.canvas) {
             this.canvas = Game.$.react.canvas;
         }
 
