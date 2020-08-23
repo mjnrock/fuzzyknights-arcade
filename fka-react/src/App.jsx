@@ -82,9 +82,9 @@ const entity = new EntityCreature({
                     name: "fireball",
                     // state: EnumState.CASTING,
                     state: EnumState.IDLE,
-                    // requirements: [
-                    //     new Requirements.Resource(EnumResourceType.ENERGY, 1),
-                    // ],
+                    requirements: [
+                        new Requirements.Resource(EnumResourceType.ENERGY, 0),
+                    ],
                     effects: [
                         new Effects.Spawn(() => new EntityProjectile({    //? Needs to be a "generator" function, otherwise keeps spawning same instance
                             lifespan: 1000,
