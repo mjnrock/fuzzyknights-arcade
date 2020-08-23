@@ -12,10 +12,12 @@ import GameViewComponent from "./GameView";
 import TitleViewComponent from "./TitleView";
 
 export function Wrapper(props) {
+    const { state } = useNodeContext(Context);
+    
     return (        
         <Fragment>
             <Button icon onClick={ e => {
-                console.info(canvas.toDataURL("image/png"));
+                console.info(state.view.current.camera.canvas.toDataURL("image/png"));
             }}>
                 <Icon name="camera retro" />
                 <Icon corner name="add" />
