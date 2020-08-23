@@ -125,12 +125,12 @@ const entity = new EntityCreature({
 node.addEntity(entity);
 Game.$.player = entity;
 
-for(let i = 0; i < 50; i++) {
+for(let i = 0; i < 25; i++) {
     const e2 = new EntityCreature({
         data: {
             [ EnumComponentType.RIGID_BODY ]: {
-                x: ~~(Math.random() * 20),
-                y: ~~(Math.random() * 20),
+                x: Math.random() * 20,
+                y: Math.random() * 20,
                 speed: 3.50,
                 model: new Models.Circle(24),
                 facing: NormalizeTheta((Math.random() > 0.5 ? -1 : 1) * Math.random(), (Math.random() > 0.5 ? -1 : 1) * Math.random(), { toNearestDegree: 45 }),

@@ -14,7 +14,7 @@ export default class ViewManager extends Registry {
                 camera: new Camera(Game.$.graph.getNode(0, 0), {
                     tw: 128,
                     th: 128,
-                    scale: 1.0,
+                    scale: 1.0,     //TODO Scale no longer affects the rendered image, only the DOM canvas size
             
                     //* Viewport Config
                     x: 0,   // Only relevant w/o a subject

@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import Base64 from "./../../util/Base64";
 import Mixer from "./Mixer";
 
-//  STUB
+//  STUB    This should probably come from the Camera's tw/th, instead
 export const GAME_TILE_SIZE = {
     WIDTH: 128,
     HEIGHT: 128,
@@ -87,12 +87,22 @@ export default class Score {
         }
     }
 
-    get(facing, elapsedTime) {
-        elapsedTime = elapsedTime % this.data.duration;
-        
+    get(facing, elapsedTime) {        
         const theta = Math.round(facing / this.data.step) * this.data.step;
         const track = this.data.direction.get(theta);
 
+        if(track.frames.length === 1) {
+            const hash = track.frames[ 0 ][ 1 ].hash;
+            const [ tx, ty ] = this.data.frames.get(hash);
+
+            return {
+                hash,
+                position: [ tx * this.data.tile.width, ty * this.data.tile.height ],
+            };
+        }
+
+        elapsedTime = elapsedTime % this.data.duration;
+        
         let hash;
         for(let [ threshold, frame ] of track.frames) {            
             if(elapsedTime < threshold) {
@@ -108,15 +118,15 @@ export default class Score {
         };
     }
     
-    drawTo(canvas, { facing, elapsedTime, x, y, tx, ty }) {
+    drawTo(canvas, { facing, elapsedTime, x, y, tx, ty, tw, th }) {
         const { position: [ sx, sy ] } = this.get(facing, elapsedTime) || {};
 
         if(sx !== void 0 && sy !== void 0) {
             const ctx = canvas.getContext("2d");
 
             if(tx !== void 0 && ty !== void 0) {
-                x = tx * GAME_TILE_SIZE.WIDTH;
-                y = ty * GAME_TILE_SIZE.HEIGHT;
+                x = tx * (tw || GAME_TILE_SIZE.WIDTH);
+                y = ty * (th || GAME_TILE_SIZE.HEIGHT);
             }
 
             ctx.drawImage(

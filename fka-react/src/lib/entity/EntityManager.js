@@ -73,12 +73,29 @@ export default class EntityManager extends Hive.Node {
         return this;
     }
 
+    sortEntitiesGeographically() {
+        this.state.entities = new Map([ ...this.entities.entries() ].sort(([ aid, ae ], [ bid, be ]) => {
+            const rba = ae.getComponent(EnumComponentType.RIGID_BODY);
+            const rbb = be.getComponent(EnumComponentType.RIGID_BODY);
+
+            if(rba && rbb) {
+                return rba.y - rbb.y;
+            }
+
+            return 0;
+        }));
+
+        return this;
+    }
+
     tick(dt, now) {
         if(this.entities.size < 1) {
             return;
         }
         
         let purge = new Set();
+
+        this.sortEntitiesGeographically();
         
         //NOTE If desired, this modification only calls the .tick on entities within a Camera's viewport.  Might be useful here, but the idea should be considered to find its purpose.
         //? Maybe take viewport + some distance?  Maybe Math.min(node w|h, 20)?
