@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react";
-import Canvas from "../Canvas";
+import Canvas from "../GameCanvas";
 
 import { Popup, Header, Grid, Button } from "semantic-ui-react";
 

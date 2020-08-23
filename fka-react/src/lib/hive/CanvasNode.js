@@ -25,9 +25,6 @@ export default class CanvasNode extends Hive.Node {
         });
 
         this.resize(width, height);
-
-        this.ctx.imageSmoothingEnabled = false;
-        // this.ctx.imageSmoothingQuality = "high";
     }
 
     get canvas() {

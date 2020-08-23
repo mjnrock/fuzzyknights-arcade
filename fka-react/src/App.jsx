@@ -125,7 +125,7 @@ const entity = new EntityCreature({
 node.addEntity(entity);
 Game.$.player = entity;
 
-for(let i = 0; i < 25; i++) {
+for(let i = 0; i < 100; i++) {
     const e2 = new EntityCreature({
         data: {
             [ EnumComponentType.RIGID_BODY ]: {

@@ -65,11 +65,6 @@ export default class EntityLayer extends GridCanvasNode {
                     scomp = this.book.get(`raccoon.tuck`);
                 }
 
-                // if(entity === Game.$.player) {
-                //     console.log(state.currentValue);
-                // }
-
-                //FIXME 0.5 nudges are to center the tile; but this assumes tile and entity will have 1:1 ratio, which will not always be the case
                 if(scomp) {
                     scomp.drawTo(this.canvas, {
                         facing: rb.facing,

@@ -170,6 +170,10 @@ export default class Camera extends LayeredCanvasNode {
 
     //TODO There is a jerkiness that needs smoothing that is particularly visible in the Terrain
     draw(...args) {
+        if(Game.$.react.canvas) {
+            this.canvas = Game.$.react.canvas;
+        }
+
         const viewport = this.viewport;
         const padding = 1;  //* This prevents a hard tile cutoff on render     
 

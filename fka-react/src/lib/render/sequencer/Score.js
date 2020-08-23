@@ -64,6 +64,9 @@ export default class Score {
         this._canvas = canvas;
     }
     
+    /**
+     * Bounds is designed to create a subwindow of a canvas, in case there is a master sprite sheet
+     */
     setBounds(x, y, w, h) {
         this.bounds = {
             x: x !== void 0 ? x : this.bounds.x,

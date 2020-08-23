@@ -48,30 +48,38 @@ export default class Composition {
     // }
 
     /**
-     * 
      * @param {int} facing (degrees)
      * @param {int} elapsedTime (ms)
      * @returns [ { name, score, data: Score.get(@facing, @elapsedTime) }, ... ]
      */
     get(facing, elapsedTime, { lookup = EnumFacing.TOP_DOWN } = {}) {
-        const arr = [ ...this.scores.entries() ];
-        arr.sort(([ aname ], [ bname ]) => lookup[ facing ].indexOf(aname) - lookup[ facing ].indexOf(bname));
+        return lookup[ facing ].reduce((arr, name) => {
+            const score = this.scores.get(name);
 
-        return new Set(arr.map(([ name, score ]) => ({ name, score, data: score.get(facing, elapsedTime) })));
+            if(score) {     // Score might not exist (e.g. "corona", "ground", etc.)
+                arr.push({
+                    name,
+                    score,
+                    data: score.get(facing, elapsedTime)
+                });
+            }
+
+            return arr;
+        }, []);
     }
     
-    drawTo(canvas, { facing, elapsedTime, x, y, tx, ty }) {
+    drawTo(canvas, { facing, elapsedTime, x, y, tx, ty, tw, th }) {
         const scores = this.get(facing, elapsedTime);
 
-        for(let { score, data } of [ ...scores.values() ]) {
+        for(let { score, data } of scores) {
             const [ sx, sy ] = data.position;
 
             if(sx !== void 0 && sy !== void 0) {
                 const ctx = canvas.getContext("2d");
 
                 if(tx !== void 0 && ty !== void 0) {
-                    x = tx * GAME_TILE_SIZE.WIDTH;
-                    y = ty * GAME_TILE_SIZE.HEIGHT;
+                    x = tx * (tw || GAME_TILE_SIZE.WIDTH);
+                    y = ty * (th || GAME_TILE_SIZE.HEIGHT);
                 }
                 
                 ctx.drawImage(
