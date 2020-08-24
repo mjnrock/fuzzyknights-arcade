@@ -4,6 +4,7 @@ import GraphComponent from "./components/GraphComponent";
 import { EnumMessageType as EnumMouseMessageType } from "./../hive/MouseNode";
 import { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNode";
 
+//TODO This needs to be more exposed and readable so things like PlayerActionBar.jsx can display the appropriate key/mouse bindings, and so a synthetic control event can be invoked so as to execute the respective Action
 export const Controls = {
     key: [
         [ 114, function() { Game.$.setting("isDebugMode", !Game.$.setting("isDebugMode")) } ],
