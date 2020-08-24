@@ -44,3 +44,33 @@ kbd {
 .action-button:active {
     background-color: #777;
 }
+
+.inventory {    
+    background-color: #eee;
+    border: 1px solid #555;
+    border-radius: 4px;
+    padding: 6px;
+    position: absolute;
+    display: inline-block;
+}
+.inventory-row {
+    padding: 0px;
+}
+.inventory-slot {
+    background-color: #eee;
+    border: 1px solid #555;
+    border-radius: 4px;
+    margin: 4px;
+    height: 64px;
+    width: 64px;
+    display: inline-block;
+    text-align: center;
+}
+.inventory-slot:hover {
+    cursor: pointer;
+    border: 1px solid #eee;
+    background-color: #999;
+}
+.inventory-slot:active {
+    background-color: #777;
+}

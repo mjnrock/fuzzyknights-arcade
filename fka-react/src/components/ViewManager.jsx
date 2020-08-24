@@ -29,16 +29,16 @@ export function Wrapper(props) {
 }
 
 export default function ViewManager(props) {
-    const { state } = useNodeContext(Context);
+    const { node: game, state } = useNodeContext(Context);
 
     let current = null;
     if(state.view.current instanceof GameView) {
         current = (
-            <GameViewComponent state={ state } />
+            <GameViewComponent game={ game } />
         );
     } else if(state.view.current instanceof TitleView) {
         current = (
-            <TitleViewComponent onWorld={ (game, i) => {
+            <TitleViewComponent onWorld={ (g, i) => {
                 Game.$.view.start();
             }} />
         );
