@@ -1,5 +1,6 @@
 import GridCanvasNode from "../hive/GridCanvasNode";
 import { EnumTerrainType } from "../graph/Terrain";
+import Game from "../Game";
 
 export default class TerrainLayer extends GridCanvasNode {
     constructor(book, { width, height, tw = 128, th = 128, size = [] } = {}) {
@@ -17,6 +18,7 @@ export default class TerrainLayer extends GridCanvasNode {
         this.loadImages([
             [ "terrain-grass-1", "./assets/terrain/grass-128-1.png"],
             [ "terrain-grass-2", "./assets/terrain/grass-128-2.png"],
+            [ "terrain-stone", "./assets/terrain/stone.png"],
         ]);
         
         //  Isometric Transformation
@@ -33,7 +35,7 @@ export default class TerrainLayer extends GridCanvasNode {
     }
 
     draw({ x0 = 0, y0 = 0, x1 = this.width, y1 = this.height, scale = 1.0, node } = {}) {
-        if(!this.state.lastDraw) {
+        if(this.state.lastDraw !== node) {
             this.ctx.clearRect(0, 0, this.width, this.height);
 
             this.ctx.save();
@@ -45,13 +47,17 @@ export default class TerrainLayer extends GridCanvasNode {
                     //  STUB
                     if(terrain.type === EnumTerrainType.FLOOR) {
                         if(this.img("terrain-grass-1")) {
-                            if((~~tx + ~~ty) % 2 === 0) {
-                                this.gTile("terrain-grass-1", 0, 0, tx, ty);
+                            if(node === Game.$.graph.getNode(0, 0)) {
+                                if((~~tx + ~~ty) % 2 === 0) {
+                                    this.gTile("terrain-grass-1", 0, 0, tx, ty);
+                                } else {
+                                    this.gTile("terrain-grass-2", 0, 0, tx, ty);
+                                }
                             } else {
-                                this.gTile("terrain-grass-2", 0, 0, tx, ty);
+                                this.gTile("terrain-stone", 0, 0, tx, ty);
                             }
 
-                            this.state.lastDraw = Date.now();
+                            this.state.lastDraw = node;
                         } else {
                             this.prop({ fillStyle: "#7bb080" }).gRect(tx, ty, 1, 1, { isFilled: true });
                         }

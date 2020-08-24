@@ -7,8 +7,8 @@ import { Context } from "../App";
 import ViewManager from "../components/ViewManager";
 
 function ColoredConfig({ setting } = {}) {
-    const { state } = useNodeContext(Context);
-    const value = state.game.setting(setting);
+    const { node: game } = useNodeContext(Context);
+    const value = game.setting(setting);
 
     return (
         <span
