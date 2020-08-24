@@ -23,6 +23,7 @@ export default class Game extends Hive.Node {
                 isRunning: false,
                 isDebugMode: false,
                 showNameplates: true,
+                showUI: false,
 
                 ...settings,
             },

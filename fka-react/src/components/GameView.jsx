@@ -12,8 +12,14 @@ export default function GameView({ game, canvasProps = {}, style = {}, ...rest }
         <div id="game-view" { ...rest } style={{ ...style }}>
             <Canvas src={ game.state.view.current.camera.canvas } { ...canvasProps } />
 
-            <PlayerActionBar game={ game } />
-            <PlayerInventory game={ game } />
+            {
+                game.setting("showUI") ? (
+                    <>                        
+                        <PlayerActionBar game={ game } />
+                        <PlayerInventory game={ game } />
+                    </>
+                ) : null
+            }
         </div>
     );
 }

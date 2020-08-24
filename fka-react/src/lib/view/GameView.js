@@ -11,6 +11,8 @@ export const Controls = {
             Game.$.setting("showNameplates", !Game.$.setting("showNameplates"));
             this.camera.getLayer("HUD").isActive = Game.$.setting("showNameplates");
         } ],
+        [ 90, function() { Game.$.setting("showUI", !Game.$.setting("showUI"))
+        } ],
         [ 46, function() {
             const node = Game.$.graph.getNode(0, 0);
             node.entities.clear();

@@ -20,6 +20,7 @@ function ColoredConfig({ setting } = {}) {
     )
 }
 
+//TODO  Create a version of this that dynamically references the config key bindings
 export default function Home(props) {
     return (
         <Segment>
@@ -34,6 +35,7 @@ export default function Home(props) {
                     <List style={{ padding: 16 }}>
                         <List.Item><kbd>F3</kbd> Toggle Debug Mode [ <ColoredConfig setting={ "isDebugMode" } /> ]</List.Item>
                         <List.Item><kbd>V</kbd> Toggle Life Bars [ <ColoredConfig setting={ "showNameplates" } /> ]</List.Item>
+                        <List.Item><kbd>Z</kbd> Toggle UI [ <ColoredConfig setting={ "showUI" } /> ]</List.Item>
                     </List>
                 }
             />
