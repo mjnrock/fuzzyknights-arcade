@@ -1,4 +1,5 @@
 /* eslint-disable */
+import crypto from "crypto";
 import Component, { EnumComponentType } from "./Component";
 import Action from "../../combat/Action";
 
@@ -25,6 +26,14 @@ export default class Capabilities extends Component {
                 this.add(action);
             }
         }
+
+        this.rehash();
+    }
+
+    rehash() {
+        this.hash = crypto.createHash("md5").update(JSON.stringify(this.state.current.entries())).digest("hex");
+
+        return this;
     }
 
     get check() {
@@ -140,6 +149,8 @@ export default class Capabilities extends Component {
     set(name, action) {
         if(action instanceof Action && (this.isCurrentOpen || this.state.current.has(name))) {
             this.state.current.set(name, action);
+
+            this.rehash();
 
             return true;
         }
