@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { Enumerator } from "./../hive/Helper";
 
-export const EnumType = Enumerator({
+export const EnumItemType = Enumerator({
     WEAPON: 2 << 0,
     ARMOR: 2 << 0,
     CONSUMABLE: 2 << 0,

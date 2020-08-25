@@ -37,8 +37,7 @@ export default class EffectSpawn extends Effect {
                     rb.facing = comp.facing;
 
                     if(ea.parent === Game.$.player) {
-                        const { tx, ty } = Game.$.view.current.cursor;
-                        const theta = Math.atan2(ty - comp.y, tx - comp.x);
+                        const { theta } = Game.$.view.current.cursor;
 
                         rb.vx = Math.cos(theta) * rb.speed;
                         rb.vy = Math.sin(theta) * rb.speed;

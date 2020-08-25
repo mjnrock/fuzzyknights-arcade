@@ -5,6 +5,13 @@ import { EnumComponentType } from "../lib/entity/components/Component";
 import { Header, Popup, Grid } from "semantic-ui-react";
 
 export function Slot({ slot, index, ...rest } = {}) {
+    let item = null;
+    if(slot.item) {
+        item = (
+            <div>PLACEHOLDER</div>
+        )
+    }
+
     return (
         <Popup key={ slot.id } trigger={(
             <div className="inventory-slot" { ...rest } onClick={ e => console.log(slot.id) }>{ index }</div>
@@ -13,6 +20,9 @@ export function Slot({ slot, index, ...rest } = {}) {
                 <Grid.Column textAlign="center">
                     <Header as="h4">{ slot.id }</Header>
                     <p>Index: { index }</p>
+                    {
+                        item
+                    }
                 </Grid.Column>
             </Grid>
         </Popup>

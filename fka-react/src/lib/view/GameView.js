@@ -3,6 +3,7 @@ import View from "./View";
 import GraphComponent from "./components/GraphComponent";
 import { EnumMessageType as EnumMouseMessageType } from "./../hive/MouseNode";
 import { EnumMessageType as EnumKeyMessageType } from "./../hive/KeyNode";
+import { EnumComponentType } from "../entity/components/Component";
 
 //TODO This needs to be more exposed and readable so things like PlayerActionBar.jsx can display the appropriate key/mouse bindings, and so a synthetic control event can be invoked so as to execute the respective Action
 export const Controls = {
@@ -88,6 +89,7 @@ export default class GameView extends View {
                 y: 0,
                 tx: 0,
                 ty: 0,
+                theta: 0,
             },
         };
     }
@@ -105,6 +107,7 @@ export default class GameView extends View {
             y: ts[ 1 ],
             tx: ts[ 2 ],
             ty: ts[ 3 ],
+            theta: ts[ 4 ],
         };
         
         return this;
@@ -138,7 +141,8 @@ export default class GameView extends View {
                     tx += x0;
                     ty += y0;
                     
-                    this.cursor = [ x - left, y - top, tx, ty ];
+                    const comp = Game.$.player.getComponent(EnumComponentType.RIGID_BODY);
+                    this.cursor = [ x - left, y - top, tx, ty, comp ? Math.atan2(ty - comp.y, tx - comp.x) : null ];
 
                     this.dispatch(type, this.cursor);
                 }
