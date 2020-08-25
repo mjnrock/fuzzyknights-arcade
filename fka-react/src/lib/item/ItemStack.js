@@ -25,4 +25,10 @@ export default class ItemStack {
 
         return this;
     }
+
+    activate(...args) {
+        if(this.item) {
+            this.item.activate(...args);
+        }
+    }
 }

@@ -32,6 +32,7 @@ import EntityProjectile from "./lib/entity/EntityProjectile";
 
 
 import Registry from "./lib/util/Registry";
+import Storage from "./lib/entity/components/Storage";
 
 const reg = new Registry();
 reg.create({
@@ -57,6 +58,7 @@ const node = Game.$.graph.getNode(0, 0);
 
 const entity = new EntityCreature({
     comps: [
+        new Storage(),
         new Capabilities({
             library: [
                 Action.Ability({

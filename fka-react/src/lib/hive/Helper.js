@@ -197,6 +197,10 @@ export class LinkedList {
 	}
 }
 
+export function Clamp(value, min, max) {
+    return Math.max(min, Math.min(value, max));
+}
+
 export function Enumerator(items = {}) {
     let obj = {
         ...items,
@@ -313,6 +317,7 @@ export default {
     LinkedList,
     Enumerator,
     NormalizeTheta,
+    Clamp,
 
     DistinctArrayFilter,
     ToDistinctArray,

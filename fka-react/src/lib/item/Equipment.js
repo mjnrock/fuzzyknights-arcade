@@ -13,20 +13,21 @@ export default class Equipment extends Inventory {
     }
 
     get head() {
-        return this.content.get("head");
+        return this.key.head;
     }
     get left() {
-        return this.content.get("left");
+        return this.key.left;
     }
     get right() {
-        return this.content.get("right");
+        return this.key.right;
     }
 
+    //TODO
     get(name) {
-        return this.content.get(name);
+        return this.key[ name ];
     }
     set(name, item) {
-        this.content.set(name, item);
+        this.slots.set(name, item);
 
         return this;
     }
@@ -39,6 +40,6 @@ export default class Equipment extends Inventory {
         return this;
     }
     remove(name) {
-        this.content.delete(name);
+        this.slots.delete(name);
     }
 }

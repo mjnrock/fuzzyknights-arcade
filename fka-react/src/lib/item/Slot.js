@@ -1,9 +1,12 @@
+import { v4 as uuidv4 } from "uuid";
 import ItemStack from "./ItemStack";
 import Item from "./Item";
 
 //? An Inventory with a specific type should still be enforced at the Slot level, with [].every()-inspired setup
 export default class Slot {
-    constructor(itemStack = null, restrictions = []) {
+    constructor(itemStack = null, { restrictions = [], id } = {}) {
+        this.id = id || uuidv4();
+
         if(itemStack instanceof Item) {
             this.itemStack = new ItemStack(itemStack, 1);
         } else if(itemStack instanceof ItemStack) {
@@ -26,5 +29,22 @@ export default class Slot {
         this.itemStack = null;
 
         return this;
+    }
+
+    swap(slot) {
+        return Slot.Swap(this, slot);
+    }
+
+    static Swap(sa, sb) {
+        if(sa instanceof Slot && sb instanceof Slot) {
+            const ais = sa.itemStack;
+
+            sa.itemStack = sb.itemStack;
+            sb.itemStack = ais;
+
+            return true;
+        }
+
+        return false;
     }
 }
