@@ -18,6 +18,7 @@ export function InventoryItem({ itemStack, ...rest } = {}) {
 }
 
 export function Slot({ slot, index, ...rest } = {}) {
+    //TODO  Fire an "activate slot" command to the Player channel
     function onClick(e) {
         console.log(slot.id);
     }
