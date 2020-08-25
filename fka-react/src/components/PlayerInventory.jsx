@@ -2,17 +2,20 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { EnumComponentType } from "../lib/entity/components/Component";
 
-export function Slot({ slot, index, ...rest } = {}) {
-    if(slot.item) {    
-        return (
-            <div className="inventory-slot" { ...rest } onClick={ e => console.log(slot.id) }>
-                { slot.id }
-            </div>
-        );
-    }
+import { Header, Popup, Grid } from "semantic-ui-react";
 
+export function Slot({ slot, index, ...rest } = {}) {
     return (
-        <div className="inventory-slot" { ...rest } onClick={ e => console.log(slot.id) }>{ index }</div>
+        <Popup key={ slot.id } trigger={(
+            <div className="inventory-slot" { ...rest } onClick={ e => console.log(slot.id) }>{ index }</div>
+        )} hoverable position="top center">
+            <Grid centered divided columns={ 1 }>
+                <Grid.Column textAlign="center">
+                    <Header as="h4">{ slot.id }</Header>
+                    <p>Index: { index }</p>
+                </Grid.Column>
+            </Grid>
+        </Popup>
     );
 }
 
