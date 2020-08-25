@@ -4,28 +4,37 @@ import { EnumComponentType } from "../lib/entity/components/Component";
 
 import { Header, Popup, Grid } from "semantic-ui-react";
 
+export function InventoryItem({ itemStack, ...rest } = {}) {
+    if(itemStack && itemStack.item) {
+        return (
+            <>
+                <Header as="h4">{ itemStack.item.name }</Header>
+                <p>Qty: { itemStack.qty }</p>
+            </>
+        );
+    }
+
+    return null;
+}
+
 export function Slot({ slot, index, ...rest } = {}) {
-    let item = null;
-    if(slot.item) {
-        item = (
-            <div>PLACEHOLDER</div>
-        )
+    if(slot.itemStack) {
+        return (
+            <Popup trigger={(
+                //  STUB    inventory-slot--full
+                <div className="inventory-slot inventory-slot--full" { ...rest } onClick={ e => console.log(slot.id) }>{ index }</div>
+            )} hoverable position="top center">
+                <Grid centered divided columns={ 1 }>
+                    <Grid.Column textAlign="center">
+                        <InventoryItem itemStack={ slot.itemStack } />
+                    </Grid.Column>
+                </Grid>
+            </Popup>
+        );
     }
 
     return (
-        <Popup key={ slot.id } trigger={(
-            <div className="inventory-slot" { ...rest } onClick={ e => console.log(slot.id) }>{ index }</div>
-        )} hoverable position="top center">
-            <Grid centered divided columns={ 1 }>
-                <Grid.Column textAlign="center">
-                    <Header as="h4">{ slot.id }</Header>
-                    <p>Index: { index }</p>
-                    {
-                        item
-                    }
-                </Grid.Column>
-            </Grid>
-        </Popup>
+        <div className="inventory-slot" { ...rest } onClick={ e => console.log(slot.id) }>{ index }</div>
     );
 }
 

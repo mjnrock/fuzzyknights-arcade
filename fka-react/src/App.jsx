@@ -9,6 +9,8 @@ import ScrollToTop from "./ScrollToTop";
 import Routes from "./routes/package";
 
 import Game from "./lib/Game";
+import Items from "./lib/item/items/package";
+import ItemStack from "./lib/item/ItemStack";
 
 import Graph from "./lib/graph/package";
 import EntityCreature from "./lib/entity/EntityCreature";
@@ -161,6 +163,14 @@ for(let i = 0; i < 25; i++) {
 
 // console.log(Game.$)
 // console.log(Game.$.player)
+
+Game.$.player.comp(EnumComponentType.STORAGE, function(comp) {
+    console.log(comp.bags)
+    console.log(comp.bags.slot(0))
+
+    comp.bags.slot(0).itemStack = new ItemStack(new Items.WoodenSword());
+    comp.bags.slot(1).itemStack = new ItemStack(new Items.Berry(), 5);
+});
 
 export const Context = React.createContext(Game.$);
 

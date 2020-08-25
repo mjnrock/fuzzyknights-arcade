@@ -57,7 +57,7 @@ kbd {
     padding: 0px;
 }
 .inventory-slot {
-    background-color: #eee;
+    background-color: #444;
     border: 1px solid #555;
     border-radius: 4px;
     margin: 4px;
@@ -65,6 +65,9 @@ kbd {
     width: 64px;
     display: inline-block;
     text-align: center;
+}
+.inventory-slot--full {
+    background-color: #5a5;
 }
 .inventory-slot:hover {
     cursor: pointer;

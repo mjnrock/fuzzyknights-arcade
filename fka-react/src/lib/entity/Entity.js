@@ -71,6 +71,14 @@ export default class Entity extends EventEmitter {
         return rb.node;
     }
 
+    comp(compType, fn, ...args) {
+        const comp = this.getComponent(compType);
+
+        if(comp && typeof fn === "function") {
+            return fn.call(this, comp, ...args);
+        }
+    }
+
     hook(event, ...args) {
         if(typeof this.hooks[ event ] === "function") {
             this.hooks[ event ].call(this, ...args);
