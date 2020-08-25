@@ -3,24 +3,27 @@ import Item from "./Item";
 
 //? An Inventory with a specific type should still be enforced at the Slot level, with [].every()-inspired setup
 export default class Slot {
-    constructor(item = null, restrictions = []) {
-        this._item = item;
+    constructor(itemStack = null, restrictions = []) {
+        if(itemStack instanceof Item) {
+            this.itemStack = new ItemStack(itemStack, 1);
+        } else if(itemStack instanceof ItemStack) {
+            this.itemStack = itemStack;
+        } else {
+            this.itemStack = null;
+        }
+
         this.restrictions = restrictions;   // Slot could only accept/reject certain Items, item types, etc. (e.g. herb bag)
     }
 
     get item() {
-        return this._item;
+        return this.itemStack ? this.itemStack.item : null;
     }
-    set item(item) {
-        if(item instanceof Item) {
-            this._item = item;
-        }
-
-        return this;
+    get isEmpty() {
+        return this.itemStack ? this.itemStack.qty === 0 : true;
     }
 
     clear() {
-        this._item = null;
+        this.itemStack = null;
 
         return this;
     }
