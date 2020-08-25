@@ -18,11 +18,19 @@ export function InventoryItem({ itemStack, ...rest } = {}) {
 }
 
 export function Slot({ slot, index, ...rest } = {}) {
+    function onClick(e) {
+        console.log(slot.id);
+    }
+
     if(slot.itemStack) {
         return (
             <Popup trigger={(
                 //  STUB    inventory-slot--full
-                <div className="inventory-slot inventory-slot--full" { ...rest } onClick={ e => console.log(slot.id) }>{ index }</div>
+                <div
+                    className="inventory-slot inventory-slot--full"
+                    onClick={ onClick }
+                    { ...rest }
+                >{ index }</div>
             )} hoverable position="top center">
                 <Grid centered divided columns={ 1 }>
                     <Grid.Column textAlign="center">
@@ -34,7 +42,11 @@ export function Slot({ slot, index, ...rest } = {}) {
     }
 
     return (
-        <div className="inventory-slot" { ...rest } onClick={ e => console.log(slot.id) }>{ index }</div>
+        <div
+            className="inventory-slot"
+            onClick={ onClick }
+            { ...rest }
+        >{ index }</div>
     );
 }
 
