@@ -10,7 +10,7 @@ import Routes from "./routes/package";
 
 import Game from "./lib/Game";
 import Items from "./lib/item/items/package";
-import ItemStack from "./lib/item/ItemStack";
+// import ItemStack from "./lib/item/ItemStack";
 
 import Graph from "./lib/graph/package";
 import EntityCreature from "./lib/entity/EntityCreature";
@@ -35,6 +35,7 @@ import EntityProjectile from "./lib/entity/EntityProjectile";
 
 import Registry from "./lib/util/Registry";
 import Storage from "./lib/entity/components/Storage";
+import EntityItem from "./lib/entity/EntityItem";
 
 const reg = new Registry();
 reg.create({
@@ -96,7 +97,7 @@ const entity = new EntityCreature({
                             speed: 5.0,
                             hooks: {
                                 [ EnumEntityEventType.COLLISION ]: function(target) {
-                                    if(this.parent !== target) {
+                                    if(this.parent !== target && !(target instanceof EntityItem)) {
                                         this.node.entityManager.kill(target);
                                         this.node.entityManager.kill(this);
                                     }
@@ -144,6 +145,28 @@ for(let i = 0; i < 25; i++) {
 
     node.addEntity(e2);
 }
+
+node.addEntity(new EntityItem(new Items.WoodenSword(), 1, {
+    x: 10,
+    y: 2,
+}));
+node.addEntity(new EntityItem(new Items.WoodenSword(), 1, {
+    x: 10,
+    y: 3,
+}));
+node.addEntity(new EntityItem(new Items.WoodenSword(), 1, {
+    x: 10,
+    y: 4,
+}));
+node.addEntity(new EntityItem(new Items.WoodenSword(), 1, {
+    x: 10,
+    y: 5,
+}));
+node.addEntity(new EntityItem(new Items.WoodenSword(), 1, {
+    x: 10,
+    y: 6,
+}));
+
 const node2 = Game.$.graph.getNode(1, 0);
 for(let i = 0; i < 25; i++) {
     const e2 = new EntityCreature({
@@ -166,10 +189,10 @@ for(let i = 0; i < 25; i++) {
 
 Game.$.player.comp(EnumComponentType.STORAGE, function(comp) {
     console.log(comp.bags)
-    console.log(comp.bags.slot(0))
+    // console.log(comp.bags.slot(0))
 
-    comp.bags.slot(0).itemStack = new ItemStack(new Items.WoodenSword());
-    comp.bags.slot(1).itemStack = new ItemStack(new Items.Berry(), 5);
+    // comp.bags.slot(0).itemStack = new ItemStack(new Items.WoodenSword());
+    // comp.bags.slot(1).itemStack = new ItemStack(new Items.Berry(), 5);
 });
 
 export const Context = React.createContext(Game.$);

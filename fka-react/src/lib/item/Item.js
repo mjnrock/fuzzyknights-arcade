@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { Enumerator } from "./../hive/Helper";
+import ItemStack from "./ItemStack";
 
 export const EnumItemType = Enumerator({
     WEAPON: 2 << 0,
@@ -24,4 +25,8 @@ export default class Item {
     }
 
     activate(...args) {}
+
+    toItemStack(qty) {
+        return new ItemStack(this, qty);
+    }
 }

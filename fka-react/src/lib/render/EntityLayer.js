@@ -4,6 +4,7 @@ import { EnumComponentType } from "../entity/components/Component";
 import { EnumState } from "../entity/components/State";
 import EntityCreature from "../entity/EntityCreature";
 import EntityProjectile from "../entity/EntityProjectile";
+import EntityItem from "../entity/EntityItem";
 
 export default class EntityLayer extends GridCanvasNode {
     constructor(book, { width, height, tw = 128, th = 128, size = [] } = {}) {
@@ -45,6 +46,9 @@ export default class EntityLayer extends GridCanvasNode {
                 if(state.currentValue === EnumState.IDLE) {
                     if(entity === Game.$.player) {
                         scomp = this.book.get(`player.idle`);
+                    } else if(entity instanceof EntityItem) {
+                        // scomp = this.book.get(`raccoon.idle`);
+                        scomp = this.book.get(`sword.idle`);
                     } else {
                         // scomp = this.book.get(`raccoon.idle`);
                         scomp = this.book.get(`tree`);

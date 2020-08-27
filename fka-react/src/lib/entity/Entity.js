@@ -22,6 +22,7 @@ export const EnumEntityType = Enumerator({
     PARTICLE: 2 << 2,
     PORTAL: 2 << 3,
     PROJECTILE: 2 << 4,
+    ITEM: 2 << 5,
 });
 
 export default class Entity extends EventEmitter {
@@ -36,6 +37,7 @@ export default class Entity extends EventEmitter {
         this.type = type;
         
         this.hooks = hooks;
+        this._isExpired = false;
 
         this.components = [
             ...comps,
@@ -117,7 +119,11 @@ export default class Entity extends EventEmitter {
             return true;
         }
 
-        return this.lifespan > 0 && (this.birth + this.lifespan <= Date.now());
+        return (this.lifespan >= 0 && (this.birth + this.lifespan <= Date.now())) || (this._isExpired === true);
+    }
+
+    kill() {
+        this._isExpired = true;
     }
 
     tick(dt, now) {

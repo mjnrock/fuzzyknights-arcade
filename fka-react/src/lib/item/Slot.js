@@ -25,6 +25,14 @@ export default class Slot {
         return this.itemStack ? this.itemStack.qty === 0 : true;
     }
 
+    set(itemOrItemStack, qty = 1) {
+        if(itemOrItemStack instanceof Item) {
+            this.itemStack = new ItemStack(itemOrItemStack, qty);
+        } else if(itemOrItemStack instanceof ItemStack) {
+            this.itemStack = itemOrItemStack;
+        }
+    }
+
     clear() {
         this.itemStack = null;
 

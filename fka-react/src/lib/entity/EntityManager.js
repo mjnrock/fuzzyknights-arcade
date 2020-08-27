@@ -197,7 +197,7 @@ export default class EntityManager extends Hive.Node {
             }
             
             entity.hook(EnumEntityEventType.COLLISION, target);
-            target.hook(EnumEntityEventType.COLLISION, entity);
+            // target.hook(EnumEntityEventType.COLLISION, entity);
         } else if(type === EnumEntityEventType.ACTION) {
             const [ action, x, y, facing ] = args;
             const model = typeof action.model === "function" ? action.model(entity) : action.model;

@@ -26,6 +26,10 @@ export default class Inventory {
         }
     }
 
+    get isFull() {
+        return [ ...this.slots.values() ].every(slot => !slot.isEmpty);
+    }
+
     get key() {
         const map = {};
 
@@ -34,6 +38,32 @@ export default class Inventory {
         });
 
         return map;
+    }
+
+    add(itemOrItemStack, qty) {
+        for(let slot of [ ...this.slots.values() ]) {
+            if(slot.isEmpty) {
+                slot.set(itemOrItemStack, qty);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+    /**
+     * ! This is NOT override-safe
+     */
+    set(index, itemOrItemStack, qty) {
+        const slot = this.slot(index);
+
+        if(slot) {
+            slot.set(itemOrItemStack, qty);
+
+            return true;
+        }
+
+        return false;
     }
 
     slot(index) {
