@@ -146,6 +146,7 @@ for(let i = 0; i < 25; i++) {
     node.addEntity(e2);
 }
 
+//TODO  Give WEAPONS and ARMOR Attributes and equipping them should "buff" entity
 node.addEntity(new EntityItem(new Items.WoodenSword(), 1, {
     x: 10,
     y: 2,
