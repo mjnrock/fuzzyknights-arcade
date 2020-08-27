@@ -150,7 +150,7 @@ node.addEntity(new EntityItem(new Items.WoodenSword(), 1, {
     x: 10,
     y: 2,
 }));
-node.addEntity(new EntityItem(new Items.WoodenSword(), 1, {
+node.addEntity(new EntityItem(new Items.WoodenShield(), 1, {
     x: 10,
     y: 3,
 }));
@@ -158,7 +158,7 @@ node.addEntity(new EntityItem(new Items.WoodenSword(), 1, {
     x: 10,
     y: 4,
 }));
-node.addEntity(new EntityItem(new Items.WoodenSword(), 1, {
+node.addEntity(new EntityItem(new Items.WoodenShield(), 1, {
     x: 10,
     y: 5,
 }));

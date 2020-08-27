@@ -35,6 +35,13 @@ export const Controls = {
                 }
             }
         } ],
+        [ 192, function() {
+            //? Throw data at console on `
+            const storage = Game.$.player.getComponent(EnumComponentType.STORAGE);
+            console.log(Game.$.player);
+            console.log(storage.bags.toItemStackArray());
+            console.log(storage.equipment.toItemStackArray());
+        } ],
 
         [ 49, function() {
             Game.$.player.perform(0);

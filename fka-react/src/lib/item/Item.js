@@ -4,10 +4,10 @@ import ItemStack from "./ItemStack";
 
 export const EnumItemType = Enumerator({
     WEAPON: 2 << 0,
-    ARMOR: 2 << 0,
-    CONSUMABLE: 2 << 0,
-    REAGENT: 2 << 0,
-    MATERIAL: 2 << 0,
+    ARMOR: 2 << 1,
+    CONSUMABLE: 2 << 2,
+    REAGENT: 2 << 3,
+    MATERIAL: 2 << 4,
 });
 
 export default class Item {

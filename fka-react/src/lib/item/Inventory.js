@@ -20,9 +20,8 @@ export default class Inventory {
 
         for(let [ key, index ] of Object.entries(keys)) {
             if(this.isValidIndex(index)) {
-
+                this.keyMap.set(key, index);
             }
-            this.keyMap.set(key, index);
         }
     }
 
@@ -36,6 +35,10 @@ export default class Inventory {
         this.keyMap.forEach((index, key) => {
             map[ key ] = this.slot(index);
         });
+
+        // console.log(this.slots);
+        // console.log(this.keyMap);
+        // console.log(map);
 
         return map;
     }

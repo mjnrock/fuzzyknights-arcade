@@ -34,7 +34,8 @@ Promise.all([
     Score.Deserialize(SWORD_ATTACKING).then(score => CookedBook.set("sword.attacking", score)),
     Score.Deserialize(SHIELD_BLOCK).then(score => CookedBook.set("shield.defending", score)),
     Score.Deserialize(TREE).then(score => CookedBook.set("tree", score)),
-]).then(() => {    
+]).then(() => {
+    //TODO  There needs to be some conditional or stacking to only render LEFT/RIGHT/HEAD/etc. iff equipped
     CookedBook.set("player.idle", new Composition([
         [ "body", CookedBook.get("raccoon.idle") ],
         [ "right", CookedBook.get("sword.idle") ],

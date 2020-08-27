@@ -5,6 +5,8 @@ import { EnumState } from "../entity/components/State";
 import EntityCreature from "../entity/EntityCreature";
 import EntityProjectile from "../entity/EntityProjectile";
 import EntityItem from "../entity/EntityItem";
+import { Bitwise } from "../hive/Helper";
+import { EnumItemType } from "./../item/Item";
 
 export default class EntityLayer extends GridCanvasNode {
     constructor(book, { width, height, tw = 128, th = 128, size = [] } = {}) {
@@ -47,8 +49,11 @@ export default class EntityLayer extends GridCanvasNode {
                     if(entity === Game.$.player) {
                         scomp = this.book.get(`player.idle`);
                     } else if(entity instanceof EntityItem) {
-                        // scomp = this.book.get(`raccoon.idle`);
-                        scomp = this.book.get(`sword.idle`);
+                        if(Bitwise.has(entity.item.type, EnumItemType.WEAPON)) {
+                            scomp = this.book.get(`sword.idle`);
+                        } else if(Bitwise.has(entity.item.type, EnumItemType.ARMOR)) {
+                            scomp = this.book.get(`shield.idle`);
+                        }
                     } else {
                         // scomp = this.book.get(`raccoon.idle`);
                         scomp = this.book.get(`tree`);

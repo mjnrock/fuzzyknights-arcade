@@ -1,14 +1,13 @@
 import Inventory from "./Inventory";
-import Slot from "./Slot";
 
 export default class Equipment extends Inventory {
     constructor({ head, left, right } = {}) {
         super(3, {
-            content: [
-                [ "head", new Slot(head) ],
-                [ "left", new Slot(left) ],
-                [ "right", new Slot(right) ],
-            ]
+            keys: {
+                head: 0,
+                left: 1,
+                right: 2,
+            }
         });
     }
 

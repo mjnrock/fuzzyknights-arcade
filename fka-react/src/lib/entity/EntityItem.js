@@ -3,6 +3,8 @@ import Game from "../Game";
 import { EnumComponentType } from "./components/Component";
 import { EnumState } from "./components/State";
 import Models from "./../model/package";
+import { Bitwise } from "../hive/Helper";
+import { EnumItemType } from "../item/Item";
 
 export default class EntityItem extends Entity {
     constructor(item, qty, { comps = [], id, data = {}, lifespan = -1, parent, x, y } = {}) {
@@ -29,12 +31,14 @@ export default class EntityItem extends Entity {
                         //  FIXME   This collision function is getting called multiple times, resulting in the item being acquired multiple time; "this.isDisabled" is a STUB fix
                         if(this.isDisabled === false) {
                             target.comp(EnumComponentType.STORAGE, (comp) => {
-                                console.log(comp.bags.isFull)
-                                if(!comp.bags.isFull) {
-                                    comp.bags.add(this.item, this.quantity);
-    
-                                    this.isDisabled = true;
-                                    this.kill();
+                                if(Bitwise.has(this.item.type, EnumItemType.WEAPON) && comp.equipment.right.isEmpty) {
+                                    this.addItemToSlot(comp.equipment.right);
+                                } else if(Bitwise.has(this.item.type, EnumItemType.ARMOR) && comp.equipment.left.isEmpty) {
+                                    this.addItemToSlot(comp.equipment.left);
+                                } else {
+                                    if(!comp.bags.isFull) {
+                                        this.addItemToInventory(comp.bags);
+                                    }
                                 }
                             });
                         }
@@ -49,5 +53,18 @@ export default class EntityItem extends Entity {
         this.item = item;
         this.quantity = qty;
         this.isDisabled = false;
+    }
+
+    addItemToSlot(slot) {
+        slot.set(this.item, this.quantity);
+
+        this.isDisabled = true;
+        this.kill();
+    }
+    addItemToInventory(inv) {
+        inv.add(this.item, this.quantity);
+
+        this.isDisabled = true;
+        this.kill();
     }
 }; 
