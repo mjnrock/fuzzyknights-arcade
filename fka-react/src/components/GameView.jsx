@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import Canvas from "../GameCanvas";
+import PlayerEquipment from "./PlayerEquipment";
 import PlayerInventory from "./PlayerInventory";
 import PlayerActionBar from "./PlayerActionBar";
 
@@ -16,6 +17,7 @@ export default function GameView({ game, canvasProps = {}, style = {}, ...rest }
                 game.setting("showUI") ? (
                     <>                        
                         <PlayerActionBar game={ game } />
+                        <PlayerEquipment game={ game } />
                         <PlayerInventory game={ game } />
                     </>
                 ) : null

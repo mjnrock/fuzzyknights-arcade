@@ -4,7 +4,7 @@ import Item from "./Item";
 
 //? An Inventory with a specific type should still be enforced at the Slot level, with [].every()-inspired setup
 export default class Slot {
-    constructor(itemStack = null, { restrictions = [], id } = {}) {
+    constructor({ itemStack = null, restrictions = [], id } = {}) {
         this.id = id || uuidv4();
 
         if(itemStack instanceof Item) {

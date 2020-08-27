@@ -1,7 +1,10 @@
+import { v4 as uuidv4 } from "uuid";
 import Item from "./Item";
 
 export default class ItemStack {
-    constructor(item = null, qty = 1) {
+    constructor(item = null, qty = 1, { id } = {}) {
+        this.id = id || uuidv4();
+
         this._item = item;
         this.quantity = qty || 1;
     }

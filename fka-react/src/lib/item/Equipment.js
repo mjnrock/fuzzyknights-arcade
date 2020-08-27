@@ -9,6 +9,10 @@ export default class Equipment extends Inventory {
                 right: 2,
             }
         });
+
+        this.head.set(...(Array.isArray(head) ? head : [ head ]));      // ItemStack || [ Item, Quantity ]
+        this.left.set(...(Array.isArray(left) ? left : [ left ]));      // ItemStack || [ Item, Quantity ]
+        this.right.set(...(Array.isArray(right) ? right : [ right ]));  // ItemStack || [ Item, Quantity ]
     }
 
     get head() {

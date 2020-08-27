@@ -10,7 +10,7 @@ export default class Inventory {
         this.keyMap = new Map();
 
         for(let i = 0; i < this.size; i++) {
-            this.slots.set(i, new Slot());
+            this.slots.set(i, new Slot({ parent: this }));
         }
 
         // TODO
