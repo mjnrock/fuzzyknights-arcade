@@ -79,11 +79,10 @@ export default class EntityLayer extends GridCanvasNode {
                     let ignore = [];
 
                     if(storage) {
-                        if(storage.equipment.left.isEmpty) {
-                            ignore.push("left");
-                        }
-                        if(storage.equipment.right.isEmpty) {
-                            ignore.push("right");
+                        for(let key of Object.keys(storage.equipment.key)) {
+                            if(storage.equipment[ key ].isEmpty) {
+                                ignore.push(key);
+                            }
                         }
                     }
 
