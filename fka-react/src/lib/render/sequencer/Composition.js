@@ -68,31 +68,33 @@ export default class Composition {
         }, []);
     }
     
-    drawTo(canvas, { facing, elapsedTime, x, y, tx, ty, tw, th }) {
+    drawTo(canvas, { ignore = [], facing, elapsedTime, x, y, tx, ty, tw, th }) {
         const scores = this.get(facing, elapsedTime);
 
-        for(let { score, data } of scores) {
-            const [ sx, sy ] = data.position;
-
-            if(sx !== void 0 && sy !== void 0) {
-                const ctx = canvas.getContext("2d");
-
-                if(tx !== void 0 && ty !== void 0) {
-                    x = tx * (tw || GAME_TILE_SIZE.WIDTH);
-                    y = ty * (th || GAME_TILE_SIZE.HEIGHT);
+        for(let { name, score, data } of scores) {
+            if(!ignore.includes(name)) {
+                const [ sx, sy ] = data.position;
+    
+                if(sx !== void 0 && sy !== void 0) {
+                    const ctx = canvas.getContext("2d");
+    
+                    if(tx !== void 0 && ty !== void 0) {
+                        x = tx * (tw || GAME_TILE_SIZE.WIDTH);
+                        y = ty * (th || GAME_TILE_SIZE.HEIGHT);
+                    }
+                    
+                    ctx.drawImage(
+                        score.canvas,
+                        sx,
+                        sy,
+                        score.data.tile.width,
+                        score.data.tile.height,
+                        x - score.data.tile.width / 2,
+                        y - score.data.tile.height / 2,
+                        score.data.tile.width,
+                        score.data.tile.height
+                    );
                 }
-                
-                ctx.drawImage(
-                    score.canvas,
-                    sx,
-                    sy,
-                    score.data.tile.width,
-                    score.data.tile.height,
-                    x - score.data.tile.width / 2,
-                    y - score.data.tile.height / 2,
-                    score.data.tile.width,
-                    score.data.tile.height
-                );
             }
         }
 

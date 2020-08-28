@@ -40,6 +40,7 @@ export default class EntityLayer extends GridCanvasNode {
         this.ctx.scale(scale, scale);
         node.each((entity, i) => {
             const rb = entity.getComponent(EnumComponentType.RIGID_BODY);
+            const storage = entity.getComponent(EnumComponentType.STORAGE);
             const state = entity.getComponent(EnumComponentType.STATE);
 
             if((rb.x >= x0) && (rb.x <= x1) && (rb.y >= y0) && (rb.y <= y1)) {
@@ -75,7 +76,19 @@ export default class EntityLayer extends GridCanvasNode {
                 }
 
                 if(scomp) {
+                    let ignore = [];
+
+                    if(storage) {
+                        if(storage.equipment.left.isEmpty) {
+                            ignore.push("left");
+                        }
+                        if(storage.equipment.right.isEmpty) {
+                            ignore.push("right");
+                        }
+                    }
+
                     scomp.drawTo(this.canvas, {
+                        ignore,
                         facing: rb.facing,
                         elapsedTime: state.current.elapsed,
                         tx: rb.x,

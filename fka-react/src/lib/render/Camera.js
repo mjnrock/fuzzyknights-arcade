@@ -1,13 +1,17 @@
-import Game from "./../Game";
 import LayeredCanvasNode from "../hive/LayeredCanvasNode";
+
+import Game from "./../Game";
 import EntityLayer from "./EntityLayer";
 import TerrainLayer from "./TerrainLayer";
+import DebugLayer from "./DebugLayer";
 import HUD from "./HUD";
+
+import Score from "./sequencer/Score";
+import Composition from "./sequencer/Composition";
+import Book from "./Book";
 
 import { EnumComponentType } from "../entity/components/Component";
 
-import Score from "./sequencer/Score";
-import Book from "./Book";
 import RACCOON_IDLE from "./sequencer/data/raccoon.idle.json";
 import RACCOON_RUNNING from "./sequencer/data/raccoon.running.json";
 import RACCOON_TAILWHIP from "./sequencer/data/raccoon.tailwhip.json";
@@ -18,8 +22,6 @@ import SWORD_ATTACKING from "./sequencer/data/sword.attacking.json";
 import SHIELD_IDLE from "./sequencer/data/shield.idle.json";
 import SHIELD_BLOCK from "./sequencer/data/shield.block.json";
 import TREE from "./sequencer/data/tree-2.json";
-import DebugLayer from "./DebugLayer";
-import Composition from "./sequencer/Composition";
 
 //  STUB
 const CookedBook = new Book();
