@@ -61,7 +61,7 @@ function PlayerEquipment({ game, ...rest } = {}) {
         const inv = player.getComponent(EnumComponentType.STORAGE);
 
         if(inv) {
-            setInventory(inv.equipment.toSlotArray());
+            setInventory(inv.equipment.toSlotArray(true));
         }
     }, [ player ]);
 
@@ -76,9 +76,9 @@ function PlayerEquipment({ game, ...rest } = {}) {
             {
                 // inventory.map(slot => (
                 //     <Fragment key={ slot.id }>
-                inventory.map(([ i, slot ]) => (
-                    <Fragment key={ i }>
-                        <Slot slot={ slot } index={ i } />
+                inventory.map(([ key, slot ]) => (
+                    <Fragment key={ key }>
+                        <Slot slot={ slot } index={ key } />
                     </Fragment>
                 ))
             }

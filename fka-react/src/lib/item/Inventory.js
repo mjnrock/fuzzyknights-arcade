@@ -70,8 +70,16 @@ export default class Inventory {
     }
 
     slot(index) {
-        if(index >= 0 && index < this.size) {
+        if(this.isValidIndex(index)) {
             return this.slots.get(index);
+        }
+    }
+
+    getKeyFromIndex(index) {
+        for(let [ key, i ] of [ ...this.keyMap.entries() ]) {
+            if(index === i) {
+                return key;
+            }
         }
     }
 
@@ -79,7 +87,21 @@ export default class Inventory {
         return this.slots.has(index);
     }
 
-    toSlotArray() {
+    toSlotArray(useKeys = false) {
+        if(useKeys === true) {
+            if(this.keyMap.size === this.slots.size) {  // Bijection optimization (avoids .getKeyFromIndex loop)
+                return [ ...this.keyMap.entries() ].map(([ key, index ]) => {    
+                    return [ key, this.slot(index) ];
+                });
+            }
+
+            return [ ...this.slots.entries() ].map(([ index, slot ]) => {   // If this executes, then not all Slots are key-mapped
+                const key = this.getKeyFromIndex(index);
+
+                return [ key, slot ];
+            });
+        }
+
         return [ ...this.slots.entries() ];
     }
     toItemStackArray() {

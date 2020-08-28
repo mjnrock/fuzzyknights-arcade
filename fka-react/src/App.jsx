@@ -9,7 +9,7 @@ import ScrollToTop from "./ScrollToTop";
 import Routes from "./routes/package";
 
 import Game from "./lib/Game";
-import Items from "./lib/item/items/package";
+import Items, { ItemStacks } from "./lib/item/items/package";
 // import ItemStack from "./lib/item/ItemStack";
 
 import Graph from "./lib/graph/package";
@@ -43,6 +43,8 @@ reg.create({
     value: 3
 });
 reg.create(19);
+
+console.log(ItemStacks.WoodenShield(1));
 
 // console.log(reg.get("test"));
 // console.log(reg.get("bob"));

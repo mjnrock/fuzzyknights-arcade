@@ -6,7 +6,7 @@ export default class ItemStack {
         this.id = id || uuidv4();
 
         this._item = item;
-        this.quantity = qty || 1;
+        this.qty = qty || 1;
     }
 
     get item() {
