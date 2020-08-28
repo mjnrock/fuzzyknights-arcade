@@ -114,6 +114,11 @@ export default class EntityManager extends Hive.Node {
             }
         });
 
+        //FIXME This purge is preventing any EntityAction from being used, presumably because of the short lifespan; find workaround
+        //  Purge the expired thus far, so as to prevent function execution that should not be run (e.g. multiple EntityItem pickups)
+        // purge.forEach(entity => this.purge(entity));
+        // purge = new Set();
+
         //TODO This collision detection needs refactoring to better deal with all collision scenarios (e.g. Walls, Terrain, etc.)
         this.node.each((entity, i) => {
             //* Collision Check
@@ -168,6 +173,7 @@ export default class EntityManager extends Hive.Node {
             }
         });
 
+        //  Purge any additional entities that became purgeable this tick
         purge.forEach(entity => this.purge(entity));
     }
 

@@ -67,4 +67,19 @@ export default class EntityItem extends Entity {
         this.isDisabled = true;
         this.kill();
     }
+
+    static FromItem(item, qty, pos, opts = {}) {
+        return new EntityItem(item, qty, {
+            x: pos[ 0 ],
+            y: pos[ 1 ],
+            opts
+        });
+    }
+    static FromItemStack(itemStack, pos, opts = {}) {
+        return new EntityItem(itemStack.item, itemStack.qty, {
+            x: pos[ 0 ],
+            y: pos[ 1 ],
+            opts
+        });
+    }
 }; 
