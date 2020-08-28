@@ -7,7 +7,7 @@ import { Bitwise } from "../hive/Helper";
 import { EnumItemType } from "../item/Item";
 
 export default class EntityItem extends Entity {
-    constructor(item, qty, { comps = [], id, data = {}, lifespan = -1, parent, x, y } = {}) {
+    constructor(item, qty, { comps = [], id, data = {}, lifespan = 300000, parent, x, y } = {}) {   // 5 minute default lifespan
         super({
             id,
             x, y,
