@@ -37,7 +37,9 @@ Promise.all([
     Score.Deserialize(SHIELD_BLOCK).then(score => CookedBook.set("shield.defending", score)),
     Score.Deserialize(TREE).then(score => CookedBook.set("tree", score)),
 ]).then(() => {
-    //TODO  There needs to be some conditional or stacking to only render LEFT/RIGHT/HEAD/etc. iff equipped
+    //TODO  Dynamic Compositions that accept an Entity and process rendering dynamically (e.g. equipment, auras, etc.)
+    //FIXME Specifically, Equipment keys should look to the equipped item, lookup what Score/Composition to fetch from the Book, and render
+    //NOTE  Perhaps make an acceptable second argument to Composition be a function that accepts an entity as its parameter, instead of static .get
     CookedBook.set("player.idle", new Composition([
         [ "body", CookedBook.get("raccoon.idle") ],
         [ "right", CookedBook.get("sword.idle") ],
