@@ -9,7 +9,7 @@ export const EnumState = {
     ATTACKING: "ATTACKING",
     DEFENDING: "DEFENDING",
     CASTING: "CASTING",
-    RECOVERING: "RECOVERING",
+    PERFORMING: "PERFORMING",   // Generic "action" state, mostly just for non-Creatures (e.g. EntityItem, EntityParticle, etc.), when they "activate" (primarily for rendering)
     DYING: "DYING",
     DEAD: "DEAD",
 };
