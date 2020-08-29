@@ -1,5 +1,7 @@
 import random from "random";
 
+export const ROUNDOFF = 100;
+
 export const Factors = {
     Environment: [ "Temperature", "Humidity", "Precipitation" ],
     Survival: [ "Satiation", "Safety" ],
@@ -16,7 +18,7 @@ export function GenerateState({ ignore = [], only = [] } = {}) {
         }
 
         for(let factor of facts) {
-            attd[ cat ][ factor ] = thunk();
+            attd[ cat ][ factor ] = Math.round(thunk() * ROUNDOFF) / ROUNDOFF;
         }
     };
 
@@ -39,7 +41,7 @@ export function GenerateState({ ignore = [], only = [] } = {}) {
 
 export function GenerateAttitudes({ ignore = [], only = [] } = {}) {
     const thunk = random.normal(0.0, 0.625);    // ~89% chance [ -1, 1 ] before clamp
-    const truncNorm = () => Math.max(-1.0, Math.min(1.0, thunk()));
+    const truncNorm = () => Math.round(Math.max(-1.0, Math.min(1.0, thunk())) * ROUNDOFF) / ROUNDOFF;
     const attd = {};
 
     const loop = (cat, facts) => {

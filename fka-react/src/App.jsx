@@ -39,7 +39,7 @@ import EntityItem from "./lib/entity/EntityItem";
 
 import { GenerateState, GenerateAttitudes } from "./lib/ai/wip";
 
-console.log(GenerateState())
+console.log(GenerateState({ only: "Environment" }))
 console.log(GenerateAttitudes())
 
 const reg = new Registry();
