@@ -37,6 +37,11 @@ import Registry from "./lib/util/Registry";
 import Storage from "./lib/entity/components/Storage";
 import EntityItem from "./lib/entity/EntityItem";
 
+import { GenerateState, GenerateAttitudes } from "./lib/ai/wip";
+
+console.log(GenerateState())
+console.log(GenerateAttitudes())
+
 const reg = new Registry();
 reg.create({
     key: [ "test", "bob" ],

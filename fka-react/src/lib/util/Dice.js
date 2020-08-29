@@ -2,68 +2,64 @@ const Dice = {
 	random: (min, max) => {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	},
-	roll: (X, Y, Z = 0) => {
+	roll: (x, y, z = 0) => {
 		let value = 0;
-		for(let i = 0; i < X; i++) {
-			value += Dice.random(1, Y);
+		for(let i = 0; i < x; i++) {
+			value += Dice.random(1, y);
 		}
 		
-		return value + Z;
+		return value + z;
 	},
 
 	coin: () => {
 		return Dice.roll(1, 2) === 1 ? true : false;
 	},
 
-	d2: (Z = 0) => {
-		return Dice.roll(1, 2) + Z;
+	d2: (z = 0) => {
+		return Dice.roll(1, 2) + z;
 	},
-	d3: (Z = 0) => {
-		return Dice.roll(1, 3) + Z;
+	d3: (z = 0) => {
+		return Dice.roll(1, 3) + z;
 	},
-	d4: (Z = 0) => {
-		return Dice.roll(1, 4) + Z;
+	d4: (z = 0) => {
+		return Dice.roll(1, 4) + z;
 	},
-	d6: (Z = 0) => {
-		return Dice.roll(1, 6) + Z;
+	d6: (z = 0) => {
+		return Dice.roll(1, 6) + z;
 	},
-	d10: (Z = 0) => {
-		return Dice.roll(1, 10) + Z;
+	d10: (z = 0) => {
+		return Dice.roll(1, 10) + z;
 	},
-	d12: (Z = 0) => {
-		return Dice.roll(1, 12) + Z;
+	d12: (z = 0) => {
+		return Dice.roll(1, 12) + z;
 	},
-	d20: (Z = 0) => {
-		return Dice.roll(1, 20) + Z;
+	d20: (z = 0) => {
+		return Dice.roll(1, 20) + z;
 	},
-	d25: (Z = 0) => {
-		return Dice.roll(1, 25) + Z;
+	d25: (z = 0) => {
+		return Dice.roll(1, 25) + z;
 	},
-	d50: (Z = 0) => {
-		return Dice.roll(1, 50) + Z;
+	d50: (z = 0) => {
+		return Dice.roll(1, 50) + z;
 	},
-	d100: (Z = 0) => {
-		return Dice.roll(1, 100) + Z;
+	d100: (z = 0) => {
+		return Dice.roll(1, 100) + z;
 	},
 
 	weighted: (weights, values) => {                
-		let total = 0;
-		for(let i in weights) {
-			total += weights[i];
-		}
+		const total = weights.agg((a, v) => a + v, 0);		
+		const roll = Dice.random(1, total);
 		
-		let roll = Dice.random(1, total);
-		
-		let count = 0;
+		const count = 0;
 		for(let i = 0; i < weights.length; i++) {
-			count += weights[i];
+			count += weights[ i ];
 			
 			if(roll <= count) {
-				return values[i];
+				return values[ i ];
 			}
 		}
 		
-		return values[values.length - 1];
+		return values[ values.length - 1 ];
 	}
 }
 
