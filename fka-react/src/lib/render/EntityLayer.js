@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Game from "./../Game";
 import GridCanvasNode from "../hive/GridCanvasNode";
 import { EnumComponentType } from "../entity/components/Component";

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import GridCanvasNode from "../hive/GridCanvasNode";
 import { EnumTerrainType } from "../graph/Terrain";
 import Game from "../Game";
