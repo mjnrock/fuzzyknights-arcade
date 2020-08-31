@@ -44,57 +44,79 @@ export default class EntityLayer extends GridCanvasNode {
             const state = entity.getComponent(EnumComponentType.STATE);
 
             if((rb.x >= x0) && (rb.x <= x1) && (rb.y >= y0) && (rb.y <= y1)) {
-                let scomp;
-                //FIXME [ presently partial STUB ] "ENTITY.STATE" needs to be dynamically created
-                if(state.currentValue === EnumState.IDLE) {
-                    if(entity === Game.$.player) {
-                        scomp = this.book.get(`player.idle`);
-                    } else if(entity instanceof EntityItem) {
-                        if(Bitwise.has(entity.item.type, EnumItemType.WEAPON)) {
-                            scomp = this.book.get(`sword.idle`);
-                        } else if(Bitwise.has(entity.item.type, EnumItemType.ARMOR)) {
-                            scomp = this.book.get(`shield.idle`);
-                        }
-                    } else {
-                        // scomp = this.book.get(`raccoon.idle`);
-                        scomp = this.book.get(`tree`);
-                    }
-                } else if(state.currentValue === EnumState.MOVING) {
-                    if(entity instanceof EntityCreature) {
-                        scomp = this.book.get(`raccoon.running`);
-                    } else if(entity instanceof EntityProjectile) {
-                        scomp = this.book.get(`spell.fireball`);
-                    }
-                } else if(state.currentValue === EnumState.ATTACKING) {
-                    if(entity === Game.$.player) {
-                        scomp = this.book.get(`player.attacking`);
-                    } else {
-                        scomp = this.book.get(`raccoon.tailwhip`);
-                    }
-                } else if(state.currentValue === EnumState.DEFENDING) {
-                    scomp = this.book.get(`raccoon.tuck`);
-                }
-
-                if(scomp) {
-                    let ignore = [];
-
-                    if(storage) {
-                        for(let key of Object.keys(storage.equipment.key)) {
-                            if(storage.equipment[ key ].isEmpty) {
-                                ignore.push(key);
-                            }
-                        }
-                    }
-
-                    scomp.drawTo(this.canvas, {
-                        ignore,
-                        facing: rb.facing,
-                        elapsedTime: state.current.elapsed,
-                        tx: rb.x,
-                        ty: rb.y,
-                    });
+                if(entity instanceof EntityItem) {
+                    this.prop({
+                        strokeStyle: "#874987",
+                        lineWidth: 4,
+                        fillStyle: "#c969c8",
+                    }).circle(rb.x * this.tw, rb.y * this.th, rb.model.radius, { isFilled: true });
+                } else if(entity instanceof EntityProjectile) {
+                    this.prop({
+                        strokeStyle: "#b50e0e",
+                        lineWidth: 4,
+                        fillStyle: "#d45d1e",
+                    }).circle(rb.x * this.tw, rb.y * this.th, rb.model.radius / 2, { isFilled: true });
+                } else {
+                    this.prop({
+                        strokeStyle: "#000",
+                        lineWidth: 1,
+                        fillStyle: "#000",
+                    }).circle(rb.x * this.tw, rb.y * this.th, rb.model.radius);
                 }
             }
+
+            // if((rb.x >= x0) && (rb.x <= x1) && (rb.y >= y0) && (rb.y <= y1)) {
+            //     let scomp;
+            //     //FIXME [ presently partial STUB ] "ENTITY.STATE" needs to be dynamically created
+            //     if(state.currentValue === EnumState.IDLE) {
+            //         if(entity === Game.$.player) {
+            //             scomp = this.book.get(`player.idle`);
+            //         } else if(entity instanceof EntityItem) {
+            //             if(Bitwise.has(entity.item.type, EnumItemType.WEAPON)) {
+            //                 scomp = this.book.get(`sword.idle`);
+            //             } else if(Bitwise.has(entity.item.type, EnumItemType.ARMOR)) {
+            //                 scomp = this.book.get(`shield.idle`);
+            //             }
+            //         } else {
+            //             // scomp = this.book.get(`raccoon.idle`);
+            //             scomp = this.book.get(`tree`);
+            //         }
+            //     } else if(state.currentValue === EnumState.MOVING) {
+            //         if(entity instanceof EntityCreature) {
+            //             scomp = this.book.get(`raccoon.running`);
+            //         } else if(entity instanceof EntityProjectile) {
+            //             scomp = this.book.get(`spell.fireball`);
+            //         }
+            //     } else if(state.currentValue === EnumState.ATTACKING) {
+            //         if(entity === Game.$.player) {
+            //             scomp = this.book.get(`player.attacking`);
+            //         } else {
+            //             scomp = this.book.get(`raccoon.tailwhip`);
+            //         }
+            //     } else if(state.currentValue === EnumState.DEFENDING) {
+            //         scomp = this.book.get(`raccoon.tuck`);
+            //     }
+
+            //     if(scomp) {
+            //         let ignore = [];
+
+            //         if(storage) {
+            //             for(let key of Object.keys(storage.equipment.key)) {
+            //                 if(storage.equipment[ key ].isEmpty) {
+            //                     ignore.push(key);
+            //                 }
+            //             }
+            //         }
+
+            //         scomp.drawTo(this.canvas, {
+            //             ignore,
+            //             facing: rb.facing,
+            //             elapsedTime: state.current.elapsed,
+            //             tx: rb.x,
+            //             ty: rb.y,
+            //         });
+            //     }
+            // }
         });
         this.ctx.restore();
     }

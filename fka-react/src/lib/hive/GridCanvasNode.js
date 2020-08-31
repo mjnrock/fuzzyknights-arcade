@@ -128,6 +128,13 @@ export default class GridCanvasNode extends CanvasNode {
 
         return this;
     }
+    gCircle(x, y, r, { isFilled = false, round } = {}) {
+        const [[ tx ], [ ty ]] = this.pixelToGrid([ x ], [ y ], { round, asArray: true });
+        
+        this.circle(tx, ty, r, { isFilled });
+
+        return this;
+    }
 
     gTile(imageOrSrc, sx, sy, dx, dy, { round } = {}) {
         const [[ tsx, tdx ], [ tsy, tdy ]] = this.pixelToGrid([ sx, dx ], [ sy, dy ], { round, asArray: true });

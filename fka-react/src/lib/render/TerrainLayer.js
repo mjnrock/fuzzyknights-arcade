@@ -46,21 +46,22 @@ export default class TerrainLayer extends GridCanvasNode {
         
                     //  STUB
                     if(terrain.type === EnumTerrainType.FLOOR) {
-                        if(this.img("terrain-grass-1")) {
-                            if(node === Game.$.graph.getNode(0, 0)) {
-                                if((~~tx + ~~ty) % 2 === 0) {
-                                    this.gTile("terrain-grass-1", 0, 0, tx, ty);
-                                } else {
-                                    this.gTile("terrain-grass-2", 0, 0, tx, ty);
-                                }
-                            } else {
-                                this.gTile("terrain-stone", 0, 0, tx, ty);
-                            }
+                        // if(this.img("terrain-grass-1")) {
+                        //     if(node === Game.$.graph.getNode(0, 0)) {
+                        //         if((~~tx + ~~ty) % 2 === 0) {
+                        //             this.gTile("terrain-grass-1", 0, 0, tx, ty);
+                        //         } else {
+                        //             this.gTile("terrain-grass-2", 0, 0, tx, ty);
+                        //         }
+                        //     } else {
+                        //         this.gTile("terrain-stone", 0, 0, tx, ty);
+                        //     }
 
-                            this.state.lastDraw = node;
-                        } else {
-                            this.prop({ fillStyle: "#7bb080" }).gRect(tx, ty, 1, 1, { isFilled: true });
-                        }
+                        //     this.state.lastDraw = node;
+                        // } else {
+                        //     this.prop({ fillStyle: "#7bb080" }).gRect(tx, ty, 1, 1, { isFilled: true });
+                        // }
+                        this.prop({ fillStyle: "#7bb080" }).gRect(tx, ty, 1, 1, { isFilled: true });
                     } else if(terrain.type === EnumTerrainType.WALL) {
                         this.prop({ fillStyle: "grey" }).gRect(tx, ty, 1, 1, { isFilled: true });
                     } else if(terrain.type === EnumTerrainType.DOOR) {
